@@ -24,10 +24,6 @@ namespace ControlInventario.Modelos
         public string TipoContrato { get; set; }
 
         // Roles
-        public bool Developer { get; set; }
-        public bool Administrador { get; set; }
-        public bool User { get; set; }
-        public bool Invitado { get; set; }
-        public bool Bloqueado { get; set; }
+        public int Roles { get; set; }
     }
 }

@@ -148,11 +148,7 @@ namespace ControlInventario.Vistas
                             Area TEXT,
                             FechaIngreso TEXT,
                             TipoContrato TEXT,
-                            Developer INTEGER,
-                            Administrador INTEGER,
-                            UsuarioRol INTEGER,
-                            Invitado INTEGER,
-                            Bloqueado INTEGER
+                            Rol INT
                         );";
 
                     using (var cmd = new SQLiteCommand(query, con))
@@ -180,7 +176,14 @@ namespace ControlInventario.Vistas
 
             try
             {
-                // Crear objeto empleado con los datos del formulario
+                int rolSeleccionado = 3; // Usuario por defecto
+
+                if (checkedListRol.Enabled && checkedListRol.CheckedItems.Count == 1)
+                {
+                    string item = checkedListRol.CheckedItems[0].ToString(); // "2 - Administrador"
+                    rolSeleccionado = int.Parse(item.Split('-')[0].Trim());
+                }
+
                 Empleado emp = new Empleado
                 {
                     Nombres = txtNombre.Text,
@@ -194,14 +197,14 @@ namespace ControlInventario.Vistas
                     Area = txtArea.Text,
                     FechaIngreso = dtFechaIngre.Value,
                     TipoContrato = cbmTipoContrato.SelectedItem?.ToString(),
-
-                    // Roles (según tus CheckBox)
-                    Developer = chkDeveloper.Checked,
-                    Administrador = chkAdmin.Checked,
-                    User = chkUser.Checked,
-                    Invitado = chkInvited.Checked,
-                    Bloqueado = chkBaned.Checked
+                    Roles = rolSeleccionado
                 };
+
+                if (checkedListRol.Enabled && checkedListRol.CheckedItems.Count == 0)
+                {
+                    MessageBox.Show("Debes seleccionar un rol para el empleado.");
+                    return;
+                }
 
                 // Llamar al repositorio para guardar
                 EmpleadoRepository.InsertarEmpleado(emp);

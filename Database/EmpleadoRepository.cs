@@ -27,11 +27,7 @@ namespace ControlInventario.Database
                         Area, 
                         FechaIngreso, 
                         TipoContrato,
-                        Developer, 
-                        Administrador, 
-                        UsuarioRol, 
-                        Invitado, 
-                        Bloqueado
+                        Rol
                     ) VALUES (
                         @Nombres, 
                         @Apellidos, 
@@ -44,11 +40,7 @@ namespace ControlInventario.Database
                         @Area, 
                         @FechaIngreso, 
                         @TipoContrato,
-                        @Developer, 
-                        @Administrador, 
-                        @UsuarioRol, 
-                        @Invitado, 
-                        @Bloqueado
+                        @Rol
                     );";
 
                 using (var cmd = new SQLiteCommand(query, con))
@@ -64,11 +56,7 @@ namespace ControlInventario.Database
                     cmd.Parameters.AddWithValue("@Area", emp.Area);
                     cmd.Parameters.AddWithValue("@FechaIngreso", emp.FechaIngreso);
                     cmd.Parameters.AddWithValue("@TipoContrato", emp.TipoContrato);
-                    cmd.Parameters.AddWithValue("@Developer", emp.Developer);
-                    cmd.Parameters.AddWithValue("@Administrador", emp.Administrador);
-                    cmd.Parameters.AddWithValue("@UsuarioRol", emp.User);
-                    cmd.Parameters.AddWithValue("@Invitado", emp.Invitado);
-                    cmd.Parameters.AddWithValue("@Bloqueado", emp.Bloqueado);
+                    cmd.Parameters.AddWithValue("@Rol", emp.Roles);
 
                     cmd.ExecuteNonQuery();
                 }
@@ -95,16 +83,11 @@ namespace ControlInventario.Database
                         Area=@Area,
                         FechaIngreso=@FechaIngreso, 
                         TipoContrato=@TipoContrato,
-                        Developer=@Developer, 
-                        Administrador=@Administrador,
-                        UsuarioRol=@UsuarioRol, 
-                        Invitado=@Invitado, 
-                        Bloqueado=@Bloqueado
+                        Rol=@Rol
                     WHERE Id=@Id;";
 
                 using (var cmd = new SQLiteCommand(query, con))
                 {
-                    cmd.Parameters.AddWithValue("@Id", emp.Id); // necesitas Id en la clase Empleado
                     cmd.Parameters.AddWithValue("@Nombres", emp.Nombres);
                     cmd.Parameters.AddWithValue("@Apellidos", emp.Apellidos);
                     cmd.Parameters.AddWithValue("@Correo", emp.Correo);
@@ -116,12 +99,8 @@ namespace ControlInventario.Database
                     cmd.Parameters.AddWithValue("@Area", emp.Area);
                     cmd.Parameters.AddWithValue("@FechaIngreso", emp.FechaIngreso);
                     cmd.Parameters.AddWithValue("@TipoContrato", emp.TipoContrato);
-                    cmd.Parameters.AddWithValue("@Developer", emp.Developer);
-                    cmd.Parameters.AddWithValue("@Administrador", emp.Administrador);
-                    cmd.Parameters.AddWithValue("@UsuarioRol", emp.User);
-                    cmd.Parameters.AddWithValue("@Invitado", emp.Invitado);
-                    cmd.Parameters.AddWithValue("@Bloqueado", emp.Bloqueado);
-
+                    cmd.Parameters.AddWithValue("@Rol", emp.Roles);
+                    cmd.Parameters.AddWithValue("@Id", emp.Id);
                     cmd.ExecuteNonQuery();
                 }
             }
@@ -141,29 +120,6 @@ namespace ControlInventario.Database
                     cmd.ExecuteNonQuery();
                 }
             }
-        }
-
-        // Obtener un empleado por Id
-        public static Empleado ObtenerEmpleadoPorId(int id)
-        {
-            using (var con = ConexionGlobal.ObtenerConexion())
-            {
-                con.Open();
-
-                string query = "SELECT * FROM Empleados WHERE Id=@Id;";
-                using (var cmd = new SQLiteCommand(query, con))
-                {
-                    cmd.Parameters.AddWithValue("@Id", id);
-                    using (var reader = cmd.ExecuteReader())
-                    {
-                        if (reader.Read())
-                        {
-                            return MapearEmpleado(reader);
-                        }
-                    }
-                }
-            }
-            return null;
         }
 
         // Listar todos los empleados
@@ -206,12 +162,36 @@ namespace ControlInventario.Database
                 Area = reader["Area"].ToString(),
                 FechaIngreso = DateTime.Parse(reader["FechaIngreso"].ToString()),
                 TipoContrato = reader["TipoContrato"].ToString(),
-                Developer = Convert.ToBoolean(reader["Developer"]),
-                Administrador = Convert.ToBoolean(reader["Administrador"]),
-                User = Convert.ToBoolean(reader["UsuarioRol"]),
-                Invitado = Convert.ToBoolean(reader["Invitado"]),
-                Bloqueado = Convert.ToBoolean(reader["Bloqueado"])
+                Roles = Convert.ToInt32(reader["Rol"])
             };
+        }
+
+        public static Empleado BuscarPorUsuario(string usuario)
+        {
+            using (var conexion = ConexionGlobal.ObtenerConexion())
+            {
+                conexion.Open();
+                string query = "SELECT * FROM Empleados WHERE Usuario = @Usuario";
+                using (SQLiteCommand cmd = new SQLiteCommand(query, conexion))
+                {
+                    cmd.Parameters.AddWithValue("@Usuario", usuario);
+                    using (SQLiteDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            return new Empleado
+                            {
+                                Id = Convert.ToInt32(reader["Id"]),
+                                Nombres = reader["Nombres"].ToString(),
+                                Apellidos = reader["Apellidos"].ToString(),
+                                Usuario = reader["Usuario"].ToString(),
+                                Contraseña = reader["Contraseña"].ToString()
+                            };
+                        }
+                    }
+                }
+            }
+            return null;
         }
     }
 }

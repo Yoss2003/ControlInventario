@@ -58,14 +58,10 @@
             this.label12 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.label13 = new System.Windows.Forms.Label();
-            this.chkBaned = new System.Windows.Forms.CheckBox();
-            this.chkInvited = new System.Windows.Forms.CheckBox();
-            this.chkUser = new System.Windows.Forms.CheckBox();
-            this.chkDeveloper = new System.Windows.Forms.CheckBox();
-            this.chkAdmin = new System.Windows.Forms.CheckBox();
             this.btnGuardar = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.checkedListRol = new System.Windows.Forms.CheckedListBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtEdad)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -329,12 +325,8 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.checkedListRol);
             this.groupBox4.Controls.Add(this.label13);
-            this.groupBox4.Controls.Add(this.chkBaned);
-            this.groupBox4.Controls.Add(this.chkInvited);
-            this.groupBox4.Controls.Add(this.chkUser);
-            this.groupBox4.Controls.Add(this.chkDeveloper);
-            this.groupBox4.Controls.Add(this.chkAdmin);
             this.groupBox4.Location = new System.Drawing.Point(334, 207);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(317, 184);
@@ -345,61 +337,11 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(67, 40);
+            this.label13.Location = new System.Drawing.Point(55, 45);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(89, 13);
             this.label13.TabIndex = 1;
             this.label13.Text = "Roles de usuario:";
-            // 
-            // chkBaned
-            // 
-            this.chkBaned.AutoSize = true;
-            this.chkBaned.Location = new System.Drawing.Point(162, 131);
-            this.chkBaned.Name = "chkBaned";
-            this.chkBaned.Size = new System.Drawing.Size(77, 17);
-            this.chkBaned.TabIndex = 0;
-            this.chkBaned.Text = "Bloqueado";
-            this.chkBaned.UseVisualStyleBackColor = true;
-            // 
-            // chkInvited
-            // 
-            this.chkInvited.AutoSize = true;
-            this.chkInvited.Location = new System.Drawing.Point(162, 108);
-            this.chkInvited.Name = "chkInvited";
-            this.chkInvited.Size = new System.Drawing.Size(64, 17);
-            this.chkInvited.TabIndex = 0;
-            this.chkInvited.Text = "Invitado";
-            this.chkInvited.UseVisualStyleBackColor = true;
-            // 
-            // chkUser
-            // 
-            this.chkUser.AutoSize = true;
-            this.chkUser.Location = new System.Drawing.Point(162, 85);
-            this.chkUser.Name = "chkUser";
-            this.chkUser.Size = new System.Drawing.Size(62, 17);
-            this.chkUser.TabIndex = 0;
-            this.chkUser.Text = "Usuario";
-            this.chkUser.UseVisualStyleBackColor = true;
-            // 
-            // chkDeveloper
-            // 
-            this.chkDeveloper.AutoSize = true;
-            this.chkDeveloper.Location = new System.Drawing.Point(162, 39);
-            this.chkDeveloper.Name = "chkDeveloper";
-            this.chkDeveloper.Size = new System.Drawing.Size(75, 17);
-            this.chkDeveloper.TabIndex = 0;
-            this.chkDeveloper.Text = "Developer";
-            this.chkDeveloper.UseVisualStyleBackColor = true;
-            // 
-            // chkAdmin
-            // 
-            this.chkAdmin.AutoSize = true;
-            this.chkAdmin.Location = new System.Drawing.Point(162, 62);
-            this.chkAdmin.Name = "chkAdmin";
-            this.chkAdmin.Size = new System.Drawing.Size(89, 17);
-            this.chkAdmin.TabIndex = 0;
-            this.chkAdmin.Text = "Administrador";
-            this.chkAdmin.UseVisualStyleBackColor = true;
             // 
             // btnGuardar
             // 
@@ -424,6 +366,21 @@
             // errorProvider1
             // 
             this.errorProvider1.ContainerControl = this;
+            // 
+            // checkedListRol
+            // 
+            this.checkedListRol.Enabled = false;
+            this.checkedListRol.FormattingEnabled = true;
+            this.checkedListRol.Items.AddRange(new object[] {
+            "Developer",
+            "Administrador",
+            "Usuario",
+            "Invitado",
+            "Bloqueado"});
+            this.checkedListRol.Location = new System.Drawing.Point(150, 45);
+            this.checkedListRol.Name = "checkedListRol";
+            this.checkedListRol.Size = new System.Drawing.Size(120, 79);
+            this.checkedListRol.TabIndex = 2;
             // 
             // VistaRegistro
             // 
@@ -488,13 +445,9 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.CheckBox chkInvited;
-        private System.Windows.Forms.CheckBox chkUser;
-        private System.Windows.Forms.CheckBox chkDeveloper;
-        private System.Windows.Forms.CheckBox chkAdmin;
-        private System.Windows.Forms.CheckBox chkBaned;
         private System.Windows.Forms.Button btnGuardar;
         private System.Windows.Forms.Button btnCancelar;
         private System.Windows.Forms.ErrorProvider errorProvider1;
+        private System.Windows.Forms.CheckedListBox checkedListRol;
     }
 }

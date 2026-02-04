@@ -8,58 +8,58 @@ namespace ControlInventario.Database
     public static class EmpleadoRepository
     {
         // Insertar nuevo empleado
-        public static void InsertarEmpleado(Empleado emp)
+        public static long InsertarEmpleado(Empleado emp, SQLiteConnection con)
         {
-            using (var con = ConexionGlobal.ObtenerConexion())
+            string query = @"
+            INSERT INTO Empleados (
+                Nombres, 
+                Apellidos, 
+                Correo, 
+                Edad, 
+                FechaNacimiento,
+                Usuario, 
+                Contraseña, 
+                Cargo, 
+                Area, 
+                FechaIngreso, 
+                TipoContrato,
+                Rol
+            ) VALUES (
+                @Nombres, 
+                @Apellidos, 
+                @Correo, 
+                @Edad, 
+                @FechaNacimiento,
+                @Usuario, 
+                @Contraseña, 
+                @Cargo, 
+                @Area, 
+                @FechaIngreso, 
+                @TipoContrato,
+                @Rol
+            );";
+
+            using (var cmd = new SQLiteCommand(query, con))
             {
-                con.Open();
+                cmd.Parameters.AddWithValue("@Nombres", emp.Nombres);
+                cmd.Parameters.AddWithValue("@Apellidos", emp.Apellidos);
+                cmd.Parameters.AddWithValue("@Correo", emp.Correo);
+                cmd.Parameters.AddWithValue("@Edad", emp.Edad);
+                cmd.Parameters.AddWithValue("@FechaNacimiento", emp.FechaNacimiento);
+                cmd.Parameters.AddWithValue("@Usuario", emp.Usuario);
+                cmd.Parameters.AddWithValue("@Contraseña", emp.Contraseña);
+                cmd.Parameters.AddWithValue("@Cargo", emp.Cargo);
+                cmd.Parameters.AddWithValue("@Area", emp.Area);
+                cmd.Parameters.AddWithValue("@FechaIngreso", emp.FechaIngreso);
+                cmd.Parameters.AddWithValue("@TipoContrato", emp.TipoContrato);
+                cmd.Parameters.AddWithValue("@Rol", emp.Roles);
 
-                string query = @"
-                    INSERT INTO Empleados (
-                        Nombres, 
-                        Apellidos, 
-                        Correo, 
-                        Edad, 
-                        FechaNacimiento,
-                        Usuario, 
-                        Contraseña, 
-                        Cargo, 
-                        Area, 
-                        FechaIngreso, 
-                        TipoContrato,
-                        Rol
-                    ) VALUES (
-                        @Nombres, 
-                        @Apellidos, 
-                        @Correo, 
-                        @Edad, 
-                        @FechaNacimiento,
-                        @Usuario, 
-                        @Contraseña, 
-                        @Cargo, 
-                        @Area, 
-                        @FechaIngreso, 
-                        @TipoContrato,
-                        @Rol
-                    );";
+                cmd.ExecuteNonQuery();
+            }
 
-                using (var cmd = new SQLiteCommand(query, con))
-                {
-                    cmd.Parameters.AddWithValue("@Nombres", emp.Nombres);
-                    cmd.Parameters.AddWithValue("@Apellidos", emp.Apellidos);
-                    cmd.Parameters.AddWithValue("@Correo", emp.Correo);
-                    cmd.Parameters.AddWithValue("@Edad", emp.Edad);
-                    cmd.Parameters.AddWithValue("@FechaNacimiento", emp.FechaNacimiento);
-                    cmd.Parameters.AddWithValue("@Usuario", emp.Usuario);
-                    cmd.Parameters.AddWithValue("@Contraseña", emp.Contraseña);
-                    cmd.Parameters.AddWithValue("@Cargo", emp.Cargo);
-                    cmd.Parameters.AddWithValue("@Area", emp.Area);
-                    cmd.Parameters.AddWithValue("@FechaIngreso", emp.FechaIngreso);
-                    cmd.Parameters.AddWithValue("@TipoContrato", emp.TipoContrato);
-                    cmd.Parameters.AddWithValue("@Rol", emp.Roles);
-
-                    cmd.ExecuteNonQuery();
-                }
+            using (var cmdId = new SQLiteCommand("SELECT last_insert_rowid();", con))
+            {
+                return (long)cmdId.ExecuteScalar();
             }
         }
 
@@ -107,7 +107,7 @@ namespace ControlInventario.Database
         }
 
         // Eliminar empleado por Id
-        public static void EliminarEmpleado(int id)
+        public static long EliminarEmpleado(int id)
         {
             using (var con = ConexionGlobal.ObtenerConexion())
             {
@@ -118,6 +118,11 @@ namespace ControlInventario.Database
                 {
                     cmd.Parameters.AddWithValue("@Id", id);
                     cmd.ExecuteNonQuery();
+                }
+
+                using (var cmdId = new SQLiteCommand("SELECT last_insert_rowid();", con))
+                {
+                    return (long)cmdId.ExecuteScalar();
                 }
             }
         }

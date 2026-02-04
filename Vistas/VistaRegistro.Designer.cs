@@ -57,11 +57,11 @@
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.checkedListRol = new System.Windows.Forms.CheckedListBox();
             this.label13 = new System.Windows.Forms.Label();
             this.btnGuardar = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
-            this.checkedListRol = new System.Windows.Forms.CheckedListBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtEdad)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -197,10 +197,15 @@
             // cbmTipoContrato
             // 
             this.cbmTipoContrato.FormattingEnabled = true;
+            this.cbmTipoContrato.Items.AddRange(new object[] {
+            "Indefinido",
+            "aumento de actividades",
+            "temporal"});
             this.cbmTipoContrato.Location = new System.Drawing.Point(110, 150);
             this.cbmTipoContrato.Name = "cbmTipoContrato";
             this.cbmTipoContrato.Size = new System.Drawing.Size(121, 21);
             this.cbmTipoContrato.TabIndex = 10;
+            this.cbmTipoContrato.Text = "SELECCIONE";
             // 
             // dtFechaIngre
             // 
@@ -334,6 +339,21 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Roles";
             // 
+            // checkedListRol
+            // 
+            this.checkedListRol.Enabled = false;
+            this.checkedListRol.FormattingEnabled = true;
+            this.checkedListRol.Items.AddRange(new object[] {
+            "Developer",
+            "Administrador",
+            "Usuario",
+            "Invitado",
+            "Bloqueado"});
+            this.checkedListRol.Location = new System.Drawing.Point(150, 45);
+            this.checkedListRol.Name = "checkedListRol";
+            this.checkedListRol.Size = new System.Drawing.Size(120, 79);
+            this.checkedListRol.TabIndex = 2;
+            // 
             // label13
             // 
             this.label13.AutoSize = true;
@@ -366,21 +386,6 @@
             // errorProvider1
             // 
             this.errorProvider1.ContainerControl = this;
-            // 
-            // checkedListRol
-            // 
-            this.checkedListRol.Enabled = false;
-            this.checkedListRol.FormattingEnabled = true;
-            this.checkedListRol.Items.AddRange(new object[] {
-            "Developer",
-            "Administrador",
-            "Usuario",
-            "Invitado",
-            "Bloqueado"});
-            this.checkedListRol.Location = new System.Drawing.Point(150, 45);
-            this.checkedListRol.Name = "checkedListRol";
-            this.checkedListRol.Size = new System.Drawing.Size(120, 79);
-            this.checkedListRol.TabIndex = 2;
             // 
             // VistaRegistro
             // 

@@ -93,7 +93,7 @@ namespace ControlInventario.Vistas
 
         private void btnConfiguracion_Click(object sender, EventArgs e)
         {
-            VistaConfiguracion configuracion = new VistaConfiguracion();
+            VistaConfiguracion configuracion = new VistaConfiguracion(empleadoActual);
             configuracion.ShowDialog();
         }
 

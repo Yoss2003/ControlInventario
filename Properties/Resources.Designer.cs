@@ -63,16 +63,6 @@ namespace ControlInventario.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap fondoTransparente {
-            get {
-                object obj = ResourceManager.GetObject("fondoTransparente", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap Spinner {
             get {
                 object obj = ResourceManager.GetObject("Spinner", resourceCulture);

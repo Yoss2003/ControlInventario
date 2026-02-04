@@ -78,7 +78,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Database\Conexion.cs" />
+    <Compile Include="Database\ConfiguracionPerfiles.cs" />
     <Compile Include="Database\EmpleadoRepository.cs" />
+    <Compile Include="Modelos\Perfiles.cs" />
     <Compile Include="Modelos\Empleado.cs" />
     <Compile Include="Modelos\OverlayCarga.cs" />
     <Compile Include="Modelos\RecuperacionHelper.cs" />
@@ -99,6 +101,12 @@
     </Compile>
     <Compile Include="Vistas\VistaInventario.Designer.cs">
       <DependentUpon>VistaInventario.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Vistas\VistaPreguntasSeguridad.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Vistas\VistaPreguntasSeguridad.Designer.cs">
+      <DependentUpon>VistaPreguntasSeguridad.cs</DependentUpon>
     </Compile>
     <Compile Include="Vistas\VistaRecuperacion.cs">
       <SubType>Form</SubType>
@@ -136,8 +144,14 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Vistas\VistaConfiguracion.resx">
+      <DependentUpon>VistaConfiguracion.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Vistas\VistaInicio.resx">
       <DependentUpon>VistaInicio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Vistas\VistaPreguntasSeguridad.resx">
+      <DependentUpon>VistaPreguntasSeguridad.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Vistas\VistaRecuperacion.resx">
       <DependentUpon>VistaRecuperacion.cs</DependentUpon>
@@ -164,9 +178,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Spinner.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\fondoTransparente.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.119.0\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets" Condition="Exists('packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.119.0\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets')" />

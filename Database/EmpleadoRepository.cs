@@ -23,6 +23,7 @@ namespace ControlInventario.Database
                 Area, 
                 FechaIngreso, 
                 TipoContrato,
+                IdRol,
                 Rol
             ) VALUES (
                 @Nombres, 
@@ -36,6 +37,7 @@ namespace ControlInventario.Database
                 @Area, 
                 @FechaIngreso, 
                 @TipoContrato,
+                @IdRol,
                 @Rol
             );";
 
@@ -52,7 +54,8 @@ namespace ControlInventario.Database
                 cmd.Parameters.AddWithValue("@Area", emp.Area);
                 cmd.Parameters.AddWithValue("@FechaIngreso", emp.FechaIngreso);
                 cmd.Parameters.AddWithValue("@TipoContrato", emp.TipoContrato);
-                cmd.Parameters.AddWithValue("@Rol", emp.Roles);
+                cmd.Parameters.AddWithValue("@IdRol", emp.IdRol);
+                cmd.Parameters.AddWithValue("@Rol", emp.Rol);
 
                 cmd.ExecuteNonQuery();
             }
@@ -83,6 +86,7 @@ namespace ControlInventario.Database
                         Area=@Area,
                         FechaIngreso=@FechaIngreso, 
                         TipoContrato=@TipoContrato,
+                        IdRol=@IdRol,
                         Rol=@Rol
                     WHERE Id=@Id;";
 
@@ -99,7 +103,8 @@ namespace ControlInventario.Database
                     cmd.Parameters.AddWithValue("@Area", emp.Area);
                     cmd.Parameters.AddWithValue("@FechaIngreso", emp.FechaIngreso);
                     cmd.Parameters.AddWithValue("@TipoContrato", emp.TipoContrato);
-                    cmd.Parameters.AddWithValue("@Rol", emp.Roles);
+                    cmd.Parameters.AddWithValue("@IdRol", emp.IdRol);
+                    cmd.Parameters.AddWithValue("@Rol", emp.Rol);
                     cmd.Parameters.AddWithValue("@Id", emp.Id);
                     cmd.ExecuteNonQuery();
                 }
@@ -167,7 +172,8 @@ namespace ControlInventario.Database
                 Area = reader["Area"].ToString(),
                 FechaIngreso = DateTime.Parse(reader["FechaIngreso"].ToString()),
                 TipoContrato = reader["TipoContrato"].ToString(),
-                Roles = Convert.ToInt32(reader["Rol"])
+                IdRol = Convert.ToInt32(reader["IdRol"]),
+                Rol = reader["Rol"].ToString()
             };
         }
 
@@ -184,14 +190,8 @@ namespace ControlInventario.Database
                     {
                         if (reader.Read())
                         {
-                            return new Empleado
-                            {
-                                Id = Convert.ToInt32(reader["Id"]),
-                                Nombres = reader["Nombres"].ToString(),
-                                Apellidos = reader["Apellidos"].ToString(),
-                                Usuario = reader["Usuario"].ToString(),
-                                Contraseña = reader["Contraseña"].ToString()
-                            };
+                            // Reuse the mapping helper to populate all fields (including Rol and IdRol)
+                            return MapearEmpleado(reader);
                         }
                     }
                 }

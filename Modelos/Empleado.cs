@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DocumentFormat.OpenXml.Office2010.ExcelAc;
+using System;
+using System.Collections.Generic;
 
 namespace ControlInventario.Modelos
 {
@@ -24,6 +26,10 @@ namespace ControlInventario.Modelos
         public string TipoContrato { get; set; }
 
         // Roles
-        public int Roles { get; set; }
+        public int IdRol { get; set; }
+        public string Rol { get; set; }
+
+        // Relación: un empleado tiene un inventario
+        public Inventario Inventario { get; set; }
     }
 }

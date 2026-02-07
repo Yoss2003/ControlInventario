@@ -1,6 +1,6 @@
 ﻿namespace ControlInventario.Vistas
 {
-    partial class VistaInicio
+    partial class VistaMenuPrincipal
     {
         /// <summary>
         /// Required designer variable.
@@ -179,14 +179,15 @@
             this.btnInventario.UseVisualStyleBackColor = true;
             this.btnInventario.Click += new System.EventHandler(this.btnInventario_Click);
             // 
-            // VistaInicio
+            // VistaMenuPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(393, 316);
             this.Controls.Add(this.groupAcciones);
             this.Controls.Add(this.groupInicio);
-            this.Name = "VistaInicio";
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Name = "VistaMenuPrincipal";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Inicio";

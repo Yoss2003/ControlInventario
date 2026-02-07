@@ -1,15 +1,18 @@
-﻿using ControlInventario.Modelos;
+﻿using ControlInventario.Database;
+using ControlInventario.Modelos;
 using System;
+using System.Data.SQLite;
 using System.Drawing;
 using System.Windows.Forms;
 
 namespace ControlInventario.Vistas
 {
-    public partial class VistaInicio : Form
+    public partial class VistaMenuPrincipal : Form
     {
-        private Empleado empleadoActual;
+        private readonly Empleado empleadoActual;
+        private readonly Inventario inventarioActual;
 
-        public VistaInicio(Empleado emp)
+        public VistaMenuPrincipal(Empleado emp)
         {
             InitializeComponent();
             empleadoActual = emp;
@@ -17,7 +20,7 @@ namespace ControlInventario.Vistas
 
         private void CentrarElementos(Control control, Control contenedor)
         {
-            control.Location = new System.Drawing.Point(
+            control.Location = new Point(
                 (contenedor.ClientSize.Width - control.Size.Width) / 2,
                 control.Location.Y
             );
@@ -26,7 +29,7 @@ namespace ControlInventario.Vistas
         private void VistaInicio_Load(object sender, EventArgs e)
         {
             lblBienvenida.Text = "Bienvenido " + empleadoActual.Nombres;
-            lblRol.Text = $"Rol: {empleadoActual.Roles}";
+            lblRol.Text = $"Rol: {empleadoActual.Rol}";
             lblFecha.Text = $"Fecha: {DateTime.Now.ToString("dd/MM/yyyy")}";
             lblUsuario.Text = $"Usuario: {empleadoActual.Usuario}";
 
@@ -85,9 +88,33 @@ namespace ControlInventario.Vistas
             reporte.ShowDialog();
         }
 
+
         private void btnInventario_Click(object sender, EventArgs e)
         {
-            VistaInventario inventario = new VistaInventario();
+            Inventario Buscarinventario;
+            var repo = new InventarioRepository(empleadoActual);
+            using (var con = ConexionGlobal.ObtenerConexion())
+            {
+                con.Open();
+
+                string queryInventario = @"
+                CREATE TABLE IF NOT EXISTS Inventarios (
+                    Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    NombreInventario TEXT,
+                    FechaCreacion TEXT,                        
+                    FechaModificacion TEXT,
+                    UsuarioId INT,
+                    Usuario TEXT
+                );";
+
+                using(var cmd = new SQLiteCommand(queryInventario, con))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+
+                Buscarinventario = repo.ObtenerOCrearInventarioPorUsuario(con);
+            }
+            VistaInventario inventario = new VistaInventario(empleadoActual, Buscarinventario);
             inventario.ShowDialog();
         }
 
@@ -99,7 +126,10 @@ namespace ControlInventario.Vistas
 
         private void btnCerrarSesion_Click(object sender, EventArgs e)
         {
-
+            this.Hide();
+            VistaInicioSesion vistaSesion = new VistaInicioSesion();
+            vistaSesion.ShowDialog();
+            this.Close();
         }
     }
 

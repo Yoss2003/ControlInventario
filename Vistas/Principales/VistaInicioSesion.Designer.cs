@@ -1,6 +1,6 @@
 ﻿namespace ControlInventario
 {
-    partial class VistaSesion
+    partial class VistaInicioSesion
     {
         /// <summary>
         /// Variable del diseñador necesaria.
@@ -64,7 +64,7 @@
             // lnkRegistro
             // 
             this.lnkRegistro.AutoSize = true;
-            this.lnkRegistro.Location = new System.Drawing.Point(229, 110);
+            this.lnkRegistro.Location = new System.Drawing.Point(226, 110);
             this.lnkRegistro.Name = "lnkRegistro";
             this.lnkRegistro.Size = new System.Drawing.Size(54, 13);
             this.lnkRegistro.TabIndex = 9;
@@ -240,7 +240,7 @@
             this.lnkDerechos.TabStop = true;
             this.lnkDerechos.Text = "© 2026 Alexandro. Todos los derechos reservados.";
             // 
-            // VistaSesion
+            // VistaInicioSesion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -250,7 +250,7 @@
             this.Controls.Add(this.groupBienvenida);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
-            this.Name = "VistaSesion";
+            this.Name = "VistaInicioSesion";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Inicio de sesión";

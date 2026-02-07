@@ -16,6 +16,8 @@ namespace ControlInventario.Vistas
         public VistaPreguntasSeguridad(int idUsuario, string nombreUsuario)
         {
             InitializeComponent();
+
+            // Guardar el ID y nombre del usuario para usarlos al guardar las preguntas de seguridad
             this.idUsuario = idUsuario;
             this.nombreUsuario = nombreUsuario;
         }
@@ -105,6 +107,7 @@ namespace ControlInventario.Vistas
 
         private bool ValidarUsuario()
         {
+            // No se le permite al usuario cerrar la ventana sin haber completado las preguntas de seguridad
             if (string.IsNullOrWhiteSpace(CmbPregunta1.Text) || string.IsNullOrWhiteSpace(TxtRespuesta1.Text) || 
                 string.IsNullOrWhiteSpace(CmbPregunta2.Text) || string.IsNullOrWhiteSpace(TxtRespuesta2.Text) || 
                 string.IsNullOrWhiteSpace(CmbPregunta3.Text) || string.IsNullOrWhiteSpace(TxtRespuesta3.Text))
@@ -113,6 +116,7 @@ namespace ControlInventario.Vistas
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question);
 
+                // Si el usuario confirma que desea salir, se elimina el usuario recién creado
                 if (result == DialogResult.Yes)
                 {
                     MessageBox.Show("El usuario no se pudo registrar por que se canceló la operación.",
@@ -144,12 +148,16 @@ namespace ControlInventario.Vistas
 
         private void VistaPreguntasSeguridad_Load(object sender, EventArgs e)
         {
+            // Agregar opciones de preguntas al ComboBox
             CmbPregunta1.Items.Insert(0, "Seleccione una pregunta..."); 
             CmbPregunta2.Items.Insert(0, "Seleccione una pregunta..."); 
             CmbPregunta3.Items.Insert(0, "Seleccione una pregunta...");
+
+            // Agregar preguntas de seguridad al ComboBox
             lblIdusuario.Text = idUsuario.ToString();
             lblUsuario.Text = nombreUsuario;
 
+            // Cargar preguntas de seguridad predefinidas
             try
             {
                 using (var con = ConexionGlobal.ObtenerConexion())
@@ -196,8 +204,11 @@ namespace ControlInventario.Vistas
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
+            // Validar que se hayan seleccionado preguntas y proporcionado respuestas antes de guardar
             if (!ValidarPreguntas())
                 return;
+
+            // Guardar preguntas de seguridad en la base de datos
             try
             {
                 using (var con = ConexionGlobal.ObtenerConexion())
@@ -226,12 +237,12 @@ namespace ControlInventario.Vistas
                         cmd.Parameters.AddWithValue("@Id_Pregunta3", CmbPregunta3.SelectedIndex);
                         cmd.Parameters.AddWithValue("@Pregunta3", CmbPregunta3.SelectedItem.ToString());
                         cmd.Parameters.AddWithValue("@Respuesta3", TxtRespuesta3.Text);
-
-                        
+                                                
                         DialogResult result = MessageBox.Show("¿Estás seguro de que las respuestas son correctas?", "Confirmación", 
                         MessageBoxButtons.YesNo, 
-                        MessageBoxIcon.Question); 
+                        MessageBoxIcon.Question);
 
+                        // Si el usuario confirma que las respuestas son correctas, se guardan en la base de datos
                         if (result == DialogResult.Yes)
                         {
                             cmd.ExecuteNonQuery();
@@ -253,6 +264,7 @@ namespace ControlInventario.Vistas
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Error);
 
+                // Si ocurre un error al guardar, se elimina el usuario recién creado para evitar inconsistencias
                 long nuevoId = EmpleadoRepository.EliminarEmpleado(idUsuario);
                 this.Close();
             }
@@ -289,6 +301,7 @@ namespace ControlInventario.Vistas
 
         private void VistaPreguntasSeguridad_FormClosing(object sender, FormClosingEventArgs e)
         {
+            // Si no se completó el flujo de las preguntas de seguridad se elimina el usuario creado
             if (e.CloseReason == CloseReason.UserClosing)
             {
                 if (!ValidarUsuario())

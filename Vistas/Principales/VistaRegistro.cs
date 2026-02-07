@@ -16,6 +16,7 @@ namespace ControlInventario.Vistas
 
         private bool ValidarFormulario()
         {
+            // Validación de campos con reglas específicas
             bool valido = true;
             errorProvider1.Clear();
 
@@ -116,6 +117,7 @@ namespace ControlInventario.Vistas
                 }
             }
 
+            // Validar que el usuario generado no exista en la base de datos
             using (var con = ConexionGlobal.ObtenerConexion())
             {
                 con.Open();
@@ -137,12 +139,15 @@ namespace ControlInventario.Vistas
 
         private void GenerarUsuario()
         {
+            // Si alguno de los campos está vacío, limpiar el usuario
             if (string.IsNullOrWhiteSpace(txtNombre.Text) || string.IsNullOrWhiteSpace(txtApellido.Text))
                 txtUsuario.Text = "";
 
+            // Obtener nombre y apellidos
             string nombre = txtNombre.Text.Trim();
             string apellidos = txtApellido.Text.Trim();
 
+            // Validar que ambos campos tengan al menos 3 caracteres
             if (string.IsNullOrWhiteSpace(nombre) || string.IsNullOrWhiteSpace(apellidos))
                 return;
 
@@ -179,10 +184,12 @@ namespace ControlInventario.Vistas
         {
             checkedListRol.Enabled = true;
 
+            // Marcar "Usuario" por defecto
             for (int i = 0; i < checkedListRol.Items.Count; i++)
             {
                 checkedListRol.SetItemChecked(i, false);
 
+                // Verificar si el ítem es "Usuario"
                 string item = checkedListRol.Items[i].ToString();
                 if (item.StartsWith("Usuario"))
                 {
@@ -191,6 +198,7 @@ namespace ControlInventario.Vistas
                 }
             }
 
+            // Crear tabla si no existe
             try
             {
                 using (var con = ConexionGlobal.ObtenerConexion())
@@ -211,7 +219,8 @@ namespace ControlInventario.Vistas
                             Area TEXT,
                             FechaIngreso TEXT,
                             TipoContrato TEXT,
-                            Rol INT
+                            IdRol INT,
+                            Rol TEXT
                         );";
 
                     using (var cmd = new SQLiteCommand(query, con))
@@ -231,9 +240,11 @@ namespace ControlInventario.Vistas
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
+            // Validar formulario
             if (!ValidarFormulario())
                 return;
 
+            // Guardar en base de datos
             try
             {
                 using (var con = ConexionGlobal.ObtenerConexion())
@@ -241,12 +252,14 @@ namespace ControlInventario.Vistas
                     con.Open();
                     int rolSeleccionado = 3; // Usuario por defecto
 
+                    // Si el checkedList está habilitado y hay un rol seleccionado, obtener su ID
                     if (checkedListRol.Enabled && checkedListRol.CheckedItems.Count == 1)
                     {
-                        string item = checkedListRol.CheckedItems[0].ToString(); // "2 - Administrador"
+                        string item = checkedListRol.CheckedItems[0].ToString();
                         rolSeleccionado = int.Parse(item.Split('-')[0].Trim());
                     }
 
+                    // Validar que se haya seleccionado un rol si el checkedList está habilitado
                     if (checkedListRol.Enabled && checkedListRol.CheckedItems.Count == 0)
                     {
                         MessageBox.Show("Debes seleccionar un rol para el empleado.");
@@ -267,7 +280,8 @@ namespace ControlInventario.Vistas
                         Area = txtArea.Text,
                         FechaIngreso = dtFechaIngre.Value,
                         TipoContrato = cbmTipoContrato.SelectedItem?.ToString(),
-                        Roles = rolSeleccionado
+                        IdRol = rolSeleccionado,
+                        Rol = checkedListRol.Enabled ? checkedListRol.CheckedItems[0].ToString().Split('-')[1].Trim() : "Usuario"
                     };
 
                     //Guardar en BD
@@ -279,8 +293,11 @@ namespace ControlInventario.Vistas
                                     MessageBoxButtons.OK,
                                     MessageBoxIcon.Information);
 
+                    // Pasar el nuevo ID y el usuario a la vista de preguntas de seguridad
                     VistaPreguntasSeguridad seguridad = new VistaPreguntasSeguridad((int)nuevoId, emp.Usuario);
                     seguridad.ShowDialog();
+
+                    this.Close();
                 }
             }
             catch (Exception ex)

@@ -168,6 +168,7 @@
             this.Controls.Add(this.txtDig2);
             this.Controls.Add(this.txtDig1);
             this.Controls.Add(this.btnValidarCodigo);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "VistaRecuperacion";
             this.Text = "VistaRecuperacion";
             this.Load += new System.EventHandler(this.VistaRecuperacion_Load);

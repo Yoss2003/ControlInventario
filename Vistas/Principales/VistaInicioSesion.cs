@@ -11,33 +11,46 @@ using System.Windows.Forms;
 
 namespace ControlInventario
 {
-    public partial class VistaSesion : Form
+    public partial class VistaInicioSesion : Form
     {
+        // Variables en memoria
+        public string codigoGenerado;
+        public DateTime fechaGeneracion;
+
+        //Varible para el overlay
         private OverlayCarga overlay;
-        public VistaSesion()
+
+        public VistaInicioSesion()
         {
             InitializeComponent();
         }
 
         private void lnkRegistro_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+            // Abrir la vista de registro
             VistaRegistro vistaRegistro = new VistaRegistro();
             vistaRegistro.ShowDialog();
         }
 
         private void CentrarElementos(Control control, Control contenedor)
         {
+            // Centrar horizontalmente el control dentro del contenedor
             control.Location = new Point(
                 (contenedor.ClientSize.Width - control.Size.Width) / 2,
                 control.Location.Y
             );
         }
 
-        private void VistaSesion_Load(object sender, System.EventArgs e)
+        private void VistaSesion_Load(object sender, EventArgs e)
         {
+            // Inicializar el overlay de carga
             overlay = new OverlayCarga(this);
+
+            // Cargar credenciales guardadas
             string usuarioGuardado = Properties.Settings.Default.UsuarioGuardado;
             string contraseñaGuardada = Properties.Settings.Default.ContraseñaGuardada;
+
+            // Si hay credenciales guardadas, rellenar los campos y marcar el checkbox
             if (!string.IsNullOrEmpty(usuarioGuardado))
             {
                 txtUsuario.Text = usuarioGuardado;
@@ -57,6 +70,7 @@ namespace ControlInventario
             CentrarElementos(lblConexion,groupInformation);
             CentrarElementos(lnkDerechos, groupInformation);
 
+            // Verificar conexión a la base de datos
             try
             {
                 var conexion = ConexionGlobal.ObtenerConexion();
@@ -76,12 +90,15 @@ namespace ControlInventario
 
         private void btnIngresar_Click(object sender, EventArgs e)
         {
+            // Obtener y limpiar entradas
             string usuario = txtUsuario.Text.Trim();
             string contraseña = txtContraseña.Text.Trim();
 
+            // Ocultar mensajes de error previos
             lblErrorUsuario.Visible = false;
             lblErrorContraseña.Visible = false;
 
+            // Validar campos vacíos
             if (string.IsNullOrWhiteSpace(usuario) || string.IsNullOrWhiteSpace(contraseña)) 
             { 
                 if (string.IsNullOrWhiteSpace(usuario)) 
@@ -97,6 +114,7 @@ namespace ControlInventario
             // Validar credenciales contra la BD
             Empleado emp = EmpleadoRepository.BuscarPorUsuario(usuario);
 
+            // Guardar o limpiar credenciales según el estado del checkbox
             if (chkRecuerdame.Checked)
             {
                 Properties.Settings.Default.UsuarioGuardado = txtUsuario.Text;
@@ -107,7 +125,8 @@ namespace ControlInventario
                 Properties.Settings.Default.UsuarioGuardado = "";
                 Properties.Settings.Default.ContraseñaGuardada = "";
             }
-                        
+
+            // Validar si el usuario existe
             if (emp == null)
             {
                 lblErrorUsuario.Text = "Usuario no encontrado."; 
@@ -115,16 +134,18 @@ namespace ControlInventario
                 return;
             }
 
-            if(emp.Contraseña != contraseña)
+            // Validar contraseña
+            if (emp.Contraseña != contraseña)
             {
                 lblErrorContraseña.Text = "Contraseña incorrecta."; 
                 lblErrorContraseña.Visible = true; 
                 return;
             }
 
-            Properties.Settings.Default.Save();
+            Properties.Settings.Default.Save(); // Guardar cambios en la configuración
 
-            VistaInicio frm = new VistaInicio(emp);
+            // Abrir el menú principal
+            VistaMenuPrincipal frm = new VistaMenuPrincipal(emp);
             this.Hide();
             frm.ShowDialog();
             this.Close();
@@ -132,6 +153,7 @@ namespace ControlInventario
 
         private void chkRecuerdame_Click(object sender, EventArgs e)
         {
+            // Mostrar advertencia si se activa la casilla "Recuérdame"
             if (chkRecuerdame.Checked == true)
             {
                 MessageBox.Show("Si el equipo es compartido no recomendamos activar esta casilla", "Information",
@@ -139,17 +161,19 @@ namespace ControlInventario
             }
         }
 
-        // Variables en memoria
-        public string codigoGenerado;
-        public DateTime fechaGeneracion;
-
         private async void lnkContraseña_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+            // Obtener el usuario ingresado
             string usuarioIngresado = txtUsuario.Text.Trim();
             string correoUsuario = "";
+
+            // Mostrar overlay de carga
             overlay.Mostrar();
+
+            // Ejecutar proceso de recuperación en un hilo separado para no bloquear la UI
             await Task.Run(() =>
             {
+                // Validar que el usuario no esté vacío
                 if (string.IsNullOrEmpty(usuarioIngresado))
                 {
                     MessageBox.Show("Ingresa tu usuario antes de recuperar la contraseña.");
@@ -163,8 +187,11 @@ namespace ControlInventario
                     string query = "SELECT Correo FROM Empleados WHERE Usuario = @Usuario";
                     using (var cmd = new SQLiteCommand(query, con))
                     {
+                        // Agregar parámetro para evitar inyección SQL
                         cmd.Parameters.AddWithValue("@Usuario", usuarioIngresado);
                         var result = cmd.ExecuteScalar();
+
+                        // Validar si se encontró el usuario y su correo
                         if (result == null)
                         {
                             MessageBox.Show("Usuario no encontrado.");
@@ -221,6 +248,7 @@ namespace ControlInventario
                 }
             });
 
+            // Abrir la vista de recuperación
             var recuperar = new VistaRecuperacion(usuarioIngresado);
             this.Hide();
             recuperar.ShowDialog();

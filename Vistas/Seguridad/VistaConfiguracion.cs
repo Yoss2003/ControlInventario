@@ -1,5 +1,6 @@
 ﻿using ControlInventario.Database;
 using ControlInventario.Modelos;
+using DocumentFormat.OpenXml.EMMA;
 using System;
 using System.Data.SQLite;
 using System.Drawing;
@@ -173,6 +174,8 @@ namespace ControlInventario.Vistas
                     MessageBox.Show("Configuración para " + empleadoActual.Usuario + " guardada correctamente.", "Éxito", 
                         MessageBoxButtons.OK, 
                         MessageBoxIcon.Information);
+
+                    this.Close();
                 }
             }
             catch
@@ -180,6 +183,29 @@ namespace ControlInventario.Vistas
                 MessageBox.Show("Error al guardar la configuración para "+ empleadoActual.Usuario + ".", "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
+            }
+        }
+
+        private void TreeMenu_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            TreeNode nodo = e.Node;
+            switch (nodo.Text)
+            {
+                case "General":
+                    GrpGeneral.Visible = true;
+                    GrpInventario.Visible = false;
+                    GrpSeguridad.Visible = false;
+                    break;
+                case "Inventario":
+                    GrpInventario.Visible = true;
+                    GrpSeguridad.Visible = false;
+                    GrpGeneral.Visible = false;
+                    break;
+                case "Seguridad":
+                    GrpSeguridad.Visible = true;
+                    GrpInventario.Visible = false;
+                    GrpGeneral.Visible = false;
+                    break;
             }
         }
     }

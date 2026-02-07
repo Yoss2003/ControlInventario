@@ -1,11 +1,6 @@
-﻿using ControlInventario.Modelos;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Data.SQLite;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ControlInventario.Modelos;
 
 namespace ControlInventario.Database
 {
@@ -115,7 +110,7 @@ namespace ControlInventario.Database
             {
                 cmd.Parameters.AddWithValue("@NombreUsuario", perf.NombreUsuario);
                 cmd.Parameters.AddWithValue("@IdIdioma", perf.IdIdioma);
-                cmd.Parameters.AddWithValue("@Idioma", perf.IdIdioma);
+                cmd.Parameters.AddWithValue("@Idioma", perf.Idioma);
                 cmd.Parameters.AddWithValue("@IdTema", perf.IdTema);
                 cmd.Parameters.AddWithValue("@Tema", perf.Tema);
                 cmd.Parameters.AddWithValue("@IdNotificaciones", perf.IdNotificaciones);
@@ -133,7 +128,7 @@ namespace ControlInventario.Database
                 cmd.Parameters.AddWithValue("@CodigoBarras", perf.CodigoBarras);
                 cmd.Parameters.AddWithValue("@CategoriaPersonalizada", perf.CategoriaPersonalizada);
                 cmd.Parameters.AddWithValue("@CalcularDevaluacion", perf.CalcularDevaluacion);
-                cmd.Parameters.AddWithValue("@GeracionCodigos", perf.GeneracionCodigos);
+                cmd.Parameters.AddWithValue("@GeneracionCodigos", perf.GeneracionCodigos);
                 cmd.Parameters.AddWithValue("@IdPerfil", perf.IdPerfil);
                 cmd.ExecuteNonQuery();
             }
@@ -151,6 +146,7 @@ namespace ControlInventario.Database
                     {
                         return new Perfiles
                         {
+                            IdPerfil = Convert.ToInt32(reader["IdPerfil"]),
                             NombreUsuario = reader["NombreUsuario"].ToString(),
                             IdIdioma = Convert.ToInt32(reader["IdIdioma"]),
                             Idioma = reader["Idioma"].ToString(),
@@ -183,7 +179,11 @@ namespace ControlInventario.Database
         {
             var existente = ObtenerPerfilUsuario(perfil.NombreUsuario, con);
             if (existente != null)
+            {
+                // ASIGNAR IdPerfil para que UPDATE afecte la fila correcta
+                perfil.IdPerfil = existente.IdPerfil;
                 ActualizarPerfilUsuario(perfil, con);
+            }
             else
                 AgregarPerfilUsuario(perfil, con);
         }

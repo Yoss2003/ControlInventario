@@ -86,7 +86,7 @@ namespace ControlInventario.Vistas
                 MessageBoxIcon.Information
             );
 
-            VistaSesion sesion = new VistaSesion();
+            VistaInicioSesion sesion = new VistaInicioSesion();
             this.Hide();
             sesion.Show();
             this.Close();

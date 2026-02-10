@@ -99,6 +99,7 @@
     <Compile Include="Modelos\Inventario.cs" />
     <Compile Include="Modelos\Perfiles.cs" />
     <Compile Include="Modelos\Empleado.cs" />
+    <Compile Include="Servicios\ClassHelper.cs" />
     <Compile Include="Servicios\OverlayCarga.cs" />
     <Compile Include="Modelos\RecuperacionHelper.cs" />
     <Compile Include="Utilidades\CustomTabControl.cs">

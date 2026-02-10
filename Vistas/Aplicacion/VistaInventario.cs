@@ -1,5 +1,6 @@
 ﻿using ControlInventario.Database;
 using ControlInventario.Modelos;
+using ControlInventario.Servicios;
 using ControlInventario.Utilidades;
 using System;
 using System.Data.SQLite;
@@ -103,25 +104,40 @@ namespace ControlInventario.Vistas
                         Serie TEXT,
                         Marca TEXT,
                         FechaAdquisicion TEXT,
-                        UsuarioActual TEXT,
-                        UsuarioAnterior TEXT,
-                        IdArea INTEGER,
-                        Area TEXT,
-                        Cargo TEXT,
+                        FechaBaja TEXT,
+                        FechaFinGarantia TEXT,
+                        
+                        DniUsuarioActual TEXT,
+                        NombreUsuarioActual TEXT,
+                        IdAreaUsuarioActual INTEGER,
+                        AreaUsuarioActual TEXT,
+                        CargoUsuarioActual TEXT,
+
+                        DniUsuarioAnterior TEXT,
+                        NombreUsuarioAnterior TEXT,
+                        IdAreaUsuarioAnterior INTEGER,
+                        AreaUsuarioAnterior TEXT,
+                        CargoUsuarioAnterior TEXT,
+
                         IdEstado INTEGER,
                         Estado TEXT,
                         IdUbicacion INTEGER,
                         Ubicacion TEXT,
-                        FechaBaja TEXT,
-                        Observacion TEXT,
-                        Foto BLOB,
-                        CategoriaId INTEGER,
-                        Categoria TEXT,
-                        PrecioAdquisicion REAL,
-                        VidaUtilMeses INTEGER,
-                        Proveedor TEXT,
+                        IdCondicion INTEGER,
                         Condicion TEXT,
                         ActivoFijo TEXT,
+
+                        Observacion TEXT,
+                        Foto BLOB,
+                        Comprobante BLOB,
+
+                        RUCProveedor TEXT,
+                        Proveedor TEXT,
+                        PrecioAdquisicion REAL,
+                        VidaUtilMeses INTEGER,
+                        
+                        CategoriaId INTEGER,
+                        Categoria TEXT,
                         FOREIGN KEY (CategoriaId) REFERENCES Categorias(Id) ON DELETE CASCADE
                     );";
 
@@ -131,7 +147,10 @@ namespace ControlInventario.Vistas
                         Id INTEGER PRIMARY KEY AUTOINCREMENT, 
                         ArticuloId INTEGER, 
                         Nombre TEXT, 
-                        Valor TEXT, 
+                        Caracteristica1 TEXT, 
+                        Caracteristica2 TEXT, 
+                        Caracteristica3 TEXT, 
+                        Caracteristica4 TEXT, 
                         FOREIGN KEY (ArticuloId) REFERENCES Articulos(Id) ON DELETE CASCADE 
                     );";
 
@@ -198,6 +217,8 @@ namespace ControlInventario.Vistas
                     MessageBoxIcon.Error
                 );
             }
+
+            CargarArticulos();
         }
 
         private void BtnNuevaCategoria_Click(object sender, EventArgs e)
@@ -211,10 +232,100 @@ namespace ControlInventario.Vistas
 
         }
 
+        private int ObtenerCategoriaId()
+        {
+            string texto = TbArticulos.SelectedTab?.Text;
+
+            switch (texto)
+            {
+                case "Laptops": return 1;
+                case "Celulares": return 2;
+                case "Computadoras": return 3;
+                case "Monitores": return 4;
+                case "Accesorios": return 5;
+                default: return 0;
+            }
+        }
+
+        private string ObtenerCategoriaNombre()
+        {
+            string texto = TbArticulos.SelectedTab?.Text;
+
+            switch (texto)
+            {
+                case "Laptops": return "Laptops";
+                case "Computadoras": return "Computadoras";
+                case "Celulares": return "Celulares";
+                case "Monitores": return "Monitores";
+                case "Accesorios": return "Accesorios";
+                default: return string.Empty;
+            }
+        }
+
+
         private void BtnAgregarArticulo_Click(object sender, EventArgs e)
         {
-            VistaArticulos articulos = new VistaArticulos();
-            articulos.ShowDialog();
+            int categoriaId = ObtenerCategoriaId();
+            string categoria = ObtenerCategoriaNombre();
+            string texto = TbArticulos.SelectedTab?.Text;
+
+            using (var articulos = new VistaArticulos(categoriaId, categoria))
+            {
+                // Configuración inicial
+                articulos.CbDesktop.Visible = false;
+                articulos.CbCelulares.Visible = false;
+                articulos.CbMonitores.Visible = false;
+                articulos.GpCaracteristicas.Visible = true;
+
+                switch (texto)
+                {
+                    case "Laptops":
+                    case "Computadoras":
+                        articulos.CbDesktop.Visible = true;
+                        break;
+
+                    case "Celulares":
+                        articulos.CbCelulares.Visible = true;
+                        break;
+
+                    case "Monitores":
+                        articulos.CbMonitores.Visible = true;
+                        break;
+
+                    case "Accesorios":
+                        articulos.Size = new Size(828, 510);
+                        articulos.GpCaracteristicas.Visible = false;
+                        break;
+
+                    default:
+                        articulos.Size = new Size(828, 607);
+                        break;
+                }
+
+                // Mostrar el formulario de alta
+                if (articulos.ShowDialog() == DialogResult.OK)
+                {
+                    // Refrescar la lista activa al volver
+                    CargarArticulos();
+                }
+            }
+        }
+
+        public void CargarArticulos()
+        {
+            var articulos = ArticuloRepository.ListarArticulos();
+
+            // Detectar el tab activo
+            if (TbArticulos.SelectedTab == TabLaptops)
+                ClassHelper.RefrescarListView(LstLaptop, articulos);
+            else if (TbArticulos.SelectedTab == TabCelulares)
+                ClassHelper.RefrescarListView(LstCelulares, articulos);
+            else if (TbArticulos.SelectedTab == TabPc)
+                ClassHelper.RefrescarListView(LstComputadoras, articulos);
+            else if (TbArticulos.SelectedTab == TabMonitores)
+                ClassHelper.RefrescarListView(LstMonitores, articulos);
+            else if (TbArticulos.SelectedTab == TabAccesorios)
+                ClassHelper.RefrescarListView(LstAccesorios, articulos);
         }
 
         private void NuAccionInventario_ValueChanged(object sender, EventArgs e)

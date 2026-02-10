@@ -31,9 +31,9 @@
             this.TxtCodigo = new System.Windows.Forms.TextBox();
             this.CbDesktop = new System.Windows.Forms.ComboBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.DtFechaFinGarantía = new System.Windows.Forms.DateTimePicker();
-            this.DtFechaBaja = new System.Windows.Forms.DateTimePicker();
-            this.DtFechaAdquisición = new System.Windows.Forms.DateTimePicker();
+            this.DtpFechaFinGarantia = new System.Windows.Forms.DateTimePicker();
+            this.DtpFechaBaja = new System.Windows.Forms.DateTimePicker();
+            this.DtpFechaAdquisicion = new System.Windows.Forms.DateTimePicker();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -46,11 +46,13 @@
             this.TxtSerie = new System.Windows.Forms.TextBox();
             this.TxtModelo = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.TxtDniUsuarioAnterior = new System.Windows.Forms.TextBox();
             this.TxtDniUsuarioActual = new System.Windows.Forms.TextBox();
-            this.TxtAreaUsuarioActual = new System.Windows.Forms.TextBox();
+            this.TxtCargoUsuarioAnterior = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
             this.TxtCargoUsuarioActual = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
+            this.TxtNombreUsuarioAnterior = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.TxtNombreUsuarioActual = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
@@ -79,31 +81,31 @@
             this.TxtPrecio = new System.Windows.Forms.TextBox();
             this.label24 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.PbComprobanteCompra = new System.Windows.Forms.PictureBox();
+            this.PbFotoArticulo = new System.Windows.Forms.PictureBox();
             this.BtnAgregarComprobante = new System.Windows.Forms.Button();
             this.BtnAgregarImagen = new System.Windows.Forms.Button();
             this.TxtRutaComprobante = new System.Windows.Forms.TextBox();
             this.label26 = new System.Windows.Forms.Label();
             this.TxtDireccionImagen = new System.Windows.Forms.TextBox();
             this.label23 = new System.Windows.Forms.Label();
-            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.GpCaracteristicas = new System.Windows.Forms.GroupBox();
+            this.FlCaracteristicas = new System.Windows.Forms.FlowLayoutPanel();
             this.BtnEliminar = new System.Windows.Forms.Button();
             this.btnAgregar = new System.Windows.Forms.Button();
-            this.PbComprobanteCompra = new System.Windows.Forms.PictureBox();
-            this.PbFotoArticulo = new System.Windows.Forms.PictureBox();
-            this.TxtUbicacion = new System.Windows.Forms.TextBox();
-            this.TxtNombreUsuarioAnterior = new System.Windows.Forms.TextBox();
-            this.TxtCargoUsuarioAnterior = new System.Windows.Forms.TextBox();
-            this.TxtAreaUsuarioAnterior = new System.Windows.Forms.TextBox();
-            this.TxtDniUsuarioAnterior = new System.Windows.Forms.TextBox();
-            this.FlCaracteristicas = new System.Windows.Forms.FlowLayoutPanel();
+            this.BtnGuardar = new System.Windows.Forms.Button();
+            this.BtnCancelar = new System.Windows.Forms.Button();
+            this.CbAreaUsuarioActual = new System.Windows.Forms.ComboBox();
+            this.CbAreaUsuarioAnterior = new System.Windows.Forms.ComboBox();
+            this.CbUbicacion = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.GpUsos.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
-            this.groupBox6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PbComprobanteCompra)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PbFotoArticulo)).BeginInit();
+            this.GpCaracteristicas.SuspendLayout();
             this.SuspendLayout();
             // 
             // TxtCodigo
@@ -135,12 +137,13 @@
             this.CbDesktop.Size = new System.Drawing.Size(100, 21);
             this.CbDesktop.TabIndex = 4;
             this.CbDesktop.Text = "SELECCIONAR";
+            this.CbDesktop.TextChanged += new System.EventHandler(this.CbDesktop_TextChanged);
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.DtFechaFinGarantía);
-            this.groupBox1.Controls.Add(this.DtFechaBaja);
-            this.groupBox1.Controls.Add(this.DtFechaAdquisición);
+            this.groupBox1.Controls.Add(this.DtpFechaFinGarantia);
+            this.groupBox1.Controls.Add(this.DtpFechaBaja);
+            this.groupBox1.Controls.Add(this.DtpFechaAdquisicion);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label2);
@@ -161,29 +164,29 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Información";
             // 
-            // DtFechaFinGarantía
+            // DtpFechaFinGarantia
             // 
-            this.DtFechaFinGarantía.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.DtFechaFinGarantía.Location = new System.Drawing.Point(244, 102);
-            this.DtFechaFinGarantía.Name = "DtFechaFinGarantía";
-            this.DtFechaFinGarantía.Size = new System.Drawing.Size(100, 20);
-            this.DtFechaFinGarantía.TabIndex = 7;
+            this.DtpFechaFinGarantia.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.DtpFechaFinGarantia.Location = new System.Drawing.Point(244, 102);
+            this.DtpFechaFinGarantia.Name = "DtpFechaFinGarantia";
+            this.DtpFechaFinGarantia.Size = new System.Drawing.Size(100, 20);
+            this.DtpFechaFinGarantia.TabIndex = 7;
             // 
-            // DtFechaBaja
+            // DtpFechaBaja
             // 
-            this.DtFechaBaja.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.DtFechaBaja.Location = new System.Drawing.Point(127, 102);
-            this.DtFechaBaja.Name = "DtFechaBaja";
-            this.DtFechaBaja.Size = new System.Drawing.Size(100, 20);
-            this.DtFechaBaja.TabIndex = 6;
+            this.DtpFechaBaja.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.DtpFechaBaja.Location = new System.Drawing.Point(127, 102);
+            this.DtpFechaBaja.Name = "DtpFechaBaja";
+            this.DtpFechaBaja.Size = new System.Drawing.Size(100, 20);
+            this.DtpFechaBaja.TabIndex = 6;
             // 
-            // DtFechaAdquisición
+            // DtpFechaAdquisicion
             // 
-            this.DtFechaAdquisición.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.DtFechaAdquisición.Location = new System.Drawing.Point(9, 102);
-            this.DtFechaAdquisición.Name = "DtFechaAdquisición";
-            this.DtFechaAdquisición.Size = new System.Drawing.Size(100, 20);
-            this.DtFechaAdquisición.TabIndex = 5;
+            this.DtpFechaAdquisicion.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.DtpFechaAdquisicion.Location = new System.Drawing.Point(9, 102);
+            this.DtpFechaAdquisicion.Name = "DtpFechaAdquisicion";
+            this.DtpFechaAdquisicion.Size = new System.Drawing.Size(100, 20);
+            this.DtpFechaAdquisicion.TabIndex = 5;
             // 
             // label4
             // 
@@ -267,6 +270,7 @@
             this.CbMonitores.TabIndex = 4;
             this.CbMonitores.Text = "SELECCIONAR";
             this.CbMonitores.Visible = false;
+            this.CbMonitores.TextChanged += new System.EventHandler(this.CbMonitores_TextChanged);
             // 
             // CbCelulares
             // 
@@ -289,6 +293,7 @@
             this.CbCelulares.TabIndex = 4;
             this.CbCelulares.Text = "SELECCIONAR";
             this.CbCelulares.Visible = false;
+            this.CbCelulares.TextChanged += new System.EventHandler(this.CbCelulares_TextChanged);
             // 
             // TxtSerie
             // 
@@ -306,10 +311,10 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.CbAreaUsuarioAnterior);
+            this.groupBox2.Controls.Add(this.CbAreaUsuarioActual);
             this.groupBox2.Controls.Add(this.TxtDniUsuarioAnterior);
-            this.groupBox2.Controls.Add(this.TxtAreaUsuarioAnterior);
             this.groupBox2.Controls.Add(this.TxtDniUsuarioActual);
-            this.groupBox2.Controls.Add(this.TxtAreaUsuarioActual);
             this.groupBox2.Controls.Add(this.TxtCargoUsuarioAnterior);
             this.groupBox2.Controls.Add(this.label14);
             this.groupBox2.Controls.Add(this.TxtCargoUsuarioActual);
@@ -329,6 +334,14 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "groupBox1";
             // 
+            // TxtDniUsuarioAnterior
+            // 
+            this.TxtDniUsuarioAnterior.Enabled = false;
+            this.TxtDniUsuarioAnterior.Location = new System.Drawing.Point(9, 92);
+            this.TxtDniUsuarioAnterior.Name = "TxtDniUsuarioAnterior";
+            this.TxtDniUsuarioAnterior.Size = new System.Drawing.Size(100, 20);
+            this.TxtDniUsuarioAnterior.TabIndex = 12;
+            // 
             // TxtDniUsuarioActual
             // 
             this.TxtDniUsuarioActual.Location = new System.Drawing.Point(9, 43);
@@ -336,13 +349,13 @@
             this.TxtDniUsuarioActual.Size = new System.Drawing.Size(100, 20);
             this.TxtDniUsuarioActual.TabIndex = 8;
             // 
-            // TxtAreaUsuarioActual
+            // TxtCargoUsuarioAnterior
             // 
-            this.TxtAreaUsuarioActual.Enabled = false;
-            this.TxtAreaUsuarioActual.Location = new System.Drawing.Point(244, 43);
-            this.TxtAreaUsuarioActual.Name = "TxtAreaUsuarioActual";
-            this.TxtAreaUsuarioActual.Size = new System.Drawing.Size(100, 20);
-            this.TxtAreaUsuarioActual.TabIndex = 10;
+            this.TxtCargoUsuarioAnterior.Enabled = false;
+            this.TxtCargoUsuarioAnterior.Location = new System.Drawing.Point(361, 92);
+            this.TxtCargoUsuarioAnterior.Name = "TxtCargoUsuarioAnterior";
+            this.TxtCargoUsuarioAnterior.Size = new System.Drawing.Size(100, 20);
+            this.TxtCargoUsuarioAnterior.TabIndex = 15;
             // 
             // label14
             // 
@@ -369,6 +382,14 @@
             this.label11.Size = new System.Drawing.Size(101, 13);
             this.label11.TabIndex = 7;
             this.label11.Text = "Área usuario actual:";
+            // 
+            // TxtNombreUsuarioAnterior
+            // 
+            this.TxtNombreUsuarioAnterior.Enabled = false;
+            this.TxtNombreUsuarioAnterior.Location = new System.Drawing.Point(127, 92);
+            this.TxtNombreUsuarioAnterior.Name = "TxtNombreUsuarioAnterior";
+            this.TxtNombreUsuarioAnterior.Size = new System.Drawing.Size(100, 20);
+            this.TxtNombreUsuarioAnterior.TabIndex = 13;
             // 
             // label13
             // 
@@ -434,8 +455,8 @@
             // 
             // GpUsos
             // 
+            this.GpUsos.Controls.Add(this.CbUbicacion);
             this.GpUsos.Controls.Add(this.TxtObservaciones);
-            this.GpUsos.Controls.Add(this.TxtUbicacion);
             this.GpUsos.Controls.Add(this.TxtActivoFijo);
             this.GpUsos.Controls.Add(this.label16);
             this.GpUsos.Controls.Add(this.label17);
@@ -526,6 +547,7 @@
             this.CbCondicion.Size = new System.Drawing.Size(100, 21);
             this.CbCondicion.TabIndex = 19;
             this.CbCondicion.Text = "SELECCIONAR";
+            this.CbCondicion.TextChanged += new System.EventHandler(this.CbCondicion_TextChanged);
             // 
             // CbEstado
             // 
@@ -540,6 +562,7 @@
             this.CbEstado.Size = new System.Drawing.Size(100, 21);
             this.CbEstado.TabIndex = 16;
             this.CbEstado.Text = "SELECCIONAR";
+            this.CbEstado.TextChanged += new System.EventHandler(this.CbEstado_TextChanged);
             // 
             // TxtRuc
             // 
@@ -577,6 +600,7 @@
             // 
             // BtnVerRUCs
             // 
+            this.BtnVerRUCs.Cursor = System.Windows.Forms.Cursors.Hand;
             this.BtnVerRUCs.Location = new System.Drawing.Point(219, 47);
             this.BtnVerRUCs.Name = "BtnVerRUCs";
             this.BtnVerRUCs.Size = new System.Drawing.Size(73, 23);
@@ -586,6 +610,7 @@
             // 
             // BtnAgregarRUC
             // 
+            this.BtnAgregarRUC.Cursor = System.Windows.Forms.Cursors.Hand;
             this.BtnAgregarRUC.Location = new System.Drawing.Point(140, 47);
             this.BtnAgregarRUC.Name = "BtnAgregarRUC";
             this.BtnAgregarRUC.Size = new System.Drawing.Size(73, 23);
@@ -652,8 +677,29 @@
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Infirmación adicional";
             // 
+            // PbComprobanteCompra
+            // 
+            this.PbComprobanteCompra.Location = new System.Drawing.Point(155, 118);
+            this.PbComprobanteCompra.Name = "PbComprobanteCompra";
+            this.PbComprobanteCompra.Size = new System.Drawing.Size(145, 143);
+            this.PbComprobanteCompra.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.PbComprobanteCompra.TabIndex = 21;
+            this.PbComprobanteCompra.TabStop = false;
+            this.PbComprobanteCompra.Tag = "Comprobante";
+            // 
+            // PbFotoArticulo
+            // 
+            this.PbFotoArticulo.Location = new System.Drawing.Point(7, 118);
+            this.PbFotoArticulo.Name = "PbFotoArticulo";
+            this.PbFotoArticulo.Size = new System.Drawing.Size(142, 143);
+            this.PbFotoArticulo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.PbFotoArticulo.TabIndex = 21;
+            this.PbFotoArticulo.TabStop = false;
+            this.PbFotoArticulo.Tag = "ImagenArticulo";
+            // 
             // BtnAgregarComprobante
             // 
+            this.BtnAgregarComprobante.Cursor = System.Windows.Forms.Cursors.Hand;
             this.BtnAgregarComprobante.Location = new System.Drawing.Point(271, 42);
             this.BtnAgregarComprobante.Name = "BtnAgregarComprobante";
             this.BtnAgregarComprobante.Size = new System.Drawing.Size(29, 23);
@@ -663,6 +709,7 @@
             // 
             // BtnAgregarImagen
             // 
+            this.BtnAgregarImagen.Cursor = System.Windows.Forms.Cursors.Hand;
             this.BtnAgregarImagen.Location = new System.Drawing.Point(271, 90);
             this.BtnAgregarImagen.Name = "BtnAgregarImagen";
             this.BtnAgregarImagen.Size = new System.Drawing.Size(29, 23);
@@ -704,29 +751,40 @@
             this.label23.TabIndex = 9;
             this.label23.Text = "Dirección de imagen:";
             // 
-            // groupBox6
+            // GpCaracteristicas
             // 
-            this.groupBox6.Controls.Add(this.FlCaracteristicas);
-            this.groupBox6.Controls.Add(this.BtnEliminar);
-            this.groupBox6.Controls.Add(this.btnAgregar);
-            this.groupBox6.Location = new System.Drawing.Point(12, 435);
-            this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(788, 84);
-            this.groupBox6.TabIndex = 3;
-            this.groupBox6.TabStop = false;
-            this.groupBox6.Text = "Caracteristicas";
+            this.GpCaracteristicas.Controls.Add(this.FlCaracteristicas);
+            this.GpCaracteristicas.Controls.Add(this.BtnEliminar);
+            this.GpCaracteristicas.Controls.Add(this.btnAgregar);
+            this.GpCaracteristicas.Location = new System.Drawing.Point(12, 472);
+            this.GpCaracteristicas.Name = "GpCaracteristicas";
+            this.GpCaracteristicas.Size = new System.Drawing.Size(788, 84);
+            this.GpCaracteristicas.TabIndex = 3;
+            this.GpCaracteristicas.TabStop = false;
+            this.GpCaracteristicas.Text = "Caracteristicas";
+            // 
+            // FlCaracteristicas
+            // 
+            this.FlCaracteristicas.AutoScroll = true;
+            this.FlCaracteristicas.Location = new System.Drawing.Point(10, 19);
+            this.FlCaracteristicas.Name = "FlCaracteristicas";
+            this.FlCaracteristicas.Size = new System.Drawing.Size(685, 59);
+            this.FlCaracteristicas.TabIndex = 32;
             // 
             // BtnEliminar
             // 
+            this.BtnEliminar.Cursor = System.Windows.Forms.Cursors.Hand;
             this.BtnEliminar.Location = new System.Drawing.Point(707, 48);
             this.BtnEliminar.Name = "BtnEliminar";
             this.BtnEliminar.Size = new System.Drawing.Size(75, 23);
             this.BtnEliminar.TabIndex = 31;
             this.BtnEliminar.Text = "Eliminar";
             this.BtnEliminar.UseVisualStyleBackColor = true;
+            this.BtnEliminar.Click += new System.EventHandler(this.btnEliminar_Click);
             // 
             // btnAgregar
             // 
+            this.btnAgregar.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnAgregar.Location = new System.Drawing.Point(707, 19);
             this.btnAgregar.Name = "btnAgregar";
             this.btnAgregar.Size = new System.Drawing.Size(75, 23);
@@ -735,84 +793,67 @@
             this.btnAgregar.UseVisualStyleBackColor = true;
             this.btnAgregar.Click += new System.EventHandler(this.btnAgregar_Click);
             // 
-            // PbComprobanteCompra
+            // BtnGuardar
             // 
-            this.PbComprobanteCompra.Location = new System.Drawing.Point(155, 118);
-            this.PbComprobanteCompra.Name = "PbComprobanteCompra";
-            this.PbComprobanteCompra.Size = new System.Drawing.Size(145, 143);
-            this.PbComprobanteCompra.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.PbComprobanteCompra.TabIndex = 21;
-            this.PbComprobanteCompra.TabStop = false;
-            this.PbComprobanteCompra.Tag = "Comprobante";
+            this.BtnGuardar.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BtnGuardar.Location = new System.Drawing.Point(314, 439);
+            this.BtnGuardar.Name = "BtnGuardar";
+            this.BtnGuardar.Size = new System.Drawing.Size(75, 23);
+            this.BtnGuardar.TabIndex = 4;
+            this.BtnGuardar.Text = "Guardar";
+            this.BtnGuardar.UseVisualStyleBackColor = true;
+            this.BtnGuardar.Click += new System.EventHandler(this.BtnGuardar_Click);
             // 
-            // PbFotoArticulo
+            // BtnCancelar
             // 
-            this.PbFotoArticulo.Location = new System.Drawing.Point(7, 118);
-            this.PbFotoArticulo.Name = "PbFotoArticulo";
-            this.PbFotoArticulo.Size = new System.Drawing.Size(142, 143);
-            this.PbFotoArticulo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.PbFotoArticulo.TabIndex = 21;
-            this.PbFotoArticulo.TabStop = false;
-            this.PbFotoArticulo.Tag = "ImagenArticulo";
+            this.BtnCancelar.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BtnCancelar.Location = new System.Drawing.Point(411, 439);
+            this.BtnCancelar.Name = "BtnCancelar";
+            this.BtnCancelar.Size = new System.Drawing.Size(75, 23);
+            this.BtnCancelar.TabIndex = 4;
+            this.BtnCancelar.Text = "Cancelar";
+            this.BtnCancelar.UseVisualStyleBackColor = true;
+            this.BtnCancelar.Click += new System.EventHandler(this.BtnCancelar_Click);
             // 
-            // TxtUbicacion
+            // CbAreaUsuarioActual
             // 
-            this.TxtUbicacion.Enabled = false;
-            this.TxtUbicacion.Location = new System.Drawing.Point(127, 41);
-            this.TxtUbicacion.Name = "TxtUbicacion";
-            this.TxtUbicacion.Size = new System.Drawing.Size(100, 20);
-            this.TxtUbicacion.TabIndex = 17;
+            this.CbAreaUsuarioActual.FormattingEnabled = true;
+            this.CbAreaUsuarioActual.Location = new System.Drawing.Point(244, 42);
+            this.CbAreaUsuarioActual.Name = "CbAreaUsuarioActual";
+            this.CbAreaUsuarioActual.Size = new System.Drawing.Size(100, 21);
+            this.CbAreaUsuarioActual.TabIndex = 5;
             // 
-            // TxtNombreUsuarioAnterior
+            // CbAreaUsuarioAnterior
             // 
-            this.TxtNombreUsuarioAnterior.Enabled = false;
-            this.TxtNombreUsuarioAnterior.Location = new System.Drawing.Point(127, 92);
-            this.TxtNombreUsuarioAnterior.Name = "TxtNombreUsuarioAnterior";
-            this.TxtNombreUsuarioAnterior.Size = new System.Drawing.Size(100, 20);
-            this.TxtNombreUsuarioAnterior.TabIndex = 13;
+            this.CbAreaUsuarioAnterior.FormattingEnabled = true;
+            this.CbAreaUsuarioAnterior.Location = new System.Drawing.Point(243, 92);
+            this.CbAreaUsuarioAnterior.Name = "CbAreaUsuarioAnterior";
+            this.CbAreaUsuarioAnterior.Size = new System.Drawing.Size(100, 21);
+            this.CbAreaUsuarioAnterior.TabIndex = 5;
             // 
-            // TxtCargoUsuarioAnterior
+            // CbUbicacion
             // 
-            this.TxtCargoUsuarioAnterior.Enabled = false;
-            this.TxtCargoUsuarioAnterior.Location = new System.Drawing.Point(361, 92);
-            this.TxtCargoUsuarioAnterior.Name = "TxtCargoUsuarioAnterior";
-            this.TxtCargoUsuarioAnterior.Size = new System.Drawing.Size(100, 20);
-            this.TxtCargoUsuarioAnterior.TabIndex = 15;
-            // 
-            // TxtAreaUsuarioAnterior
-            // 
-            this.TxtAreaUsuarioAnterior.Enabled = false;
-            this.TxtAreaUsuarioAnterior.Location = new System.Drawing.Point(244, 92);
-            this.TxtAreaUsuarioAnterior.Name = "TxtAreaUsuarioAnterior";
-            this.TxtAreaUsuarioAnterior.Size = new System.Drawing.Size(100, 20);
-            this.TxtAreaUsuarioAnterior.TabIndex = 14;
-            // 
-            // TxtDniUsuarioAnterior
-            // 
-            this.TxtDniUsuarioAnterior.Location = new System.Drawing.Point(9, 92);
-            this.TxtDniUsuarioAnterior.Name = "TxtDniUsuarioAnterior";
-            this.TxtDniUsuarioAnterior.Size = new System.Drawing.Size(100, 20);
-            this.TxtDniUsuarioAnterior.TabIndex = 12;
-            // 
-            // FlCaracteristicas
-            // 
-            this.FlCaracteristicas.Location = new System.Drawing.Point(0, 13);
-            this.FlCaracteristicas.Name = "FlCaracteristicas";
-            this.FlCaracteristicas.Size = new System.Drawing.Size(701, 71);
-            this.FlCaracteristicas.TabIndex = 32;
+            this.CbUbicacion.FormattingEnabled = true;
+            this.CbUbicacion.Location = new System.Drawing.Point(127, 41);
+            this.CbUbicacion.Name = "CbUbicacion";
+            this.CbUbicacion.Size = new System.Drawing.Size(100, 21);
+            this.CbUbicacion.TabIndex = 5;
             // 
             // VistaArticulos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(812, 531);
-            this.Controls.Add(this.groupBox6);
+            this.ClientSize = new System.Drawing.Size(812, 568);
+            this.Controls.Add(this.BtnCancelar);
+            this.Controls.Add(this.BtnGuardar);
+            this.Controls.Add(this.GpCaracteristicas);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.GpUsos);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "VistaArticulos";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -827,9 +868,9 @@
             this.groupBox4.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
-            this.groupBox6.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PbComprobanteCompra)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PbFotoArticulo)).EndInit();
+            this.GpCaracteristicas.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -837,25 +878,21 @@
         #endregion
 
         private System.Windows.Forms.TextBox TxtCodigo;
-        private System.Windows.Forms.ComboBox CbDesktop;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox CbCelulares;
         private System.Windows.Forms.TextBox TxtSerie;
         private System.Windows.Forms.TextBox TxtModelo;
-        private System.Windows.Forms.ComboBox CbMonitores;
-        private System.Windows.Forms.DateTimePicker DtFechaAdquisición;
+        private System.Windows.Forms.DateTimePicker DtpFechaAdquisicion;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.DateTimePicker DtFechaFinGarantía;
-        private System.Windows.Forms.DateTimePicker DtFechaBaja;
+        private System.Windows.Forms.DateTimePicker DtpFechaFinGarantia;
+        private System.Windows.Forms.DateTimePicker DtpFechaBaja;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.TextBox TxtDniUsuarioActual;
-        private System.Windows.Forms.TextBox TxtAreaUsuarioActual;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.TextBox TxtCargoUsuarioActual;
         private System.Windows.Forms.Label label11;
@@ -895,14 +932,20 @@
         private System.Windows.Forms.TextBox TxtRutaComprobante;
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.PictureBox PbComprobanteCompra;
-        private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.Button btnAgregar;
         private System.Windows.Forms.Button BtnEliminar;
-        private System.Windows.Forms.TextBox TxtUbicacion;
         private System.Windows.Forms.TextBox TxtDniUsuarioAnterior;
-        private System.Windows.Forms.TextBox TxtAreaUsuarioAnterior;
         private System.Windows.Forms.TextBox TxtCargoUsuarioAnterior;
         private System.Windows.Forms.TextBox TxtNombreUsuarioAnterior;
         public System.Windows.Forms.FlowLayoutPanel FlCaracteristicas;
+        public System.Windows.Forms.ComboBox CbDesktop;
+        public System.Windows.Forms.ComboBox CbCelulares;
+        public System.Windows.Forms.ComboBox CbMonitores;
+        public System.Windows.Forms.GroupBox GpCaracteristicas;
+        private System.Windows.Forms.Button BtnGuardar;
+        private System.Windows.Forms.Button BtnCancelar;
+        private System.Windows.Forms.ComboBox CbAreaUsuarioAnterior;
+        private System.Windows.Forms.ComboBox CbAreaUsuarioActual;
+        private System.Windows.Forms.ComboBox CbUbicacion;
     }
 }

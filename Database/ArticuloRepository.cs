@@ -7,7 +7,7 @@ namespace ControlInventario.Database
 {
     public class ArticuloRepository
     {
-        public void InsertarArticulo(Articulos art, SQLiteConnection con)
+        public static void InsertarArticulo(Articulos art, SQLiteConnection con)
         {
             string query = @"
             INSERT INTO Articulos(
@@ -16,50 +16,80 @@ namespace ControlInventario.Database
                 Serie,
                 Marca,
                 FechaAdquisicion,
-                UsuarioActual,
-                UsuarioAnterior,
-                IdArea,
-                Area,
-                Cargo,
+                FechaBaja,
+                FechaFinGarantia,
+
+                DniUsuarioActual,
+                NombreUsuarioActual,
+                IdAreaUsuarioActual,
+                AreaUsuarioActual,
+                CargoUsuarioActual,
+
+                DniUsuarioAnterior,
+                NombreUsuarioAnterior,
+                IdAreaUsuarioAnterior,
+                AreaUsuarioAnterior,
+                CargoUsuarioAnterior,
+
                 IdEstado,
                 Estado,
                 IdUbicacion,
                 Ubicacion,
-                FechaBaja,
+                IdCondicion,
+                Condicion,
+                ActivoFijo,
+
                 Observacion,
                 Foto,
-                CategoriaId,
-                Categoria,
+                Comprobante,
+
+                RucProveedor,
+                Proveedor,
                 PrecioAdquisicion,
                 VidaUtilMeses,
-                Proveedor,
-                Condicion,
-                ActivoFijo
+
+                CategoriaId,
+                Categoria
             ) VALUES (
                 @Codigo,
                 @Modelo,
                 @Serie,
                 @Marca,
                 @FechaAdquisicion,
-                @UsuarioActual,
-                @UsuarioAnterior,
-                @IdArea,
-                @Area,
-                @Cargo,
+                @FechaBaja,
+                @FechaFinGarantia,
+
+                @DniUsuarioActual,
+                @NombreUsuarioActual,
+                @IdAreaUsuarioActual,
+                @AreaUsuarioActual,
+                @CargoUsuarioActual,
+
+                @DniUsuarioAnterior,
+                @NombreUsuarioAnterior,
+                @IdAreaUsuarioAnterior,
+                @AreaUsuarioAnterior,
+                @CargoUsuarioAnterior,
+
                 @IdEstado,
                 @Estado,
                 @IdUbicacion,
                 @Ubicacion,
-                @FechaBaja,
+                @IdCondicion,
+                @Condicion,
+                @ActivoFijo,
+
                 @Observacion,
                 @Foto,
-                @CategoriaId,
-                @Categoria,
+                @Comprobante,
+
+                @RucProveedor,
+                @Proveedor,
                 @PrecioAdquisicion,
                 @VidaUtilMeses,
-                @Proveedor,
-                @Condicion,
-                @ActivoFijo
+
+                @CategoriaId,
+                @Categoria
             );";
 
             using (var cmd = new SQLiteCommand(query, con))
@@ -69,25 +99,40 @@ namespace ControlInventario.Database
                 cmd.Parameters.AddWithValue("@Serie", art.Serie);
                 cmd.Parameters.AddWithValue("@Marca", art.Marca);
                 cmd.Parameters.AddWithValue("@FechaAdquisicion", art.FechaAdquisicion);
-                cmd.Parameters.AddWithValue("@UsuarioActual", art.UsuarioActual);
-                cmd.Parameters.AddWithValue("@UsuarioAnterior", art.UsuarioAnterior);
-                cmd.Parameters.AddWithValue("@IdArea", art.IdArea);
-                cmd.Parameters.AddWithValue("@Area", art.Area);
-                cmd.Parameters.AddWithValue("@Cargo", art.Cargo);
+                cmd.Parameters.AddWithValue("@FechaBaja", art.FechaBaja ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@FechaFinGarantia", art.FechaFinGarantia ?? (object)DBNull.Value);
+
+                cmd.Parameters.AddWithValue("@DniUsuarioActual", art.DniUsuarioActual);
+                cmd.Parameters.AddWithValue("@NombreUsuarioActual", art.NombreUsuarioActual);
+                cmd.Parameters.AddWithValue("@IdAreaUsuarioActual", art.IdAreaUsuarioActual);
+                cmd.Parameters.AddWithValue("@AreaUsuarioActual", art.AreaUsuarioActual);
+                cmd.Parameters.AddWithValue("@CargoUsuarioActual", art.CargoUsuarioActual);
+
+                cmd.Parameters.AddWithValue("@DniUsuarioAnterior", art.DniUsuarioAnterior);
+                cmd.Parameters.AddWithValue("@NombreUsuarioAnterior", art.NombreUsuarioAnterior);
+                cmd.Parameters.AddWithValue("@IdAreaUsuarioAnterior", art.IdAreaUsuarioAnterior);
+                cmd.Parameters.AddWithValue("@AreaUsuarioAnterior", art.AreaUsuarioAnterior);
+                cmd.Parameters.AddWithValue("@CargoUsuarioAnterior", art.CargoUsuarioAnterior);
+
                 cmd.Parameters.AddWithValue("@IdEstado", art.IdEstado);
                 cmd.Parameters.AddWithValue("@Estado", art.Estado);
                 cmd.Parameters.AddWithValue("@IdUbicacion", art.IdUbicacion);
                 cmd.Parameters.AddWithValue("@Ubicacion", art.Ubicacion);
-                cmd.Parameters.AddWithValue("@FechaBaja", art.FechaBaja.HasValue ? art.FechaBaja.Value : (object)DBNull.Value);
-                cmd.Parameters.AddWithValue("@Observacion", art.Observacion);
-                cmd.Parameters.AddWithValue("@Foto", art.Foto ?? (object)DBNull.Value);
-                cmd.Parameters.AddWithValue("@CategoriaId", art.CategoriaId);
-                cmd.Parameters.AddWithValue("@Categoria", art.Categoria);
-                cmd.Parameters.AddWithValue("@PrecioAdquisicion", art.PrecioAdquisicion.HasValue ? art.PrecioAdquisicion.Value : (object)DBNull.Value);
-                cmd.Parameters.AddWithValue("@VidaUtilMeses", art.VidaUtilMeses.HasValue ? art.VidaUtilMeses.Value : (object)DBNull.Value);
-                cmd.Parameters.AddWithValue("@Proveedor", art.Proveedor);
+                cmd.Parameters.AddWithValue("@IdCondicion", art.IdCondicion);
                 cmd.Parameters.AddWithValue("@Condicion", art.Condicion);
                 cmd.Parameters.AddWithValue("@ActivoFijo", art.ActivoFijo);
+
+                cmd.Parameters.AddWithValue("@Observacion", art.Observacion);
+                cmd.Parameters.AddWithValue("@Foto", art.Foto ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@Comprobante", art.Comprobante ?? (object)DBNull.Value);
+
+                cmd.Parameters.AddWithValue("@RucProveedor", art.RucProveedor);
+                cmd.Parameters.AddWithValue("@Proveedor", art.Proveedor);
+                cmd.Parameters.AddWithValue("@PrecioAdquisicion", art.PrecioAdquisicion ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@VidaUtilMeses", art.VidaUtilMeses ?? (object)DBNull.Value);
+
+                cmd.Parameters.AddWithValue("@CategoriaId", art.CategoriaId);
+                cmd.Parameters.AddWithValue("@Categoria", art.Categoria);
                 cmd.ExecuteNonQuery();
             }
 
@@ -113,30 +158,42 @@ namespace ControlInventario.Database
                 con.Open();
                 string query = @"
             UPDATE Articulos SET
-                Codigo = @Codigo,
-                Modelo = @Modelo,
-                Serie = @Serie,
-                Marca = @Marca,
-                FechaAdquisicion = @FechaAdquisicion,
-                UsuarioActual = @UsuarioActual,
-                UsuarioAnterior = @UsuarioAnterior,
-                IdArea = @IdArea,
-                Area = @Area,
-                Cargo = @Cargo,
-                IdEstado = @IdEstado,
-                Estado = @Estado,
-                IdUbicacion = @IdUbicacion,
-                Ubicacion = @Ubicacion,
-                FechaBaja = @FechaBaja,
-                Observacion = @Observacion,
-                Foto = @Foto,
-                CategoriaId = @CategoriaId,
-                Categoria = @Categoria,
-                PrecioAdquisicion = @PrecioAdquisicion,
-                VidaUtilMeses = @VidaUtilMeses,
-                Proveedor = @Proveedor,
-                Condicion = @Condicion,
-                ActivoFijo = @ActivoFijo
+                    Codigo = @Codigo,
+                    Modelo = @Modelo,
+                    Serie = @Serie,
+                    Marca = @Marca,
+                    FechaAdquisicion = @FechaAdquisicion,
+                    FechaBaja = @FechaBaja,
+                    FechaFinGarantia = @FechaFinGarantia,
+
+                    DniUsuarioActual = @DniUsuarioActual,
+                    UsuarioActual = @NombreUsuarioActual,
+                    IdAreaUsuarioActual = @IdAreaUsuarioActual,
+                    AreaUsuarioActual = @AreaUsuarioActual,
+                    CargoUsuarioActual = @CargoUsuarioActual,
+
+                    DniUsuarioAnterior = @DniUsuarioAnterior,
+                    UsuarioAnterior = @NombreUsuarioAnterior,
+                    IdAreaUsuarioAnterior = @IdAreaUsuarioAnterior,
+                    AreaUsuarioAnterior = @AreaUsuarioAnterior,
+                    CargoUsuarioAnterior = @CargoUsuarioAnterior,
+
+                    IdEstado = @IdEstado,
+                    Estado = @Estado,
+                    IdUbicacion = @IdUbicacion,
+                    Ubicacion = @Ubicacion,
+                    IdCondicion = @IdCondicion,
+                    Condicion = @Condicion,
+                    ActivoFijo = @ActivoFijo,
+
+                    Observacion = @Observacion,
+                    Foto = @Foto,
+                    Comprobante = @Comprobante,
+
+                    RucProveedor = @RucProveedor,
+                    Proveedor = @Proveedor,
+                    PrecioAdquisicion = @PrecioAdquisicion,
+                    VidaUtilMeses = @VidaUtilMeses
             WHERE Id = @Id;";
 
                 using (var cmd = new SQLiteCommand(query, con))
@@ -146,25 +203,37 @@ namespace ControlInventario.Database
                     cmd.Parameters.AddWithValue("@Serie", art.Serie);
                     cmd.Parameters.AddWithValue("@Marca", art.Marca);
                     cmd.Parameters.AddWithValue("@FechaAdquisicion", art.FechaAdquisicion);
-                    cmd.Parameters.AddWithValue("@UsuarioActual", art.UsuarioActual);
-                    cmd.Parameters.AddWithValue("@UsuarioAnterior", art.UsuarioAnterior);
-                    cmd.Parameters.AddWithValue("@IdArea", art.IdArea);
-                    cmd.Parameters.AddWithValue("@Area", art.Area);
-                    cmd.Parameters.AddWithValue("@Cargo", art.Cargo);
+                    cmd.Parameters.AddWithValue("@FechaBaja", art.FechaBaja ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@FechaFinGarantia", art.FechaFinGarantia ?? (object)DBNull.Value);
+
+                    cmd.Parameters.AddWithValue("@DniUsuarioActual", art.DniUsuarioActual);
+                    cmd.Parameters.AddWithValue("@NombreUsuarioActual", art.NombreUsuarioActual);
+                    cmd.Parameters.AddWithValue("@IdArea", art.IdAreaUsuarioActual);
+                    cmd.Parameters.AddWithValue("@Area", art.AreaUsuarioActual);
+                    cmd.Parameters.AddWithValue("@Cargo", art.CargoUsuarioActual);
+
+                    cmd.Parameters.AddWithValue("@DniUsuarioAnterior", art.DniUsuarioAnterior);
+                    cmd.Parameters.AddWithValue("@NombreUsuarioAnterior", art.NombreUsuarioAnterior);
+                    cmd.Parameters.AddWithValue("@IdArea", art.IdAreaUsuarioAnterior);
+                    cmd.Parameters.AddWithValue("@Area", art.AreaUsuarioAnterior);
+                    cmd.Parameters.AddWithValue("@Cargo", art.CargoUsuarioAnterior);
+
                     cmd.Parameters.AddWithValue("@IdEstado", art.IdEstado);
                     cmd.Parameters.AddWithValue("@Estado", art.Estado);
                     cmd.Parameters.AddWithValue("@IdUbicacion", art.IdUbicacion);
                     cmd.Parameters.AddWithValue("@Ubicacion", art.Ubicacion);
-                    cmd.Parameters.AddWithValue("@FechaBaja", art.FechaBaja.HasValue ? art.FechaBaja.Value : (object)DBNull.Value);
-                    cmd.Parameters.AddWithValue("@Observacion", art.Observacion);
-                    cmd.Parameters.AddWithValue("@Foto", art.Foto ?? (object)DBNull.Value);
-                    cmd.Parameters.AddWithValue("@CategoriaId", art.CategoriaId);
-                    cmd.Parameters.AddWithValue("@Categoria", art.Categoria);
-                    cmd.Parameters.AddWithValue("@PrecioAdquisicion", art.PrecioAdquisicion.HasValue ? art.PrecioAdquisicion.Value : (object)DBNull.Value);
-                    cmd.Parameters.AddWithValue("@VidaUtilMeses", art.VidaUtilMeses.HasValue ? art.VidaUtilMeses.Value : (object)DBNull.Value);
-                    cmd.Parameters.AddWithValue("@Proveedor", art.Proveedor);
+                    cmd.Parameters.AddWithValue("@IdCondicion", art.IdCondicion);
                     cmd.Parameters.AddWithValue("@Condicion", art.Condicion);
                     cmd.Parameters.AddWithValue("@ActivoFijo", art.ActivoFijo);
+
+                    cmd.Parameters.AddWithValue("@Observacion", art.Observacion);
+                    cmd.Parameters.AddWithValue("@Foto", art.Foto ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Comprobante", art.Comprobante ?? (object)DBNull.Value);
+
+                    cmd.Parameters.AddWithValue("@RucProveedor", art.RucProveedor);
+                    cmd.Parameters.AddWithValue("@Proveedor", art.Proveedor);
+                    cmd.Parameters.AddWithValue("@PrecioAdquisicion", art.PrecioAdquisicion ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@VidaUtilMeses", art.VidaUtilMeses ?? (object)DBNull.Value);
                     cmd.Parameters.AddWithValue("@Id", art.Id);
 
                     cmd.ExecuteNonQuery();
@@ -236,22 +305,22 @@ namespace ControlInventario.Database
                         var articulo = MapearArticulos(reader);
 
                         // Cargar características dinámicas
-                        articulo.Caracteristicas = new Dictionary<string, string>();
-                        string queryCar = "SELECT Nombre, Valor FROM Caracteristicas WHERE ArticuloId = @Id;";
-                        using (var cmdCar = new SQLiteCommand(queryCar, con))
-                        {
-                            cmdCar.Parameters.AddWithValue("@Id", articulo.Id);
-                            using (var readerCar = cmdCar.ExecuteReader())
-                            {
-                                while (readerCar.Read())
-                                {
-                                    articulo.Caracteristicas.Add(
-                                        readerCar["Nombre"].ToString(),
-                                        readerCar["Valor"].ToString()
-                                    );
-                                }
-                            }
-                        }
+                        //articulo.Caracteristicas = new Dictionary<string, string>();
+                        //string queryCar = "SELECT Nombre, Valor FROM Caracteristicas WHERE ArticuloId = @Id;";
+                        //using (var cmdCar = new SQLiteCommand(queryCar, con))
+                        //{
+                        //    cmdCar.Parameters.AddWithValue("@Id", articulo.Id);
+                        //    using (var readerCar = cmdCar.ExecuteReader())
+                        //    {
+                        //        while (readerCar.Read())
+                        //        {
+                        //            articulo.Caracteristicas.Add(
+                        //                readerCar["Nombre"].ToString(),
+                        //                readerCar["Valor"].ToString()
+                        //            );
+                        //        }
+                        //    }
+                        //}
 
                         lista.Add(articulo);
                     }
@@ -266,31 +335,72 @@ namespace ControlInventario.Database
         {
             return new Articulos
             {
-                Id = Convert.ToInt32(reader["Id"]),
-                Codigo = reader["Codigo"].ToString(),
-                Modelo = reader["Modelo"].ToString(),
-                Serie = reader["Serie"].ToString(),
-                Marca = reader["Marca"].ToString(),
-                FechaAdquisicion = DateTime.Parse(reader["FechaAdquisicion"].ToString()),
-                UsuarioActual = reader["UsuarioActual"].ToString(),
-                UsuarioAnterior = reader["UsuarioAnterior"].ToString(),
-                IdArea = Convert.ToInt32(reader["IdArea"]),
-                Area = reader["Area"].ToString(),
-                Cargo = reader["Cargo"].ToString(),
-                IdEstado = Convert.ToInt32(reader["IdEstado"]),
-                Estado = reader["Estado"].ToString(),
-                IdUbicacion = Convert.ToInt32(reader["IdUbicacion"]),
-                Ubicacion = reader["Ubicacion"].ToString(),
-                FechaBaja = reader["FechaBaja"] != DBNull.Value ? DateTime.Parse(reader["FechaBaja"].ToString()) : (DateTime?)null,
-                Observacion = reader["Observacion"].ToString(),
+                Id = reader["Id"] != DBNull.Value ? Convert.ToInt32(reader["Id"]) : 0,
+                Codigo = reader["Codigo"]?.ToString(),
+                Modelo = reader["Modelo"]?.ToString(),
+                Serie = reader["Serie"]?.ToString(),
+                Marca = reader["Marca"]?.ToString(),
+
+                FechaAdquisicion = reader["FechaAdquisicion"] != DBNull.Value
+                    ? DateTime.Parse(reader["FechaAdquisicion"].ToString())
+                    : DateTime.MinValue,
+
+                FechaBaja = reader["FechaBaja"] != DBNull.Value
+                    ? DateTime.Parse(reader["FechaBaja"].ToString())
+                    : (DateTime?)null,
+
+                FechaFinGarantia = reader["FechaFinGarantia"] != DBNull.Value
+                    ? DateTime.Parse(reader["FechaFinGarantia"].ToString())
+                    : (DateTime?)null,
+
+                DniUsuarioActual = reader["DniUsuarioActual"]?.ToString(),
+                NombreUsuarioActual = reader["NombreUsuarioActual"]?.ToString(),
+                IdAreaUsuarioActual = reader["IdAreaUsuarioActual"] != DBNull.Value
+                    ? Convert.ToInt32(reader["IdAreaUsuarioActual"])
+                    : 0,
+                AreaUsuarioActual = reader["AreaUsuarioActual"]?.ToString(),
+                CargoUsuarioActual = reader["CargoUsuarioActual"]?.ToString(),
+
+                DniUsuarioAnterior = reader["DniUsuarioAnterior"]?.ToString(),
+                NombreUsuarioAnterior = reader["NombreUsuarioAnterior"]?.ToString(),
+                IdAreaUsuarioAnterior = reader["IdAreaUsuarioAnterior"] != DBNull.Value
+                    ? Convert.ToInt32(reader["IdAreaUsuarioAnterior"])
+                    : 0,
+                AreaUsuarioAnterior = reader["AreaUsuarioAnterior"]?.ToString(),
+                CargoUsuarioAnterior = reader["CargoUsuarioAnterior"]?.ToString(),
+
+                IdEstado = reader["IdEstado"] != DBNull.Value
+                    ? Convert.ToInt32(reader["IdEstado"])
+                    : 0,
+                Estado = reader["Estado"]?.ToString(),
+                IdUbicacion = reader["IdUbicacion"] != DBNull.Value
+                    ? Convert.ToInt32(reader["IdUbicacion"])
+                    : 0,
+                Ubicacion = reader["Ubicacion"]?.ToString(),
+                IdCondicion = reader["IdCondicion"] != DBNull.Value
+                    ? Convert.ToInt32(reader["IdCondicion"])
+                    : 0,
+                Condicion = reader["Condicion"]?.ToString(),
+                ActivoFijo = reader["ActivoFijo"]?.ToString(),
+
+                Observacion = reader["Observacion"]?.ToString(),
                 Foto = reader["Foto"] != DBNull.Value ? (byte[])reader["Foto"] : null,
-                CategoriaId = Convert.ToInt32(reader["CategoriaId"]),
-                Categoria = reader["Categoria"].ToString(),
-                PrecioAdquisicion = reader["PrecioAdquisicion"] != DBNull.Value ? Convert.ToDecimal(reader["PrecioAdquisicion"]) : (decimal?)null,
-                VidaUtilMeses = reader["VidaUtilMeses"] != DBNull.Value ? Convert.ToInt32(reader["VidaUtilMeses"]) : (int?)null,
-                Proveedor = reader["Proveedor"].ToString(),
-                Condicion = reader["Condicion"].ToString(),
-                ActivoFijo = reader["ActivoFijo"].ToString(),
+                Comprobante = reader["Comprobante"] != DBNull.Value ? (byte[])reader["Comprobante"] : null,
+
+                RucProveedor = reader["RucProveedor"]?.ToString(),
+                Proveedor = reader["Proveedor"]?.ToString(),
+                PrecioAdquisicion = reader["PrecioAdquisicion"] != DBNull.Value
+                    ? Convert.ToDecimal(reader["PrecioAdquisicion"])
+                    : (decimal?)null,
+                VidaUtilMeses = reader["VidaUtilMeses"] != DBNull.Value
+                    ? Convert.ToInt32(reader["VidaUtilMeses"])
+                    : (int?)null,
+
+                CategoriaId = reader["CategoriaId"] != DBNull.Value
+                    ? Convert.ToInt32(reader["CategoriaId"])
+                    : 0,
+                Categoria = reader["Categoria"]?.ToString(),
+
                 Caracteristicas = new Dictionary<string, string>() // se llena después
             };
         }

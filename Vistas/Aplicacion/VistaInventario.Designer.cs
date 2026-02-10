@@ -827,9 +827,10 @@ namespace ControlInventario.Vistas
             // 
             // treeView1
             // 
-            this.treeView1.Location = new System.Drawing.Point(6, 6);
+            this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeView1.Location = new System.Drawing.Point(3, 3);
             this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(121, 209);
+            this.treeView1.Size = new System.Drawing.Size(761, 393);
             this.treeView1.TabIndex = 0;
             // 
             // groupBox1
@@ -892,6 +893,7 @@ namespace ControlInventario.Vistas
             // 
             // button4
             // 
+            this.button4.Cursor = System.Windows.Forms.Cursors.Hand;
             this.button4.Location = new System.Drawing.Point(106, 19);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(57, 23);
@@ -901,6 +903,7 @@ namespace ControlInventario.Vistas
             // 
             // BtnEliminarArticulo
             // 
+            this.BtnEliminarArticulo.Cursor = System.Windows.Forms.Cursors.Hand;
             this.BtnEliminarArticulo.Location = new System.Drawing.Point(476, 19);
             this.BtnEliminarArticulo.Name = "BtnEliminarArticulo";
             this.BtnEliminarArticulo.Size = new System.Drawing.Size(91, 23);
@@ -910,6 +913,7 @@ namespace ControlInventario.Vistas
             // 
             // BtnEditarArticulo
             // 
+            this.BtnEditarArticulo.Cursor = System.Windows.Forms.Cursors.Hand;
             this.BtnEditarArticulo.Location = new System.Drawing.Point(573, 19);
             this.BtnEditarArticulo.Name = "BtnEditarArticulo";
             this.BtnEditarArticulo.Size = new System.Drawing.Size(91, 23);
@@ -919,6 +923,7 @@ namespace ControlInventario.Vistas
             // 
             // BtnAgregarArticulo
             // 
+            this.BtnAgregarArticulo.Cursor = System.Windows.Forms.Cursors.Hand;
             this.BtnAgregarArticulo.Location = new System.Drawing.Point(670, 19);
             this.BtnAgregarArticulo.Name = "BtnAgregarArticulo";
             this.BtnAgregarArticulo.Size = new System.Drawing.Size(91, 23);
@@ -961,7 +966,6 @@ namespace ControlInventario.Vistas
         private System.Windows.Forms.TabControl TbPrincipal;
         private System.Windows.Forms.TabPage TabInventario;
         private System.Windows.Forms.TabPage TabGraficos;
-        private System.Windows.Forms.ListView LstLaptop;
         private System.Windows.Forms.ColumnHeader IdLaptop;
         private System.Windows.Forms.ColumnHeader CodigoLaptop;
         private System.Windows.Forms.ColumnHeader ModeloLaptop;
@@ -972,11 +976,9 @@ namespace ControlInventario.Vistas
         private System.Windows.Forms.ColumnHeader EstadoLaptop;
         private System.Windows.Forms.ColumnHeader UbicaciónLaptop;
         private System.Windows.Forms.ColumnHeader ObservacionLaptop;
-        private System.Windows.Forms.TabControl TbArticulos;
         private System.Windows.Forms.TabPage TabLaptops;
         private System.Windows.Forms.TabPage TabCelulares;
         private System.Windows.Forms.TabPage TabPc;
-        private System.Windows.Forms.ListView LstCelulares;
         private System.Windows.Forms.ColumnHeader IdCelular;
         private System.Windows.Forms.ColumnHeader CodigoCelular;
         private System.Windows.Forms.ColumnHeader ModeloCelular;
@@ -987,7 +989,6 @@ namespace ControlInventario.Vistas
         private System.Windows.Forms.ColumnHeader EstadoCelular;
         private System.Windows.Forms.ColumnHeader UbicaciónCelular;
         private System.Windows.Forms.ColumnHeader ObservacionesCelular;
-        private System.Windows.Forms.ListView LstComputadoras;
         private System.Windows.Forms.ColumnHeader IdPC;
         private System.Windows.Forms.ColumnHeader CodigoPC;
         private System.Windows.Forms.ColumnHeader ModeloPC;
@@ -1027,7 +1028,6 @@ namespace ControlInventario.Vistas
         private System.Windows.Forms.ColumnHeader SerieCelular;
         private System.Windows.Forms.ColumnHeader SeriePC;
         private System.Windows.Forms.ColumnHeader CargoUsuarioPC;
-        private System.Windows.Forms.ListView LstMonitores;
         private System.Windows.Forms.ColumnHeader IdMonitor;
         private System.Windows.Forms.ColumnHeader CodigoMonitor;
         private System.Windows.Forms.ColumnHeader ModeloMonitor;
@@ -1041,7 +1041,6 @@ namespace ControlInventario.Vistas
         private System.Windows.Forms.ColumnHeader UbicacionMonitor;
         private System.Windows.Forms.ColumnHeader ObservacionMonitor;
         private System.Windows.Forms.ColumnHeader FotoMonitor;
-        private System.Windows.Forms.ListView LstAccesorios;
         private System.Windows.Forms.ColumnHeader IdAccesorio;
         private System.Windows.Forms.ColumnHeader CodigoAccesorio;
         private System.Windows.Forms.ColumnHeader ModeloAccesorio;
@@ -1064,5 +1063,11 @@ namespace ControlInventario.Vistas
         private System.Windows.Forms.NumericUpDown NuAccionInventario;
         private System.Windows.Forms.Label LblAccionDecription;
         private System.Windows.Forms.Button button5;
+        public System.Windows.Forms.TabControl TbArticulos;
+        public System.Windows.Forms.ListView LstLaptop;
+        public System.Windows.Forms.ListView LstCelulares;
+        public System.Windows.Forms.ListView LstComputadoras;
+        public System.Windows.Forms.ListView LstMonitores;
+        public System.Windows.Forms.ListView LstAccesorios;
     }
 }

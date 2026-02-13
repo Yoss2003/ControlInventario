@@ -1,21 +1,34 @@
 ﻿using ControlInventario.Database;
 using ControlInventario.Modelos;
 using ControlInventario.Vistas.Extras;
+using PdfiumViewer;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace ControlInventario.Vistas
 {
     public partial class VistaArticulos : Form
     {
+        private PdfViewer pdfViewer;
         private readonly int _categoriaId;
         private readonly string _categoria;
-        public VistaArticulos(int categoriaId, string categoria)
+        private readonly int _articuloId;
+
+        public VistaArticulos(int categoriaId, string categoria, int articuloId)
         {
             InitializeComponent(); 
             _categoriaId = categoriaId;
             _categoria = categoria;
+            _articuloId = articuloId;
+
+            pdfViewer = new PdfViewer();
+            pdfViewer.Dock = DockStyle.Fill;
+            pdfViewer.ShowToolbar = true;
+            pdfViewer.ShowBookmarks = true;
+
+            PanelComprobante.Controls.Add(pdfViewer);
         }
 
         private void btnAgregar_Click(object sender, EventArgs e)
@@ -23,11 +36,13 @@ namespace ControlInventario.Vistas
             VistaCaracteristicas caracteristicas = new VistaCaracteristicas();
             caracteristicas.CaracteristicasGuardadas += AgregarCaracteristicas;
             caracteristicas.ShowDialog();
+            FlCaracteristicas.Visible = true;
         }
 
-        private void btnEliminar_Click (object sender, EventArgs e)
+        private void btnEliminar_Click(object sender, EventArgs e)
         {
             FlCaracteristicas.Controls.Clear();
+            FlCaracteristicas.Visible = false;
         }
 
         public void AgregarCaracteristicas(GroupBox grupo)
@@ -127,11 +142,6 @@ namespace ControlInventario.Vistas
             return null;
         }
 
-        private void CbMonitores_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void CbEstado_TextChanged(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(CbEstado.Text))
@@ -187,7 +197,180 @@ namespace ControlInventario.Vistas
             return null;
         }
 
+        private void LimpiarCampos()
+        {
+            TxtCodigo.Text = "";
+            TxtModelo.Text = "";
+            TxtSerie.Text = "";
+            CbDesktop.SelectedIndex = -1;
+            CbCelulares.SelectedIndex = -1;
+            CbMonitores.SelectedIndex = -1;
+            DtpFechaAdquisicion.Value = DateTime.Now;
+            DtpFechaBaja.Value = DateTime.Now;
+            DtpFechaFinGarantia.Value = DateTime.Now;
+
+            TxtDniUsuarioActual.Text = "";
+            TxtNombreUsuarioActual.Text = "";
+            CbAreaUsuarioActual.SelectedIndex = -1;
+            TxtCargoUsuarioActual.Text = "";
+
+            TxtDniUsuarioAnterior.Text = "";
+            TxtNombreUsuarioAnterior.Text = "";
+            CbAreaUsuarioAnterior.SelectedIndex = -1;
+            TxtCargoUsuarioAnterior.Text = "";
+
+            CbEstado.SelectedIndex = -1;
+            CbUbicacion.SelectedIndex = -1;
+            CbCondicion.SelectedIndex = -1;
+            TxtActivoFijo.Text = "";
+            TxtObservaciones.Text = "";
+
+            TxtRuc.Text = "";
+            TxtRazonSocial.Text = "";
+            TxtPrecio.Text = "";
+
+            TxtRutaComprobante.Text = "";
+            TxtDireccionImagen.Text = "";
+
+            PbFotoArticulo.Image = null;
+            PanelComprobante.Controls.Clear();
+
+            FlCaracteristicas.Controls.Clear();
+        }
+
         private void BtnGuardar_Click(object sender, EventArgs e)
+        {
+            if (VistaInventario.isEdit == false)
+            {
+                try
+                {
+                    using (var con = ConexionGlobal.ObtenerConexion())
+                    {
+                        con.Open();
+                        Articulos art = new Articulos
+                        {
+                            Codigo = TxtCodigo.Text,
+                            Modelo = TxtModelo.Text,
+                            Serie = TxtSerie.Text,
+                            Marca = ObtenerMarca(),
+                            FechaAdquisicion = DtpFechaAdquisicion.Value,
+                            FechaBaja = DtpFechaBaja.Value,
+                            FechaFinGarantia = DtpFechaFinGarantia.Value,
+
+                            DniUsuarioActual = TxtDniUsuarioActual.Text,
+                            NombreUsuarioActual = TxtNombreUsuarioActual.Text,
+                            IdAreaUsuarioActual = Convert.ToInt32(CbAreaUsuarioActual.SelectedValue),
+                            AreaUsuarioActual = CbAreaUsuarioActual.Text,
+                            CargoUsuarioActual = TxtCargoUsuarioActual.Text,
+
+                            DniUsuarioAnterior = TxtDniUsuarioAnterior.Text,
+                            NombreUsuarioAnterior = TxtNombreUsuarioAnterior.Text,
+                            IdAreaUsuarioAnterior = Convert.ToInt32(CbAreaUsuarioAnterior.SelectedValue),
+                            AreaUsuarioAnterior = CbAreaUsuarioAnterior.Text,
+                            CargoUsuarioAnterior = TxtCargoUsuarioAnterior.Text,
+
+                            IdEstado = Convert.ToInt32(CbEstado.SelectedValue),
+                            Estado = CbEstado.Text,
+                            IdUbicacion = Convert.ToInt32(CbUbicacion.SelectedValue),
+                            Ubicacion = CbUbicacion.Text,
+                            IdCondicion = Convert.ToInt32(CbCondicion.SelectedValue),
+                            Condicion = CbCondicion.Text,
+                            ActivoFijo = TxtActivoFijo.Text,
+                            Observacion = TxtObservaciones.Text,
+
+                            RucProveedor = TxtRuc.Text,
+                            Proveedor = TxtRazonSocial.Text,
+                            PrecioAdquisicion = string.IsNullOrWhiteSpace(TxtPrecio.Text) ? (decimal?)null : Convert.ToDecimal(TxtPrecio.Text),
+
+                            CategoriaId = _categoriaId,
+                            Categoria = _categoria
+                        };
+                        ArticuloRepository.InsertarArticulo(art, con);
+
+                        MessageBox.Show("Artículo guardado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        this.DialogResult = DialogResult.OK;
+                        this.Close();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al guardar el artículo: " + ex.Message, "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
+                    );
+                }
+            }
+            else
+            {
+                try
+                {
+                    using (var con = ConexionGlobal.ObtenerConexion())
+                    {
+                        con.Open();
+
+                        Articulos art = new Articulos
+                        {
+                            Id = _articuloId,
+                            Codigo = TxtCodigo.Text,
+                            Modelo = TxtModelo.Text,
+                            Serie = TxtSerie.Text,
+                            Marca = ObtenerMarca(),
+                            FechaAdquisicion = DtpFechaAdquisicion.Value,
+                            FechaBaja = DtpFechaBaja.Value,
+                            FechaFinGarantia = DtpFechaFinGarantia.Value,
+
+                            DniUsuarioActual = TxtDniUsuarioActual.Text,
+                            NombreUsuarioActual = TxtNombreUsuarioActual.Text,
+                            IdAreaUsuarioActual = Convert.ToInt32(CbAreaUsuarioActual.SelectedValue),
+                            AreaUsuarioActual = CbAreaUsuarioActual.Text,
+                            CargoUsuarioActual = TxtCargoUsuarioActual.Text,
+
+                            DniUsuarioAnterior = TxtDniUsuarioAnterior.Text,
+                            NombreUsuarioAnterior = TxtNombreUsuarioAnterior.Text,
+                            IdAreaUsuarioAnterior = Convert.ToInt32(CbAreaUsuarioAnterior.SelectedValue),
+                            AreaUsuarioAnterior = CbAreaUsuarioAnterior.Text,
+                            CargoUsuarioAnterior = TxtCargoUsuarioAnterior.Text,
+
+                            IdEstado = Convert.ToInt32(CbEstado.SelectedValue),
+                            Estado = CbEstado.Text,
+                            IdUbicacion = Convert.ToInt32(CbUbicacion.SelectedValue),
+                            Ubicacion = CbUbicacion.Text,
+                            IdCondicion = Convert.ToInt32(CbCondicion.SelectedValue),
+                            Condicion = CbCondicion.Text,
+                            ActivoFijo = TxtActivoFijo.Text,
+                            Observacion = TxtObservaciones.Text,
+
+                            RucProveedor = TxtRuc.Text,
+                            Proveedor = TxtRazonSocial.Text,
+                            PrecioAdquisicion = string.IsNullOrWhiteSpace(TxtPrecio.Text) ? (decimal?)null : Convert.ToDecimal(TxtPrecio.Text),
+
+                            CategoriaId = _categoriaId,
+                            Categoria = _categoria
+                        };
+                        ArticuloRepository repo = new ArticuloRepository();
+                        repo.ActualizarArticulo(art);
+
+                        MessageBox.Show("Artículo actualizado correctamente.", "Éxito",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Information
+                        );
+
+                        this.DialogResult = DialogResult.OK;
+                        this.Close();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al actualizar el artículo: " + ex.Message, "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
+                    );
+                }
+            }
+        }
+
+        private void BtnGuardarPlus_Click(object sender, EventArgs e)
         {
             try
             {
@@ -235,17 +418,82 @@ namespace ControlInventario.Vistas
                     ArticuloRepository.InsertarArticulo(art, con);
 
                     MessageBox.Show("Artículo guardado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    
-                    this.DialogResult = DialogResult.OK;
-                    this.Close(); 
+
+                    LimpiarCampos();
                 }
             }
-            catch (Exception ex) 
-            { 
-                MessageBox.Show("Error al guardar el artículo: " + ex.Message, "Error", 
-                    MessageBoxButtons.OK, 
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al actualizar el artículo: " + ex.Message, "Error",
+                    MessageBoxButtons.OK,
                     MessageBoxIcon.Error
-                ); 
+                );
+            }
+        }
+
+        private void BtnAgregarComprobante_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog ofd = new OpenFileDialog())
+            {
+                ofd.Filter = "Archivos PDF (*.pdf)|*.pdf"; 
+                ofd.Title = "Seleccionar comprobante de compra";
+                if (ofd.ShowDialog() == DialogResult.OK)
+                {
+                    TxtRutaComprobante.Text = ofd.FileName;
+                    try
+                    {
+                        pdfViewer.Document?.Dispose();
+                        pdfViewer.Document = PdfDocument.Load(ofd.FileName);
+                        pdfViewer.BringToFront();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("No se pudo cargar el comprobante: " + ex.Message, "Error",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error
+                        );
+                    }
+                }
+            }
+        }
+
+        private void BtnAgregarImagen_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog ofd = new OpenFileDialog())
+            {
+                ofd.Filter = "Archivos de imagen (*.jpg;*.jpeg;*.png;*.bmp)|*.jpg;*.jpeg;*.png;*.bmp"; 
+                ofd.Title = "Seleccionar foto";
+                if (ofd.ShowDialog() == DialogResult.OK)
+                {
+                    TxtDireccionImagen.Text = ofd.FileName;
+                    try
+                    {
+                        PbFotoArticulo.Image = System.Drawing.Image.FromFile(ofd.FileName);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("No se pudo cargar la imagen: " + ex.Message, "Error",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error
+                        );
+                    }
+                }
+            }
+        }
+              
+        private void CbAreaUsuarioAnterior_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(CbAreaUsuarioAnterior.Text))
+            {
+                CbAreaUsuarioAnterior.Text = "SELECCIONE";
+            }
+        }
+
+        private void CbAreaUsuarioActual_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(CbAreaUsuarioActual.Text))
+            {
+                CbAreaUsuarioActual.Text = "SELECCIONE";
             }
         }
     }

@@ -40,12 +40,24 @@ namespace ControlInventario.Vistas
             this.ModeloLaptop = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SerieLaptop = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.MarcaLaptop = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.UsuarioLaptop1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.UsuarioLaptop2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.AreaUsuarioLaptop = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.CargoUsuarioLaptop = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.FechaAdquisicionLaptop = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.FechaBajaLaptop = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.FechaFinGarantiaLaptop = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.DniUsuarioActualLaptop = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.NombreUsuarioActualLaptop = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.AreaUsuarioActualLaptop = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.CargoUsuarioActualLaptop = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.DniUsuarioAnteriorLaptop = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.NombreUsuarioAnteriorLaptop = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.AreaUsuarioAnteriorLaptop = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.CargoUsuarioAnteriorLaptop = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.EstadoLaptop = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.UbicaciónLaptop = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.CondicionLaptop = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.RucProveedorLaptop = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ProveedorLaptop = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.PrecioAdquisicionLaptop = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ActivoFijoLaptop = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.CapacidadLaptop = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.RAMLaptop = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ProcesadorLaptop = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -132,7 +144,7 @@ namespace ControlInventario.Vistas
             this.NuAccionInventario = new System.Windows.Forms.NumericUpDown();
             this.LblAccionDecription = new System.Windows.Forms.Label();
             this.button5 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
+            this.BtnExportar = new System.Windows.Forms.Button();
             this.BtnEliminarArticulo = new System.Windows.Forms.Button();
             this.BtnEditarArticulo = new System.Windows.Forms.Button();
             this.BtnAgregarArticulo = new System.Windows.Forms.Button();
@@ -207,12 +219,24 @@ namespace ControlInventario.Vistas
             this.ModeloLaptop,
             this.SerieLaptop,
             this.MarcaLaptop,
-            this.UsuarioLaptop1,
-            this.UsuarioLaptop2,
-            this.AreaUsuarioLaptop,
-            this.CargoUsuarioLaptop,
+            this.FechaAdquisicionLaptop,
+            this.FechaBajaLaptop,
+            this.FechaFinGarantiaLaptop,
+            this.DniUsuarioActualLaptop,
+            this.NombreUsuarioActualLaptop,
+            this.AreaUsuarioActualLaptop,
+            this.CargoUsuarioActualLaptop,
+            this.DniUsuarioAnteriorLaptop,
+            this.NombreUsuarioAnteriorLaptop,
+            this.AreaUsuarioAnteriorLaptop,
+            this.CargoUsuarioAnteriorLaptop,
             this.EstadoLaptop,
             this.UbicaciónLaptop,
+            this.CondicionLaptop,
+            this.RucProveedorLaptop,
+            this.ProveedorLaptop,
+            this.PrecioAdquisicionLaptop,
+            this.ActivoFijoLaptop,
             this.CapacidadLaptop,
             this.RAMLaptop,
             this.ProcesadorLaptop,
@@ -260,25 +284,53 @@ namespace ControlInventario.Vistas
             this.MarcaLaptop.Text = "Marca";
             this.MarcaLaptop.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // UsuarioLaptop1
+            // FechaAdquisicionLaptop
             // 
-            this.UsuarioLaptop1.Text = "Usuario Actual";
-            this.UsuarioLaptop1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.FechaAdquisicionLaptop.Text = "Fecha adquisición";
             // 
-            // UsuarioLaptop2
+            // FechaBajaLaptop
             // 
-            this.UsuarioLaptop2.Text = "Usuario Anterior";
-            this.UsuarioLaptop2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.FechaBajaLaptop.Text = "Fecha baja";
             // 
-            // AreaUsuarioLaptop
+            // FechaFinGarantiaLaptop
             // 
-            this.AreaUsuarioLaptop.Text = "Área";
-            this.AreaUsuarioLaptop.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.FechaFinGarantiaLaptop.Text = "Fin de garantia";
             // 
-            // CargoUsuarioLaptop
+            // DniUsuarioActualLaptop
             // 
-            this.CargoUsuarioLaptop.Text = "Cargo";
-            this.CargoUsuarioLaptop.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.DniUsuarioActualLaptop.Text = "Dni Usuario Actual";
+            this.DniUsuarioActualLaptop.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // NombreUsuarioActualLaptop
+            // 
+            this.NombreUsuarioActualLaptop.Text = "Nombre usuario actual";
+            // 
+            // AreaUsuarioActualLaptop
+            // 
+            this.AreaUsuarioActualLaptop.Text = "Área usuario actual";
+            this.AreaUsuarioActualLaptop.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // CargoUsuarioActualLaptop
+            // 
+            this.CargoUsuarioActualLaptop.Text = "Cargo usuario actual";
+            this.CargoUsuarioActualLaptop.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // DniUsuarioAnteriorLaptop
+            // 
+            this.DniUsuarioAnteriorLaptop.Text = "Dni usuario anterior";
+            this.DniUsuarioAnteriorLaptop.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // NombreUsuarioAnteriorLaptop
+            // 
+            this.NombreUsuarioAnteriorLaptop.Text = "Nombre usuario anterior";
+            // 
+            // AreaUsuarioAnteriorLaptop
+            // 
+            this.AreaUsuarioAnteriorLaptop.Text = "Área usuario anterior";
+            // 
+            // CargoUsuarioAnteriorLaptop
+            // 
+            this.CargoUsuarioAnteriorLaptop.Text = "Cargo usuario anterior";
             // 
             // EstadoLaptop
             // 
@@ -289,6 +341,26 @@ namespace ControlInventario.Vistas
             // 
             this.UbicaciónLaptop.Text = "Ubicación";
             this.UbicaciónLaptop.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // CondicionLaptop
+            // 
+            this.CondicionLaptop.Text = "Condición";
+            // 
+            // RucProveedorLaptop
+            // 
+            this.RucProveedorLaptop.Text = "Ruc";
+            // 
+            // ProveedorLaptop
+            // 
+            this.ProveedorLaptop.Text = "Proveedor";
+            // 
+            // PrecioAdquisicionLaptop
+            // 
+            this.PrecioAdquisicionLaptop.Text = "Precio inicial";
+            // 
+            // ActivoFijoLaptop
+            // 
+            this.ActivoFijoLaptop.Text = "Activo Fijo";
             // 
             // CapacidadLaptop
             // 
@@ -838,13 +910,13 @@ namespace ControlInventario.Vistas
             this.groupBox1.Controls.Add(this.NuAccionInventario);
             this.groupBox1.Controls.Add(this.LblAccionDecription);
             this.groupBox1.Controls.Add(this.button5);
-            this.groupBox1.Controls.Add(this.button4);
+            this.groupBox1.Controls.Add(this.BtnExportar);
             this.groupBox1.Controls.Add(this.BtnEliminarArticulo);
             this.groupBox1.Controls.Add(this.BtnEditarArticulo);
             this.groupBox1.Controls.Add(this.BtnAgregarArticulo);
             this.groupBox1.Location = new System.Drawing.Point(17, 444);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(771, 62);
+            this.groupBox1.Size = new System.Drawing.Size(771, 56);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Acciones";
@@ -853,7 +925,7 @@ namespace ControlInventario.Vistas
             // 
             this.NuAccionInventario.Location = new System.Drawing.Point(6, 22);
             this.NuAccionInventario.Maximum = new decimal(new int[] {
-            3,
+            2,
             0,
             0,
             0});
@@ -891,15 +963,16 @@ namespace ControlInventario.Vistas
             this.button5.Text = "Nueva Categoria";
             this.button5.UseVisualStyleBackColor = true;
             // 
-            // button4
+            // BtnExportar
             // 
-            this.button4.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button4.Location = new System.Drawing.Point(106, 19);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(57, 23);
-            this.button4.TabIndex = 0;
-            this.button4.Text = "Exportar";
-            this.button4.UseVisualStyleBackColor = true;
+            this.BtnExportar.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BtnExportar.Location = new System.Drawing.Point(106, 19);
+            this.BtnExportar.Name = "BtnExportar";
+            this.BtnExportar.Size = new System.Drawing.Size(57, 23);
+            this.BtnExportar.TabIndex = 0;
+            this.BtnExportar.Text = "Exportar";
+            this.BtnExportar.UseVisualStyleBackColor = true;
+            this.BtnExportar.Click += new System.EventHandler(this.btnExportar_Click);
             // 
             // BtnEliminarArticulo
             // 
@@ -910,6 +983,7 @@ namespace ControlInventario.Vistas
             this.BtnEliminarArticulo.TabIndex = 0;
             this.BtnEliminarArticulo.Text = "EliminarArticulo";
             this.BtnEliminarArticulo.UseVisualStyleBackColor = true;
+            this.BtnEliminarArticulo.Click += new System.EventHandler(this.BtnEliminarArticulo_Click);
             // 
             // BtnEditarArticulo
             // 
@@ -920,6 +994,7 @@ namespace ControlInventario.Vistas
             this.BtnEditarArticulo.TabIndex = 0;
             this.BtnEditarArticulo.Text = "Editar Articulo";
             this.BtnEditarArticulo.UseVisualStyleBackColor = true;
+            this.BtnEditarArticulo.Click += new System.EventHandler(this.BtnEditarArticulo_Click);
             // 
             // BtnAgregarArticulo
             // 
@@ -936,7 +1011,7 @@ namespace ControlInventario.Vistas
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 518);
+            this.ClientSize = new System.Drawing.Size(800, 508);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.TbPrincipal);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -970,9 +1045,9 @@ namespace ControlInventario.Vistas
         private System.Windows.Forms.ColumnHeader CodigoLaptop;
         private System.Windows.Forms.ColumnHeader ModeloLaptop;
         private System.Windows.Forms.ColumnHeader MarcaLaptop;
-        private System.Windows.Forms.ColumnHeader UsuarioLaptop1;
-        private System.Windows.Forms.ColumnHeader UsuarioLaptop2;
-        private System.Windows.Forms.ColumnHeader AreaUsuarioLaptop;
+        private System.Windows.Forms.ColumnHeader DniUsuarioActualLaptop;
+        private System.Windows.Forms.ColumnHeader DniUsuarioAnteriorLaptop;
+        private System.Windows.Forms.ColumnHeader AreaUsuarioActualLaptop;
         private System.Windows.Forms.ColumnHeader EstadoLaptop;
         private System.Windows.Forms.ColumnHeader UbicaciónLaptop;
         private System.Windows.Forms.ColumnHeader ObservacionLaptop;
@@ -1024,7 +1099,7 @@ namespace ControlInventario.Vistas
         private System.Windows.Forms.ColumnHeader FotoLaptop;
         private System.Windows.Forms.ColumnHeader FotoCargador;
         private System.Windows.Forms.TabPage TabMonitores;
-        private System.Windows.Forms.ColumnHeader CargoUsuarioLaptop;
+        private System.Windows.Forms.ColumnHeader CargoUsuarioActualLaptop;
         private System.Windows.Forms.ColumnHeader SerieCelular;
         private System.Windows.Forms.ColumnHeader SeriePC;
         private System.Windows.Forms.ColumnHeader CargoUsuarioPC;
@@ -1056,11 +1131,10 @@ namespace ControlInventario.Vistas
         private System.Windows.Forms.ColumnHeader FotoAccesorio;
         private System.Windows.Forms.TreeView treeView1;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button BtnExportar;
         private System.Windows.Forms.Button BtnEliminarArticulo;
         private System.Windows.Forms.Button BtnEditarArticulo;
         private System.Windows.Forms.Button BtnAgregarArticulo;
-        private System.Windows.Forms.NumericUpDown NuAccionInventario;
         private System.Windows.Forms.Label LblAccionDecription;
         private System.Windows.Forms.Button button5;
         public System.Windows.Forms.TabControl TbArticulos;
@@ -1069,5 +1143,18 @@ namespace ControlInventario.Vistas
         public System.Windows.Forms.ListView LstComputadoras;
         public System.Windows.Forms.ListView LstMonitores;
         public System.Windows.Forms.ListView LstAccesorios;
+        private System.Windows.Forms.ColumnHeader FechaAdquisicionLaptop;
+        private System.Windows.Forms.ColumnHeader FechaBajaLaptop;
+        private System.Windows.Forms.ColumnHeader FechaFinGarantiaLaptop;
+        private System.Windows.Forms.ColumnHeader NombreUsuarioActualLaptop;
+        private System.Windows.Forms.ColumnHeader NombreUsuarioAnteriorLaptop;
+        private System.Windows.Forms.ColumnHeader AreaUsuarioAnteriorLaptop;
+        private System.Windows.Forms.ColumnHeader CargoUsuarioAnteriorLaptop;
+        private System.Windows.Forms.ColumnHeader CondicionLaptop;
+        private System.Windows.Forms.ColumnHeader RucProveedorLaptop;
+        private System.Windows.Forms.ColumnHeader ProveedorLaptop;
+        private System.Windows.Forms.ColumnHeader PrecioAdquisicionLaptop;
+        private System.Windows.Forms.ColumnHeader ActivoFijoLaptop;
+        public System.Windows.Forms.NumericUpDown NuAccionInventario;
     }
 }

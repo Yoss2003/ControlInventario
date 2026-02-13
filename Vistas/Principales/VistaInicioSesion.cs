@@ -32,7 +32,7 @@ namespace ControlInventario
             vistaRegistro.ShowDialog();
         }
 
-        private void CentrarElementos(Control control, Control contenedor)
+        public static void CentrarElementos(Control control, Control contenedor)
         {
             // Centrar horizontalmente el control dentro del contenedor
             control.Location = new Point(

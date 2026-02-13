@@ -157,7 +157,7 @@ namespace ControlInventario.Database
             {
                 con.Open();
                 string query = @"
-            UPDATE Articulos SET
+                UPDATE Articulos SET
                     Codigo = @Codigo,
                     Modelo = @Modelo,
                     Serie = @Serie,
@@ -167,13 +167,13 @@ namespace ControlInventario.Database
                     FechaFinGarantia = @FechaFinGarantia,
 
                     DniUsuarioActual = @DniUsuarioActual,
-                    UsuarioActual = @NombreUsuarioActual,
+                    NombreUsuarioActual = @NombreUsuarioActual,
                     IdAreaUsuarioActual = @IdAreaUsuarioActual,
                     AreaUsuarioActual = @AreaUsuarioActual,
                     CargoUsuarioActual = @CargoUsuarioActual,
 
                     DniUsuarioAnterior = @DniUsuarioAnterior,
-                    UsuarioAnterior = @NombreUsuarioAnterior,
+                    NombreUsuarioAnterior = @NombreUsuarioAnterior,
                     IdAreaUsuarioAnterior = @IdAreaUsuarioAnterior,
                     AreaUsuarioAnterior = @AreaUsuarioAnterior,
                     CargoUsuarioAnterior = @CargoUsuarioAnterior,
@@ -194,7 +194,7 @@ namespace ControlInventario.Database
                     Proveedor = @Proveedor,
                     PrecioAdquisicion = @PrecioAdquisicion,
                     VidaUtilMeses = @VidaUtilMeses
-            WHERE Id = @Id;";
+                WHERE Id = @Id;";
 
                 using (var cmd = new SQLiteCommand(query, con))
                 {
@@ -208,15 +208,15 @@ namespace ControlInventario.Database
 
                     cmd.Parameters.AddWithValue("@DniUsuarioActual", art.DniUsuarioActual);
                     cmd.Parameters.AddWithValue("@NombreUsuarioActual", art.NombreUsuarioActual);
-                    cmd.Parameters.AddWithValue("@IdArea", art.IdAreaUsuarioActual);
-                    cmd.Parameters.AddWithValue("@Area", art.AreaUsuarioActual);
-                    cmd.Parameters.AddWithValue("@Cargo", art.CargoUsuarioActual);
+                    cmd.Parameters.AddWithValue("@IdAreaUsuarioActual", art.IdAreaUsuarioActual);
+                    cmd.Parameters.AddWithValue("@AreaUsuarioActual", art.AreaUsuarioActual);
+                    cmd.Parameters.AddWithValue("@CargoUsuarioActual", art.CargoUsuarioActual);
 
                     cmd.Parameters.AddWithValue("@DniUsuarioAnterior", art.DniUsuarioAnterior);
                     cmd.Parameters.AddWithValue("@NombreUsuarioAnterior", art.NombreUsuarioAnterior);
-                    cmd.Parameters.AddWithValue("@IdArea", art.IdAreaUsuarioAnterior);
-                    cmd.Parameters.AddWithValue("@Area", art.AreaUsuarioAnterior);
-                    cmd.Parameters.AddWithValue("@Cargo", art.CargoUsuarioAnterior);
+                    cmd.Parameters.AddWithValue("@IdAreaUsuarioAnterior", art.IdAreaUsuarioAnterior);
+                    cmd.Parameters.AddWithValue("@AreaUsuarioAnterior", art.AreaUsuarioAnterior);
+                    cmd.Parameters.AddWithValue("@CargoUsuarioAnterior", art.CargoUsuarioAnterior);
 
                     cmd.Parameters.AddWithValue("@IdEstado", art.IdEstado);
                     cmd.Parameters.AddWithValue("@Estado", art.Estado);
@@ -240,25 +240,25 @@ namespace ControlInventario.Database
                 }
 
                 // Actualizar características dinámicas (EAV)
-                string deleteCar = "DELETE FROM Caracteristicas WHERE ArticuloId = @ArticuloId;";
-                using (var cmdDel = new SQLiteCommand(deleteCar, con))
-                {
-                    cmdDel.Parameters.AddWithValue("@ArticuloId", art.Id);
-                    cmdDel.ExecuteNonQuery();
-                }
+                //string deleteCar = "DELETE FROM Caracteristicas WHERE ArticuloId = @ArticuloId;";
+                //using (var cmdDel = new SQLiteCommand(deleteCar, con))
+                //{
+                //    cmdDel.Parameters.AddWithValue("@ArticuloId", art.Id);
+                //    cmdDel.ExecuteNonQuery();
+                //}
 
-                foreach (var kv in art.Caracteristicas)
-                {
-                    string insertCar = @"INSERT INTO Caracteristicas(ArticuloId, Nombre, Valor)
-                                 VALUES (@ArticuloId, @Nombre, @Valor);";
-                    using (var cmdCar = new SQLiteCommand(insertCar, con))
-                    {
-                        cmdCar.Parameters.AddWithValue("@ArticuloId", art.Id);
-                        cmdCar.Parameters.AddWithValue("@Nombre", kv.Key);
-                        cmdCar.Parameters.AddWithValue("@Valor", kv.Value);
-                        cmdCar.ExecuteNonQuery();
-                    }
-                }
+                //foreach (var kv in art.Caracteristicas)
+                //{
+                //    string insertCar = @"INSERT INTO Caracteristicas(ArticuloId, Nombre, Valor)
+                //                 VALUES (@ArticuloId, @Nombre, @Valor);";
+                //    using (var cmdCar = new SQLiteCommand(insertCar, con))
+                //    {
+                //        cmdCar.Parameters.AddWithValue("@ArticuloId", art.Id);
+                //        cmdCar.Parameters.AddWithValue("@Nombre", kv.Key);
+                //        cmdCar.Parameters.AddWithValue("@Valor", kv.Value);
+                //        cmdCar.ExecuteNonQuery();
+                //    }
+                //}
             }
         }
 

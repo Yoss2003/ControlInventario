@@ -8,9 +8,13 @@ namespace ControlInventario.Modelos
 {
     public class RutasExportar
     {
+        public int Id { get; set; }
         public int usuarioId { get; set; }
-        public string rutaPredeterminada { get; set; }
-        public string rutaPersonalizada { get; set; }
-        public string TipoArchivo { get; set; }
+        public string rutaPredeterminada1 { get; set; }
+        public string rutaPersonalizada1 { get; set; }
+        public string TipoArchivo1 { get; set; }
+        public string rutaPredeterminada2 { get; set; }
+        public string rutaPersonalizada2 { get; set; }
+        public string TipoArchivo2 { get; set; }
     }
 }

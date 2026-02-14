@@ -121,6 +121,7 @@
             // 
             this.TxtRutaPersonalizada.Location = new System.Drawing.Point(6, 106);
             this.TxtRutaPersonalizada.Name = "TxtRutaPersonalizada";
+            this.TxtRutaPersonalizada.ReadOnly = true;
             this.TxtRutaPersonalizada.Size = new System.Drawing.Size(379, 20);
             this.TxtRutaPersonalizada.TabIndex = 9;
             // 
@@ -129,6 +130,7 @@
             this.TxtRutaPredeterminada.Enabled = false;
             this.TxtRutaPredeterminada.Location = new System.Drawing.Point(6, 53);
             this.TxtRutaPredeterminada.Name = "TxtRutaPredeterminada";
+            this.TxtRutaPredeterminada.ReadOnly = true;
             this.TxtRutaPredeterminada.Size = new System.Drawing.Size(379, 20);
             this.TxtRutaPredeterminada.TabIndex = 8;
             // 
@@ -170,8 +172,8 @@
         private System.Windows.Forms.CheckBox ChkRutaPredeterminada;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox TxtRutaPersonalizada;
-        private System.Windows.Forms.TextBox TxtRutaPredeterminada;
         public System.Windows.Forms.Label LblRutaArchivo;
+        public System.Windows.Forms.TextBox TxtRutaPersonalizada;
+        public System.Windows.Forms.TextBox TxtRutaPredeterminada;
     }
 }

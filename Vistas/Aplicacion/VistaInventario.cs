@@ -536,14 +536,31 @@ namespace ControlInventario.Vistas
             string categoria = ObtenerCategoriaNombre();
             string usuario = nombreUusario;
 
+            var rutRepo = new RutasRepository();
+            var rutas = rutRepo.ObtenerRutas(UsuarioSesion.UsuarioId);
+
             // Determinar extensión según el valor del NumericUpDown
             string extension = NuAccionInventario.Value == 1 ? "xlsx" : "csv";
 
             // Generar nombre automático
             string nombreArchivo = GenerarNombreArchivo(extension, usuario, categoria);
 
-            // Mostrar vista de exportación
+            // Crear UNA sola instancia de la vista
             VistaRutaExportacion vistaRuta = new VistaRutaExportacion(nombreArchivo, listViewActivo, categoria);
+
+            // Asignar rutas según el inventario
+            if (NuAccionInventario.Value == 1)
+            {
+                vistaRuta.TxtRutaPredeterminada.Text = rutas.rutaPredeterminada1;
+                vistaRuta.TxtRutaPersonalizada.Text = rutas.rutaPersonalizada1;
+            }
+            else
+            {
+                vistaRuta.TxtRutaPredeterminada.Text = rutas.rutaPredeterminada2;
+                vistaRuta.TxtRutaPersonalizada.Text = rutas.rutaPersonalizada2;
+            }
+
+            // Mostrar vista de exportación
             vistaRuta.ShowDialog();
         }
 

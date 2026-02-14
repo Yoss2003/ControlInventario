@@ -1,4 +1,5 @@
 ﻿using ControlInventario.Database;
+using ControlInventario.Servicios;
 using System;
 using System.Data.SQLite;
 using System.Drawing;
@@ -10,16 +11,12 @@ namespace ControlInventario.Vistas
 {
     public partial class VistaPreguntasSeguridad : Form
     {
-        private readonly int idUsuario;
-        private readonly string nombreUsuario;
+        int idUsuario = UsuarioSesion.UsuarioId;
+        string nombreUsuario = UsuarioSesion.NombreUsuario;
 
-        public VistaPreguntasSeguridad(int idUsuario, string nombreUsuario)
+        public VistaPreguntasSeguridad()
         {
             InitializeComponent();
-
-            // Guardar el ID y nombre del usuario para usarlos al guardar las preguntas de seguridad
-            this.idUsuario = idUsuario;
-            this.nombreUsuario = nombreUsuario;
         }
 
         private bool ValidarPreguntas()

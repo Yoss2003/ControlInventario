@@ -70,6 +70,7 @@
             // 
             // BtnBuscarRutaPred
             // 
+            this.BtnBuscarRutaPred.Enabled = false;
             this.BtnBuscarRutaPred.Location = new System.Drawing.Point(391, 51);
             this.BtnBuscarRutaPred.Name = "BtnBuscarRutaPred";
             this.BtnBuscarRutaPred.Size = new System.Drawing.Size(28, 23);

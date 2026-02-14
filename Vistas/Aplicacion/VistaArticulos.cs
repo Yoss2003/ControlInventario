@@ -16,12 +16,11 @@ namespace ControlInventario.Vistas
         private readonly string _categoria;
         private readonly int _articuloId;
 
-        public VistaArticulos(int categoriaId, string categoria, int articuloId)
+        public VistaArticulos(int categoriaId, string categoria, int? articuloId = null)
         {
             InitializeComponent(); 
             _categoriaId = categoriaId;
             _categoria = categoria;
-            _articuloId = articuloId;
 
             pdfViewer = new PdfViewer();
             pdfViewer.Dock = DockStyle.Fill;

@@ -142,14 +142,17 @@
     <Compile Include="Database\ConfiguracionPerfiles.cs" />
     <Compile Include="Database\EmpleadoRepository.cs" />
     <Compile Include="Database\InventarioRepository.cs" />
+    <Compile Include="Database\RutasRepository.cs" />
     <Compile Include="Modelos\Articulos.cs" />
     <Compile Include="Modelos\Categoria.cs" />
     <Compile Include="Modelos\Inventario.cs" />
     <Compile Include="Modelos\Perfiles.cs" />
     <Compile Include="Modelos\Empleado.cs" />
+    <Compile Include="Modelos\RutasExportar.cs" />
     <Compile Include="Servicios\ClassHelper.cs" />
     <Compile Include="Servicios\OverlayCarga.cs" />
     <Compile Include="Modelos\RecuperacionHelper.cs" />
+    <Compile Include="Servicios\UsuarioSesion.cs" />
     <Compile Include="Utilidades\CustomTabControl.cs">
       <SubType>Component</SubType>
     </Compile>

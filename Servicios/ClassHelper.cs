@@ -1,5 +1,6 @@
 ﻿using ControlInventario.Modelos;
 using ControlInventario.Vistas;
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
@@ -16,11 +17,12 @@ namespace ControlInventario.Servicios
             {
                 bool pertenece = false;
 
-                if (listView.Name == "LstLaptop" && art.CategoriaId == 1) pertenece = true;
-                else if (listView.Name == "LstCelulares" && art.CategoriaId == 2) pertenece = true;
-                else if (listView.Name == "LstComputadoras" && art.CategoriaId == 3) pertenece = true;
-                else if (listView.Name == "LstMonitores" && art.CategoriaId == 4) pertenece = true;
-                else if (listView.Name == "LstAccesorios" && art.CategoriaId == 5) pertenece = true;
+                // Comparar por nombre de categoría en lugar de IDs fijos
+                if (listView.Name == "LstLaptop" && art.Categoria.Equals("Laptops", StringComparison.OrdinalIgnoreCase)) pertenece = true;
+                else if (listView.Name == "LstCelulares" && art.Categoria.Equals("Celulares", StringComparison.OrdinalIgnoreCase)) pertenece = true;
+                else if (listView.Name == "LstComputadoras" && art.Categoria.Equals("Computadoras", StringComparison.OrdinalIgnoreCase)) pertenece = true;
+                else if (listView.Name == "LstMonitores" && art.Categoria.Equals("Monitores", StringComparison.OrdinalIgnoreCase)) pertenece = true;
+                else if (listView.Name == "LstAccesorios" && art.Categoria.Equals("Accesorios", StringComparison.OrdinalIgnoreCase)) pertenece = true;
 
                 if (!pertenece) continue;
 

@@ -1,5 +1,6 @@
 ﻿using ControlInventario.Database;
 using ControlInventario.Modelos;
+using ControlInventario.Servicios;
 using ControlInventario.Vistas;
 using System;
 using System.Data.SQLite;
@@ -144,8 +145,13 @@ namespace ControlInventario
 
             Properties.Settings.Default.Save(); // Guardar cambios en la configuración
 
+            UsuarioSesion.UsuarioId = emp.Id; 
+            UsuarioSesion.NombreUsuario = emp.Usuario; 
+            UsuarioSesion.Rol = emp.Rol;
+            UsuarioSesion.NombrePersonal = $"{emp.Nombres}";
+
             // Abrir el menú principal
-            VistaMenuPrincipal frm = new VistaMenuPrincipal(emp);
+            VistaMenuPrincipal frm = new VistaMenuPrincipal();
             this.Hide();
             frm.ShowDialog();
             this.Close();

@@ -46,5 +46,29 @@ namespace ControlInventario.Properties {
                 this["ContraseñaGuardada"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string RutaExcel {
+            get {
+                return ((string)(this["RutaExcel"]));
+            }
+            set {
+                this["RutaExcel"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string RutaCsv {
+            get {
+                return ((string)(this["RutaCsv"]));
+            }
+            set {
+                this["RutaCsv"] = value;
+            }
+        }
     }
 }

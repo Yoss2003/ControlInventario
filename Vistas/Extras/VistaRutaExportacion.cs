@@ -31,31 +31,28 @@ namespace ControlInventario.Vistas.Extras
             LblRutaArchivo.Text = nombreArchivo;
         }
 
-        private string ObtenerRutaArchivo(string extension, string filtro)
-        {
-            using (SaveFileDialog sfd = new SaveFileDialog())
-            {
-                sfd.Filter = filtro;
-                sfd.DefaultExt = extension;
-                sfd.AddExtension = true;
-
-                if (sfd.ShowDialog() == DialogResult.OK)
-                {
-                    return sfd.FileName;
-                }
-                else
-                {
-                    return null; // Usuario canceló
-                }
-            }
-        }
-
         private void ExportarACsv(ListView listView, string categoria)
         {
-            string filePath = ObtenerRutaArchivo("csv", "Archivos CSV|*.csv");
-            if (filePath == null) return; // Cancelado
+            string filePath;
 
-            using (StreamWriter writer = new StreamWriter(filePath))
+            if (!string.IsNullOrWhiteSpace(TxtRutaPersonalizada.Text))
+            {
+                filePath = TxtRutaPersonalizada.Text;
+            }
+            else if (!string.IsNullOrWhiteSpace(TxtRutaPredeterminada.Text))
+            {
+                filePath = TxtRutaPredeterminada.Text;
+            }
+            else
+            {
+                MessageBox.Show("Debe seleccionar una ruta válida antes de exportar.", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            string rutaFinal = Path.Combine(filePath, nombreArchivo);
+
+            using (StreamWriter writer = new StreamWriter(rutaFinal))
             {
                 var headers = listView.Columns.Cast<ColumnHeader>().Select(h => h.Text);
                 writer.WriteLine(string.Join(",", headers));
@@ -70,12 +67,31 @@ namespace ControlInventario.Vistas.Extras
 
             MessageBox.Show("Exportación a CSV completada.", "Éxito",
                 MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            this.Close();
         }
 
         private void ExportarAExcel(ListView listView, string categoria)
         {
-            string filePath = ObtenerRutaArchivo("xlsx", "Archivos Excel|*.xlsx");
-            if (filePath == null) return; // Cancelado
+            string filePath;
+
+            if (!string.IsNullOrWhiteSpace(TxtRutaPersonalizada.Text))
+            {
+                filePath = TxtRutaPersonalizada.Text;
+            }
+            else if (!string.IsNullOrWhiteSpace(TxtRutaPredeterminada.Text))
+            {
+                filePath = TxtRutaPredeterminada.Text;
+            }
+            else
+            {
+                MessageBox.Show("Debe seleccionar una ruta válida antes de exportar.", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            string carpeta = filePath;
+            string rutaFinal = Path.Combine(carpeta, nombreArchivo);
 
             try
             {
@@ -95,11 +111,12 @@ namespace ControlInventario.Vistas.Extras
                             worksheet.Cell(r + 2, c + 1).Value = item.SubItems[c].Text;
                     }
 
-                    workbook.SaveAs(filePath);
+                    workbook.SaveAs(rutaFinal);
                 }
 
                 MessageBox.Show("Exportación a Excel completada.", "Éxito",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Close();
             }
             catch
             {
@@ -115,17 +132,17 @@ namespace ControlInventario.Vistas.Extras
 
         private void BtnExportar_Click(object sender, EventArgs e)
         {
-            string campo = TxtRutaPersonalizada.Enabled ? "ruta personalizada" : "ruta predeterminada";
+            //string campo = TxtRutaPersonalizada.Enabled ? "ruta personalizada" : "ruta predeterminada";
 
-            if (string.IsNullOrWhiteSpace(TxtRutaPersonalizada.Text)||string.IsNullOrWhiteSpace(TxtRutaPredeterminada.Text))
-            {
-                MessageBox.Show($"Por favor ingrese una {campo}.",
-                                "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
+            //if (string.IsNullOrWhiteSpace(TxtRutaPersonalizada.Text) || string.IsNullOrWhiteSpace(TxtRutaPredeterminada.Text))
+            //{
+            //    MessageBox.Show($"Por favor ingrese una {campo}.",
+            //                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //    return;
+            //}
 
             string filePath = TxtRutaPersonalizada.Enabled ? TxtRutaPersonalizada.Text : TxtRutaPredeterminada.Text;
-            string extension = NuLaccionInventario.Value == 1 ? ".xlsx" : ".csv";
+            string extension = (LblRutaArchivo.Text.Contains("xlsx")) ? ".xlsx" : ".csv";
             string carpetaDestino = extension == ".xlsx" ? Properties.Settings.Default.RutaExcel : Properties.Settings.Default.RutaCsv;
 
             if (extension == ".csv")
@@ -159,19 +176,27 @@ namespace ControlInventario.Vistas.Extras
         private void VistaRutaExportacion_Load(object sender, EventArgs e)
         {
             VistaInicioSesion.CentrarElementos(LblRutaArchivo, GpRutas);
+
+            string queryRutas = @"
+            CREATE TABLE IF NOT EXISTS ConfiguracionRutas (
+                UsuarioId INT NOT NULL,
+                TipoArchivo VARCHAR(20) NOT NULL, -- 'Excel', 'CSV', etc.
+                Ruta NVARCHAR(500) NOT NULL,
+                PRIMARY KEY (UsuarioId, TipoArchivo)
+            );";
         }
 
         private void BtnBuscarRutaPred_Click(object sender, EventArgs e)
         {
-            BuscarRutas();
+            BuscarRutas(TxtRutaPredeterminada);
         }
 
         private void BtnBuscarRutaPerso_Click(object sender, EventArgs e)
         {
-            BuscarRutas();
+            BuscarRutas(TxtRutaPredeterminada);
         }
 
-        private void BuscarRutas()
+        private void BuscarRutas(TextBox textBox)
         {
             using (FolderBrowserDialog fbd = new FolderBrowserDialog())
             {
@@ -183,9 +208,9 @@ namespace ControlInventario.Vistas.Extras
                     string carpetaSeleccionada = fbd.SelectedPath;
 
                     // Detectar qué tipo de archivo se está configurando
-                    string extension = VistaInventario.NuLaccionInventario.Value == 1 ? ".xlsx" : ".csv";
+                    string extension = (LblRutaArchivo.Text.Contains("xlsx")) ? ".xlsx" : ".csv";
 
-                    if (extension == ".xlsx")
+                    if (TxtRutaPredeterminada.Enabled == true)
                     {
                         Properties.Settings.Default.RutaExcel = carpetaSeleccionada;
                         TxtRutaPredeterminada.Text = Properties.Settings.Default.RutaExcel;
@@ -193,7 +218,7 @@ namespace ControlInventario.Vistas.Extras
                     else
                     {
                         Properties.Settings.Default.RutaCsv = carpetaSeleccionada;
-                        TxtRutaPredeterminada.Text = Properties.Settings.Default.RutaCsv;
+                        TxtRutaPersonalizada.Text = Properties.Settings.Default.RutaCsv;
                     }
 
                     Properties.Settings.Default.Save();

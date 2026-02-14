@@ -1,5 +1,6 @@
 ﻿using ControlInventario.Database;
 using ControlInventario.Modelos;
+using ControlInventario.Servicios;
 using System;
 using System.Data.SQLite;
 using System.Drawing;
@@ -9,13 +10,13 @@ namespace ControlInventario.Vistas
 {
     public partial class VistaMenuPrincipal : Form
     {
-        private readonly Empleado empleadoActual;
-        private readonly Inventario inventarioActual;
+        int usuarioId = UsuarioSesion.UsuarioId;
+        string nombreUusario = UsuarioSesion.NombreUsuario;
+        string rol = UsuarioSesion.Rol;
 
-        public VistaMenuPrincipal(Empleado emp)
+        public VistaMenuPrincipal()
         {
             InitializeComponent();
-            empleadoActual = emp;
         }
 
         private void CentrarElementos(Control control, Control contenedor)
@@ -28,10 +29,10 @@ namespace ControlInventario.Vistas
 
         private void VistaInicio_Load(object sender, EventArgs e)
         {
-            lblBienvenida.Text = "Bienvenido " + empleadoActual.Nombres;
-            lblRol.Text = $"Rol: {empleadoActual.Rol}";
+            lblBienvenida.Text = $"Bienvenido {nombreUusario}";
+            lblRol.Text = $"Rol: {rol}";
             lblFecha.Text = $"Fecha: {DateTime.Now.ToString("dd/MM/yyyy")}";
-            lblUsuario.Text = $"Usuario: {empleadoActual.Usuario}";
+            lblUsuario.Text = $"Usuario: {nombreUusario}";
 
             string[] frases = {
                 "Espero no hayas perdido nada",
@@ -92,7 +93,7 @@ namespace ControlInventario.Vistas
         private void btnInventario_Click(object sender, EventArgs e)
         {
             Inventario Buscarinventario;
-            var repo = new InventarioRepository(empleadoActual);
+            var repo = new InventarioRepository();
             using (var con = ConexionGlobal.ObtenerConexion())
             {
                 con.Open();
@@ -114,13 +115,13 @@ namespace ControlInventario.Vistas
 
                 Buscarinventario = repo.ObtenerOCrearInventarioPorUsuario(con);
             }
-            VistaInventario inventario = new VistaInventario(empleadoActual, Buscarinventario);
+            VistaInventario inventario = new VistaInventario(Buscarinventario);
             inventario.ShowDialog();
         }
 
         private void btnConfiguracion_Click(object sender, EventArgs e)
         {
-            VistaConfiguracion configuracion = new VistaConfiguracion(empleadoActual);
+            VistaConfiguracion configuracion = new VistaConfiguracion();
             configuracion.ShowDialog();
         }
 

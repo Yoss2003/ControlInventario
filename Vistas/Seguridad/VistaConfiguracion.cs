@@ -1,5 +1,6 @@
 ﻿using ControlInventario.Database;
 using ControlInventario.Modelos;
+using ControlInventario.Servicios;
 using DocumentFormat.OpenXml.EMMA;
 using System;
 using System.Data.SQLite;
@@ -10,11 +11,10 @@ namespace ControlInventario.Vistas
 {
     public partial class VistaConfiguracion : Form
     {
-        private Empleado empleadoActual;
-        public VistaConfiguracion(Empleado emp)
+        string nombreUsuario = UsuarioSesion.NombreUsuario;
+        public VistaConfiguracion()
         {
             InitializeComponent();
-            empleadoActual = emp;
         }
 
         private void CbIdioma_TextChanged(object sender, EventArgs e)
@@ -111,7 +111,7 @@ namespace ControlInventario.Vistas
                         cmd.ExecuteNonQuery();
                     }
 
-                    var perfil = ConfiguracionPerfiles.ObtenerPerfilUsuario(empleadoActual.Usuario, con);
+                    var perfil = ConfiguracionPerfiles.ObtenerPerfilUsuario(nombreUsuario, con);
                     if(perfil != null)
                     {
                         CbIdioma.SelectedItem = perfil.Idioma; 
@@ -147,7 +147,7 @@ namespace ControlInventario.Vistas
                     con.Open();
                     Perfiles perf = new Perfiles
                     {
-                        NombreUsuario = empleadoActual.Usuario,
+                        NombreUsuario = nombreUsuario,
                         IdIdioma = CbIdioma.SelectedIndex,
                         Idioma = CbIdioma.Text,
                         IdTema = CbTema.SelectedIndex,
@@ -171,7 +171,7 @@ namespace ControlInventario.Vistas
                     };
 
                     ConfiguracionPerfiles.GuardarPerfilUsuario(perf, con);
-                    MessageBox.Show("Configuración para " + empleadoActual.Usuario + " guardada correctamente.", "Éxito", 
+                    MessageBox.Show("Configuración para " + nombreUsuario + " guardada correctamente.", "Éxito", 
                         MessageBoxButtons.OK, 
                         MessageBoxIcon.Information);
 
@@ -180,7 +180,7 @@ namespace ControlInventario.Vistas
             }
             catch
             {
-                MessageBox.Show("Error al guardar la configuración para "+ empleadoActual.Usuario + ".", "Error",
+                MessageBox.Show("Error al guardar la configuración para "+ nombreUsuario + ".", "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }

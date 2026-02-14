@@ -1,4 +1,5 @@
 ﻿using ControlInventario.Modelos;
+using ControlInventario.Servicios;
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
@@ -7,11 +8,13 @@ namespace ControlInventario.Database
 {
     public class InventarioRepository
     {
-        private readonly Empleado empleadoActual;
+        private readonly int usuarioId; 
+        private readonly string nombreUsuario;
 
-        public InventarioRepository(Empleado emp)
-        {
-            empleadoActual = emp;
+        public InventarioRepository() 
+        { 
+            usuarioId = UsuarioSesion.UsuarioId; 
+            nombreUsuario = UsuarioSesion.NombreUsuario; 
         }
 
         public int InsertarInventarioUsuario(Inventario invent, SQLiteConnection con)
@@ -31,10 +34,10 @@ namespace ControlInventario.Database
 
             using (var cmd = new SQLiteCommand(query, con))
             {
-                cmd.Parameters.AddWithValue("@NombreInventario", "Invent_" + empleadoActual.Usuario);
+                cmd.Parameters.AddWithValue("@NombreInventario", "Invent_" + nombreUsuario);
                 cmd.Parameters.AddWithValue("@FechaCreacion", invent.FechaCreacion);
-                cmd.Parameters.AddWithValue("@UsuarioId", empleadoActual.Id);
-                cmd.Parameters.AddWithValue("@Usuario", empleadoActual.Usuario);
+                cmd.Parameters.AddWithValue("@UsuarioId", usuarioId);
+                cmd.Parameters.AddWithValue("@Usuario", nombreUsuario);
 
                 cmd.ExecuteNonQuery();
             }
@@ -49,7 +52,7 @@ namespace ControlInventario.Database
             string select = "SELECT Id, NombreInventario, FechaCreacion, FechaModificacion, UsuarioId, Usuario FROM Inventarios WHERE UsuarioId = @UsuarioId LIMIT 1;";
             using (var cmd = new SQLiteCommand(select, con))
             {
-                cmd.Parameters.AddWithValue("@UsuarioId", empleadoActual.Id);
+                cmd.Parameters.AddWithValue("@UsuarioId", usuarioId);
                 using (var reader = cmd.ExecuteReader())
                 {
                     if (reader.Read())
@@ -75,10 +78,10 @@ namespace ControlInventario.Database
             // No existe: crear
             var nuevo = new Inventario
             {
-                NombreInventario = "Invent_" + empleadoActual.Usuario,
+                NombreInventario = "Invent_" + nombreUsuario,
                 FechaCreacion = DateTime.Now.Date,
-                UsuarioId = empleadoActual.Id,
-                Usuario = empleadoActual.Usuario
+                UsuarioId = usuarioId,
+                Usuario = nombreUsuario
             };
 
             int newId = InsertarInventarioUsuario(nuevo, con);

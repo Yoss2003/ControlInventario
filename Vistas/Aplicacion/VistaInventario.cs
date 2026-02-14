@@ -18,16 +18,18 @@ namespace ControlInventario.Vistas
 {
     public partial class VistaInventario : Form
     {
-        private readonly Empleado empleadoActual;
         private Inventario inventarioActual;
         private int _articuloId;
         public static bool isEdit = false;
+        int usuarioId = UsuarioSesion.UsuarioId;
+        string nombreUusario = UsuarioSesion.NombreUsuario;
+        string nombrePersonal = UsuarioSesion.NombrePersonal;
 
-        public VistaInventario(Empleado emp, Inventario inventario)
+        public VistaInventario(Inventario inventario)
         {
             InitializeComponent();
-            empleadoActual = emp;
             inventarioActual = inventario;
+
 
             var customTabs = new CustomTabControl
             {
@@ -168,25 +170,30 @@ namespace ControlInventario.Vistas
                     using (var cmd = new SQLiteCommand(queryArticulos, con)) cmd.ExecuteNonQuery();
                     using (var cmd = new SQLiteCommand(queryCaracteristicas, con)) cmd.ExecuteNonQuery();
 
+                    var repo = new InventarioRepository();
+                    var inventario = repo.ObtenerOCrearInventarioPorUsuario(con);
+                    UsuarioSesion.inventarioId = inventario.Id;
+
+
                     // Verificar si el inventario del usuario ya existe
                     string queryCheckInventario = "SELECT Id FROM Inventarios WHERE UsuarioId = @UsuarioId LIMIT 1;";
                     using (var cmdCheckInventario = new SQLiteCommand(queryCheckInventario, con))
                     {
                         // Si no existe, se crea un nuevo inventario para el usuario
-                        cmdCheckInventario.Parameters.AddWithValue("@UsuarioId", empleadoActual.Id);
+                        cmdCheckInventario.Parameters.AddWithValue("@UsuarioId", usuarioId);
                         var result = cmdCheckInventario.ExecuteScalar();
                         if (result == null)
                         {
                             // Crear un nuevo inventario para el usuario
-                            var inventario = new Inventario
+                            var inventarioNew = new Inventario
                             {
-                                NombreInventario = "Inventario de " + empleadoActual.Nombres,
+                                NombreInventario = "Inventario de " + nombrePersonal,
                                 FechaCreacion = DateTime.Now.Date,
-                                UsuarioId = empleadoActual.Id,
-                                Usuario = empleadoActual.Usuario
+                                UsuarioId = usuarioId,
+                                Usuario = nombreUusario
                             };
                             // Insertar el nuevo inventario en la base de datos
-                            var inventarioRepo = new InventarioRepository(empleadoActual);
+                            var inventarioRepo = new InventarioRepository();
                             inventarioActual = inventarioRepo.ObtenerOCrearInventarioPorUsuario(con);
                         }
                     }
@@ -272,7 +279,7 @@ namespace ControlInventario.Vistas
 
         public void CargarArticulos()
         {
-            var articulos = ArticuloRepository.ListarArticulos();
+            var articulos = ArticuloRepository.ListarArticulos(UsuarioSesion.inventarioId);
 
             // Mapeo de cada TabPage con su ListView
             var tabMap = new Dictionary<TabPage, ListView>
@@ -308,10 +315,7 @@ namespace ControlInventario.Vistas
             string categoria = ObtenerCategoriaNombre();
             string texto = TbArticulos.SelectedTab?.Text;
 
-            ListViewItem item = ListViewActivo.SelectedItems[0];
-            _articuloId = Convert.ToInt32(item.SubItems[0].Text);
-
-            using (var articulos = new VistaArticulos(categoriaId, categoria, Convert.ToInt32(item.SubItems[0].Text)))
+            using (var articulos = new VistaArticulos(categoriaId, categoria))
             {
                 // Configuración inicial
                 articulos.Text = "Crear Artículo";
@@ -530,7 +534,7 @@ namespace ControlInventario.Vistas
         {
             var listViewActivo = ObtenerListViewActivo();
             string categoria = ObtenerCategoriaNombre();
-            string usuario = empleadoActual.Usuario;
+            string usuario = nombreUusario;
 
             // Determinar extensión según el valor del NumericUpDown
             string extension = NuAccionInventario.Value == 1 ? "xlsx" : "csv";

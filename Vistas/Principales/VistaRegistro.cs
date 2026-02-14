@@ -294,7 +294,7 @@ namespace ControlInventario.Vistas
                                     MessageBoxIcon.Information);
 
                     // Pasar el nuevo ID y el usuario a la vista de preguntas de seguridad
-                    VistaPreguntasSeguridad seguridad = new VistaPreguntasSeguridad((int)nuevoId, emp.Usuario);
+                    VistaPreguntasSeguridad seguridad = new VistaPreguntasSeguridad();
                     seguridad.ShowDialog();
 
                     this.Close();

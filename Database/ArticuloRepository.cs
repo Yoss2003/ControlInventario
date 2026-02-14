@@ -1,4 +1,5 @@
 ﻿using ControlInventario.Modelos;
+using ControlInventario.Servicios;
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
@@ -7,8 +8,23 @@ namespace ControlInventario.Database
 {
     public class ArticuloRepository
     {
+
+        public static int ObtenerCategoriaId(string nombreCategoria, int inventarioId, SQLiteConnection con)
+        {
+            string query = "SELECT Id FROM Categorias WHERE Nombre = @Nombre AND InventarioId = @InventarioId LIMIT 1;";
+            using (var cmd = new SQLiteCommand(query, con))
+            {
+                cmd.Parameters.AddWithValue("@Nombre", nombreCategoria);
+                cmd.Parameters.AddWithValue("@InventarioId", inventarioId);
+                var result = cmd.ExecuteScalar();
+                return result != null ? Convert.ToInt32(result) : -1;
+            }
+        }
+
+
         public static void InsertarArticulo(Articulos art, SQLiteConnection con)
         {
+
             string query = @"
             INSERT INTO Articulos(
                 Codigo,
@@ -94,6 +110,9 @@ namespace ControlInventario.Database
 
             using (var cmd = new SQLiteCommand(query, con))
             {
+
+                art.CategoriaId = ObtenerCategoriaId(art.Categoria, UsuarioSesion.inventarioId, con);
+
                 cmd.Parameters.AddWithValue("@Codigo", art.Codigo);
                 cmd.Parameters.AddWithValue("@Modelo", art.Modelo);
                 cmd.Parameters.AddWithValue("@Serie", art.Serie);
@@ -288,7 +307,7 @@ namespace ControlInventario.Database
         }
 
         // Listar todos los Articulos con sus Características
-        public static List<Articulos> ListarArticulos()
+        public static List<Articulos> ListarArticulos(int inventarioId)
         {
             var lista = new List<Articulos>();
 
@@ -296,39 +315,32 @@ namespace ControlInventario.Database
             {
                 con.Open();
 
-                string query = "SELECT * FROM Articulos;";
+                string query = @"
+                    SELECT a.*, c.Nombre AS CategoriaNombre
+                    FROM Articulos a
+                    INNER JOIN Categorias c ON a.CategoriaId = c.Id
+                    WHERE c.InventarioId = @InventarioId;
+                ";
+
                 using (var cmd = new SQLiteCommand(query, con))
-                using (var reader = cmd.ExecuteReader())
                 {
-                    while (reader.Read())
+                    cmd.Parameters.AddWithValue("@InventarioId", inventarioId);
+
+                    using (var reader = cmd.ExecuteReader())
                     {
-                        var articulo = MapearArticulos(reader);
-
-                        // Cargar características dinámicas
-                        //articulo.Caracteristicas = new Dictionary<string, string>();
-                        //string queryCar = "SELECT Nombre, Valor FROM Caracteristicas WHERE ArticuloId = @Id;";
-                        //using (var cmdCar = new SQLiteCommand(queryCar, con))
-                        //{
-                        //    cmdCar.Parameters.AddWithValue("@Id", articulo.Id);
-                        //    using (var readerCar = cmdCar.ExecuteReader())
-                        //    {
-                        //        while (readerCar.Read())
-                        //        {
-                        //            articulo.Caracteristicas.Add(
-                        //                readerCar["Nombre"].ToString(),
-                        //                readerCar["Valor"].ToString()
-                        //            );
-                        //        }
-                        //    }
-                        //}
-
-                        lista.Add(articulo);
+                        while (reader.Read())
+                        {
+                            var articulo = MapearArticulos(reader);
+                            lista.Add(articulo);
+                        }
                     }
                 }
             }
 
             return lista;
         }
+
+
 
         // Método auxiliar para mapear un registro a objeto Articulos
         private static Articulos MapearArticulos(SQLiteDataReader reader)

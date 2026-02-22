@@ -28,11 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("General");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Sistema", new System.Windows.Forms.TreeNode[] {
-            treeNode1});
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Inventario");
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Seguridad");
+            System.Windows.Forms.TreeNode treeNode57 = new System.Windows.Forms.TreeNode("General");
+            System.Windows.Forms.TreeNode treeNode58 = new System.Windows.Forms.TreeNode("Sistema", new System.Windows.Forms.TreeNode[] {
+            treeNode57});
+            System.Windows.Forms.TreeNode treeNode59 = new System.Windows.Forms.TreeNode("Inventario");
+            System.Windows.Forms.TreeNode treeNode60 = new System.Windows.Forms.TreeNode("Seguridad");
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.GrpGeneral = new System.Windows.Forms.GroupBox();
@@ -66,6 +66,7 @@
             this.GrpPreview = new System.Windows.Forms.GroupBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.TreeMenu = new System.Windows.Forms.TreeView();
+            this.GrpDefault = new System.Windows.Forms.GroupBox();
             this.GrpGeneral.SuspendLayout();
             this.GrpSeguridad.SuspendLayout();
             this.GrpInventario.SuspendLayout();
@@ -107,7 +108,7 @@
             this.GrpGeneral.Controls.Add(this.label6);
             this.GrpGeneral.Controls.Add(this.label1);
             this.GrpGeneral.Controls.Add(this.label2);
-            this.GrpGeneral.Location = new System.Drawing.Point(203, 11);
+            this.GrpGeneral.Location = new System.Drawing.Point(204, 12);
             this.GrpGeneral.Name = "GrpGeneral";
             this.GrpGeneral.Size = new System.Drawing.Size(288, 356);
             this.GrpGeneral.TabIndex = 5;
@@ -265,7 +266,7 @@
             this.GrpSeguridad.Controls.Add(this.ChkCompartirActividad);
             this.GrpSeguridad.Controls.Add(this.label12);
             this.GrpSeguridad.Controls.Add(this.ChkAutenticacion2FA);
-            this.GrpSeguridad.Location = new System.Drawing.Point(203, 12);
+            this.GrpSeguridad.Location = new System.Drawing.Point(204, 12);
             this.GrpSeguridad.Name = "GrpSeguridad";
             this.GrpSeguridad.Size = new System.Drawing.Size(288, 356);
             this.GrpSeguridad.TabIndex = 5;
@@ -318,7 +319,7 @@
             this.GrpInventario.Controls.Add(this.label10);
             this.GrpInventario.Controls.Add(this.label9);
             this.GrpInventario.Controls.Add(this.label8);
-            this.GrpInventario.Location = new System.Drawing.Point(203, 11);
+            this.GrpInventario.Location = new System.Drawing.Point(204, 12);
             this.GrpInventario.Name = "GrpInventario";
             this.GrpInventario.Size = new System.Drawing.Size(288, 356);
             this.GrpInventario.TabIndex = 5;
@@ -429,21 +430,29 @@
             // 
             this.TreeMenu.Location = new System.Drawing.Point(12, 12);
             this.TreeMenu.Name = "TreeMenu";
-            treeNode1.Name = "General";
-            treeNode1.Text = "General";
-            treeNode2.Name = "Sistema";
-            treeNode2.Text = "Sistema";
-            treeNode3.Name = "Inventario";
-            treeNode3.Text = "Inventario";
-            treeNode4.Name = "Seguridad";
-            treeNode4.Text = "Seguridad";
+            treeNode57.Name = "General";
+            treeNode57.Text = "General";
+            treeNode58.Name = "Sistema";
+            treeNode58.Text = "Sistema";
+            treeNode59.Name = "Inventario";
+            treeNode59.Text = "Inventario";
+            treeNode60.Name = "Seguridad";
+            treeNode60.Text = "Seguridad";
             this.TreeMenu.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode2,
-            treeNode3,
-            treeNode4});
+            treeNode58,
+            treeNode59,
+            treeNode60});
             this.TreeMenu.Size = new System.Drawing.Size(185, 356);
             this.TreeMenu.TabIndex = 17;
             this.TreeMenu.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeMenu_AfterSelect);
+            // 
+            // GrpDefault
+            // 
+            this.GrpDefault.Location = new System.Drawing.Point(204, 12);
+            this.GrpDefault.Name = "GrpDefault";
+            this.GrpDefault.Size = new System.Drawing.Size(288, 356);
+            this.GrpDefault.TabIndex = 18;
+            this.GrpDefault.TabStop = false;
             // 
             // VistaConfiguracion
             // 
@@ -456,6 +465,7 @@
             this.Controls.Add(this.BtnGuardar);
             this.Controls.Add(this.GrpInventario);
             this.Controls.Add(this.GrpSeguridad);
+            this.Controls.Add(this.GrpDefault);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MinimizeBox = false;
             this.Name = "VistaConfiguracion";
@@ -509,5 +519,6 @@
         private System.Windows.Forms.GroupBox GrpPreview;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.TreeView TreeMenu;
+        private System.Windows.Forms.GroupBox GrpDefault;
     }
 }

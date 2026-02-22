@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ControlInventario.Servicios
+﻿namespace ControlInventario.Servicios
 {
     public static class UsuarioSesion
     {
@@ -13,6 +7,6 @@ namespace ControlInventario.Servicios
         public static string NombrePersonal { get; set; }
         public static string Rol { get; set; }
 
-        public static int inventarioId { get; set; }
+        public static int InventarioId { get; set; }
     }
 }

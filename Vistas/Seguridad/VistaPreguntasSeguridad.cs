@@ -2,10 +2,8 @@
 using ControlInventario.Servicios;
 using System;
 using System.Data.SQLite;
-using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace ControlInventario.Vistas
 {
@@ -121,8 +119,8 @@ namespace ControlInventario.Vistas
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
 
-                    long nuevoId = EmpleadoRepository.EliminarEmpleado(idUsuario);
-                    this.Close();
+                    long nuevoId = UsuarioRepository.EliminarUsuario(idUsuario);
+                    Close();
                 }                
             }
             return true;
@@ -165,29 +163,6 @@ namespace ControlInventario.Vistas
                     using (var pragmacmd = new SQLiteCommand("PRAGMA foreign_keys = ON;", con))
                     {
                         pragmacmd.ExecuteNonQuery();
-                    }
-
-                    //crear tabla de preguntas de seguridad si no existe
-                    string query = @"
-                        CREATE TABLE IF NOT EXISTS PreguntasSeguridad (
-                            Id INTEGER PRIMARY KEY AUTOINCREMENT,
-                            Id_Usuario INT,
-                            Nombre_Usuario TEXT,
-                            Id_Pregunta1 INT,
-                            Pregunta1 TEXT,
-                            Respuesta1 TEXT,
-                            Id_Pregunta2 INT,
-                            Pregunta2 TEXT,
-                            Respuesta2 TEXT,
-                            Id_Pregunta3 INT,
-                            Pregunta3 TEXT,
-                            Respuesta3 TEXT,
-                            FOREIGN KEY (Id_Usuario) REFERENCES Empleados(Id)
-                        );";
-
-                    using (var cmd = new SQLiteCommand(query, con))
-                    {
-                        cmd.ExecuteNonQuery();
                     }
                 }
             }
@@ -249,7 +224,7 @@ namespace ControlInventario.Vistas
                                             MessageBoxButtons.OK,
                                             MessageBoxIcon.Information);
                             
-                            this.Close();
+                            Close();
                         }
                     }
                 }
@@ -262,7 +237,7 @@ namespace ControlInventario.Vistas
                                 MessageBoxIcon.Error);
 
                 // Si ocurre un error al guardar, se elimina el usuario recién creado para evitar inconsistencias
-                long nuevoId = EmpleadoRepository.EliminarEmpleado(idUsuario);
+                long nuevoId = UsuarioRepository.EliminarUsuario(idUsuario);
                 this.Close();
             }
         }
@@ -293,7 +268,7 @@ namespace ControlInventario.Vistas
 
         private void BtnCancelar_Click(object sender, EventArgs e)
         {
-
+            Close();
         }
 
         private void VistaPreguntasSeguridad_FormClosing(object sender, FormClosingEventArgs e)

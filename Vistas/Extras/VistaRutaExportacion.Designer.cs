@@ -169,11 +169,11 @@
         private System.Windows.Forms.Button BtnBuscarRutaPerso;
         private System.Windows.Forms.Button BtnBuscarRutaPred;
         private System.Windows.Forms.Button BtnExportar;
-        private System.Windows.Forms.CheckBox ChkRutaPredeterminada;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         public System.Windows.Forms.Label LblRutaArchivo;
         public System.Windows.Forms.TextBox TxtRutaPersonalizada;
         public System.Windows.Forms.TextBox TxtRutaPredeterminada;
+        public System.Windows.Forms.CheckBox ChkRutaPredeterminada;
     }
 }

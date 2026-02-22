@@ -113,7 +113,7 @@ namespace ControlInventario
             }
 
             // Validar credenciales contra la BD
-            Empleado emp = EmpleadoRepository.BuscarPorUsuario(usuario);
+            Usuario user = UsuarioRepository.BuscarPorUsuario(usuario);
 
             // Guardar o limpiar credenciales según el estado del checkbox
             if (chkRecuerdame.Checked)
@@ -128,7 +128,7 @@ namespace ControlInventario
             }
 
             // Validar si el usuario existe
-            if (emp == null)
+            if (user == null)
             {
                 lblErrorUsuario.Text = "Usuario no encontrado."; 
                 lblErrorUsuario.Visible = true; 
@@ -136,7 +136,7 @@ namespace ControlInventario
             }
 
             // Validar contraseña
-            if (emp.Contraseña != contraseña)
+            if (user.Contraseña != contraseña)
             {
                 lblErrorContraseña.Text = "Contraseña incorrecta."; 
                 lblErrorContraseña.Visible = true; 
@@ -145,10 +145,10 @@ namespace ControlInventario
 
             Properties.Settings.Default.Save(); // Guardar cambios en la configuración
 
-            UsuarioSesion.UsuarioId = emp.Id; 
-            UsuarioSesion.NombreUsuario = emp.Usuario; 
-            UsuarioSesion.Rol = emp.Rol;
-            UsuarioSesion.NombrePersonal = $"{emp.Nombres}";
+            UsuarioSesion.UsuarioId = user.Id; 
+            UsuarioSesion.NombreUsuario = user.NombreUsuario; 
+            UsuarioSesion.Rol = user.Rol;
+            UsuarioSesion.NombrePersonal = $"{user.Nombres}";
 
             // Abrir el menú principal
             VistaMenuPrincipal frm = new VistaMenuPrincipal();
@@ -190,7 +190,7 @@ namespace ControlInventario
                 using (var con = ConexionGlobal.ObtenerConexion())
                 {
                     con.Open();
-                    string query = "SELECT Correo FROM Empleados WHERE Usuario = @Usuario";
+                    string query = "SELECT Correo FROM Usuario WHERE Usuario = @Usuario";
                     using (var cmd = new SQLiteCommand(query, con))
                     {
                         // Agregar parámetro para evitar inyección SQL
@@ -208,8 +208,8 @@ namespace ControlInventario
                 }
 
                 // 2. Generar código y guardar en memoria
-                RecuperacionHelper.CodigoGenerado = new Random().Next(10000000, 99999999).ToString();
-                RecuperacionHelper.FechaGeneracion = DateTime.Now;
+                Recuperacion.CodigoGenerado = new Random().Next(10000000, 99999999).ToString();
+                Recuperacion.FechaGeneracion = DateTime.Now;
 
                 // 3. Enviar correo con HTML
                 try
@@ -224,7 +224,7 @@ namespace ControlInventario
                         <h2 style='color:#2c3e50;'>Recuperación de contraseña</h2>
                         <p>Hola <strong>{usuarioIngresado}</strong>,</p>
                         <p>Has solicitado recuperar tu contraseña. Tu código de seguridad es:</p>
-                        <div style='font-size:24px; font-weight:bold; color:#2980b9; margin:20px 0;'>{RecuperacionHelper.CodigoGenerado}</div>
+                        <div style='font-size:24px; font-weight:bold; color:#2980b9; margin:20px 0;'>{Recuperacion.CodigoGenerado}</div>
                         <p>Este código es válido por 10 minutos. Si no solicitaste este correo, puedes ignorarlo.</p>
                         <hr />
                         <p style='font-size:12px; color:#888;'>© 2026 ControlInventario. Todos los derechos reservados.</p>

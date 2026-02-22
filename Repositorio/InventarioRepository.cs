@@ -17,6 +17,23 @@ namespace ControlInventario.Database
             nombreUsuario = UsuarioSesion.NombreUsuario; 
         }
 
+        public static void CrearTablaInventarios(SQLiteConnection con)
+        {
+            string query = @"
+            CREATE TABLE IF NOT EXISTS Inventarios (
+                Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                NombreInventario TEXT NOT NULL,
+                FechaCreacion TEXT NOT NULL,
+                FechaModificacion TEXT,
+                UsuarioId INTEGER NOT NULL,
+                Usuario TEXT NOT NULL
+            );";
+            using (var cmd = new SQLiteCommand(query, con))
+            {
+                cmd.ExecuteNonQuery();
+            }
+        }
+
         public int InsertarInventarioUsuario(Inventario invent, SQLiteConnection con)
         {
             string query = @"
@@ -47,46 +64,51 @@ namespace ControlInventario.Database
             }
         }
 
-        public Inventario ObtenerOCrearInventarioPorUsuario(SQLiteConnection con)
+        public Inventario ObtenerOCrearInventarioPorUsuario()
         {
-            string select = "SELECT Id, NombreInventario, FechaCreacion, FechaModificacion, UsuarioId, Usuario FROM Inventarios WHERE UsuarioId = @UsuarioId LIMIT 1;";
-            using (var cmd = new SQLiteCommand(select, con))
+            using (var con = ConexionGlobal.ObtenerConexion())
             {
-                cmd.Parameters.AddWithValue("@UsuarioId", usuarioId);
-                using (var reader = cmd.ExecuteReader())
+                con.Open();
+
+                string select = "SELECT Id, NombreInventario, FechaCreacion, FechaModificacion, UsuarioId, Usuario FROM Inventarios WHERE UsuarioId = @UsuarioId LIMIT 1;";
+                using (var cmd = new SQLiteCommand(select, con))
                 {
-                    if (reader.Read())
+                    cmd.Parameters.AddWithValue("@UsuarioId", usuarioId);
+                    using (var reader = cmd.ExecuteReader())
                     {
-                        var inv = new Inventario
+                        if (reader.Read())
                         {
-                            Id = Convert.ToInt32(reader["Id"]),
-                            NombreInventario = reader["NombreInventario"]?.ToString(),
-                            UsuarioId = reader["UsuarioId"] == DBNull.Value ? 0 : Convert.ToInt32(reader["UsuarioId"]),
-                            Usuario = reader["Usuario"]?.ToString()
-                        };
+                            var inv = new Inventario
+                            {
+                                Id = Convert.ToInt32(reader["Id"]),
+                                NombreInventario = reader["NombreInventario"]?.ToString(),
+                                UsuarioId = reader["UsuarioId"] == DBNull.Value ? 0 : Convert.ToInt32(reader["UsuarioId"]),
+                                Usuario = reader["Usuario"]?.ToString()
+                            };
 
-                        DateTime temp;
-                        if (reader["FechaCreacion"] != DBNull.Value && DateTime.TryParse(reader["FechaCreacion"].ToString(), out temp))
-                            inv.FechaCreacion = temp;
-                        if (reader["FechaModificacion"] != DBNull.Value && DateTime.TryParse(reader["FechaModificacion"].ToString(), out temp))
-                            inv.FechaModificacion = temp;
+                            DateTime temp;
+                            if (reader["FechaCreacion"] != DBNull.Value && DateTime.TryParse(reader["FechaCreacion"].ToString(), out temp))
+                                inv.FechaCreacion = temp;
+                            if (reader["FechaModificacion"] != DBNull.Value && DateTime.TryParse(reader["FechaModificacion"].ToString(), out temp))
+                                inv.FechaModificacion = temp;
 
-                        return inv;
+                            return inv;
+                        }
                     }
                 }
-            }
-            // No existe: crear
-            var nuevo = new Inventario
-            {
-                NombreInventario = "Invent_" + nombreUsuario,
-                FechaCreacion = DateTime.Now.Date,
-                UsuarioId = usuarioId,
-                Usuario = nombreUsuario
-            };
+                // No existe: crear
+                var nuevo = new Inventario
+                {
+                    NombreInventario = "Invent_" + nombreUsuario,
+                    FechaCreacion = DateTime.Now.Date,
+                    UsuarioId = usuarioId,
+                    Usuario = nombreUsuario
+                };
 
-            int newId = InsertarInventarioUsuario(nuevo, con);
-            nuevo.Id = newId;
-            return nuevo;
+                int newId = InsertarInventarioUsuario(nuevo, con);
+                nuevo.Id = newId;
+                return nuevo;
+            }     
         }
 
         public void ActualizarInventario(Inventario invent, SQLiteConnection con)

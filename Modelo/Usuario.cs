@@ -1,10 +1,8 @@
-﻿using DocumentFormat.OpenXml.Office2010.ExcelAc;
-using System;
-using System.Collections.Generic;
+﻿using System;
 
 namespace ControlInventario.Modelos
 {
-    public class Empleado
+    public class Usuario
     {
         public int Id { get; set; }
 
@@ -16,7 +14,7 @@ namespace ControlInventario.Modelos
         public DateTime FechaNacimiento { get; set; }
 
         // Datos del aplicativo
-        public string Usuario { get; set; }
+        public string NombreUsuario { get; set; }
         public string Contraseña { get; set; }
 
         // Datos empresariales

@@ -136,22 +136,43 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Database\ArticuloRepository.cs" />
-    <Compile Include="Database\CategoriaRepository.cs" />
-    <Compile Include="Database\Conexion.cs" />
-    <Compile Include="Database\ConfiguracionPerfiles.cs" />
-    <Compile Include="Database\EmpleadoRepository.cs" />
-    <Compile Include="Database\InventarioRepository.cs" />
-    <Compile Include="Database\RutasRepository.cs" />
-    <Compile Include="Modelos\Articulos.cs" />
-    <Compile Include="Modelos\Categoria.cs" />
-    <Compile Include="Modelos\Inventario.cs" />
-    <Compile Include="Modelos\Perfiles.cs" />
-    <Compile Include="Modelos\Empleado.cs" />
-    <Compile Include="Modelos\RutasExportar.cs" />
+    <Compile Include="Modelo\Empleados.cs" />
+    <Compile Include="Modelo\Interface\IRefrescable.cs" />
+    <Compile Include="Repositorio\AreaRepository.cs" />
+    <Compile Include="Repositorio\ArticuloRepository.cs" />
+    <Compile Include="Repositorio\CaracteristicaRepository.cs" />
+    <Compile Include="Repositorio\CargoRepository.cs" />
+    <Compile Include="Repositorio\CategoriaRepository.cs" />
+    <Compile Include="Repositorio\CondicionRepository.cs" />
+    <Compile Include="Database\ConexionGlobal.cs" />
+    <Compile Include="Repositorio\EmpleadoRepository.cs" />
+    <Compile Include="Repositorio\PerfilRepository.cs" />
+    <Compile Include="Repositorio\UsuarioRepository.cs" />
+    <Compile Include="Repositorio\EstadoRepository.cs" />
+    <Compile Include="Repositorio\InventarioRepository.cs" />
+    <Compile Include="Repositorio\MarcasRepository.cs" />
+    <Compile Include="Repositorio\RecuperacionRepository.cs" />
+    <Compile Include="Repositorio\RutasRepository.cs" />
+    <Compile Include="Repositorio\UbicacionRepository.cs" />
+    <Compile Include="Modelo\Area.cs" />
+    <Compile Include="Modelo\Articulos.cs" />
+    <Compile Include="Modelo\Caracteristicas.cs" />
+    <Compile Include="Modelo\Cargo.cs" />
+    <Compile Include="Modelo\Categoria.cs" />
+    <Compile Include="Modelo\Condicion.cs" />
+    <Compile Include="Modelo\Estado.cs" />
+    <Compile Include="Modelo\Inventario.cs" />
+    <Compile Include="Modelo\Marcas.cs" />
+    <Compile Include="Modelo\Perfiles.cs" />
+    <Compile Include="Modelo\Usuario.cs" />
+    <Compile Include="Modelo\RutasExportar.cs" />
+    <Compile Include="Modelo\Ubicacion.cs" />
     <Compile Include="Servicios\ClassHelper.cs" />
+    <Compile Include="Servicios\CreateTables.cs" />
+    <Compile Include="Servicios\InventarioUsuario.cs" />
     <Compile Include="Servicios\OverlayCarga.cs" />
-    <Compile Include="Modelos\RecuperacionHelper.cs" />
+    <Compile Include="Modelo\Recuperacion.cs" />
+    <Compile Include="Servicios\RefreshService.cs" />
     <Compile Include="Servicios\UsuarioSesion.cs" />
     <Compile Include="Utilidades\CustomTabControl.cs">
       <SubType>Component</SubType>
@@ -161,6 +182,18 @@
     </Compile>
     <Compile Include="Vistas\Aplicacion\VistaArticulos.Designer.cs">
       <DependentUpon>VistaArticulos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Vistas\Aplicacion\VistaRegistros.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Vistas\Aplicacion\VistaRegistros.Designer.cs">
+      <DependentUpon>VistaRegistros.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Vistas\Extras\VistaAgregarComponentes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Vistas\Extras\VistaAgregarComponentes.Designer.cs">
+      <DependentUpon>VistaAgregarComponentes.cs</DependentUpon>
     </Compile>
     <Compile Include="Vistas\Extras\VistaCaracteristicas.cs">
       <SubType>Form</SubType>
@@ -173,6 +206,12 @@
     </Compile>
     <Compile Include="Vistas\Extras\VistaRutaExportacion.Designer.cs">
       <DependentUpon>VistaRutaExportacion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Vistas\Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Vistas\Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Vistas\Seguridad\VistaConfiguracion.cs">
       <SubType>Form</SubType>
@@ -237,11 +276,20 @@
     <EmbeddedResource Include="Vistas\Aplicacion\VistaArticulos.resx">
       <DependentUpon>VistaArticulos.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Vistas\Aplicacion\VistaRegistros.resx">
+      <DependentUpon>VistaRegistros.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Vistas\Extras\VistaAgregarComponentes.resx">
+      <DependentUpon>VistaAgregarComponentes.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Vistas\Extras\VistaCaracteristicas.resx">
       <DependentUpon>VistaCaracteristicas.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Vistas\Extras\VistaRutaExportacion.resx">
       <DependentUpon>VistaRutaExportacion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Vistas\Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Vistas\Seguridad\VistaConfiguracion.resx">
       <DependentUpon>VistaConfiguracion.cs</DependentUpon>

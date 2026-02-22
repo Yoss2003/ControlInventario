@@ -4,7 +4,6 @@ using System;
 using System.Data.SQLite;
 using System.Linq;
 using System.Windows.Forms;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace ControlInventario.Vistas
 {
@@ -23,7 +22,7 @@ namespace ControlInventario.Vistas
             string codigoIngresado = txtDig1.Text + txtDig2.Text + txtDig3.Text + txtDig4.Text +
                          txtDig5.Text + txtDig6.Text + txtDig7.Text + txtDig8.Text;
 
-            TimeSpan diferencia = DateTime.Now - RecuperacionHelper.FechaGeneracion;
+            TimeSpan diferencia = DateTime.Now - Recuperacion.FechaGeneracion;
 
             if (diferencia.TotalMinutes > 3)
             {
@@ -31,7 +30,7 @@ namespace ControlInventario.Vistas
                 return;
             }
 
-            if (codigoIngresado == RecuperacionHelper.CodigoGenerado)
+            if (codigoIngresado == Recuperacion.CodigoGenerado)
             {
                 MessageBox.Show(
                     "Verificación exitosa\n\nEl código ingresado es correcto. Ahora puedes establecer una nueva contraseña.",

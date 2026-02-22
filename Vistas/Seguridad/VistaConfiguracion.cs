@@ -81,37 +81,7 @@ namespace ControlInventario.Vistas
                 {
                     con.Open();
 
-                    string query = @"
-                        CREATE TABLE IF NOT EXISTS Perfil (
-                            IdPerfil INTEGER PRIMARY KEY AUTOINCREMENT,
-                            NombreUsuario TEXT,
-                            IdIdioma INT,
-                            Idioma TEXT,
-                            IdTema INT,
-                            Tema TEXT,
-                            IdNotificaciones INT,
-                            Notificaciones TEXT,
-                            IdFormatoFecha INT,
-                            FormatoFecha TEXT,
-                            IdMoneda INT,
-                            Moneda TEXT,
-                            IdUnidadMedida INT,
-                            UnidadMedida TEXT,
-                            IdZonaHoraria INT,
-                            ZonaHoraria TEXT,
-                            Autenticacion BOOL,
-                            ActividadCompartida BOOL,
-                            CodigoBarras BOOL,
-                            CategoriaPersonalizada BOOL,
-                            CalcularDevaluacion BOOL,
-                            GeneracionCodigos BOOL
-                        );";
-                    using (var cmd = new SQLiteCommand(query, con))
-                    {
-                        cmd.ExecuteNonQuery();
-                    }
-
-                    var perfil = ConfiguracionPerfiles.ObtenerPerfilUsuario(nombreUsuario, con);
+                    var perfil = PerfilRepository.ObtenerPerfilUsuario(nombreUsuario, con);
                     if(perfil != null)
                     {
                         CbIdioma.SelectedItem = perfil.Idioma; 
@@ -170,7 +140,7 @@ namespace ControlInventario.Vistas
                         GeneracionCodigos = ChkGeneracionCodigo.Checked
                     };
 
-                    ConfiguracionPerfiles.GuardarPerfilUsuario(perf, con);
+                    PerfilRepository.GuardarPerfilUsuario(perf, con);
                     MessageBox.Show("Configuración para " + nombreUsuario + " guardada correctamente.", "Éxito", 
                         MessageBoxButtons.OK, 
                         MessageBoxIcon.Information);
@@ -192,19 +162,25 @@ namespace ControlInventario.Vistas
             switch (nodo.Text)
             {
                 case "General":
+                    GrpGeneral.BringToFront();
                     GrpGeneral.Visible = true;
                     GrpInventario.Visible = false;
                     GrpSeguridad.Visible = false;
+                    GrpDefault.Visible = false;
                     break;
                 case "Inventario":
+                    GrpGeneral.BringToFront();
                     GrpInventario.Visible = true;
                     GrpSeguridad.Visible = false;
                     GrpGeneral.Visible = false;
+                    GrpDefault.Visible = false;
                     break;
                 case "Seguridad":
+                    GrpGeneral.BringToFront();
                     GrpSeguridad.Visible = true;
                     GrpInventario.Visible = false;
                     GrpGeneral.Visible = false;
+                    GrpDefault.Visible = false;
                     break;
             }
         }

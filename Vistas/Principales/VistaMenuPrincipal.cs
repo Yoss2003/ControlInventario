@@ -1,6 +1,7 @@
 ﻿using ControlInventario.Database;
 using ControlInventario.Modelos;
 using ControlInventario.Servicios;
+using ControlInventario.Vistas.Aplicacion;
 using System;
 using System.Data.SQLite;
 using System.Drawing;
@@ -10,7 +11,6 @@ namespace ControlInventario.Vistas
 {
     public partial class VistaMenuPrincipal : Form
     {
-        int usuarioId = UsuarioSesion.UsuarioId;
         string nombreUusario = UsuarioSesion.NombreUsuario;
         string rol = UsuarioSesion.Rol;
 
@@ -80,7 +80,8 @@ namespace ControlInventario.Vistas
 
         private void btnRegistros_Click(object sender, EventArgs e)
         {
-            //En desarrollo
+            VistaRegistros registros = new VistaRegistros();
+            registros.ShowDialog();
         }
 
         private void btnReportes_Click(object sender, EventArgs e)
@@ -89,34 +90,12 @@ namespace ControlInventario.Vistas
             reporte.ShowDialog();
         }
 
-
         private void btnInventario_Click(object sender, EventArgs e)
         {
-            Inventario Buscarinventario;
             var repo = new InventarioRepository();
-            using (var con = ConexionGlobal.ObtenerConexion())
-            {
-                con.Open();
 
-                string queryInventario = @"
-                CREATE TABLE IF NOT EXISTS Inventarios (
-                    Id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    NombreInventario TEXT,
-                    FechaCreacion TEXT,                        
-                    FechaModificacion TEXT,
-                    UsuarioId INT,
-                    Usuario TEXT
-                );";
-
-                using(var cmd = new SQLiteCommand(queryInventario, con))
-                {
-                    cmd.ExecuteNonQuery();
-                }
-
-                Buscarinventario = repo.ObtenerOCrearInventarioPorUsuario(con);
-            }
-            VistaInventario inventario = new VistaInventario(Buscarinventario);
-            inventario.ShowDialog();
+            VistaInventario inventarioForm = new VistaInventario();
+            inventarioForm.ShowDialog();
         }
 
         private void btnConfiguracion_Click(object sender, EventArgs e)

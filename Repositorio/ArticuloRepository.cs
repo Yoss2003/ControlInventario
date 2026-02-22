@@ -8,6 +8,58 @@ namespace ControlInventario.Database
 {
     public class ArticuloRepository
     {
+        public static void CrearTablaArticulos(SQLiteConnection con)
+        {
+            string query = @"
+            CREATE TABLE IF NOT EXISTS Articulos (
+                Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                Codigo TEXT NOT NULL,
+                Modelo TEXT NOT NULL,
+                Serie TEXT NOT NULL,
+                Marca TEXT NOT NULL,
+                FechaAdquisicion TEXT NOT NULL,
+                FechaBaja TEXT,
+                FechaFinGarantia TEXT,
+
+                DniUsuarioActual TEXT NOT NULL,
+                NombreUsuarioActual TEXT,
+                IdAreaUsuarioActual INTEGER,
+                AreaUsuarioActual TEXT,
+                CargoUsuarioActual TEXT,
+
+                DniUsuarioAnterior TEXT NOT NULL,
+                NombreUsuarioAnterior TEXT,
+                IdAreaUsuarioAnterior INTEGER,
+                AreaUsuarioAnterior TEXT,
+                CargoUsuarioAnterior TEXT,
+
+                IdEstado INTEGER NOT NULL,
+                Estado TEXT NOT NULL,
+                IdUbicacion INTEGER NOT NULL,
+                Ubicacion TEXT NOT NULL,
+                IdCondicion INTEGER NOT NULL,
+                Condicion TEXT NOT NULL,
+                ActivoFijo TEXT,
+
+                Observacion TEXT,
+                Foto BLOB NOT NULL,
+                Comprobante BLOB,
+
+                RucProveedor TEXT,
+                Proveedor TEXT,
+                PrecioAdquisicion REAL,
+                VidaUtilMeses INTEGER,
+
+                CategoriaId INTEGER NOT NULL,
+                Categoria TEXT NOT NULL,
+                Caracteristicas BOOL,
+                FOREIGN KEY (CategoriaId) REFERENCES Categorias(Id)
+            );";
+            using (var cmd = new SQLiteCommand(query, con))
+            {
+                cmd.ExecuteNonQuery();
+            }
+        }
 
         public static int ObtenerCategoriaId(string nombreCategoria, int inventarioId, SQLiteConnection con)
         {
@@ -21,10 +73,8 @@ namespace ControlInventario.Database
             }
         }
 
-
         public static void InsertarArticulo(Articulos art, SQLiteConnection con)
         {
-
             string query = @"
             INSERT INTO Articulos(
                 Codigo,
@@ -111,7 +161,7 @@ namespace ControlInventario.Database
             using (var cmd = new SQLiteCommand(query, con))
             {
 
-                art.CategoriaId = ObtenerCategoriaId(art.Categoria, UsuarioSesion.inventarioId, con);
+                art.CategoriaId = ObtenerCategoriaId(art.Categoria, UsuarioSesion.InventarioId, con);
 
                 cmd.Parameters.AddWithValue("@Codigo", art.Codigo);
                 cmd.Parameters.AddWithValue("@Modelo", art.Modelo);
@@ -155,17 +205,18 @@ namespace ControlInventario.Database
                 cmd.ExecuteNonQuery();
             }
 
-            // Insertar características dinámicas (EAV)
-            foreach (var kv in art.Caracteristicas)
+            using (var cmd = new SQLiteCommand("SELECT last_insert_rowid();", con)) 
+            { 
+                art.Id = Convert.ToInt32(cmd.ExecuteScalar()); 
+            }
+
+            if (art.Caracteristicas != null && art.Caracteristicas.Count > 0)
             {
-                string queryCar = @"INSERT INTO Caracteristicas(ArticuloId, Nombre, Valor)
-                            VALUES (@ArticuloId, @Nombre, @Valor);";
-                using (var cmdCar = new SQLiteCommand(queryCar, con))
+                var caracteristicasRepo = new CaracteristicaRepository();
+                foreach (var car in art.Caracteristicas)
                 {
-                    cmdCar.Parameters.AddWithValue("@ArticuloId", art.Id); // ojo: necesitas el Id generado
-                    cmdCar.Parameters.AddWithValue("@Nombre", kv.Key);
-                    cmdCar.Parameters.AddWithValue("@Valor", kv.Value);
-                    cmdCar.ExecuteNonQuery();
+                    car.ArticuloId = art.Id; 
+                    CaracteristicaRepository.InsertarCaracteristica(car, con);
                 }
             }
         }
@@ -256,57 +307,42 @@ namespace ControlInventario.Database
                     cmd.Parameters.AddWithValue("@Id", art.Id);
 
                     cmd.ExecuteNonQuery();
+
                 }
 
-                // Actualizar características dinámicas (EAV)
-                //string deleteCar = "DELETE FROM Caracteristicas WHERE ArticuloId = @ArticuloId;";
-                //using (var cmdDel = new SQLiteCommand(deleteCar, con))
-                //{
-                //    cmdDel.Parameters.AddWithValue("@ArticuloId", art.Id);
-                //    cmdDel.ExecuteNonQuery();
-                //}
+            }
 
-                //foreach (var kv in art.Caracteristicas)
-                //{
-                //    string insertCar = @"INSERT INTO Caracteristicas(ArticuloId, Nombre, Valor)
-                //                 VALUES (@ArticuloId, @Nombre, @Valor);";
-                //    using (var cmdCar = new SQLiteCommand(insertCar, con))
-                //    {
-                //        cmdCar.Parameters.AddWithValue("@ArticuloId", art.Id);
-                //        cmdCar.Parameters.AddWithValue("@Nombre", kv.Key);
-                //        cmdCar.Parameters.AddWithValue("@Valor", kv.Value);
-                //        cmdCar.ExecuteNonQuery();
-                //    }
-                //}
+            if (art.Caracteristicas != null && art.Caracteristicas.Count > 0)
+            {
+                var caracteristicasRepo = new CaracteristicaRepository();
+                foreach (var car in art.Caracteristicas)
+                {
+                    car.ArticuloId = art.Id;
+                    CaracteristicaRepository.ActualizarCaracteristicas(car);
+                }
             }
         }
 
-        public static int EliminarArticulo(int id)
+        public static int EliminarArticulo(int id)  
         {
             using (var con = ConexionGlobal.ObtenerConexion())
             {
                 con.Open();
 
                 // Primero eliminar características asociadas
-                string queryCar = @"DELETE FROM Caracteristicas WHERE ArticuloId = @Id;";
-                using (var cmdCar = new SQLiteCommand(queryCar, con))
-                {
-                    cmdCar.Parameters.AddWithValue("@Id", id);
-                    cmdCar.ExecuteNonQuery();
-                }
+                CaracteristicaRepository.EliminarCaracteristica(id);
 
                 // Luego eliminar el artículo
                 string query = @"DELETE FROM Articulos WHERE Id = @Id;";
                 using (var cmd = new SQLiteCommand(query, con))
                 {
                     cmd.Parameters.AddWithValue("@Id", id);
-                    int filas = cmd.ExecuteNonQuery(); // devuelve cuántas filas se eliminaron
-                    return filas; // 1 si se eliminó, 0 si no existía
+                    int filas = cmd.ExecuteNonQuery();
+                    return filas;
                 }
             }
         }
 
-        // Listar todos los Articulos con sus Características
         public static List<Articulos> ListarArticulos(int inventarioId)
         {
             var lista = new List<Articulos>();
@@ -316,10 +352,10 @@ namespace ControlInventario.Database
                 con.Open();
 
                 string query = @"
-                    SELECT a.*, c.Nombre AS CategoriaNombre
-                    FROM Articulos a
-                    INNER JOIN Categorias c ON a.CategoriaId = c.Id
-                    WHERE c.InventarioId = @InventarioId;
+                    SELECT art.*, cat.Nombre AS CategoriaNombre
+                    FROM Articulos art
+                    INNER JOIN Categorias cat ON art.CategoriaId = cat.Id
+                    WHERE cat.InventarioId = @InventarioId;
                 ";
 
                 using (var cmd = new SQLiteCommand(query, con))
@@ -331,6 +367,7 @@ namespace ControlInventario.Database
                         while (reader.Read())
                         {
                             var articulo = MapearArticulos(reader);
+                            articulo.Caracteristicas = CaracteristicaRepository.ListarCaracteristicas(articulo.Id);
                             lista.Add(articulo);
                         }
                     }
@@ -340,9 +377,6 @@ namespace ControlInventario.Database
             return lista;
         }
 
-
-
-        // Método auxiliar para mapear un registro a objeto Articulos
         private static Articulos MapearArticulos(SQLiteDataReader reader)
         {
             return new Articulos
@@ -412,8 +446,6 @@ namespace ControlInventario.Database
                     ? Convert.ToInt32(reader["CategoriaId"])
                     : 0,
                 Categoria = reader["Categoria"]?.ToString(),
-
-                Caracteristicas = new Dictionary<string, string>() // se llena después
             };
         }
     }

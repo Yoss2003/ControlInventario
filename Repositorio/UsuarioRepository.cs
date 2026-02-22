@@ -5,13 +5,38 @@ using System.Data.SQLite;
 
 namespace ControlInventario.Database
 {
-    public static class EmpleadoRepository
+    public static class UsuarioRepository
     {
-        // Insertar nuevo empleado
-        public static long InsertarEmpleado(Empleado emp, SQLiteConnection con)
+        public static void CrearTablaUsuario(SQLiteConnection con)
         {
             string query = @"
-            INSERT INTO Empleados (
+            CREATE TABLE IF NOT EXISTS Usuario (
+                Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                Nombres TEXT NOT NULL,
+                Apellidos TEXT NOT NULL,
+                Correo TEXT NOT NULL,
+                Edad INTEGER NOT NULL,
+                FechaNacimiento TEXT NOT NULL,
+                Usuario TEXT NOT NULL UNIQUE,
+                Contraseña TEXT NOT NULL,
+                Cargo TEXT NOT NULL,
+                Area TEXT NOT NULL,
+                FechaIngreso TEXT,
+                TipoContrato TEXT,
+                IdRol INTEGER NOT NULL,
+                Rol TEXT NOT NULL
+            );";
+            using (var cmd = new SQLiteCommand(query, con))
+            {
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        // Insertar nuevo empleado
+        public static long InsertarUsuario(Usuario emp, SQLiteConnection con)
+        {
+            string query = @"
+            INSERT INTO Usuario (
                 Nombres, 
                 Apellidos, 
                 Correo, 
@@ -48,7 +73,7 @@ namespace ControlInventario.Database
                 cmd.Parameters.AddWithValue("@Correo", emp.Correo);
                 cmd.Parameters.AddWithValue("@Edad", emp.Edad);
                 cmd.Parameters.AddWithValue("@FechaNacimiento", emp.FechaNacimiento);
-                cmd.Parameters.AddWithValue("@Usuario", emp.Usuario);
+                cmd.Parameters.AddWithValue("@Usuario", emp.NombreUsuario);
                 cmd.Parameters.AddWithValue("@Contraseña", emp.Contraseña);
                 cmd.Parameters.AddWithValue("@Cargo", emp.Cargo);
                 cmd.Parameters.AddWithValue("@Area", emp.Area);
@@ -67,14 +92,14 @@ namespace ControlInventario.Database
         }
 
         // Actualizar empleado existente
-        public static void ActualizarEmpleado(Empleado emp)
+        public static void ActualizarUsuario(Usuario emp)
         {
             using (var con = ConexionGlobal.ObtenerConexion())
             {
                 con.Open();
 
                 string query = @"
-                    UPDATE Empleados SET
+                    UPDATE Usuario SET
                         Nombres=@Nombres, 
                         Apellidos=@Apellidos, 
                         Correo=@Correo, 
@@ -97,7 +122,7 @@ namespace ControlInventario.Database
                     cmd.Parameters.AddWithValue("@Correo", emp.Correo);
                     cmd.Parameters.AddWithValue("@Edad", emp.Edad);
                     cmd.Parameters.AddWithValue("@FechaNacimiento", emp.FechaNacimiento);
-                    cmd.Parameters.AddWithValue("@Usuario", emp.Usuario);
+                    cmd.Parameters.AddWithValue("@Usuario", emp.NombreUsuario);
                     cmd.Parameters.AddWithValue("@Contraseña", emp.Contraseña);
                     cmd.Parameters.AddWithValue("@Cargo", emp.Cargo);
                     cmd.Parameters.AddWithValue("@Area", emp.Area);
@@ -112,13 +137,13 @@ namespace ControlInventario.Database
         }
 
         // Eliminar empleado por Id
-        public static long EliminarEmpleado(int id)
+        public static long EliminarUsuario(int id)
         {
             using (var con = ConexionGlobal.ObtenerConexion())
             {
                 con.Open();
 
-                string query = "DELETE FROM Empleados WHERE Id=@Id;";
+                string query = "DELETE FROM Usuario WHERE Id=@Id;";
                 using (var cmd = new SQLiteCommand(query, con))
                 {
                     cmd.Parameters.AddWithValue("@Id", id);
@@ -133,21 +158,21 @@ namespace ControlInventario.Database
         }
 
         // Listar todos los empleados
-        public static List<Empleado> ListarEmpleados()
+        public static List<Usuario> ListarUsuario()
         {
-            var lista = new List<Empleado>();
+            var lista = new List<Usuario>();
 
             using (var con = ConexionGlobal.ObtenerConexion())
             {
                 con.Open();
 
-                string query = "SELECT * FROM Empleados;";
+                string query = "SELECT * FROM Usuario;";
                 using (var cmd = new SQLiteCommand(query, con))
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        lista.Add(MapearEmpleado(reader));
+                        lista.Add(MapearUsuario(reader));
                     }
                 }
             }
@@ -156,9 +181,9 @@ namespace ControlInventario.Database
         }
 
         // Método auxiliar para mapear un registro a objeto Empleado
-        private static Empleado MapearEmpleado(SQLiteDataReader reader)
+        private static Usuario MapearUsuario(SQLiteDataReader reader)
         {
-            return new Empleado
+            return new Usuario
             {
                 Id = Convert.ToInt32(reader["Id"]),
                 Nombres = reader["Nombres"].ToString(),
@@ -166,7 +191,7 @@ namespace ControlInventario.Database
                 Correo = reader["Correo"].ToString(),
                 Edad = Convert.ToInt32(reader["Edad"]),
                 FechaNacimiento = DateTime.Parse(reader["FechaNacimiento"].ToString()),
-                Usuario = reader["Usuario"].ToString(),
+                NombreUsuario = reader["Usuario"].ToString(),
                 Contraseña = reader["Contraseña"].ToString(),
                 Cargo = reader["Cargo"].ToString(),
                 Area = reader["Area"].ToString(),
@@ -177,12 +202,12 @@ namespace ControlInventario.Database
             };
         }
 
-        public static Empleado BuscarPorUsuario(string usuario)
+        public static Usuario BuscarPorUsuario(string usuario)
         {
             using (var conexion = ConexionGlobal.ObtenerConexion())
             {
                 conexion.Open();
-                string query = "SELECT * FROM Empleados WHERE Usuario = @Usuario";
+                string query = "SELECT * FROM Usuario WHERE Usuario = @Usuario";
                 using (SQLiteCommand cmd = new SQLiteCommand(query, conexion))
                 {
                     cmd.Parameters.AddWithValue("@Usuario", usuario);
@@ -191,7 +216,7 @@ namespace ControlInventario.Database
                         if (reader.Read())
                         {
                             // Reuse the mapping helper to populate all fields (including Rol and IdRol)
-                            return MapearEmpleado(reader);
+                            return MapearUsuario(reader);
                         }
                     }
                 }

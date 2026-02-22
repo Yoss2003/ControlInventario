@@ -198,43 +198,6 @@ namespace ControlInventario.Vistas
                 }
             }
 
-            // Crear tabla si no existe
-            try
-            {
-                using (var con = ConexionGlobal.ObtenerConexion())
-                {
-                    con.Open();
-
-                    string query = @"
-                        CREATE TABLE IF NOT EXISTS Empleados (
-                            Id INTEGER PRIMARY KEY AUTOINCREMENT,
-                            Nombres TEXT,
-                            Apellidos TEXT,
-                            Correo TEXT,
-                            Edad INTEGER,
-                            FechaNacimiento TEXT,
-                            Usuario TEXT,
-                            Contraseña TEXT,
-                            Cargo TEXT,
-                            Area TEXT,
-                            FechaIngreso TEXT,
-                            TipoContrato TEXT,
-                            IdRol INT,
-                            Rol TEXT
-                        );";
-
-                    using (var cmd = new SQLiteCommand(query, con))
-                    {
-                        cmd.ExecuteNonQuery();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error de conexión: " + ex.Message, "Error", 
-                    MessageBoxButtons.OK, 
-                    MessageBoxIcon.Error);
-            }
             checkedListRol.Enabled = false;
         }
 
@@ -267,14 +230,14 @@ namespace ControlInventario.Vistas
                     }
 
                     //Crear objeto
-                    Empleado emp = new Empleado
+                    Usuario emp = new Usuario
                     {
                         Nombres = txtNombre.Text,
                         Apellidos = txtApellido.Text,
                         Correo = txtCorreo.Text,
                         Edad = int.Parse(txtEdad.Text),
                         FechaNacimiento = dtFechaNac.Value,
-                        Usuario = txtUsuario.Text,
+                        NombreUsuario = txtUsuario.Text,
                         Contraseña = txtContraseña.Text,
                         Cargo = txtCargo.Text,
                         Area = txtArea.Text,
@@ -285,10 +248,10 @@ namespace ControlInventario.Vistas
                     };
 
                     //Guardar en BD
-                    long nuevoId = EmpleadoRepository.InsertarEmpleado(emp, con);
+                    long nuevoId = UsuarioRepository.InsertarUsuario(emp, con);
 
                     //Abrir vista de preguntas de seguridad
-                    MessageBox.Show("Empleado registrado correctamente.",
+                    MessageBox.Show("Usuario registrado correctamente.",
                                     "Éxito",
                                     MessageBoxButtons.OK,
                                     MessageBoxIcon.Information);

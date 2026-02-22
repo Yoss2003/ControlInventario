@@ -53,7 +53,7 @@ namespace ControlInventario.Modelos
         public int CategoriaId { get; set; } // Identificador de la categoría del articulo
         public string Categoria { get; set; } // Categoría asociada
 
-        // Características dinámicas (EAV)
-        public Dictionary<string, string> Caracteristicas { get; set; } = new Dictionary<string, string>(); 
+        // Relación con Caracteristicas
+        public List<Caracteristicas> Caracteristicas { get; set; } // Lista de características asociadas al artículo
     }
 }

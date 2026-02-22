@@ -1,5 +1,8 @@
 ﻿using ControlInventario.Database;
+using ControlInventario.Modelo.Interface;
 using ControlInventario.Modelos;
+using ControlInventario.Servicios;
+using ControlInventario.Vistas.Aplicacion;
 using ControlInventario.Vistas.Extras;
 using PdfiumViewer;
 using System;
@@ -9,12 +12,14 @@ using System.Windows.Forms;
 
 namespace ControlInventario.Vistas
 {
-    public partial class VistaArticulos : Form
+    public partial class VistaArticulos : Form, IMarcasRefrescable
     {
         private PdfViewer pdfViewer;
         private readonly int _categoriaId;
         private readonly string _categoria;
         private readonly int _articuloId;
+
+        public ComboBox CbMarcasPublic => CbMarcas;
 
         public VistaArticulos(int categoriaId, string categoria, int? articuloId = null)
         {
@@ -61,7 +66,7 @@ namespace ControlInventario.Vistas
                 if (lbl != null && !labelsAgregados.Contains(lbl.Name))
                 {
                     lbl.AutoSize = false;
-                    lbl.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+                    lbl.TextAlign = ContentAlignment.MiddleLeft;
                     lbl.Margin = new Padding(5, 3, 10, 0);
 
                     int panelWidth = FlCaracteristicas.ClientSize.Width; 
@@ -143,9 +148,9 @@ namespace ControlInventario.Vistas
 
         private void CbEstado_TextChanged(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(CbEstado.Text))
+            if (string.IsNullOrWhiteSpace(CbEstadoArticulo.Text))
             {
-                CbEstado.Text = "SELECCIONE";
+                CbEstadoArticulo.Text = "SELECCIONE";
             }
         }
 
@@ -167,9 +172,9 @@ namespace ControlInventario.Vistas
 
         private void CbDesktop_TextChanged(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(CbDesktop.Text))
+            if (string.IsNullOrWhiteSpace(CbMarcas.Text))
             {
-                CbDesktop.Text = "SELECCIONE";
+                CbMarcas.Text = "SELECCIONE";
             }
         }
 
@@ -189,7 +194,7 @@ namespace ControlInventario.Vistas
         // Método auxiliar para obtener la marca según el ComboBox visible
         private string ObtenerMarca()
         {
-            if (CbDesktop.Visible) return CbDesktop.SelectedItem?.ToString();
+            if (CbMarcas.Visible) return CbMarcas.SelectedItem?.ToString();
             if (CbCelulares.Visible) return CbCelulares.SelectedItem?.ToString();
             if (CbMonitores.Visible) return CbMonitores.SelectedItem?.ToString();
             // Si ninguno aplica, puedes devolver null o un texto por defecto
@@ -201,7 +206,7 @@ namespace ControlInventario.Vistas
             TxtCodigo.Text = "";
             TxtModelo.Text = "";
             TxtSerie.Text = "";
-            CbDesktop.SelectedIndex = -1;
+            CbMarcas.SelectedIndex = -1;
             CbCelulares.SelectedIndex = -1;
             CbMonitores.SelectedIndex = -1;
             DtpFechaAdquisicion.Value = DateTime.Now;
@@ -211,14 +216,14 @@ namespace ControlInventario.Vistas
             TxtDniUsuarioActual.Text = "";
             TxtNombreUsuarioActual.Text = "";
             CbAreaUsuarioActual.SelectedIndex = -1;
-            TxtCargoUsuarioActual.Text = "";
+            CbCargoUsuarioActual.SelectedIndex = -1;
 
             TxtDniUsuarioAnterior.Text = "";
             TxtNombreUsuarioAnterior.Text = "";
             CbAreaUsuarioAnterior.SelectedIndex = -1;
-            TxtCargoUsuarioAnterior.Text = "";
+            CbCargoUsuarioAnterior.SelectedIndex = -1;
 
-            CbEstado.SelectedIndex = -1;
+            CbEstadoArticulo.SelectedIndex = -1;
             CbUbicacion.SelectedIndex = -1;
             CbCondicion.SelectedIndex = -1;
             TxtActivoFijo.Text = "";
@@ -260,16 +265,16 @@ namespace ControlInventario.Vistas
                             NombreUsuarioActual = TxtNombreUsuarioActual.Text,
                             IdAreaUsuarioActual = Convert.ToInt32(CbAreaUsuarioActual.SelectedValue),
                             AreaUsuarioActual = CbAreaUsuarioActual.Text,
-                            CargoUsuarioActual = TxtCargoUsuarioActual.Text,
+                            CargoUsuarioActual = CbCargoUsuarioActual.Text,
 
                             DniUsuarioAnterior = TxtDniUsuarioAnterior.Text,
                             NombreUsuarioAnterior = TxtNombreUsuarioAnterior.Text,
                             IdAreaUsuarioAnterior = Convert.ToInt32(CbAreaUsuarioAnterior.SelectedValue),
                             AreaUsuarioAnterior = CbAreaUsuarioAnterior.Text,
-                            CargoUsuarioAnterior = TxtCargoUsuarioAnterior.Text,
+                            CargoUsuarioAnterior = CbCargoUsuarioAnterior.Text,
 
-                            IdEstado = Convert.ToInt32(CbEstado.SelectedValue),
-                            Estado = CbEstado.Text,
+                            IdEstado = Convert.ToInt32(CbEstadoArticulo.SelectedValue),
+                            Estado = CbEstadoArticulo.Text,
                             IdUbicacion = Convert.ToInt32(CbUbicacion.SelectedValue),
                             Ubicacion = CbUbicacion.Text,
                             IdCondicion = Convert.ToInt32(CbCondicion.SelectedValue),
@@ -323,16 +328,16 @@ namespace ControlInventario.Vistas
                             NombreUsuarioActual = TxtNombreUsuarioActual.Text,
                             IdAreaUsuarioActual = Convert.ToInt32(CbAreaUsuarioActual.SelectedValue),
                             AreaUsuarioActual = CbAreaUsuarioActual.Text,
-                            CargoUsuarioActual = TxtCargoUsuarioActual.Text,
+                            CargoUsuarioActual = CbCargoUsuarioActual.Text,
 
                             DniUsuarioAnterior = TxtDniUsuarioAnterior.Text,
                             NombreUsuarioAnterior = TxtNombreUsuarioAnterior.Text,
                             IdAreaUsuarioAnterior = Convert.ToInt32(CbAreaUsuarioAnterior.SelectedValue),
                             AreaUsuarioAnterior = CbAreaUsuarioAnterior.Text,
-                            CargoUsuarioAnterior = TxtCargoUsuarioAnterior.Text,
+                            CargoUsuarioAnterior = CbCargoUsuarioAnterior.Text,
 
-                            IdEstado = Convert.ToInt32(CbEstado.SelectedValue),
-                            Estado = CbEstado.Text,
+                            IdEstado = Convert.ToInt32(CbEstadoArticulo.SelectedValue),
+                            Estado = CbEstadoArticulo.Text,
                             IdUbicacion = Convert.ToInt32(CbUbicacion.SelectedValue),
                             Ubicacion = CbUbicacion.Text,
                             IdCondicion = Convert.ToInt32(CbCondicion.SelectedValue),
@@ -390,16 +395,16 @@ namespace ControlInventario.Vistas
                         NombreUsuarioActual = TxtNombreUsuarioActual.Text,
                         IdAreaUsuarioActual = Convert.ToInt32(CbAreaUsuarioActual.SelectedValue),
                         AreaUsuarioActual = CbAreaUsuarioActual.Text,
-                        CargoUsuarioActual = TxtCargoUsuarioActual.Text,
+                        CargoUsuarioActual = CbCargoUsuarioActual.Text,
 
                         DniUsuarioAnterior = TxtDniUsuarioAnterior.Text,
                         NombreUsuarioAnterior = TxtNombreUsuarioAnterior.Text,
                         IdAreaUsuarioAnterior = Convert.ToInt32(CbAreaUsuarioAnterior.SelectedValue),
                         AreaUsuarioAnterior = CbAreaUsuarioAnterior.Text,
-                        CargoUsuarioAnterior = TxtCargoUsuarioAnterior.Text,
+                        CargoUsuarioAnterior = CbCargoUsuarioAnterior.Text,
 
-                        IdEstado = Convert.ToInt32(CbEstado.SelectedValue),
-                        Estado = CbEstado.Text,
+                        IdEstado = Convert.ToInt32(CbEstadoArticulo.SelectedValue),
+                        Estado = CbEstadoArticulo.Text,
                         IdUbicacion = Convert.ToInt32(CbUbicacion.SelectedValue),
                         Ubicacion = CbUbicacion.Text,
                         IdCondicion = Convert.ToInt32(CbCondicion.SelectedValue),
@@ -493,6 +498,67 @@ namespace ControlInventario.Vistas
             if (string.IsNullOrWhiteSpace(CbAreaUsuarioActual.Text))
             {
                 CbAreaUsuarioActual.Text = "SELECCIONE";
+            }
+        }
+
+        private void VistaArticulos_Load(object sender, EventArgs e)
+        {
+            using (var con = ConexionGlobal.ObtenerConexion())
+            {
+                con.Open();
+
+                var dtAreaActual = AreaRepository.ListarAreas(con); 
+                RefreshService.RefrescarComboDT(CbAreaUsuarioActual, dtAreaActual, "Nombre", "Id", "SELECCIONE");
+
+                var dtAreaAnterior = AreaRepository.ListarAreas(con);
+                RefreshService.RefrescarComboDT(CbAreaUsuarioAnterior, dtAreaAnterior, "Nombre", "Id", "SELECCIONE");
+
+                var dtCargoActual = CargoRepository.ListarCargos(con);
+                RefreshService.RefrescarComboDT(CbCargoUsuarioActual, dtCargoActual, "Nombre", "Id", "SELECCIONE");
+
+                var dtCargoAnterior = CargoRepository.ListarCargos(con);
+                RefreshService.RefrescarComboDT(CbCargoUsuarioAnterior, dtCargoAnterior, "Nombre", "Id", "SELECCIONE");
+
+                var dtEstadoArticulos = EstadoRepository.ListarEstadosArticulos(con);
+                RefreshService.RefrescarComboDT(CbEstadoArticulo, dtEstadoArticulos, "Nombre", "Id", "SELECCIONE");
+
+                var dtCondicion = CondicionRepository.ListarCondicion(con);
+                RefreshService.RefrescarComboDT(CbCondicion, dtCondicion, "Nombre", "Id", "SELECCIONE");
+
+                var dtUbicacion = UbicacionRepository.ListarUbicacion(con);
+                RefreshService.RefrescarComboDT(CbUbicacion, dtUbicacion, "Nombre", "Id", "SELECCIONE");
+
+                var dtMarcas = MarcasRepository.ListarMarcas(con, _categoriaId);
+                RefreshService.RefrescarComboDT(CbMarcas, dtMarcas, "Nombre", "Id", "SELECCIONE");
+
+            }
+        }
+
+        private void BtnAgregarMarca_Click(object sender, EventArgs e)
+        {
+            if (_categoriaId == 1)
+            {
+                VistaAgregarComponentes vistaAgregar = new VistaAgregarComponentes("Laptops", this);
+                vistaAgregar.CategoriaId = _categoriaId;
+                vistaAgregar.ShowDialog();
+            }
+            else if (_categoriaId == 2)
+            {
+                VistaAgregarComponentes vistaAgregar = new VistaAgregarComponentes("Computadoras", this);
+                vistaAgregar.CategoriaId = _categoriaId;
+                vistaAgregar.ShowDialog();
+            }
+            else if (_categoriaId == 3)
+            {
+                VistaAgregarComponentes vistaAgregar = new VistaAgregarComponentes("Monitores", this);
+                vistaAgregar.CategoriaId = _categoriaId;
+                vistaAgregar.ShowDialog();
+            }
+            else if (_categoriaId == 4)
+            {
+                VistaAgregarComponentes vistaAgregar = new VistaAgregarComponentes("Celulares", this);
+                vistaAgregar.CategoriaId = _categoriaId;
+                vistaAgregar.ShowDialog();
             }
         }
     }

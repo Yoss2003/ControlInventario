@@ -20,22 +20,22 @@ namespace ControlInventario.Vistas.Extras
     public partial class VistaRutaExportacion : Form
     {
         private bool message= false;
-        private ListView listViewInventario; 
-        private string categoria; 
-        private string nombreArchivo;
-        int UsuarioId = UsuarioSesion.UsuarioId;
+        readonly private ListView listViewInventario;
+        readonly private string categoria; 
+        readonly private string nombreArchivo;
+        readonly int UsuarioId = UsuarioSesion.UsuarioId;
 
         public VistaRutaExportacion(string nombreArchivo, ListView listViewActivo, string categoria)
         {
             InitializeComponent();
-            this.nombreArchivo = nombreArchivo; 
-            this.listViewInventario = listViewActivo; 
+            listViewInventario = listViewActivo; 
+            this.nombreArchivo = nombreArchivo;
             this.categoria = categoria;
 
             LblRutaArchivo.Text = nombreArchivo;
         }
 
-        private void ExportarACsv(ListView listView, string categoria, string filePath)
+        public void ExportarACsv(ListView listView, string categoria, string filePath)
         {
             if (string.IsNullOrWhiteSpace(filePath))
             {
@@ -78,8 +78,7 @@ namespace ControlInventario.Vistas.Extras
             }
         }
 
-
-        private void ExportarAExcel(ListView listView, string categoria, string filePath)
+        public void ExportarAExcel(ListView listView, string categoria, string filePath)
         {
             if (string.IsNullOrWhiteSpace(filePath))
             {
@@ -147,11 +146,12 @@ namespace ControlInventario.Vistas.Extras
                         {
                             if (ChkRutaPredeterminada.Checked)
                             {
-                                rutas.rutaPredeterminada1 = TxtRutaPredeterminada.Text;
+                                rutas.RutaPredeterminada1 = TxtRutaPredeterminada.Text;
                                 rutas.TipoArchivo1 = extension;
+                                rutas.EsPredeterminado1 = ChkRutaPredeterminada.Checked;
                                 rutRepo.ActualizarRuta(rutas);
 
-                                filePath = rutas.rutaPredeterminada1;
+                                filePath = rutas.RutaPredeterminada1;
 
                                 if (string.IsNullOrEmpty(filePath))
                                 {
@@ -164,8 +164,9 @@ namespace ControlInventario.Vistas.Extras
                             {
                                 if (!string.IsNullOrEmpty(nuevaRuta) && nuevaRuta != filePath)
                                 {
-                                    rutas.rutaPredeterminada1 = TxtRutaPredeterminada.Text;
-                                    rutas.rutaPersonalizada1 = TxtRutaPersonalizada.Text;
+                                    rutas.RutaPredeterminada1 = TxtRutaPredeterminada.Text;
+                                    rutas.RutaPersonalizada1 = TxtRutaPersonalizada.Text;
+                                    rutas.EsPredeterminado1 = ChkRutaPredeterminada.Checked;
                                     rutas.TipoArchivo1 = extension;
                                     rutRepo.ActualizarRuta(rutas);
                                     filePath = nuevaRuta;
@@ -183,26 +184,28 @@ namespace ControlInventario.Vistas.Extras
 
                             var rutExport = new RutasExportar
                             {
-                                usuarioId = UsuarioId,
-                                rutaPredeterminada1 = TxtRutaPredeterminada.Text,
-                                rutaPersonalizada1 = TxtRutaPersonalizada.Text,
-                                TipoArchivo1 = extension
+                                UsuarioId = UsuarioId,
+                                RutaPredeterminada1 = TxtRutaPredeterminada.Text,
+                                RutaPersonalizada1 = TxtRutaPersonalizada.Text,
+                                TipoArchivo1 = extension,
+                                EsPredeterminado1 = ChkRutaPredeterminada.Checked
                             };
 
                             rutRepo.GuardarRuta(rutExport, con);
                             filePath = nuevaRuta;
                         }
                     }
-                    else // CSV
+                    else
                     {
                         if (rutas != null)
                         {
                             if (ChkRutaPredeterminada.Checked)
                             {
-                                rutas.rutaPredeterminada2 = TxtRutaPredeterminada.Text;
+                                rutas.RutaPredeterminada2 = TxtRutaPredeterminada.Text;
                                 rutas.TipoArchivo2 = extension;
-                                rutRepo.ActualizarRuta(rutas); // <-- actualizar BD
-                                filePath = rutas.rutaPredeterminada2;
+                                rutas.EsPredeterminado2 = ChkRutaPredeterminada.Checked;
+                                rutRepo.ActualizarRuta(rutas);
+                                filePath = rutas.RutaPredeterminada2;
 
                                 if (string.IsNullOrEmpty(filePath))
                                 {
@@ -215,9 +218,10 @@ namespace ControlInventario.Vistas.Extras
                             {
                                 if (!string.IsNullOrEmpty(nuevaRuta) && nuevaRuta != filePath)
                                 {
-                                    rutas.rutaPredeterminada2 = TxtRutaPredeterminada.Text;
-                                    rutas.rutaPersonalizada2 = TxtRutaPersonalizada.Text;
+                                    rutas.RutaPredeterminada2 = TxtRutaPredeterminada.Text;
+                                    rutas.RutaPersonalizada2 = TxtRutaPersonalizada.Text;
                                     rutas.TipoArchivo2 = extension;
+                                    rutas.EsPredeterminado2 = ChkRutaPredeterminada.Checked;
                                     rutRepo.ActualizarRuta(rutas);
                                     filePath = nuevaRuta;
                                 }
@@ -234,10 +238,11 @@ namespace ControlInventario.Vistas.Extras
 
                             var rutExport = new RutasExportar
                             {
-                                usuarioId = UsuarioId,
-                                rutaPredeterminada2 = TxtRutaPredeterminada.Text,
-                                rutaPersonalizada2 = TxtRutaPersonalizada.Text,
-                                TipoArchivo2 = extension
+                                UsuarioId = UsuarioId,
+                                RutaPredeterminada2 = TxtRutaPredeterminada.Text,
+                                RutaPersonalizada2 = TxtRutaPersonalizada.Text,
+                                TipoArchivo2 = extension,
+                                EsPredeterminado2 = ChkRutaPredeterminada.Checked
                             };
 
                             rutRepo.GuardarRuta(rutExport, con);
@@ -283,37 +288,6 @@ namespace ControlInventario.Vistas.Extras
         private void VistaRutaExportacion_Load(object sender, EventArgs e)
         {
             VistaInicioSesion.CentrarElementos(LblRutaArchivo, GpRutas);
-
-            try
-            {
-                using (var con = ConexionGlobal.ObtenerConexion())
-                {
-                    con.Open();
-
-                    string queryRutas = @"
-                    CREATE TABLE IF NOT EXISTS RutasExportar (
-                        Id INTEGER PRIMARY KEY AUTOINCREMENT,
-                        UsuarioId INT NOT NULL,
-
-                        RutaPredeterminada1 NVARCHAR(500),
-                        RutaPersonalizada1 NVARCHAR(500),
-
-                        RutaPredeterminada2 NVARCHAR(500),
-                        RutaPersonalizada2 NVARCHAR(500),
-
-                        TipoArchivo1 VARCHAR(20),
-                        TipoArchivo2 VARCHAR(20),
-                        UNIQUE (UsuarioId)
-                    );";
-
-                    using (var cmd = new SQLiteCommand(queryRutas, con)) cmd.ExecuteNonQuery();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al cargar las rutas de exportación: " + ex.Message, "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
         }
 
         private void BtnBuscarRutaPred_Click(object sender, EventArgs e)

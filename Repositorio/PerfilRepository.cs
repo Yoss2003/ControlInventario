@@ -4,8 +4,41 @@ using ControlInventario.Modelos;
 
 namespace ControlInventario.Database
 {
-    public static class ConfiguracionPerfiles
+    public static class PerfilRepository
     {
+        public static void CrearTablaPerfiles(SQLiteConnection con)
+        {
+            string sql = @"
+                CREATE TABLE IF NOT EXISTS Perfil (
+                    IdPerfil INTEGER PRIMARY KEY AUTOINCREMENT,
+                    NombreUsuario TEXT,
+                    IdIdioma INT,
+                    Idioma TEXT,
+                    IdTema INT,
+                    Tema TEXT,
+                    IdNotificaciones INT,
+                    Notificaciones TEXT,
+                    IdFormatoFecha INT,
+                    FormatoFecha TEXT,
+                    IdMoneda INT,
+                    Moneda TEXT,
+                    IdUnidadMedida INT,
+                    UnidadMedida TEXT,
+                    IdZonaHoraria INT,
+                    ZonaHoraria TEXT,
+                    Autenticacion BOOL,
+                    ActividadCompartida BOOL,
+                    CodigoBarras BOOL,
+                    CategoriaPersonalizada BOOL,
+                    CalcularDevaluacion BOOL,
+                    GeneracionCodigos BOOL
+                );";
+            using (var cmd = new SQLiteCommand(sql, con))
+            {
+                cmd.ExecuteNonQuery();
+            }
+        }
+
         public static void AgregarPerfilUsuario(Perfiles perf, SQLiteConnection con)
         {
             string query = @"INSERT INTO Perfil (

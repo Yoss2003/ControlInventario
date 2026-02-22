@@ -138,7 +138,7 @@ namespace ControlInventario.Vistas
             this.UbicacionAccesorio = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ObservacionAccesorio = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.FotoAccesorio = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.TabGraficos = new System.Windows.Forms.TabPage();
+            this.TabAvanzado = new System.Windows.Forms.TabPage();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.NuAccionInventario = new System.Windows.Forms.NumericUpDown();
@@ -156,7 +156,7 @@ namespace ControlInventario.Vistas
             this.TabPc.SuspendLayout();
             this.TabMonitores.SuspendLayout();
             this.TabAccesorios.SuspendLayout();
-            this.TabGraficos.SuspendLayout();
+            this.TabAvanzado.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NuAccionInventario)).BeginInit();
             this.SuspendLayout();
@@ -164,7 +164,7 @@ namespace ControlInventario.Vistas
             // TbPrincipal
             // 
             this.TbPrincipal.Controls.Add(this.TabInventario);
-            this.TbPrincipal.Controls.Add(this.TabGraficos);
+            this.TbPrincipal.Controls.Add(this.TabAvanzado);
             this.TbPrincipal.Location = new System.Drawing.Point(13, 13);
             this.TbPrincipal.Name = "TbPrincipal";
             this.TbPrincipal.SelectedIndex = 0;
@@ -886,16 +886,16 @@ namespace ControlInventario.Vistas
             this.FotoAccesorio.Text = "Foto";
             this.FotoAccesorio.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // TabGraficos
+            // TabAvanzado
             // 
-            this.TabGraficos.Controls.Add(this.treeView1);
-            this.TabGraficos.Location = new System.Drawing.Point(4, 22);
-            this.TabGraficos.Name = "TabGraficos";
-            this.TabGraficos.Padding = new System.Windows.Forms.Padding(3);
-            this.TabGraficos.Size = new System.Drawing.Size(767, 399);
-            this.TabGraficos.TabIndex = 1;
-            this.TabGraficos.Text = "Gráficos";
-            this.TabGraficos.UseVisualStyleBackColor = true;
+            this.TabAvanzado.Controls.Add(this.treeView1);
+            this.TabAvanzado.Location = new System.Drawing.Point(4, 22);
+            this.TabAvanzado.Name = "TabAvanzado";
+            this.TabAvanzado.Padding = new System.Windows.Forms.Padding(3);
+            this.TabAvanzado.Size = new System.Drawing.Size(767, 399);
+            this.TabAvanzado.TabIndex = 1;
+            this.TabAvanzado.Text = "Avanzado";
+            this.TabAvanzado.UseVisualStyleBackColor = true;
             // 
             // treeView1
             // 
@@ -1028,7 +1028,7 @@ namespace ControlInventario.Vistas
             this.TabPc.ResumeLayout(false);
             this.TabMonitores.ResumeLayout(false);
             this.TabAccesorios.ResumeLayout(false);
-            this.TabGraficos.ResumeLayout(false);
+            this.TabAvanzado.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NuAccionInventario)).EndInit();
@@ -1040,7 +1040,7 @@ namespace ControlInventario.Vistas
 
         private System.Windows.Forms.TabControl TbPrincipal;
         private System.Windows.Forms.TabPage TabInventario;
-        private System.Windows.Forms.TabPage TabGraficos;
+        private System.Windows.Forms.TabPage TabAvanzado;
         private System.Windows.Forms.ColumnHeader IdLaptop;
         private System.Windows.Forms.ColumnHeader CodigoLaptop;
         private System.Windows.Forms.ColumnHeader ModeloLaptop;

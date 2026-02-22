@@ -2,33 +2,26 @@
 using ControlInventario.Modelos;
 using ControlInventario.Servicios;
 using ControlInventario.Utilidades;
+using ControlInventario.Vistas.Extras;
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Drawing;
-using System.IO;
-using System.Linq;
-using ClosedXML.Excel;
-using iTextSharp.text;
-using iTextSharp.text.pdf;
 using System.Windows.Forms;
-using ControlInventario.Vistas.Extras;
 
 namespace ControlInventario.Vistas
 {
     public partial class VistaInventario : Form
     {
-        private Inventario inventarioActual;
         private int _articuloId;
         public static bool isEdit = false;
-        int usuarioId = UsuarioSesion.UsuarioId;
-        string nombreUusario = UsuarioSesion.NombreUsuario;
-        string nombrePersonal = UsuarioSesion.NombrePersonal;
+        readonly int usuarioId = UsuarioSesion.UsuarioId;
+        readonly string nombreUusario = UsuarioSesion.NombreUsuario;
+        readonly string nombrePersonal = UsuarioSesion.NombrePersonal;
 
-        public VistaInventario(Inventario inventario)
+        public VistaInventario()
         {
             InitializeComponent();
-            inventarioActual = inventario;
 
 
             var customTabs = new CustomTabControl
@@ -92,88 +85,9 @@ namespace ControlInventario.Vistas
                 {
                     con.Open();
 
-                    // Crear la tabla Categorias con una relación al Inventario
-                    string queryCategorias = @"
-                    CREATE TABLE IF NOT EXISTS Categorias (
-                        Id INTEGER PRIMARY KEY AUTOINCREMENT,
-                        InventarioId INT,
-                        Nombre TEXT,
-                        FechaCreacion TEXT,
-                        FechaModificacion TEXT,
-                        FechaEliminacion TEXT,
-                        UsuarioCreacion TEXT,
-                        UsuarioModificacion TEXT,
-                        UsuarioEliminacion TEXT,
-                        FOREIGN KEY (InventarioId) REFERENCES Inventarios(Id) ON DELETE CASCADE
-                    );";
-
-                    // Crear la tabla Articulos con una relación a Categorias
-                    string queryArticulos = @"
-                    CREATE TABLE IF NOT EXISTS Articulos (
-                        Id INTEGER PRIMARY KEY AUTOINCREMENT,
-                        Codigo TEXT,
-                        Modelo TEXT,
-                        Serie TEXT,
-                        Marca TEXT,
-                        FechaAdquisicion TEXT,
-                        FechaBaja TEXT,
-                        FechaFinGarantia TEXT,
-                        
-                        DniUsuarioActual TEXT,
-                        NombreUsuarioActual TEXT,
-                        IdAreaUsuarioActual INTEGER,
-                        AreaUsuarioActual TEXT,
-                        CargoUsuarioActual TEXT,
-
-                        DniUsuarioAnterior TEXT,
-                        NombreUsuarioAnterior TEXT,
-                        IdAreaUsuarioAnterior INTEGER,
-                        AreaUsuarioAnterior TEXT,
-                        CargoUsuarioAnterior TEXT,
-
-                        IdEstado INTEGER,
-                        Estado TEXT,
-                        IdUbicacion INTEGER,
-                        Ubicacion TEXT,
-                        IdCondicion INTEGER,
-                        Condicion TEXT,
-                        ActivoFijo TEXT,
-
-                        Observacion TEXT,
-                        Foto BLOB,
-                        Comprobante BLOB,
-
-                        RUCProveedor TEXT,
-                        Proveedor TEXT,
-                        PrecioAdquisicion REAL,
-                        VidaUtilMeses INTEGER,
-                        
-                        CategoriaId INTEGER,
-                        Categoria TEXT,
-                        FOREIGN KEY (CategoriaId) REFERENCES Categorias(Id) ON DELETE CASCADE
-                    );";
-
-                    // Crear la tabla Caracteristicas con relación a Articulos
-                    string queryCaracteristicas = @"
-                    CREATE TABLE IF NOT EXISTS Caracteristicas (
-                        Id INTEGER PRIMARY KEY AUTOINCREMENT, 
-                        ArticuloId INTEGER, 
-                        Nombre TEXT, 
-                        Caracteristica1 TEXT, 
-                        Caracteristica2 TEXT, 
-                        Caracteristica3 TEXT, 
-                        Caracteristica4 TEXT, 
-                        FOREIGN KEY (ArticuloId) REFERENCES Articulos(Id) ON DELETE CASCADE 
-                    );";
-
-                    using (var cmd = new SQLiteCommand(queryCategorias, con)) cmd.ExecuteNonQuery();
-                    using (var cmd = new SQLiteCommand(queryArticulos, con)) cmd.ExecuteNonQuery();
-                    using (var cmd = new SQLiteCommand(queryCaracteristicas, con)) cmd.ExecuteNonQuery();
-
                     var repo = new InventarioRepository();
-                    var inventario = repo.ObtenerOCrearInventarioPorUsuario(con);
-                    UsuarioSesion.inventarioId = inventario.Id;
-
+                    var inventario = repo.ObtenerOCrearInventarioPorUsuario();
+                    UsuarioSesion.InventarioId = inventario.Id;
 
                     // Verificar si el inventario del usuario ya existe
                     string queryCheckInventario = "SELECT Id FROM Inventarios WHERE UsuarioId = @UsuarioId LIMIT 1;";
@@ -194,7 +108,7 @@ namespace ControlInventario.Vistas
                             };
                             // Insertar el nuevo inventario en la base de datos
                             var inventarioRepo = new InventarioRepository();
-                            inventarioActual = inventarioRepo.ObtenerOCrearInventarioPorUsuario(con);
+                            inventario = inventarioRepo.ObtenerOCrearInventarioPorUsuario();
                         }
                     }
 
@@ -203,7 +117,7 @@ namespace ControlInventario.Vistas
                     using (var cmdCheckCategorias = new SQLiteCommand(queryCheckCategorias, con))
                     {
                         // Si no existen categorías en el inventario, se crean a partir de las pestañas del TabControl
-                        cmdCheckCategorias.Parameters.AddWithValue("@InventarioId", inventarioActual.Id);
+                        cmdCheckCategorias.Parameters.AddWithValue("@InventarioId", inventario.Id);
                         var result = cmdCheckCategorias.ExecuteScalar();
                         if (result == null)
                         {
@@ -214,10 +128,10 @@ namespace ControlInventario.Vistas
                                 var categoria = new Categoria
                                 {
                                     Nombre = tab.Text,
-                                    InventarioId = inventarioActual.Id
+                                    InventarioId = inventario.Id
                                 };
                                 // Insertar la categoría en la base de datos
-                                var categoriaRepo = new CategoriaRepository(inventarioActual);
+                                var categoriaRepo = new CategoriaRepository(inventario);
                                 categoriaRepo.InsertarCategoriaInventario(categoria, con);
                             }
                         }
@@ -247,7 +161,7 @@ namespace ControlInventario.Vistas
 
         }
 
-        private int ObtenerCategoriaId()
+        public int ObtenerCategoriaId()
         {
             string texto = TbArticulos.SelectedTab?.Text;
 
@@ -279,7 +193,7 @@ namespace ControlInventario.Vistas
 
         public void CargarArticulos()
         {
-            var articulos = ArticuloRepository.ListarArticulos(UsuarioSesion.inventarioId);
+            var articulos = ArticuloRepository.ListarArticulos(UsuarioSesion.InventarioId);
 
             // Mapeo de cada TabPage con su ListView
             var tabMap = new Dictionary<TabPage, ListView>
@@ -309,7 +223,6 @@ namespace ControlInventario.Vistas
 
         private void BtnAgregarArticulo_Click(object sender, EventArgs e)
         {
-            var ListViewActivo = ObtenerListViewActivo();
             isEdit = false;
             int categoriaId = ObtenerCategoriaId();
             string categoria = ObtenerCategoriaNombre();
@@ -320,26 +233,11 @@ namespace ControlInventario.Vistas
                 // Configuración inicial
                 articulos.Text = "Crear Artículo";
                 articulos.TxtCodigo.Enabled = true;
-                articulos.CbDesktop.Visible = false;
-                articulos.CbCelulares.Visible = false;
-                articulos.CbMonitores.Visible = false;
+                articulos.CbMarcas.Visible = true;   // único ComboBox
                 articulos.GpCaracteristicas.Visible = true;
 
                 switch (texto)
                 {
-                    case "Laptops":
-                    case "Computadoras":
-                        articulos.CbDesktop.Visible = true;
-                        break;
-
-                    case "Celulares":
-                        articulos.CbCelulares.Visible = true;
-                        break;
-
-                    case "Monitores":
-                        articulos.CbMonitores.Visible = true;
-                        break;
-
                     case "Accesorios":
                         articulos.Size = new Size(828, 510);
                         articulos.GpCaracteristicas.Visible = false;
@@ -397,7 +295,7 @@ namespace ControlInventario.Vistas
                 articulos.Text = "Editar Artículo";
                 articulos.TxtCodigo.Enabled = false;
 
-                articulos.CbDesktop.Visible = false;
+                articulos.CbMarcas.Visible = false;
                 articulos.CbCelulares.Visible = false;
                 articulos.CbMonitores.Visible = false;
                 articulos.GpCaracteristicas.Visible = true;
@@ -406,8 +304,8 @@ namespace ControlInventario.Vistas
                 {
                     case "Laptops":
                     case "Computadoras":
-                        articulos.CbDesktop.Visible = true; 
-                        articulos.CbDesktop.Text = item.SubItems[4].Text;
+                        articulos.CbMarcas.Visible = true; 
+                        articulos.CbMarcas.Text = item.SubItems[4].Text;
                         break;
 
                     case "Celulares":
@@ -450,16 +348,16 @@ namespace ControlInventario.Vistas
                 if (item.SubItems.Count > 8) articulos.TxtDniUsuarioActual.Text = item.SubItems[8]?.Text ?? string.Empty;
                 if (item.SubItems.Count > 9) articulos.TxtNombreUsuarioActual.Text = item.SubItems[9]?.Text ?? string.Empty;
                 if (item.SubItems.Count > 10) articulos.CbAreaUsuarioActual.Text = item.SubItems[10]?.Text ?? string.Empty;
-                if (item.SubItems.Count > 11) articulos.TxtCargoUsuarioActual.Text = item.SubItems[11]?.Text ?? string.Empty;
+                if (item.SubItems.Count > 11) articulos.CbCargoUsuarioActual.Text = item.SubItems[11]?.Text ?? string.Empty;
 
                 // Usuario anterior
                 if (item.SubItems.Count > 12) articulos.TxtDniUsuarioAnterior.Text = item.SubItems[12]?.Text ?? string.Empty;
                 if (item.SubItems.Count > 13) articulos.TxtNombreUsuarioAnterior.Text = item.SubItems[13]?.Text ?? string.Empty;
                 if (item.SubItems.Count > 14) articulos.CbAreaUsuarioAnterior.Text = item.SubItems[14]?.Text ?? string.Empty;
-                if (item.SubItems.Count > 15) articulos.TxtCargoUsuarioAnterior.Text = item.SubItems[15]?.Text ?? string.Empty;
+                if (item.SubItems.Count > 15) articulos.CbCargoUsuarioAnterior.Text = item.SubItems[15]?.Text ?? string.Empty;
 
                 // Estado, ubicación, condición
-                if (item.SubItems.Count > 16) articulos.CbEstado.Text = item.SubItems[16]?.Text ?? string.Empty;
+                if (item.SubItems.Count > 16) articulos.CbEstadoArticulo.Text = item.SubItems[16]?.Text ?? string.Empty;
                 if (item.SubItems.Count > 17) articulos.CbUbicacion.Text = item.SubItems[17]?.Text ?? string.Empty;
                 if (item.SubItems.Count > 18) articulos.CbCondicion.Text = item.SubItems[18]?.Text ?? string.Empty;
 
@@ -536,32 +434,61 @@ namespace ControlInventario.Vistas
             string categoria = ObtenerCategoriaNombre();
             string usuario = nombreUusario;
 
-            var rutRepo = new RutasRepository();
-            var rutas = rutRepo.ObtenerRutas(UsuarioSesion.UsuarioId);
-
             // Determinar extensión según el valor del NumericUpDown
             string extension = NuAccionInventario.Value == 1 ? "xlsx" : "csv";
+            string filePath = null;
 
             // Generar nombre automático
-            string nombreArchivo = GenerarNombreArchivo(extension, usuario, categoria);
+            string nombreArchivo = GenerarNombreArchivo(extension, usuario, categoria); 
+
+            var rutRepo = new RutasRepository();
+            var rutas = rutRepo.ObtenerRutas(usuarioId);
 
             // Crear UNA sola instancia de la vista
             VistaRutaExportacion vistaRuta = new VistaRutaExportacion(nombreArchivo, listViewActivo, categoria);
+            if (rutas.EsPredeterminado1 == true)
+            {             
+                if (extension == ".xlsx")
+                {
+                    filePath = rutas.RutaPredeterminada1;
+                    vistaRuta.ExportarAExcel(listViewActivo, categoria, filePath);
+                }                    
 
-            // Asignar rutas según el inventario
-            if (NuAccionInventario.Value == 1)
+                MessageBox.Show($"Archivo exportado correctamente en: {filePath}", "Éxito",
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Information
+                );
+            }
+            else if(rutas.EsPredeterminado2 == true)
             {
-                vistaRuta.TxtRutaPredeterminada.Text = rutas.rutaPredeterminada1;
-                vistaRuta.TxtRutaPersonalizada.Text = rutas.rutaPersonalizada1;
+                // Exportar según extensión
+                if (extension == ".csv")
+                {
+                    filePath = rutas.RutaPredeterminada2;
+                    vistaRuta.ExportarACsv(listViewActivo, categoria, filePath);
+                }
+
+                MessageBox.Show($"Archivo exportado correctamente en: {filePath}", "Éxito",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
             }
             else
             {
-                vistaRuta.TxtRutaPredeterminada.Text = rutas.rutaPredeterminada2;
-                vistaRuta.TxtRutaPersonalizada.Text = rutas.rutaPersonalizada2;
-            }
-
-            // Mostrar vista de exportación
-            vistaRuta.ShowDialog();
+                // Asignar rutas según el inventario
+                if (NuAccionInventario.Value == 1)
+                {
+                    vistaRuta.TxtRutaPredeterminada.Text = rutas.RutaPredeterminada1;
+                    vistaRuta.TxtRutaPersonalizada.Text = rutas.RutaPersonalizada1;
+                }
+                else
+                {
+                    vistaRuta.TxtRutaPredeterminada.Text = rutas.RutaPredeterminada2;
+                    vistaRuta.TxtRutaPersonalizada.Text = rutas.RutaPersonalizada2;
+                }
+                // Mostrar vista de exportación
+                vistaRuta.ShowDialog();
+            }            
         }
 
         private string GenerarNombreArchivo(string formato, string usuario, string categoria)

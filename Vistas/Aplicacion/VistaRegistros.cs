@@ -12,6 +12,7 @@ namespace ControlInventario.Vistas.Aplicacion
 {
     public partial class VistaRegistros : Form, ICargosRefrescable, IAreasRefrescable, IEstadoEmpleadosRefrescable
     {
+        readonly int invetarioId = UsuarioSesion.InventarioId;
         private bool isEdit = false;
         public ComboBox CbCargoPublic => CbCargo;
         public ComboBox CbAreaPublic => CbArea;
@@ -27,14 +28,13 @@ namespace ControlInventario.Vistas.Aplicacion
             using (var con = ConexionGlobal.ObtenerConexion())
             {
                 con.Open();
-                var lista = EmpleadoRepository.ListarEmpleado();
+                var listaEmpleados = EmpleadoRepository.ListarEmpleado();
                 DgEmpleados.AutoGenerateColumns = false;
-                DgEmpleados.DataSource = lista;
+                DgEmpleados.DataSource = listaEmpleados;
 
-                foreach (DataGridViewColumn col in DgEmpleados.Columns)
-                {
-                    Console.WriteLine(col.Name);
-                }
+                var ListaHistorial = ArticuloRepository.ListarArticulos(invetarioId);
+                DgHistorial.AutoGenerateColumns = false;
+                DgHistorial.DataSource = ListaHistorial;
             }
         }
 
@@ -44,7 +44,7 @@ namespace ControlInventario.Vistas.Aplicacion
             {
                 con.Open();
 
-                var dtCate = CategoriaRepository.ListarCategorias(con);
+                var dtCate = CategoriaRepository.ListarCategorias(UsuarioSesion.InventarioId);
                 RefreshService.RefrescarComboDT(CbCategoria, dtCate, "Nombre", "Id", "SELECCIONE");
 
                 var dtCargo = CargoRepository.ListarCargos(con);
@@ -56,6 +56,7 @@ namespace ControlInventario.Vistas.Aplicacion
                 var dtEstado = EstadoRepository.ListarEstadosEmpleados(con);
                 RefreshService.RefrescarComboDT(CbEstadoEmpleados, dtEstado, "Nombre", "Id", "SELECCIONE");
 
+                // Cargar datos empleado
                 DgEmpleados.Columns["IdEmpleado"].DataPropertyName = "Id";
                 DgEmpleados.Columns["NombreEmpleado"].DataPropertyName = "Nombres";
                 DgEmpleados.Columns["ApellidoEmpleado"].DataPropertyName = "Apellidos";
@@ -66,8 +67,22 @@ namespace ControlInventario.Vistas.Aplicacion
 
                 DgEmpleados.DefaultCellStyle.WrapMode = DataGridViewTriState.True; 
                 DgEmpleados.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
-                DgEmpleados.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+                //DgEmpleados.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
                 DgEmpleados.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+                // Cargar datos articulos
+                DgHistorial.Columns["IdArticulo"].DataPropertyName = "Id";
+                DgHistorial.Columns["CodigoArticulo"].DataPropertyName = "Codigo";
+                DgHistorial.Columns["CategoriaArticulo"].DataPropertyName = "Categoria";
+                DgHistorial.Columns["AccionArticulo"].DataPropertyName = "Accion";
+                DgHistorial.Columns["UsuarioArticulo"].DataPropertyName = "UsuarioActual";
+                DgHistorial.Columns["FechaArticulo"].DataPropertyName = "FechaRegistro";
+                DgHistorial.Columns["ObservacionArticulo"].DataPropertyName = "Observacion";
+
+                DgHistorial.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+                DgHistorial.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+                //DgHistorial.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+                DgHistorial.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
                 CargarDatos();
             }
@@ -93,7 +108,8 @@ namespace ControlInventario.Vistas.Aplicacion
 
         private void BtnAgregarEmpleado_Click(object sender, EventArgs e)
         {
-            if(isEdit == false)
+            LimpiarVista(TipoAccion.Agregar);
+            if (isEdit == false)
             {
                 BtnAgregarEmpleado.Text = "Guardar";
                 try
@@ -154,6 +170,84 @@ namespace ControlInventario.Vistas.Aplicacion
             }
 
             CargarDatos();
+        }
+
+        private void ChkFiltros_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ChkFiltros.Checked)
+            {
+                DtFechaInicio.Enabled = true;
+                DtFechaFin.Enabled = true;
+                CbCategoria.Enabled = true;
+            }
+            else
+            {
+                DtFechaInicio.Enabled = false;
+                DtFechaFin.Enabled = false;
+                CbCategoria.Enabled = false;
+            }
+        }
+
+        public enum TipoAccion
+        {
+            Aplicar,
+            Agregar,
+            Limpiar
+        }
+
+        private void LimpiarVista(TipoAccion accion)
+        {
+            switch (accion)
+            {
+                case TipoAccion.Aplicar:
+                    DtFechaInicio.Value = DateTime.Now;
+                    DtFechaFin.Value = DateTime.Now;
+                    CbCategoria.SelectedIndex = 0;
+                    break;
+
+                case TipoAccion.Agregar:
+                    TxtNombres.Text = "";
+                    TxtApellidos.Text = "";
+                    TxtDNI.Text = "";
+                    CbCargo.SelectedIndex = 0;
+                    CbArea.SelectedIndex = 0;
+                    CbEstadoEmpleados.SelectedIndex = 0;
+                    break;
+
+                case TipoAccion.Limpiar:
+                    DtFechaInicio.Value = DateTime.Now;
+                    DtFechaFin.Value = DateTime.Now;
+                    CbCategoria.SelectedIndex = 0;
+                    TxtNombres.Text = "";
+                    TxtApellidos.Text = "";
+                    TxtDNI.Text = "";
+                    CbCargo.SelectedIndex = 0;
+                    CbArea.SelectedIndex = 0;
+                    CbEstadoEmpleados.SelectedIndex = 0;
+                    break;
+            }
+        }
+
+        private void BtnAplicar_Click(object sender, EventArgs e)
+        {
+            LimpiarVista(TipoAccion.Aplicar);
+            if (DtFechaInicio.Value > DtFechaFin.Value)
+            {
+                MessageBox.Show("La fecha de inicio no puede ser mayor a la fecha de fin.", "Error de fechas", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            string categoria = CbCategoria.SelectedIndex > 0 ? CbCategoria.SelectedItem.ToString() : null;
+
+            var resultados = ArticuloRepository.BuscarArticulos(DtFechaInicio.Value, DtFechaFin.Value, categoria);
+
+            DgHistorial.AutoGenerateColumns = false;
+            DgHistorial.DataSource = resultados;
+        }
+
+        private void BtnLimpiar_Click(object sender, EventArgs e)
+        {
+            LimpiarVista(TipoAccion.Limpiar);
         }
     }
 }

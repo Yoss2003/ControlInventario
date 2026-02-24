@@ -1,8 +1,11 @@
 ﻿using ControlInventario.Modelos;
 using ControlInventario.Servicios;
+using ControlInventario.Vistas;
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace ControlInventario.Database
 {
@@ -64,13 +67,15 @@ namespace ControlInventario.Database
             }
         }
 
-        public Inventario ObtenerOCrearInventarioPorUsuario()
+        public Inventario ObtenerOCrearInventarioPorUsuario(string NombreUsuario)
         {
             using (var con = ConexionGlobal.ObtenerConexion())
             {
                 con.Open();
 
+                // 1. Verificar inventario
                 string select = "SELECT Id, NombreInventario, FechaCreacion, FechaModificacion, UsuarioId, Usuario FROM Inventarios WHERE UsuarioId = @UsuarioId LIMIT 1;";
+                Inventario inventario = null;
                 using (var cmd = new SQLiteCommand(select, con))
                 {
                     cmd.Parameters.AddWithValue("@UsuarioId", usuarioId);
@@ -78,7 +83,7 @@ namespace ControlInventario.Database
                     {
                         if (reader.Read())
                         {
-                            var inv = new Inventario
+                            inventario = new Inventario
                             {
                                 Id = Convert.ToInt32(reader["Id"]),
                                 NombreInventario = reader["NombreInventario"]?.ToString(),
@@ -88,27 +93,54 @@ namespace ControlInventario.Database
 
                             DateTime temp;
                             if (reader["FechaCreacion"] != DBNull.Value && DateTime.TryParse(reader["FechaCreacion"].ToString(), out temp))
-                                inv.FechaCreacion = temp;
+                                inventario.FechaCreacion = temp;
                             if (reader["FechaModificacion"] != DBNull.Value && DateTime.TryParse(reader["FechaModificacion"].ToString(), out temp))
-                                inv.FechaModificacion = temp;
-
-                            return inv;
+                                inventario.FechaModificacion = temp;
                         }
                     }
                 }
-                // No existe: crear
-                var nuevo = new Inventario
-                {
-                    NombreInventario = "Invent_" + nombreUsuario,
-                    FechaCreacion = DateTime.Now.Date,
-                    UsuarioId = usuarioId,
-                    Usuario = nombreUsuario
-                };
 
-                int newId = InsertarInventarioUsuario(nuevo, con);
-                nuevo.Id = newId;
-                return nuevo;
-            }     
+                // 2. Si no existe, crear inventario
+                if (inventario == null)
+                {
+                    inventario = new Inventario
+                    {
+                        NombreInventario = "Invent_" + nombreUsuario,
+                        FechaCreacion = DateTime.Now.Date,
+                        UsuarioId = usuarioId,
+                        Usuario = nombreUsuario
+                    };
+
+                    int newId = InsertarInventarioUsuario(inventario, con);
+                    inventario.Id = newId;
+                }
+
+                // 3. Verificar categorías
+                string queryCheckCategorias = "SELECT Id FROM Categorias WHERE InventarioId = @InventarioId LIMIT 1;";
+                using (var cmdCheckCategorias = new SQLiteCommand(queryCheckCategorias, con))
+                {
+                    cmdCheckCategorias.Parameters.AddWithValue("@InventarioId", inventario.Id);
+                    var result = cmdCheckCategorias.ExecuteScalar();
+                    if (result == null)
+                    {
+                        // Crear categorías por defecto (ejemplo)
+                        var categoriasPorDefecto = new List<string> { "General", "Otros" };
+                        foreach (var nombreCat in categoriasPorDefecto)
+                        {
+                            var categoria = new Categoria
+                            {
+                                Nombre = nombreCat,
+                                InventarioId = inventario.Id
+                            };
+                            var categoriaRepo = new CategoriaRepository(inventario);
+                            categoriaRepo.InsertarCategoriaInventario(categoria, con);
+                        }
+                    }
+                }
+
+                con.Close();
+                return inventario;
+            }
         }
 
         public void ActualizarInventario(Inventario invent, SQLiteConnection con)

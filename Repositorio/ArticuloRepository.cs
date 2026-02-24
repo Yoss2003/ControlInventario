@@ -2,7 +2,9 @@
 using ControlInventario.Servicios;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Data.SQLite;
+using System.Linq;
 
 namespace ControlInventario.Database
 {
@@ -115,7 +117,10 @@ namespace ControlInventario.Database
                 VidaUtilMeses,
 
                 CategoriaId,
-                Categoria
+                Categoria,
+
+                FechaRegistro,
+                Accion
             ) VALUES (
                 @Codigo,
                 @Modelo,
@@ -155,7 +160,10 @@ namespace ControlInventario.Database
                 @VidaUtilMeses,
 
                 @CategoriaId,
-                @Categoria
+                @Categoria,
+
+                @FechaRegistro,
+                @Accion
             );";
 
             using (var cmd = new SQLiteCommand(query, con))
@@ -202,6 +210,9 @@ namespace ControlInventario.Database
 
                 cmd.Parameters.AddWithValue("@CategoriaId", art.CategoriaId);
                 cmd.Parameters.AddWithValue("@Categoria", art.Categoria);
+
+                cmd.Parameters.AddWithValue("@FechaRegistro", DateTime.Now);
+                cmd.Parameters.AddWithValue("@Accion", "Ingreso");
                 cmd.ExecuteNonQuery();
             }
 
@@ -263,7 +274,10 @@ namespace ControlInventario.Database
                     RucProveedor = @RucProveedor,
                     Proveedor = @Proveedor,
                     PrecioAdquisicion = @PrecioAdquisicion,
-                    VidaUtilMeses = @VidaUtilMeses
+                    VidaUtilMeses = @VidaUtilMeses,
+
+                    FechaModificacion = @FechaModificacion,
+                    Accion = @Accion
                 WHERE Id = @Id;";
 
                 using (var cmd = new SQLiteCommand(query, con))
@@ -306,6 +320,8 @@ namespace ControlInventario.Database
                     cmd.Parameters.AddWithValue("@VidaUtilMeses", art.VidaUtilMeses ?? (object)DBNull.Value);
                     cmd.Parameters.AddWithValue("@Id", art.Id);
 
+                    cmd.Parameters.AddWithValue("@FechaModificacion", DateTime.Now);
+                    cmd.Parameters.AddWithValue("@Accion", art.Accion);
                     cmd.ExecuteNonQuery();
 
                 }
@@ -375,6 +391,49 @@ namespace ControlInventario.Database
             }
 
             return lista;
+        }
+
+        public static List<Articulos> BuscarArticulos(DateTime? fechaInicio, DateTime? fechaFin, string categoria)
+        {
+            var lista = new List<Articulos>();
+
+            using (var con = ConexionGlobal.ObtenerConexion())
+            {
+                con.Open();
+                string query = @"
+                    SELECT art.Id, art.Codigo, art.Modelo, art.CategoriaId, cat.Nombre AS Categoria, art.Estado, art.FechaRegistro
+                    FROM Articulos art
+                    INNER JOIN Categorias cat ON art.CategoriaId = cat.Id
+                    WHERE (@Categoria IS NULL OR cat.Nombre = @Categoria)
+                      AND (@FechaInicio IS NULL OR art.FechaRegistro >= @FechaInicio)
+                      AND (@FechaFin IS NULL OR art.FechaRegistro <= @FechaFin);
+                ";
+                using (var cmd = new SQLiteCommand(query, con))
+                {
+                    // Parámetros seguros
+                    cmd.Parameters.AddWithValue("@Categoria", string.IsNullOrEmpty(categoria) ? (object)DBNull.Value : categoria);
+                    cmd.Parameters.AddWithValue("@FechaInicio", fechaInicio.HasValue ? fechaInicio.Value : (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@FechaFin", fechaFin.HasValue ? fechaFin.Value : (object)DBNull.Value);
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            lista.Add(new Articulos
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                                Codigo = reader["Codigo"].ToString(),
+                                Categoria = reader["Categoria"].ToString(),
+                                Accion = reader["Accion"].ToString(),
+                                AreaUsuarioActual = reader["AreaUsuarioActual"].ToString(),
+                                FechaRegistro = Convert.ToDateTime(reader["FechaRegistro"]),
+                                Observacion = reader["Observacion"].ToString(),
+                            });
+                        }
+                        return lista;
+                    }
+                }
+            }
         }
 
         private static Articulos MapearArticulos(SQLiteDataReader reader)

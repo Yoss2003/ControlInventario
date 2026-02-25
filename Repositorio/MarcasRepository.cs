@@ -64,6 +64,21 @@ namespace ControlInventario.Database
             }
         }
 
+        public static void EliminarMarca(Marcas mar)
+        {
+            using (var con = ConexionGlobal.ObtenerConexion())
+            {
+                con.Open();
+                string sql = "DELETE FROM Marcas WHERE Id = @Id;";
+                using (var cmd = new SQLiteCommand(sql, con))
+                {
+                    cmd.Parameters.AddWithValue("@Id", mar.Id);
+                    cmd.ExecuteNonQuery();
+                }
+                con.Close();
+            }
+        }
+
         /* Enlace a ComboBox*/
         public static DataTable ListarMarcas(SQLiteConnection con, int categoriaId)
         {

@@ -143,12 +143,19 @@ namespace ControlInventario
                 return;
             }
 
+            
+
             Properties.Settings.Default.Save(); // Guardar cambios en la configuración
 
             UsuarioSesion.UsuarioId = user.Id; 
             UsuarioSesion.NombreUsuario = user.NombreUsuario; 
             UsuarioSesion.Rol = user.Rol;
             UsuarioSesion.NombrePersonal = $"{user.Nombres}";
+
+            var repo = new InventarioRepository();
+            var inventario = repo.ObtenerOCrearInventarioPorUsuario(user.NombreUsuario);
+
+            UsuarioSesion.InventarioId = inventario.Id;
 
             // Abrir el menú principal
             VistaMenuPrincipal frm = new VistaMenuPrincipal();

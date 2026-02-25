@@ -103,6 +103,8 @@
             this.BtnCancelar = new System.Windows.Forms.Button();
             this.BtnGuardarPlus = new System.Windows.Forms.Button();
             this.BtnGuardar = new System.Windows.Forms.Button();
+            this.ChkFechaBaja = new System.Windows.Forms.CheckBox();
+            this.ChkFechaGarantia = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.GpUsos.SuspendLayout();
@@ -148,6 +150,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.ChkFechaGarantia);
+            this.groupBox1.Controls.Add(this.ChkFechaBaja);
             this.groupBox1.Controls.Add(this.BtnAgregarMarca);
             this.groupBox1.Controls.Add(this.DtpFechaFinGarantia);
             this.groupBox1.Controls.Add(this.DtpFechaBaja);
@@ -184,6 +188,7 @@
             // 
             // DtpFechaFinGarantia
             // 
+            this.DtpFechaFinGarantia.Enabled = false;
             this.DtpFechaFinGarantia.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.DtpFechaFinGarantia.Location = new System.Drawing.Point(244, 102);
             this.DtpFechaFinGarantia.Name = "DtpFechaFinGarantia";
@@ -192,6 +197,7 @@
             // 
             // DtpFechaBaja
             // 
+            this.DtpFechaBaja.Enabled = false;
             this.DtpFechaBaja.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.DtpFechaBaja.Location = new System.Drawing.Point(127, 102);
             this.DtpFechaBaja.Name = "DtpFechaBaja";
@@ -254,7 +260,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(7, 83);
+            this.label5.Location = new System.Drawing.Point(7, 86);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(97, 13);
             this.label5.TabIndex = 2;
@@ -964,6 +970,26 @@
             this.BtnGuardar.UseVisualStyleBackColor = true;
             this.BtnGuardar.Click += new System.EventHandler(this.BtnGuardar_Click);
             // 
+            // ChkFechaBaja
+            // 
+            this.ChkFechaBaja.AutoSize = true;
+            this.ChkFechaBaja.Location = new System.Drawing.Point(212, 86);
+            this.ChkFechaBaja.Name = "ChkFechaBaja";
+            this.ChkFechaBaja.Size = new System.Drawing.Size(15, 14);
+            this.ChkFechaBaja.TabIndex = 9;
+            this.ChkFechaBaja.UseVisualStyleBackColor = true;
+            this.ChkFechaBaja.CheckedChanged += new System.EventHandler(this.ChkFechaBaja_CheckedChanged);
+            // 
+            // ChkFechaGarantia
+            // 
+            this.ChkFechaGarantia.AutoSize = true;
+            this.ChkFechaGarantia.Location = new System.Drawing.Point(329, 86);
+            this.ChkFechaGarantia.Name = "ChkFechaGarantia";
+            this.ChkFechaGarantia.Size = new System.Drawing.Size(15, 14);
+            this.ChkFechaGarantia.TabIndex = 9;
+            this.ChkFechaGarantia.UseVisualStyleBackColor = true;
+            this.ChkFechaGarantia.CheckedChanged += new System.EventHandler(this.ChkFechaGarantia_CheckedChanged);
+            // 
             // VistaArticulos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1081,5 +1107,7 @@
         public System.Windows.Forms.ComboBox CbCargoUsuarioAnterior;
         public System.Windows.Forms.ComboBox CbCargoUsuarioActual;
         private System.Windows.Forms.Button BtnAgregarMarca;
+        public System.Windows.Forms.CheckBox ChkFechaGarantia;
+        public System.Windows.Forms.CheckBox ChkFechaBaja;
     }
 }

@@ -258,8 +258,8 @@ namespace ControlInventario.Vistas
                             Serie = TxtSerie.Text,
                             Marca = ObtenerMarca(),
                             FechaAdquisicion = DtpFechaAdquisicion.Value,
-                            FechaBaja = DtpFechaBaja.Value,
-                            FechaFinGarantia = DtpFechaFinGarantia.Value,
+                            FechaBaja = ChkFechaBaja.Checked ? DtpFechaBaja.Value.Date : (DateTime?)null,
+                            FechaFinGarantia = ChkFechaGarantia.Checked ? DtpFechaFinGarantia.Value.Date : (DateTime?)null,
 
                             DniUsuarioActual = TxtDniUsuarioActual.Text,
                             NombreUsuarioActual = TxtNombreUsuarioActual.Text,
@@ -289,6 +289,14 @@ namespace ControlInventario.Vistas
                             CategoriaId = _categoriaId,
                             Categoria = _categoria
                         };
+
+                        if ((ChkFechaGarantia.Checked && DtpFechaFinGarantia.Value < DateTime.Now) || (ChkFechaBaja.Checked && DtpFechaBaja.Value < DateTime.Now))
+                        {
+                            var result = MessageBox.Show("La fecha de garantía o fecha de baja es anterior a la fecha actual. ¿Desea continuar?", "Advertencia", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                            if (result == DialogResult.No)
+                                return;
+                        }
+
                         ArticuloRepository.InsertarArticulo(art, con);
 
                         MessageBox.Show("Artículo guardado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -536,30 +544,30 @@ namespace ControlInventario.Vistas
 
         private void BtnAgregarMarca_Click(object sender, EventArgs e)
         {
-            if (_categoriaId == 1)
+            if (_categoriaId > 0)
             {
-                VistaAgregarComponentes vistaAgregar = new VistaAgregarComponentes("Laptops", this);
-                vistaAgregar.CategoriaId = _categoriaId;
+                var vistaAgregar = new VistaAgregarComponentes(_categoria, this)
+                {
+                    CategoriaId = _categoriaId
+                };
                 vistaAgregar.ShowDialog();
             }
-            else if (_categoriaId == 2)
-            {
-                VistaAgregarComponentes vistaAgregar = new VistaAgregarComponentes("Computadoras", this);
-                vistaAgregar.CategoriaId = _categoriaId;
-                vistaAgregar.ShowDialog();
-            }
-            else if (_categoriaId == 3)
-            {
-                VistaAgregarComponentes vistaAgregar = new VistaAgregarComponentes("Monitores", this);
-                vistaAgregar.CategoriaId = _categoriaId;
-                vistaAgregar.ShowDialog();
-            }
-            else if (_categoriaId == 4)
-            {
-                VistaAgregarComponentes vistaAgregar = new VistaAgregarComponentes("Celulares", this);
-                vistaAgregar.CategoriaId = _categoriaId;
-                vistaAgregar.ShowDialog();
-            }
+        }
+
+        private void ChkFechaBaja_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ChkFechaBaja.Checked)
+                DtpFechaBaja.Enabled = true;
+            else
+                DtpFechaBaja.Enabled = false;
+        }
+
+        private void ChkFechaGarantia_CheckedChanged(object sender, EventArgs e)
+        {
+            if(ChkFechaGarantia.Checked)
+                DtpFechaFinGarantia.Enabled = true;
+            else
+                DtpFechaFinGarantia.Enabled = false;
         }
     }
 }

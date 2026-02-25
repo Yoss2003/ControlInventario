@@ -55,5 +55,10 @@ namespace ControlInventario.Modelos
 
         // Relación con Caracteristicas
         public List<Caracteristicas> Caracteristicas { get; set; } // Lista de características asociadas al artículo
+
+        // Datos Busqueda
+        public DateTime FechaRegistro { get; set; } // Fecha de registro del artículo
+        public DateTime? FechaModificacion { get; set; } // Fecha de modificación del artículo
+        public string Accion { get; set; } // Acción realizada (Ingreso o Salida)
     }
 }

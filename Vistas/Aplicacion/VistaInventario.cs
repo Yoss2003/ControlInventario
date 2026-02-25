@@ -1,11 +1,9 @@
 ﻿using ControlInventario.Database;
 using ControlInventario.Modelos;
 using ControlInventario.Servicios;
-using ControlInventario.Utilidades;
 using ControlInventario.Vistas.Extras;
 using System;
-using System.Collections.Generic;
-using System.Data.SQLite;
+using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -13,202 +11,85 @@ namespace ControlInventario.Vistas
 {
     public partial class VistaInventario : Form
     {
+        public int categoriaSeleccionadaId;
+        public string categoriaSeleccionadaNombre;
+
+        private ClassHelper helper;
         private int _articuloId;
+        private Button botonSeleccionado = null;
         public static bool isEdit = false;
         readonly int usuarioId = UsuarioSesion.UsuarioId;
         readonly string nombreUusario = UsuarioSesion.NombreUsuario;
         readonly string nombrePersonal = UsuarioSesion.NombrePersonal;
+        readonly int inventarioId = UsuarioSesion.InventarioId;
 
         public VistaInventario()
         {
             InitializeComponent();
-
-
-            var customTabs = new CustomTabControl
-            {
-                Name = TbArticulos.Name,
-                Dock = TbArticulos.Dock,
-                Location = TbArticulos.Location,
-                Size = TbArticulos.Size
-            };
-
-            foreach (TabPage tab in TbArticulos.TabPages)
-            {
-                customTabs.TabPages.Add(tab);
-            }
-
-            // Guardar el contenedor padre original
-            var parent = TbArticulos.Parent;
-
-            // Quitar el TabControl original
-            parent.Controls.Remove(TbArticulos);
-
-            // Reemplazar la referencia
-            TbArticulos = customTabs;
-
-            // Agregar el nuevo control al mismo contenedor
-            parent.Controls.Add(TbArticulos);
-
-            TbArticulos.Alignment = TabAlignment.Left;
-            TbArticulos.DrawMode = TabDrawMode.Normal;
-
-            TbArticulos.DrawItem += (s, e) =>
-            {
-                TabPage page = TbArticulos.TabPages[e.Index];
-                System.Drawing.Rectangle rect = e.Bounds;
-
-                // Guardar estado gráfico
-                e.Graphics.TranslateTransform(rect.Left, rect.Top + rect.Height);
-                e.Graphics.RotateTransform(-90); // -90 = vertical hacia la derecha
-
-                // Dibujar texto con TextRenderer (más grueso, igual al estilo nativo)
-                TextRenderer.DrawText(
-                    e.Graphics,
-                    page.Text,
-                    TbArticulos.Font,
-                    new System.Drawing.Rectangle(0, 0, rect.Height, rect.Width),
-                    Color.Black,
-                    TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter
-                );
-
-                // Restaurar estado gráfico
-                e.Graphics.ResetTransform();
-            };
+            helper = new ClassHelper(this);
         }
 
         private void VistaInventario_Load(object sender, EventArgs e)
         {
             LblAccionDecription.Text = "EXCEL";
-            try
-            {
-                using (var con = ConexionGlobal.ObtenerConexion())
-                {
-                    con.Open();
-
-                    var repo = new InventarioRepository();
-                    var inventario = repo.ObtenerOCrearInventarioPorUsuario();
-                    UsuarioSesion.InventarioId = inventario.Id;
-
-                    // Verificar si el inventario del usuario ya existe
-                    string queryCheckInventario = "SELECT Id FROM Inventarios WHERE UsuarioId = @UsuarioId LIMIT 1;";
-                    using (var cmdCheckInventario = new SQLiteCommand(queryCheckInventario, con))
-                    {
-                        // Si no existe, se crea un nuevo inventario para el usuario
-                        cmdCheckInventario.Parameters.AddWithValue("@UsuarioId", usuarioId);
-                        var result = cmdCheckInventario.ExecuteScalar();
-                        if (result == null)
-                        {
-                            // Crear un nuevo inventario para el usuario
-                            var inventarioNew = new Inventario
-                            {
-                                NombreInventario = "Inventario de " + nombrePersonal,
-                                FechaCreacion = DateTime.Now.Date,
-                                UsuarioId = usuarioId,
-                                Usuario = nombreUusario
-                            };
-                            // Insertar el nuevo inventario en la base de datos
-                            var inventarioRepo = new InventarioRepository();
-                            inventario = inventarioRepo.ObtenerOCrearInventarioPorUsuario();
-                        }
-                    }
-
-                    // Verificar si el inventario tiene categorías asociadas
-                    string queryCheckCategorias = "SELECT Id FROM Categorias WHERE InventarioId = @InventarioId LIMIT 1;";
-                    using (var cmdCheckCategorias = new SQLiteCommand(queryCheckCategorias, con))
-                    {
-                        // Si no existen categorías en el inventario, se crean a partir de las pestañas del TabControl
-                        cmdCheckCategorias.Parameters.AddWithValue("@InventarioId", inventario.Id);
-                        var result = cmdCheckCategorias.ExecuteScalar();
-                        if (result == null)
-                        {
-                            // Crear categorías a partir de las pestañas del TabControl
-                            foreach (TabPage tab in TbArticulos.TabPages)
-                            {
-                                // Crear una nueva categoría para cada pestaña
-                                var categoria = new Categoria
-                                {
-                                    Nombre = tab.Text,
-                                    InventarioId = inventario.Id
-                                };
-                                // Insertar la categoría en la base de datos
-                                var categoriaRepo = new CategoriaRepository(inventario);
-                                categoriaRepo.InsertarCategoriaInventario(categoria, con);
-                            }
-                        }
-                    }
-                    con.Close();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error de conexión: " + ex.Message, "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
-            }
-
             CargarArticulos();
         }
 
         private void BtnNuevaCategoria_Click(object sender, EventArgs e)
         {
-            using (var con = ConexionGlobal.ObtenerConexion())
-            {
-                con.Open();
-
-                //COMING SOON
-            }
-
-        }
-
-        public int ObtenerCategoriaId()
-        {
-            string texto = TbArticulos.SelectedTab?.Text;
-
-            switch (texto)
-            {
-                case "Laptops": return 1;
-                case "Celulares": return 2;
-                case "Computadoras": return 3;
-                case "Monitores": return 4;
-                case "Accesorios": return 5;
-                default: return 0;
-            }
-        }
-
-        private string ObtenerCategoriaNombre()
-        {
-            string texto = TbArticulos.SelectedTab?.Text;
-
-            switch (texto)
-            {
-                case "Laptops": return "Laptops";
-                case "Computadoras": return "Computadoras";
-                case "Celulares": return "Celulares";
-                case "Monitores": return "Monitores";
-                case "Accesorios": return "Accesorios";
-                default: return string.Empty;
-            }
+            VistaAgregarComponentes vistaAgregar = new VistaAgregarComponentes("Categoria", this);
+            vistaAgregar.ShowDialog();
         }
 
         public void CargarArticulos()
         {
-            var articulos = ArticuloRepository.ListarArticulos(UsuarioSesion.InventarioId);
+            // 1. Obtener todas las categorías del inventario actual
+            var dtCategorias = CategoriaRepository.ListarCategorias(inventarioId);
 
-            // Mapeo de cada TabPage con su ListView
-            var tabMap = new Dictionary<TabPage, ListView>
-            {
-                { TabLaptops, LstLaptop },
-                { TabCelulares, LstCelulares },
-                { TabPc, LstComputadoras },
-                { TabMonitores, LstMonitores },
-                { TabAccesorios, LstAccesorios }
-            };
+            // 2. Limpiar el FlowLayoutPanel antes de volver a cargar
+            FlCategorias.Controls.Clear();
 
-            // Recorrer todos los tabs y refrescar su ListView
-            foreach (var kvp in tabMap)
+            // 3. Crear un botón por cada categoría
+            foreach (DataRow row in dtCategorias.Rows)
             {
-                ClassHelper.RefrescarListView(kvp.Value, articulos);
+                string nombreCategoria = row["Nombre"].ToString();
+                int idCategoria = Convert.ToInt32(row["Id"]);
+
+                Button btn = new Button
+                {
+                    Text = nombreCategoria,
+                    Tag = idCategoria,
+                    Width = 75,
+                    Height = 23,
+                    Cursor = Cursors.Hand
+                };
+
+                // Evento click: al pulsar, refresca el ListView con los artículos de esa categoría
+                btn.Click += (s, e) =>
+                {
+                    var botonActual = s as Button;
+                    idCategoria = (int)botonActual.Tag;
+
+                    this.categoriaSeleccionadaId = idCategoria;
+                    this.categoriaSeleccionadaNombre = nombreCategoria;
+
+                    // Obtener artículos de la categoría seleccionada y refrescar el ListView
+                    var articulosCategoria = ArticuloRepository.ListarArticulos(idCategoria);
+                    ClassHelper.RefrescarListView(LstArticulos, articulosCategoria);
+
+                    // Habilitar el botón previamente seleccionado
+                    if (botonSeleccionado != null)
+                        botonSeleccionado.Enabled = true; 
+
+                    // Deshabilitar el botón de la categoría seleccionada
+                    botonActual.Enabled = false; 
+
+                    // Guardar el botón actual como seleccionado
+                    botonSeleccionado = botonActual;
+                    LstArticulos.Focus();
+                };
+
+                FlCategorias.Controls.Add(btn);
             }
         }
 
@@ -224,16 +105,26 @@ namespace ControlInventario.Vistas
         private void BtnAgregarArticulo_Click(object sender, EventArgs e)
         {
             isEdit = false;
-            int categoriaId = ObtenerCategoriaId();
-            string categoria = ObtenerCategoriaNombre();
-            string texto = TbArticulos.SelectedTab?.Text;
+
+            int categoriaId = categoriaSeleccionadaId;
+            string categoria = categoriaSeleccionadaNombre;
+            string texto = categoriaSeleccionadaNombre;
+
+            if (categoriaId == 0)
+            {
+                MessageBox.Show("Seleccione una categoría para agregar un artículo.", "Información",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+                return;
+            }                
 
             using (var articulos = new VistaArticulos(categoriaId, categoria))
             {
                 // Configuración inicial
                 articulos.Text = "Crear Artículo";
                 articulos.TxtCodigo.Enabled = true;
-                articulos.CbMarcas.Visible = true;   // único ComboBox
+                articulos.CbMarcas.Visible = true;
                 articulos.GpCaracteristicas.Visible = true;
 
                 switch (texto)
@@ -257,23 +148,25 @@ namespace ControlInventario.Vistas
             }
         }
 
-        public ListView ObtenerListViewActivo()
-        {
-            if (TbArticulos.SelectedTab != null)
-            {
-                foreach (Control ctrl in TbArticulos.SelectedTab.Controls)
-                {
-                    if (ctrl is ListView lv)
-                        return lv;
-                }
-            }
-            return null;
-        }
-
         private void BtnEditarArticulo_Click(object sender, EventArgs e)
         {
-            var ListViewActivo = ObtenerListViewActivo();
-            if(ListViewActivo == null || ListViewActivo.SelectedItems.Count == 0)
+            isEdit = true;
+            int categoriaId = 0;
+            string categoria = null;
+
+            if(categoriaId == 0)
+            {
+                MessageBox.Show("Seleccione una categoría para editar un artículo.", "Información",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+                return;
+            }
+
+            ListViewItem item = LstArticulos.SelectedItems[0];
+            _articuloId = Convert.ToInt32(item.SubItems[0].Text);
+
+            if (LstArticulos == null || LstArticulos.SelectedItems.Count == 0)
             {
                 MessageBox.Show("Seleccione un artículo para editar.", "Información",
                     MessageBoxButtons.OK,
@@ -281,13 +174,6 @@ namespace ControlInventario.Vistas
                 );
                 return;
             }
-
-            isEdit = true;
-            int categoriaId = ObtenerCategoriaId();
-            string categoria = ObtenerCategoriaNombre();
-
-            ListViewItem item = ListViewActivo.SelectedItems[0];
-            _articuloId = Convert.ToInt32(item.SubItems[0].Text);
 
             using (var articulos = new VistaArticulos(categoriaId, categoria, Convert.ToInt32(item.SubItems[0].Text)))
             {
@@ -300,16 +186,16 @@ namespace ControlInventario.Vistas
                 articulos.CbMonitores.Visible = false;
                 articulos.GpCaracteristicas.Visible = true;
 
-                switch (TbArticulos.SelectedTab.Text)
+                switch (categoriaSeleccionadaNombre)
                 {
                     case "Laptops":
                     case "Computadoras":
-                        articulos.CbMarcas.Visible = true; 
+                        articulos.CbMarcas.Visible = true;
                         articulos.CbMarcas.Text = item.SubItems[4].Text;
                         break;
 
                     case "Celulares":
-                        articulos.CbCelulares.Visible = true; 
+                        articulos.CbCelulares.Visible = true;
                         articulos.CbCelulares.Text = item.SubItems[4].Text;
                         break;
 
@@ -327,7 +213,6 @@ namespace ControlInventario.Vistas
                         articulos.Size = new Size(828, 607);
                         break;
                 }
-                MessageBox.Show("Este item tiene " + item.SubItems.Count + " columnas cargadas.");
 
                 // Campos básicos
                 if (item.SubItems.Count > 1) articulos.TxtCodigo.Text = item.SubItems[1]?.Text ?? string.Empty;
@@ -382,16 +267,23 @@ namespace ControlInventario.Vistas
 
         private void BtnEliminarArticulo_Click(object sender, EventArgs e)
         {
-            var ListViewActivo = ObtenerListViewActivo();
-
             isEdit = false;
-            int categoriaId = ObtenerCategoriaId();
-            string categoria = ObtenerCategoriaNombre();
+            int categoriaId = categoriaSeleccionadaId;
+            string categoria = categoriaSeleccionadaNombre;
 
-            ListViewItem item = ListViewActivo.SelectedItems[0];
+            if(categoriaId == 0)
+            {
+                MessageBox.Show("Seleccione una categoría para eliminar un artículo.", "Información",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+                return;
+            }
+
+            ListViewItem item = LstArticulos.SelectedItems[0];
             _articuloId = Convert.ToInt32(item.SubItems[0].Text);
 
-            if (ListViewActivo == null || ListViewActivo.SelectedItems.Count == 0)
+            if (LstArticulos == null || LstArticulos.SelectedItems.Count == 0)
             {
                 MessageBox.Show("Seleccione un artículo para eliminar.", "Información",
                     MessageBoxButtons.OK,
@@ -430,8 +322,7 @@ namespace ControlInventario.Vistas
 
         private void btnExportar_Click(object sender, EventArgs e)
         {
-            var listViewActivo = ObtenerListViewActivo();
-            string categoria = ObtenerCategoriaNombre();
+            string categoria = categoriaSeleccionadaNombre;
             string usuario = nombreUusario;
 
             // Determinar extensión según el valor del NumericUpDown
@@ -439,33 +330,33 @@ namespace ControlInventario.Vistas
             string filePath = null;
 
             // Generar nombre automático
-            string nombreArchivo = GenerarNombreArchivo(extension, usuario, categoria); 
+            string nombreArchivo = GenerarNombreArchivo(extension, usuario, categoria);
 
             var rutRepo = new RutasRepository();
             var rutas = rutRepo.ObtenerRutas(usuarioId);
 
             // Crear UNA sola instancia de la vista
-            VistaRutaExportacion vistaRuta = new VistaRutaExportacion(nombreArchivo, listViewActivo, categoria);
+            VistaRutaExportacion vistaRuta = new VistaRutaExportacion(nombreArchivo, LstArticulos, categoria);
             if (rutas.EsPredeterminado1 == true)
-            {             
+            {
                 if (extension == ".xlsx")
                 {
                     filePath = rutas.RutaPredeterminada1;
-                    vistaRuta.ExportarAExcel(listViewActivo, categoria, filePath);
-                }                    
+                    vistaRuta.ExportarAExcel(LstArticulos, categoria, filePath);
+                }
 
                 MessageBox.Show($"Archivo exportado correctamente en: {filePath}", "Éxito",
-                    MessageBoxButtons.OK, 
+                    MessageBoxButtons.OK,
                     MessageBoxIcon.Information
                 );
             }
-            else if(rutas.EsPredeterminado2 == true)
+            else if (rutas.EsPredeterminado2 == true)
             {
                 // Exportar según extensión
                 if (extension == ".csv")
                 {
                     filePath = rutas.RutaPredeterminada2;
-                    vistaRuta.ExportarACsv(listViewActivo, categoria, filePath);
+                    vistaRuta.ExportarACsv(LstArticulos, categoria, filePath);
                 }
 
                 MessageBox.Show($"Archivo exportado correctamente en: {filePath}", "Éxito",
@@ -488,7 +379,7 @@ namespace ControlInventario.Vistas
                 }
                 // Mostrar vista de exportación
                 vistaRuta.ShowDialog();
-            }            
+            }
         }
 
         private string GenerarNombreArchivo(string formato, string usuario, string categoria)

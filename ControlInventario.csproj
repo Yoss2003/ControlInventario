@@ -174,9 +174,6 @@
     <Compile Include="Modelo\Recuperacion.cs" />
     <Compile Include="Servicios\RefreshService.cs" />
     <Compile Include="Servicios\UsuarioSesion.cs" />
-    <Compile Include="Utilidades\CustomTabControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Vistas\Aplicacion\VistaArticulos.cs">
       <SubType>Form</SubType>
     </Compile>

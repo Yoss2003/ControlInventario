@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             this.DgComponentes = new System.Windows.Forms.DataGridView();
+            this.IdComponente = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.NombreComponente = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DescripcionComponente = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.LblNuevoComponente = new System.Windows.Forms.Label();
             this.TxtNombreComponente = new System.Windows.Forms.TextBox();
             this.LblDescripcionComponente = new System.Windows.Forms.Label();
@@ -36,9 +39,8 @@
             this.BtnGuardar = new System.Windows.Forms.Button();
             this.BtnCancelar = new System.Windows.Forms.Button();
             this.LblFecha = new System.Windows.Forms.Label();
-            this.IdComponente = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.NombreComponente = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DescripcionComponente = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BtnEliminar = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.DgComponentes)).BeginInit();
             this.SuspendLayout();
             // 
@@ -56,9 +58,33 @@
             this.DgComponentes.MultiSelect = false;
             this.DgComponentes.Name = "DgComponentes";
             this.DgComponentes.ReadOnly = true;
-            this.DgComponentes.Size = new System.Drawing.Size(254, 128);
+            this.DgComponentes.Size = new System.Drawing.Size(273, 128);
             this.DgComponentes.TabIndex = 0;
             this.DgComponentes.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgComponentes_CellDoubleClick);
+            this.DgComponentes.CellStateChanged += new System.Windows.Forms.DataGridViewCellStateChangedEventHandler(this.DgComponentes_CellStateChanged);
+            // 
+            // IdComponente
+            // 
+            this.IdComponente.Frozen = true;
+            this.IdComponente.HeaderText = "Id";
+            this.IdComponente.Name = "IdComponente";
+            this.IdComponente.ReadOnly = true;
+            this.IdComponente.Visible = false;
+            this.IdComponente.Width = 41;
+            // 
+            // NombreComponente
+            // 
+            this.NombreComponente.HeaderText = "Nombre";
+            this.NombreComponente.Name = "NombreComponente";
+            this.NombreComponente.ReadOnly = true;
+            this.NombreComponente.Width = 123;
+            // 
+            // DescripcionComponente
+            // 
+            this.DescripcionComponente.HeaderText = "Descripcion";
+            this.DescripcionComponente.Name = "DescripcionComponente";
+            this.DescripcionComponente.ReadOnly = true;
+            this.DescripcionComponente.Width = 88;
             // 
             // LblNuevoComponente
             // 
@@ -90,12 +116,12 @@
             this.TxtDescripcionComponente.Location = new System.Drawing.Point(12, 73);
             this.TxtDescripcionComponente.Multiline = true;
             this.TxtDescripcionComponente.Name = "TxtDescripcionComponente";
-            this.TxtDescripcionComponente.Size = new System.Drawing.Size(254, 58);
+            this.TxtDescripcionComponente.Size = new System.Drawing.Size(273, 58);
             this.TxtDescripcionComponente.TabIndex = 2;
             // 
             // BtnGuardar
             // 
-            this.BtnGuardar.Location = new System.Drawing.Point(43, 137);
+            this.BtnGuardar.Location = new System.Drawing.Point(12, 137);
             this.BtnGuardar.Name = "BtnGuardar";
             this.BtnGuardar.Size = new System.Drawing.Size(75, 23);
             this.BtnGuardar.TabIndex = 3;
@@ -105,7 +131,7 @@
             // 
             // BtnCancelar
             // 
-            this.BtnCancelar.Location = new System.Drawing.Point(156, 137);
+            this.BtnCancelar.Location = new System.Drawing.Point(210, 137);
             this.BtnCancelar.Name = "BtnCancelar";
             this.BtnCancelar.Size = new System.Drawing.Size(75, 23);
             this.BtnCancelar.TabIndex = 4;
@@ -116,42 +142,41 @@
             // LblFecha
             // 
             this.LblFecha.AutoSize = true;
-            this.LblFecha.Location = new System.Drawing.Point(196, 32);
+            this.LblFecha.Location = new System.Drawing.Point(224, 32);
             this.LblFecha.Name = "LblFecha";
             this.LblFecha.Size = new System.Drawing.Size(37, 13);
             this.LblFecha.TabIndex = 4;
             this.LblFecha.Text = "Fecha";
             // 
-            // IdComponente
+            // BtnEliminar
             // 
-            this.IdComponente.Frozen = true;
-            this.IdComponente.HeaderText = "Id";
-            this.IdComponente.Name = "IdComponente";
-            this.IdComponente.ReadOnly = true;
-            this.IdComponente.Visible = false;
-            this.IdComponente.Width = 41;
+            this.BtnEliminar.Enabled = false;
+            this.BtnEliminar.Location = new System.Drawing.Point(111, 137);
+            this.BtnEliminar.Name = "BtnEliminar";
+            this.BtnEliminar.Size = new System.Drawing.Size(75, 23);
+            this.BtnEliminar.TabIndex = 3;
+            this.BtnEliminar.Text = "Borrar";
+            this.BtnEliminar.UseVisualStyleBackColor = true;
+            this.BtnEliminar.Click += new System.EventHandler(this.BtnEliminar_Click);
             // 
-            // NombreComponente
+            // label1
             // 
-            this.NombreComponente.HeaderText = "Nombre";
-            this.NombreComponente.Name = "NombreComponente";
-            this.NombreComponente.ReadOnly = true;
-            this.NombreComponente.Width = 123;
-            // 
-            // DescripcionComponente
-            // 
-            this.DescripcionComponente.HeaderText = "Descripcion";
-            this.DescripcionComponente.Name = "DescripcionComponente";
-            this.DescripcionComponente.ReadOnly = true;
-            this.DescripcionComponente.Width = 88;
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(248, 13);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(40, 13);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "Fecha:";
             // 
             // VistaAgregarComponentes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(278, 306);
+            this.ClientSize = new System.Drawing.Size(297, 306);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.LblFecha);
             this.Controls.Add(this.BtnCancelar);
+            this.Controls.Add(this.BtnEliminar);
             this.Controls.Add(this.BtnGuardar);
             this.Controls.Add(this.TxtDescripcionComponente);
             this.Controls.Add(this.TxtNombreComponente);
@@ -185,5 +210,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn IdComponente;
         private System.Windows.Forms.DataGridViewTextBoxColumn NombreComponente;
         private System.Windows.Forms.DataGridViewTextBoxColumn DescripcionComponente;
+        private System.Windows.Forms.Button BtnEliminar;
+        public System.Windows.Forms.Label label1;
     }
 }

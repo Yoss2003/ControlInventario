@@ -138,18 +138,6 @@ namespace ControlInventario.Vistas.Extras
                     DgComponentes.DataSource = dt;
                 }
             }
-            else
-            {
-                Text = $"Agregar {tipoComponente}";
-                LblNuevoComponente.Text = $"Nombre de la {tipoComponente} nueva:";
-                using (var con = ConexionGlobal.ObtenerConexion())
-                {
-                    con.Open();
-                    MarcasRepository.ListarMarcas(con, CategoriaId);
-                    DataTable dt = new DataTable();
-                    DgComponentes.DataSource = dt;
-                }
-            }
             else if (tipoComponente == "Categoria")
             {
                 Text = "Agregar categoria";
@@ -163,7 +151,19 @@ namespace ControlInventario.Vistas.Extras
                     DgComponentes.DataSource = dt;
                 }
             }
-                CargarDatos();
+            else
+            {
+                Text = $"Agregar {tipoComponente}";
+                LblNuevoComponente.Text = $"Nombre de la {tipoComponente} nueva:";
+                using (var con = ConexionGlobal.ObtenerConexion())
+                {
+                    con.Open();
+                    MarcasRepository.ListarMarcas(con, CategoriaId);
+                    DataTable dt = new DataTable();
+                    DgComponentes.DataSource = dt;
+                }
+            }
+            CargarDatos();
         }
 
         private void BtnGuardar_Click(object sender, EventArgs e)
@@ -268,16 +268,6 @@ namespace ControlInventario.Vistas.Extras
                     var helper = new ClassHelper((VistaInventario)_vistaPrincipal);
                     helper.AgregarBotonCategoria(categoria.Nombre, categoria.Id);
                 }
-                else
-                {
-                    var marca = new Marcas
-                    {
-                        Nombre = TxtNombreComponente.Text,
-                        CategoriasId = CategoriaId,
-                        Categoria = tipoComponente
-                    };
-                    MarcasRepository.InsertarMarca(marca);
-                }
                 else if(tipoComponente == "Categoria")
                 {
                     var categoria = new Categoria
@@ -292,6 +282,16 @@ namespace ControlInventario.Vistas.Extras
                     CategoriaRepository.AgregarCategoría(categoria);
                     var helper = new ClassHelper((VistaInventario)_vistaPrincipal);
                     helper.AgregarBotonCategoria(categoria.Nombre, categoria.Id);
+                }
+                else
+                {
+                    var marca = new Marcas
+                    {
+                        Nombre = TxtNombreComponente.Text,
+                        CategoriasId = CategoriaId,
+                        Categoria = tipoComponente
+                    };
+                    MarcasRepository.InsertarMarca(marca);
                 }
             }
             isEdit = false;

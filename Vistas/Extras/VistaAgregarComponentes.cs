@@ -150,7 +150,20 @@ namespace ControlInventario.Vistas.Extras
                     DgComponentes.DataSource = dt;
                 }
             }
-            CargarDatos();
+            else if (tipoComponente == "Categoria")
+            {
+                Text = "Agregar categoria";
+                LblNuevoComponente.Text = "Nombre de la categoria nueva:";
+                LblDescripcionComponente.Text = "Descripción de la categoria nueva:";
+                using (var con = ConexionGlobal.ObtenerConexion())
+                {
+                    con.Open();
+                    CategoriaRepository.ListarCategorias(UsuarioSesion.InventarioId);
+                    DataTable dt = new DataTable();
+                    DgComponentes.DataSource = dt;
+                }
+            }
+                CargarDatos();
         }
 
         private void BtnGuardar_Click(object sender, EventArgs e)
@@ -265,6 +278,21 @@ namespace ControlInventario.Vistas.Extras
                     };
                     MarcasRepository.InsertarMarca(marca);
                 }
+                else if(tipoComponente == "Categoria")
+                {
+                    var categoria = new Categoria
+                    {
+                        Id = Convert.ToInt32(DgComponentes.CurrentRow.Cells["IdComponente"].Value),
+                        InventarioId = UsuarioSesion.InventarioId,
+                        Nombre = TxtNombreComponente.Text,
+                        Descripcion = TxtDescripcionComponente.Text,
+                        FechaCreacion = DateTime.Now,
+                        UsuarioCreacion = UsuarioSesion.NombreUsuario
+                    };
+                    CategoriaRepository.AgregarCategoría(categoria);
+                    var helper = new ClassHelper((VistaInventario)_vistaPrincipal);
+                    helper.AgregarBotonCategoria(categoria.Nombre, categoria.Id);
+                }
             }
             isEdit = false;
             CargarDatos();
@@ -324,8 +352,9 @@ namespace ControlInventario.Vistas.Extras
                 else if (_vistaPrincipal is IMarcasRefrescable marcasVista)
                 { 
                     var dtMarca = MarcasRepository.ListarMarcas(con, CategoriaId); 
-                    RefreshService.RefrescarComboDT(marcasVista.CbMarcasPublic, dtMarca, "Nombre", "Id", "SELECCIONE"); }
+                    RefreshService.RefrescarComboDT(marcasVista.CbMarcasPublic, dtMarca, "Nombre", "Id", "SELECCIONE"); 
                 }
+            }
         }
 
         private void BtnEliminar_Click(object sender, EventArgs e)

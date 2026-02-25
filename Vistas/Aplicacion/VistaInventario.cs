@@ -1,5 +1,4 @@
 ﻿using ControlInventario.Database;
-using ControlInventario.Modelos;
 using ControlInventario.Servicios;
 using ControlInventario.Vistas.Extras;
 using System;

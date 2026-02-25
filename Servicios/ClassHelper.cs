@@ -59,11 +59,33 @@ namespace ControlInventario.Servicios
             listView.Items.Clear();
             foreach (var art in articulos)
             {
-                var item = new ListViewItem(art.NombreUsuarioActual);
-                item.SubItems.Add(art.Codigo);
-                item.SubItems.Add(art.Modelo);
-                item.SubItems.Add(art.Serie);
-                item.SubItems.Add(art.Marca);
+                // Columna principal: Id
+                var item = new ListViewItem(art.Id.ToString());
+
+                // SubItems en el mismo orden que usas al editar
+                item.SubItems.Add(art.Codigo ?? "");
+                item.SubItems.Add(art.Modelo ?? "");
+                item.SubItems.Add(art.Serie ?? "");
+                item.SubItems.Add(art.Marca ?? "");
+                item.SubItems.Add(art.FechaAdquisicion?.ToString("dd/MM/yyyy") ?? "");
+                item.SubItems.Add(art.FechaBaja?.ToString("dd/MM/yyyy") ?? "");
+                item.SubItems.Add(art.FechaFinGarantia?.ToString("dd/MM/yyyy") ?? "");
+                item.SubItems.Add(art.DniUsuarioActual ?? "");
+                item.SubItems.Add(art.NombreUsuarioActual ?? "");
+                item.SubItems.Add(art.AreaUsuarioActual ?? "");
+                item.SubItems.Add(art.CargoUsuarioActual ?? "");
+                item.SubItems.Add(art.DniUsuarioAnterior ?? "");
+                item.SubItems.Add(art.NombreUsuarioAnterior ?? "");
+                item.SubItems.Add(art.AreaUsuarioAnterior ?? "");
+                item.SubItems.Add(art.CargoUsuarioAnterior ?? "");
+                item.SubItems.Add(art.Estado ?? "");
+                item.SubItems.Add(art.Ubicacion ?? "");
+                item.SubItems.Add(art.Condicion ?? "");
+                item.SubItems.Add(art.RucProveedor ?? "");
+                item.SubItems.Add(art.Proveedor ?? "");
+                item.SubItems.Add(art.PrecioAdquisicion?.ToString() ?? "");
+                item.SubItems.Add(art.ActivoFijo ?? "");
+                item.SubItems.Add(art.Observacion ?? "");
 
                 listView.Items.Add(item);
             }

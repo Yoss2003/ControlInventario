@@ -31,18 +31,7 @@
             this.TbPrincipal = new System.Windows.Forms.TabControl();
             this.TabInventario = new System.Windows.Forms.TabPage();
             this.LstArticulos = new System.Windows.Forms.ListView();
-            this.FlCategorias = new System.Windows.Forms.FlowLayoutPanel();
-            this.TabAvanzado = new System.Windows.Forms.TabPage();
-            this.treeView1 = new System.Windows.Forms.TreeView();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.NuAccionInventario = new System.Windows.Forms.NumericUpDown();
-            this.LblAccionDecription = new System.Windows.Forms.Label();
-            this.BtnNuevaCategoria = new System.Windows.Forms.Button();
-            this.BtnExportar = new System.Windows.Forms.Button();
-            this.BtnEliminarArticulo = new System.Windows.Forms.Button();
-            this.BtnEditarArticulo = new System.Windows.Forms.Button();
-            this.BtnAgregarArticulo = new System.Windows.Forms.Button();
-            this.IdArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.Id = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.CodigoArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ModeloArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.MarcaArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -67,6 +56,17 @@
             this.ObservacionArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ImagenArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ComprobanteArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.FlCategorias = new System.Windows.Forms.FlowLayoutPanel();
+            this.TabAvanzado = new System.Windows.Forms.TabPage();
+            this.treeView1 = new System.Windows.Forms.TreeView();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.NuAccionInventario = new System.Windows.Forms.NumericUpDown();
+            this.LblAccionDecription = new System.Windows.Forms.Label();
+            this.BtnNuevaCategoria = new System.Windows.Forms.Button();
+            this.BtnExportar = new System.Windows.Forms.Button();
+            this.BtnEliminarArticulo = new System.Windows.Forms.Button();
+            this.BtnEditarArticulo = new System.Windows.Forms.Button();
+            this.BtnAgregarArticulo = new System.Windows.Forms.Button();
             this.TbPrincipal.SuspendLayout();
             this.TabInventario.SuspendLayout();
             this.TabAvanzado.SuspendLayout();
@@ -102,7 +102,7 @@
             // 
             this.LstArticulos.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.LstArticulos.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.IdArticulo,
+            this.Id,
             this.CodigoArticulo,
             this.ModeloArticulo,
             this.MarcaArticulo,
@@ -127,6 +127,8 @@
             this.ObservacionArticulo,
             this.ImagenArticulo,
             this.ComprobanteArticulo});
+            this.LstArticulos.FullRowSelect = true;
+            this.LstArticulos.GridLines = true;
             this.LstArticulos.HideSelection = false;
             this.LstArticulos.Location = new System.Drawing.Point(98, 7);
             this.LstArticulos.Name = "LstArticulos";
@@ -134,6 +136,116 @@
             this.LstArticulos.TabIndex = 1;
             this.LstArticulos.UseCompatibleStateImageBehavior = false;
             this.LstArticulos.View = System.Windows.Forms.View.Details;
+            // 
+            // Id
+            // 
+            this.Id.Text = "Id";
+            // 
+            // CodigoArticulo
+            // 
+            this.CodigoArticulo.Text = "Codigo";
+            this.CodigoArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // ModeloArticulo
+            // 
+            this.ModeloArticulo.Text = "Modelo";
+            this.ModeloArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // MarcaArticulo
+            // 
+            this.MarcaArticulo.Text = "Marca";
+            this.MarcaArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // FechaAdquisicionArticulo
+            // 
+            this.FechaAdquisicionArticulo.Text = "Fecha adquisicion";
+            this.FechaAdquisicionArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // FechaBajaArticulo
+            // 
+            this.FechaBajaArticulo.Text = "FechaBaja";
+            this.FechaBajaArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // FechaFinGarantiaArticulo
+            // 
+            this.FechaFinGarantiaArticulo.Text = "Fecha fin garantia";
+            this.FechaFinGarantiaArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // DniUsuarioActualArticulo
+            // 
+            this.DniUsuarioActualArticulo.Text = "Dni usuario actual";
+            this.DniUsuarioActualArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // NombreUsuarioActualArticulo
+            // 
+            this.NombreUsuarioActualArticulo.Text = "Usuario actual";
+            this.NombreUsuarioActualArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // AreaUsuarioActualArticulo
+            // 
+            this.AreaUsuarioActualArticulo.Text = "Area usuario actual";
+            // 
+            // CargoUsuarioActualArticulo
+            // 
+            this.CargoUsuarioActualArticulo.Text = "Cargo usuario actual";
+            this.CargoUsuarioActualArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // DniUsuarioAnteriorArticulo
+            // 
+            this.DniUsuarioAnteriorArticulo.Text = "Dni usuario anterior";
+            this.DniUsuarioAnteriorArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // NombreUsuarioAnteriorArticulo
+            // 
+            this.NombreUsuarioAnteriorArticulo.Text = "Usuario anterior";
+            // 
+            // AreaUsuarioAnteriorArticulo
+            // 
+            this.AreaUsuarioAnteriorArticulo.Text = "Area usuario anterior";
+            // 
+            // CargoUsuarioAnteriorArticulo
+            // 
+            this.CargoUsuarioAnteriorArticulo.Text = "Cargo usuario anterior";
+            // 
+            // EstadoArticulo
+            // 
+            this.EstadoArticulo.Text = "Estado";
+            // 
+            // UbicacionArticulo
+            // 
+            this.UbicacionArticulo.Text = "Ubicación";
+            // 
+            // CondicionArticulo
+            // 
+            this.CondicionArticulo.Text = "Condición";
+            // 
+            // RucArticulo
+            // 
+            this.RucArticulo.Text = "Ruc proveedor";
+            // 
+            // ProveedorArticulo
+            // 
+            this.ProveedorArticulo.Text = "Razón social";
+            // 
+            // PrecioArticulo
+            // 
+            this.PrecioArticulo.Text = "Precio adquirido";
+            // 
+            // ActivoFijoArticulo
+            // 
+            this.ActivoFijoArticulo.Text = "Activo fijo";
+            // 
+            // ObservacionArticulo
+            // 
+            this.ObservacionArticulo.Text = "Observacion";
+            // 
+            // ImagenArticulo
+            // 
+            this.ImagenArticulo.Text = "Imagen";
+            // 
+            // ComprobanteArticulo
+            // 
+            this.ComprobanteArticulo.Text = "Comprobante";
             // 
             // FlCategorias
             // 
@@ -270,116 +382,6 @@
             this.BtnAgregarArticulo.UseVisualStyleBackColor = true;
             this.BtnAgregarArticulo.Click += new System.EventHandler(this.BtnAgregarArticulo_Click);
             // 
-            // IdArticulo
-            // 
-            this.IdArticulo.Text = "Id";
-            // 
-            // CodigoArticulo
-            // 
-            this.CodigoArticulo.Text = "Codigo";
-            this.CodigoArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // ModeloArticulo
-            // 
-            this.ModeloArticulo.Text = "Modelo";
-            this.ModeloArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // MarcaArticulo
-            // 
-            this.MarcaArticulo.Text = "Marca";
-            this.MarcaArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // FechaAdquisicionArticulo
-            // 
-            this.FechaAdquisicionArticulo.Text = "Fecha adquisicion";
-            this.FechaAdquisicionArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // FechaBajaArticulo
-            // 
-            this.FechaBajaArticulo.Text = "FechaBaja";
-            this.FechaBajaArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // FechaFinGarantiaArticulo
-            // 
-            this.FechaFinGarantiaArticulo.Text = "Fecha fin garantia";
-            this.FechaFinGarantiaArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // DniUsuarioActualArticulo
-            // 
-            this.DniUsuarioActualArticulo.Text = "Dni usuario actual";
-            this.DniUsuarioActualArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // NombreUsuarioActualArticulo
-            // 
-            this.NombreUsuarioActualArticulo.Text = "Usuario actual";
-            this.NombreUsuarioActualArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // AreaUsuarioActualArticulo
-            // 
-            this.AreaUsuarioActualArticulo.Text = "Area usuario actual";
-            // 
-            // CargoUsuarioActualArticulo
-            // 
-            this.CargoUsuarioActualArticulo.Text = "Cargo usuario actual";
-            this.CargoUsuarioActualArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // DniUsuarioAnteriorArticulo
-            // 
-            this.DniUsuarioAnteriorArticulo.Text = "Dni usuario anterior";
-            this.DniUsuarioAnteriorArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // NombreUsuarioAnteriorArticulo
-            // 
-            this.NombreUsuarioAnteriorArticulo.Text = "Usuario anterior";
-            // 
-            // AreaUsuarioAnteriorArticulo
-            // 
-            this.AreaUsuarioAnteriorArticulo.Text = "Area usuario anterior";
-            // 
-            // CargoUsuarioAnteriorArticulo
-            // 
-            this.CargoUsuarioAnteriorArticulo.Text = "Cargo usuario anterior";
-            // 
-            // EstadoArticulo
-            // 
-            this.EstadoArticulo.Text = "Estado";
-            // 
-            // UbicacionArticulo
-            // 
-            this.UbicacionArticulo.Text = "Ubicación";
-            // 
-            // CondicionArticulo
-            // 
-            this.CondicionArticulo.Text = "Condición";
-            // 
-            // RucArticulo
-            // 
-            this.RucArticulo.Text = "Ruc proveedor";
-            // 
-            // ProveedorArticulo
-            // 
-            this.ProveedorArticulo.Text = "Razón social";
-            // 
-            // PrecioArticulo
-            // 
-            this.PrecioArticulo.Text = "Precio adquirido";
-            // 
-            // ActivoFijoArticulo
-            // 
-            this.ActivoFijoArticulo.Text = "Activo fijo";
-            // 
-            // ObservacionArticulo
-            // 
-            this.ObservacionArticulo.Text = "Observacion";
-            // 
-            // ImagenArticulo
-            // 
-            this.ImagenArticulo.Text = "Imagen";
-            // 
-            // ComprobanteArticulo
-            // 
-            this.ComprobanteArticulo.Text = "Comprobante";
-            // 
             // VistaInventario
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -419,7 +421,7 @@
         public System.Windows.Forms.TabPage TabInventario;
         public System.Windows.Forms.FlowLayoutPanel FlCategorias;
         public System.Windows.Forms.ListView LstArticulos;
-        private System.Windows.Forms.ColumnHeader IdArticulo;
+        private System.Windows.Forms.ColumnHeader Id;
         private System.Windows.Forms.ColumnHeader CodigoArticulo;
         private System.Windows.Forms.ColumnHeader ModeloArticulo;
         private System.Windows.Forms.ColumnHeader MarcaArticulo;

@@ -151,17 +151,8 @@ namespace ControlInventario.Vistas
         private void BtnEditarArticulo_Click(object sender, EventArgs e)
         {
             isEdit = true;
-            int categoriaId = 0;
-            string categoria = null;
-
-            if(categoriaId == 0)
-            {
-                MessageBox.Show("Seleccione una categoría para editar un artículo.", "Información",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information
-                );
-                return;
-            }
+            int categoriaId = categoriaSeleccionadaId;
+            string categoria = categoriaSeleccionadaNombre;
 
             ListViewItem item = LstArticulos.SelectedItems[0];
             _articuloId = Convert.ToInt32(item.SubItems[0].Text);
@@ -175,41 +166,38 @@ namespace ControlInventario.Vistas
                 return;
             }
 
+            if (categoriaId == 0)
+            {
+                MessageBox.Show("Seleccione una categoría para editar un artículo.", "Información",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+                return;
+            }
+
             using (var articulos = new VistaArticulos(categoriaId, categoria, Convert.ToInt32(item.SubItems[0].Text)))
             {
                 // Configuración inicial
                 articulos.Text = "Editar Artículo";
                 articulos.TxtCodigo.Enabled = false;
 
-                articulos.CbMarcas.Visible = false;
-                articulos.CbCelulares.Visible = false;
-                articulos.CbMonitores.Visible = false;
                 articulos.GpCaracteristicas.Visible = true;
 
                 switch (categoriaSeleccionadaNombre)
                 {
-                    case "Laptops":
-                    case "Computadoras":
-                        articulos.CbMarcas.Visible = true;
-                        articulos.CbMarcas.Text = item.SubItems[4].Text;
-                        break;
-
-                    case "Celulares":
-                        articulos.CbCelulares.Visible = true;
-                        articulos.CbCelulares.Text = item.SubItems[4].Text;
-                        break;
-
-                    case "Monitores":
-                        articulos.CbMonitores.Visible = true;
-                        articulos.CbMonitores.Text = item.SubItems[4].Text;
-                        break;
-
                     case "Accesorios":
                         articulos.Size = new Size(828, 510);
                         articulos.GpCaracteristicas.Visible = false;
                         break;
 
+                    case "Categoria":
+                        // Si alguna vez necesitas lógica especial para categorías
+                        articulos.Size = new Size(828, 607);
+                        break;
+
                     default:
+                        // Caso genérico: cualquier categoría con marcas
+                        articulos.CbMarcas.Text = item.SubItems[4].Text;
                         articulos.Size = new Size(828, 607);
                         break;
                 }

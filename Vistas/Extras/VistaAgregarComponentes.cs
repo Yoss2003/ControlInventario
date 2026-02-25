@@ -150,7 +150,20 @@ namespace ControlInventario.Vistas.Extras
                     DgComponentes.DataSource = dt;
                 }
             }
-            CargarDatos();
+            else if (tipoComponente == "Categoria")
+            {
+                Text = "Agregar categoria";
+                LblNuevoComponente.Text = "Nombre de la categoria nueva:";
+                LblDescripcionComponente.Text = "Descripción de la categoria nueva:";
+                using (var con = ConexionGlobal.ObtenerConexion())
+                {
+                    con.Open();
+                    CategoriaRepository.ListarCategorias(UsuarioSesion.InventarioId);
+                    DataTable dt = new DataTable();
+                    DgComponentes.DataSource = dt;
+                }
+            }
+                CargarDatos();
         }
 
         private void BtnGuardar_Click(object sender, EventArgs e)
@@ -265,6 +278,21 @@ namespace ControlInventario.Vistas.Extras
                     };
                     MarcasRepository.InsertarMarca(marca);
                 }
+                else if(tipoComponente == "Categoria")
+                {
+                    var categoria = new Categoria
+                    {
+                        Id = Convert.ToInt32(DgComponentes.CurrentRow.Cells["IdComponente"].Value),
+                        InventarioId = UsuarioSesion.InventarioId,
+                        Nombre = TxtNombreComponente.Text,
+                        Descripcion = TxtDescripcionComponente.Text,
+                        FechaCreacion = DateTime.Now,
+                        UsuarioCreacion = UsuarioSesion.NombreUsuario
+                    };
+                    CategoriaRepository.AgregarCategoría(categoria);
+                    var helper = new ClassHelper((VistaInventario)_vistaPrincipal);
+                    helper.AgregarBotonCategoria(categoria.Nombre, categoria.Id);
+                }
             }
             isEdit = false;
             CargarDatos();
@@ -369,6 +397,83 @@ namespace ControlInventario.Vistas.Extras
                     };
                     MarcasRepository.EliminarMarca(mar);
                 }
+                else if (tipoComponente == "Computadoras" && _vistaPrincipal is IMarcasRefrescable estadosMarcaCompu)
+                {
+                    var dtMarca = MarcasRepository.ListarMarcas(con, CategoriaId);
+                    RefreshService.RefrescarComboDT(estadosMarcaCompu.CbMarcasPublic, dtMarca, "Nombre", "Id", "SELECCIONE");
+                }
+                else if (tipoComponente == "Monitor" && _vistaPrincipal is IMarcasRefrescable estadosMarcaMon)
+                {
+                    var dtMarca = MarcasRepository.ListarMarcas(con, CategoriaId);
+                    RefreshService.RefrescarComboDT(estadosMarcaMon.CbMarcasPublic, dtMarca, "Nombre", "Id", "SELECCIONE");
+                }
+                else if (tipoComponente == "Celulares" && _vistaPrincipal is IMarcasRefrescable estadosMarcaCelu)
+                {
+                    var dtMarca = MarcasRepository.ListarMarcas(con, CategoriaId);
+                    RefreshService.RefrescarComboDT(estadosMarcaCelu.CbMarcasPublic, dtMarca, "Nombre", "Id", "SELECCIONE");
+                }
+                else if (tipoComponente == "Categoria" && _vistaPrincipal is ICategoriasRefrescable categoriasVista)
+                {
+                    var dtCategoria = CategoriaRepository.ListarCategorias(UsuarioSesion.InventarioId);
+                    RefreshService.RefrescarComboDT(categoriasVista.CbCategoriasPublic, dtCategoria, "Nombre", "Id", "SELECCIONE");
+                }
+            }
+        }
+
+        private void BtnEliminar_Click(object sender, EventArgs e)
+        {
+            var result = MessageBox.Show($"¿Desea eliminar el {tipoComponente} seleccionado?",
+                             "Confirmación",
+                             MessageBoxButtons.YesNo,
+                             MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                if (tipoComponente == "Cargo")
+                {
+                    var car = new Cargo
+                    {
+                        Id = Convert.ToInt32(DgComponentes.CurrentRow.Cells["IdComponente"].Value)
+                    };
+                    CargoRepository.EliminarCargo(car);
+                }
+                else if (tipoComponente == "Area")
+                {
+                    var are = new Area
+                    {
+                        Id = Convert.ToInt32(DgComponentes.CurrentRow.Cells["IdComponente"].Value)
+                    };
+                    AreaRepository.EliminarArea(are);
+                }
+                else if (tipoComponente == "Categoria")
+                {
+                    var cat = new Categoria
+                    {
+                        Id = Convert.ToInt32(DgComponentes.CurrentRow.Cells["IdComponente"].Value)
+                    };
+                    CategoriaRepository.EliminarCategoria(cat);
+                }
+            }
+            else
+            {
+                MessageBox.Show($"{tipoComponente} no eliminado.", "Información", 
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Information
+                );
+            }
+
+            CargarDatos();
+        }
+
+        private void DgComponentes_CellStateChanged(object sender, DataGridViewCellStateChangedEventArgs e)
+        {
+            if(DgComponentes.Focus())
+            {
+                BtnEliminar.Enabled = true;
+            }
+            else
+            {
+                BtnEliminar.Enabled = false;
             }
             else
             {

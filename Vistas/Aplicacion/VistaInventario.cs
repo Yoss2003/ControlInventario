@@ -15,6 +15,7 @@ namespace ControlInventario.Vistas
 
         private ClassHelper helper;
         private int _articuloId;
+        private Button botonSeleccionado = null;
         public static bool isEdit = false;
         readonly int usuarioId = UsuarioSesion.UsuarioId;
         readonly string nombreUusario = UsuarioSesion.NombreUsuario;
@@ -53,18 +54,38 @@ namespace ControlInventario.Vistas
                 string nombreCategoria = row["Nombre"].ToString();
                 int idCategoria = Convert.ToInt32(row["Id"]);
 
-                Button btn = new Button();
-                btn.Text = nombreCategoria;
-                btn.Tag = idCategoria;
-                btn.Width = 75;
-                btn.Height = 23;
-                //btn.Margin = new Padding(5);
+                Button btn = new Button
+                {
+                    Text = nombreCategoria,
+                    Tag = idCategoria,
+                    Width = 75,
+                    Height = 23,
+                    Cursor = Cursors.Hand
+                };
 
                 // Evento click: al pulsar, refresca el ListView con los artículos de esa categoría
                 btn.Click += (s, e) =>
                 {
+                    var botonActual = s as Button;
+                    idCategoria = (int)botonActual.Tag;
+
+                    this.categoriaSeleccionadaId = idCategoria;
+                    this.categoriaSeleccionadaNombre = nombreCategoria;
+
+                    // Obtener artículos de la categoría seleccionada y refrescar el ListView
                     var articulosCategoria = ArticuloRepository.ListarArticulos(idCategoria);
                     ClassHelper.RefrescarListView(LstArticulos, articulosCategoria);
+
+                    // Habilitar el botón previamente seleccionado
+                    if (botonSeleccionado != null)
+                        botonSeleccionado.Enabled = true; 
+
+                    // Deshabilitar el botón de la categoría seleccionada
+                    botonActual.Enabled = false; 
+
+                    // Guardar el botón actual como seleccionado
+                    botonSeleccionado = botonActual;
+                    LstArticulos.Focus();
                 };
 
                 FlCategorias.Controls.Add(btn);
@@ -83,9 +104,19 @@ namespace ControlInventario.Vistas
         private void BtnAgregarArticulo_Click(object sender, EventArgs e)
         {
             isEdit = false;
+
             int categoriaId = categoriaSeleccionadaId;
             string categoria = categoriaSeleccionadaNombre;
             string texto = categoriaSeleccionadaNombre;
+
+            if (categoriaId == 0)
+            {
+                MessageBox.Show("Seleccione una categoría para agregar un artículo.", "Información",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+                return;
+            }                
 
             using (var articulos = new VistaArticulos(categoriaId, categoria))
             {
@@ -117,7 +148,14 @@ namespace ControlInventario.Vistas
         }
 
         private void BtnEditarArticulo_Click(object sender, EventArgs e)
-        {            
+        {
+            isEdit = true;
+            int categoriaId = categoriaSeleccionadaId;
+            string categoria = categoriaSeleccionadaNombre;
+
+            ListViewItem item = LstArticulos.SelectedItems[0];
+            _articuloId = Convert.ToInt32(item.SubItems[0].Text);
+
             if (LstArticulos == null || LstArticulos.SelectedItems.Count == 0)
             {
                 MessageBox.Show("Seleccione un artículo para editar.", "Información",
@@ -127,12 +165,14 @@ namespace ControlInventario.Vistas
                 return;
             }
 
-            isEdit = true;
-            int categoriaId = 0;
-            string categoria = null;
-
-            ListViewItem item = LstArticulos.SelectedItems[0];
-            _articuloId = Convert.ToInt32(item.SubItems[0].Text);
+            if (categoriaId == 0)
+            {
+                MessageBox.Show("Seleccione una categoría para editar un artículo.", "Información",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+                return;
+            }
 
             using (var articulos = new VistaArticulos(categoriaId, categoria, Convert.ToInt32(item.SubItems[0].Text)))
             {
@@ -140,35 +180,23 @@ namespace ControlInventario.Vistas
                 articulos.Text = "Editar Artículo";
                 articulos.TxtCodigo.Enabled = false;
 
-                articulos.CbMarcas.Visible = false;
-                articulos.CbCelulares.Visible = false;
-                articulos.CbMonitores.Visible = false;
                 articulos.GpCaracteristicas.Visible = true;
 
                 switch (categoriaSeleccionadaNombre)
                 {
-                    case "Laptops":
-                    case "Computadoras":
-                        articulos.CbMarcas.Visible = true;
-                        articulos.CbMarcas.Text = item.SubItems[4].Text;
-                        break;
-
-                    case "Celulares":
-                        articulos.CbCelulares.Visible = true;
-                        articulos.CbCelulares.Text = item.SubItems[4].Text;
-                        break;
-
-                    case "Monitores":
-                        articulos.CbMonitores.Visible = true;
-                        articulos.CbMonitores.Text = item.SubItems[4].Text;
-                        break;
-
                     case "Accesorios":
                         articulos.Size = new Size(828, 510);
                         articulos.GpCaracteristicas.Visible = false;
                         break;
 
+                    case "Categoria":
+                        // Si alguna vez necesitas lógica especial para categorías
+                        articulos.Size = new Size(828, 607);
+                        break;
+
                     default:
+                        // Caso genérico: cualquier categoría con marcas
+                        articulos.CbMarcas.Text = item.SubItems[4].Text;
                         articulos.Size = new Size(828, 607);
                         break;
                 }
@@ -229,6 +257,15 @@ namespace ControlInventario.Vistas
             isEdit = false;
             int categoriaId = categoriaSeleccionadaId;
             string categoria = categoriaSeleccionadaNombre;
+
+            if(categoriaId == 0)
+            {
+                MessageBox.Show("Seleccione una categoría para eliminar un artículo.", "Información",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+                return;
+            }
 
             ListViewItem item = LstArticulos.SelectedItems[0];
             _articuloId = Convert.ToInt32(item.SubItems[0].Text);

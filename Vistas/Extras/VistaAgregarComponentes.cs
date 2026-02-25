@@ -46,10 +46,10 @@ namespace ControlInventario.Vistas.Extras
                 else if (tipoComponente == "Estado")
                     lista = EstadoRepository.ListarEstadosEmpleados(con);
 
-                else if(tipoComponente == "Laptops" || tipoComponente == "Computadoras" || tipoComponente == "Celular" || tipoComponente == "Monitor" || tipoComponente == "Celulares")
+                else if (tipoComponente == "Marca")
                     lista = MarcasRepository.ListarMarcas(con, CategoriaId);
 
-                else if(tipoComponente == "Categoria")
+                else if (tipoComponente == "Categoria")
                     lista = CategoriaRepository.ListarCategorias(UsuarioSesion.InventarioId);
 
                 // Asignar la lista al DataGridView
@@ -125,63 +125,23 @@ namespace ControlInventario.Vistas.Extras
                     DgComponentes.DataSource = dt;
                 }
             }
-            else if (tipoComponente == "Laptops")
+            else if (tipoComponente == "Categoria")
             {
-                Text = "Agregar marca de laptop";
-                LblNuevoComponente.Text = "Marca de laptop nueva:";
-                LblDescripcionComponente.Text = "Descripción de la marca nueva:";
+                Text = "Agregar categoria";
+                LblNuevoComponente.Text = "Nombre de la categoria nueva:";
+                LblDescripcionComponente.Text = "Descripción de la categoria nueva:";
                 using (var con = ConexionGlobal.ObtenerConexion())
                 {
                     con.Open();
-                    MarcasRepository.ListarMarcas(con, CategoriaId);
+                    CategoriaRepository.ListarCategorias(UsuarioSesion.InventarioId);
                     DataTable dt = new DataTable();
                     DgComponentes.DataSource = dt;
                 }
             }
-            else if (tipoComponente == "Computadoras")
+            else
             {
-                Text = "Agregar marca de computadora";
-                LblNuevoComponente.Text = "Marca de computadora nueva:";
-                LblDescripcionComponente.Text = "Descripción de la marca nueva:";
-                using (var con = ConexionGlobal.ObtenerConexion())
-                {
-                    con.Open();
-                    MarcasRepository.ListarMarcas(con, CategoriaId);
-                    DataTable dt = new DataTable();
-                    DgComponentes.DataSource = dt;
-                }
-            }
-            else if (tipoComponente == "Celular")
-            {
-                Text = "Agregar marca de celular";
-                LblNuevoComponente.Text = "Marca del celular nueva:";
-                LblDescripcionComponente.Text = "Descripción de la marca nueva:";
-                using (var con = ConexionGlobal.ObtenerConexion())
-                {
-                    con.Open();
-                    MarcasRepository.ListarMarcas(con, CategoriaId);
-                    DataTable dt = new DataTable();
-                    DgComponentes.DataSource = dt;
-                }
-            }
-            else if (tipoComponente == "Monitor")
-            {
-                Text = "Agregar marca de monitores";
-                LblNuevoComponente.Text = "Marca de monitor nueva:";
-                LblDescripcionComponente.Text = "Descripción de la marca nueva:";
-                using (var con = ConexionGlobal.ObtenerConexion())
-                {
-                    con.Open();
-                    MarcasRepository.ListarMarcas(con, CategoriaId);
-                    DataTable dt = new DataTable();
-                    DgComponentes.DataSource = dt;
-                }
-            }
-            else if (tipoComponente == "Celulares")
-            {
-                Text = "Agregar marca de celular";
-                LblNuevoComponente.Text = "Marca de celular nueva:";
-                LblDescripcionComponente.Text = "Descripción de la marca nueva:";
+                Text = $"Agregar {tipoComponente}";
+                LblNuevoComponente.Text = $"Nombre de la {tipoComponente} nueva:";
                 using (var con = ConexionGlobal.ObtenerConexion())
                 {
                     con.Open();
@@ -253,6 +213,16 @@ namespace ControlInventario.Vistas.Extras
                     };
                     CategoriaRepository.ActualizarCategoria(cat);
                 }
+                else
+                {
+                    var marca = new Marcas
+                    {
+                        Nombre = TxtNombreComponente.Text,
+                        CategoriasId = CategoriaId,
+                        Categoria = tipoComponente
+                    };
+                    MarcasRepository.ActualizarMarca(marca);
+                }
             }
             else
             {
@@ -283,12 +253,26 @@ namespace ControlInventario.Vistas.Extras
                     };
                     EstadoRepository.InsertarEstadoEmpleados(est);
                 }
-                else if (tipoComponente == "Laptops" || tipoComponente == "Computadoras" || tipoComponente == "Celular" || tipoComponente == "Monitor" || tipoComponente == "Celulares")
+                else if(tipoComponente == "Categoria")
+                {
+                    var categoria = new Categoria
+                    {
+                        Id = Convert.ToInt32(DgComponentes.CurrentRow.Cells["IdComponente"].Value),
+                        InventarioId = UsuarioSesion.InventarioId,
+                        Nombre = TxtNombreComponente.Text,
+                        Descripcion = TxtDescripcionComponente.Text,
+                        FechaCreacion = DateTime.Now,
+                        UsuarioCreacion = UsuarioSesion.NombreUsuario
+                    };
+                    CategoriaRepository.AgregarCategoría(categoria);
+                    var helper = new ClassHelper((VistaInventario)_vistaPrincipal);
+                    helper.AgregarBotonCategoria(categoria.Nombre, categoria.Id);
+                }
+                else
                 {
                     var marca = new Marcas
                     {
                         Nombre = TxtNombreComponente.Text,
-                        //Descripcion = TxtDescripcionComponente.Text,
                         CategoriasId = CategoriaId,
                         Categoria = tipoComponente
                     };
@@ -360,30 +344,15 @@ namespace ControlInventario.Vistas.Extras
                     var dtEstado = EstadoRepository.ListarEstadosEmpleados(con);
                     RefreshService.RefrescarComboDT(estadosVista.CbEstadoEmpleadosPublic, dtEstado, "Nombre", "Id", "SELECCIONE");
                 }
-                else if (tipoComponente == "Laptops" && _vistaPrincipal is IMarcasRefrescable estadosMarca)
-                {
-                    var dtMarca = MarcasRepository.ListarMarcas(con, CategoriaId);
-                    RefreshService.RefrescarComboDT(estadosMarca.CbMarcasPublic, dtMarca, "Nombre", "Id", "SELECCIONE");
-                }
-                else if (tipoComponente == "Computadoras" && _vistaPrincipal is IMarcasRefrescable estadosMarcaCompu)
-                {
-                    var dtMarca = MarcasRepository.ListarMarcas(con, CategoriaId);
-                    RefreshService.RefrescarComboDT(estadosMarcaCompu.CbMarcasPublic, dtMarca, "Nombre", "Id", "SELECCIONE");
-                }
-                else if (tipoComponente == "Monitor" && _vistaPrincipal is IMarcasRefrescable estadosMarcaMon)
-                {
-                    var dtMarca = MarcasRepository.ListarMarcas(con, CategoriaId);
-                    RefreshService.RefrescarComboDT(estadosMarcaMon.CbMarcasPublic, dtMarca, "Nombre", "Id", "SELECCIONE");
-                }
-                else if (tipoComponente == "Celulares" && _vistaPrincipal is IMarcasRefrescable estadosMarcaCelu)
-                {
-                    var dtMarca = MarcasRepository.ListarMarcas(con, CategoriaId);
-                    RefreshService.RefrescarComboDT(estadosMarcaCelu.CbMarcasPublic, dtMarca, "Nombre", "Id", "SELECCIONE");
-                }
                 else if (tipoComponente == "Categoria" && _vistaPrincipal is ICategoriasRefrescable categoriasVista)
                 {
                     var dtCategoria = CategoriaRepository.ListarCategorias(UsuarioSesion.InventarioId);
                     RefreshService.RefrescarComboDT(categoriasVista.CbCategoriasPublic, dtCategoria, "Nombre", "Id", "SELECCIONE");
+                }
+                else if (_vistaPrincipal is IMarcasRefrescable marcasVista)
+                { 
+                    var dtMarca = MarcasRepository.ListarMarcas(con, CategoriaId); 
+                    RefreshService.RefrescarComboDT(marcasVista.CbMarcasPublic, dtMarca, "Nombre", "Id", "SELECCIONE"); 
                 }
             }
         }
@@ -420,6 +389,14 @@ namespace ControlInventario.Vistas.Extras
                         Id = Convert.ToInt32(DgComponentes.CurrentRow.Cells["IdComponente"].Value)
                     };
                     CategoriaRepository.EliminarCategoria(cat);
+                }
+                else
+                {
+                    var mar = new Marcas
+                    {
+                        Id = Convert.ToInt32(DgComponentes.CurrentRow.Cells["IdComponente"].Value)
+                    };
+                    MarcasRepository.EliminarMarca(mar);
                 }
             }
             else

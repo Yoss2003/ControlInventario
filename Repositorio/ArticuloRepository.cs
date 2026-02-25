@@ -1,5 +1,6 @@
 ﻿using ControlInventario.Modelos;
 using ControlInventario.Servicios;
+using ControlInventario.Vistas;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -176,8 +177,10 @@ namespace ControlInventario.Database
                 cmd.Parameters.AddWithValue("@Serie", art.Serie);
                 cmd.Parameters.AddWithValue("@Marca", art.Marca);
                 cmd.Parameters.AddWithValue("@FechaAdquisicion", art.FechaAdquisicion);
-                cmd.Parameters.AddWithValue("@FechaBaja", art.FechaBaja ?? (object)DBNull.Value);
-                cmd.Parameters.AddWithValue("@FechaFinGarantia", art.FechaFinGarantia ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@FechaBaja",
+                    art.FechaBaja.HasValue ? art.FechaBaja.Value.ToString("yyyy-MM-dd") : (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@FechaFinGarantia",
+                    art.FechaFinGarantia.HasValue ? art.FechaFinGarantia.Value.ToString("yyyy-MM-dd") : (object)DBNull.Value);
 
                 cmd.Parameters.AddWithValue("@DniUsuarioActual", art.DniUsuarioActual);
                 cmd.Parameters.AddWithValue("@NombreUsuarioActual", art.NombreUsuarioActual);
@@ -211,8 +214,8 @@ namespace ControlInventario.Database
                 cmd.Parameters.AddWithValue("@CategoriaId", art.CategoriaId);
                 cmd.Parameters.AddWithValue("@Categoria", art.Categoria);
 
-                cmd.Parameters.AddWithValue("@FechaRegistro", DateTime.Now);
-                cmd.Parameters.AddWithValue("@Accion", "Ingreso");
+                cmd.Parameters.AddWithValue("@FechaRegistro", art.FechaRegistro.ToString("yyyy-MM-dd"));
+                cmd.Parameters.AddWithValue("@Accion", "Ingreso"); 
                 cmd.ExecuteNonQuery();
             }
 
@@ -359,7 +362,7 @@ namespace ControlInventario.Database
             }
         }
 
-        public static List<Articulos> ListarArticulos(int inventarioId)
+        public static List<Articulos> ListarArticulos(int categoriaId)
         {
             var lista = new List<Articulos>();
 
@@ -371,12 +374,12 @@ namespace ControlInventario.Database
                     SELECT art.*, cat.Nombre AS CategoriaNombre
                     FROM Articulos art
                     INNER JOIN Categorias cat ON art.CategoriaId = cat.Id
-                    WHERE cat.InventarioId = @InventarioId;
+                    WHERE art.CategoriaId = @CategoriaId;
                 ";
 
                 using (var cmd = new SQLiteCommand(query, con))
                 {
-                    cmd.Parameters.AddWithValue("@InventarioId", inventarioId);
+                    cmd.Parameters.AddWithValue("@CategoriaId", categoriaId);
 
                     using (var reader = cmd.ExecuteReader())
                     {

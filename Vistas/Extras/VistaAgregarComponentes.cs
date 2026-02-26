@@ -43,8 +43,17 @@ namespace ControlInventario.Vistas.Extras
                 else if (tipoComponente == "Area")
                     lista = AreaRepository.ListarAreas(con);
 
-                else if (tipoComponente == "Estado")
+                else if (tipoComponente == "EstadoEmpleados")
                     lista = EstadoRepository.ListarEstadosEmpleados(con);
+
+                else if (tipoComponente == "EstadoArticulos")
+                    lista = EstadoRepository.ListarEstadosArticulos(con);
+
+                else if (tipoComponente == "Condicion")
+                    lista = CondicionRepository.ListarCondicion(con);
+
+                else if (tipoComponente == "Ubicacion")
+                    lista = UbicacionRepository.ListarUbicacion(con);
 
                 else if (tipoComponente == "Marca")
                     lista = MarcasRepository.ListarMarcas(con, CategoriaId);
@@ -74,12 +83,18 @@ namespace ControlInventario.Vistas.Extras
 
             isEdit = false;
 
+            var text = $"Agregar {tipoComponente}";
+
             if (tipoComponente == "Cargo")
-                Text = "Agregar Cargo";
+                Text = text;
             else if (tipoComponente == "Area")
-                Text = "Agregar Área";
-            else if (tipoComponente == "Estado")
-                Text = "Agregar Estado";
+                Text = text;
+            else if (tipoComponente == "EstadoEmpleados" || tipoComponente == "EstadoArticulos")
+                Text = text;
+            else if (tipoComponente == "Condición")
+                Text = text;
+            else if (tipoComponente == "Ubicación")
+                Text = text;
         }
 
         private void VistaAgregarComponentes_Load(object sender, EventArgs e)
@@ -112,7 +127,20 @@ namespace ControlInventario.Vistas.Extras
                     DgComponentes.DataSource = dt;
                 }
             }
-            else if (tipoComponente == "Estado")
+            else if (tipoComponente == "EstadoEmpleados")
+            {
+                Text = "Agregar Estado";
+                LblNuevoComponente.Text = "Nombre del estado nuevo:";
+                LblDescripcionComponente.Text = "Descripción del estado nuevo:";
+                using (var con = ConexionGlobal.ObtenerConexion())
+                {
+                    con.Open();
+                    EstadoRepository.ListarEstadosEmpleados(con);
+                    DataTable dt = new DataTable();
+                    DgComponentes.DataSource = dt;
+                }
+            }
+            else if (tipoComponente == "EstadoArticulos")
             {
                 Text = "Agregar Estado";
                 LblNuevoComponente.Text = "Nombre del estado nuevo:";
@@ -125,15 +153,29 @@ namespace ControlInventario.Vistas.Extras
                     DgComponentes.DataSource = dt;
                 }
             }
-            else if (tipoComponente == "Categoria")
+            else if (tipoComponente == "Condicion")
             {
-                Text = "Agregar categoria";
-                LblNuevoComponente.Text = "Nombre de la categoria nueva:";
-                LblDescripcionComponente.Text = "Descripción de la categoria nueva:";
+                Text = "Agregar condicion";
+                LblNuevoComponente.Text = "Nombre de la condicion nueva:";
+                LblDescripcionComponente.Text = "Descripción de la condicion nueva:";
                 using (var con = ConexionGlobal.ObtenerConexion())
                 {
                     con.Open();
-                    CategoriaRepository.ListarCategorias(UsuarioSesion.InventarioId);
+                    CondicionRepository.ListarCondicion(con);
+                    DataTable dt = new DataTable();
+                    DgComponentes.DataSource = dt;
+                }
+            }
+
+            else if (tipoComponente == "Ubicacion")
+            {
+                Text = "Agregar Ubicacion";
+                LblNuevoComponente.Text = "Nombre de la Ubicacion nueva:";
+                LblDescripcionComponente.Text = "Descripción de la Ubicacion nueva:";
+                using (var con = ConexionGlobal.ObtenerConexion())
+                {
+                    con.Open();
+                    UbicacionRepository.ListarUbicacion(con);
                     DataTable dt = new DataTable();
                     DgComponentes.DataSource = dt;
                 }
@@ -190,7 +232,7 @@ namespace ControlInventario.Vistas.Extras
                     };
                     AreaRepository.ActualizarArea(are);
                 }
-                else if (tipoComponente == "Estado")
+                else if (tipoComponente == "EstadoEmpleados")
                 {
                     var est = new Estado
                     {
@@ -199,6 +241,36 @@ namespace ControlInventario.Vistas.Extras
                         Descripcion = TxtDescripcionComponente.Text
                     };
                     EstadoRepository.ActualizarEstadoEmpleados(est);
+                }
+                else if (tipoComponente == "EstadoArticulos")
+                {
+                    var est = new Estado
+                    {
+                        Id = Convert.ToInt32(DgComponentes.CurrentRow.Cells["IdComponente"].Value),
+                        Nombre = TxtNombreComponente.Text,
+                        Descripcion = TxtDescripcionComponente.Text
+                    };
+                    EstadoRepository.ActualizarEstadoArticulos(est);
+                }
+                else if (tipoComponente == "Condicion")
+                {
+                    var cond = new Condicion
+                    {
+                        Id = Convert.ToInt32(DgComponentes.CurrentRow.Cells["IdComponente"].Value),
+                        Nombre = TxtNombreComponente.Text,
+                        Descripcion = TxtDescripcionComponente.Text
+                    };
+                    CondicionRepository.ActualizarCondicion(cond);
+                }
+                else if (tipoComponente == "Ubicacion")
+                {
+                    var ubi = new Ubicacion
+                    {
+                        Id = Convert.ToInt32(DgComponentes.CurrentRow.Cells["IdComponente"].Value),
+                        Nombre = TxtNombreComponente.Text,
+                        Descripcion = TxtDescripcionComponente.Text
+                    };
+                    UbicacionRepository.ActualizarUbicacion(ubi);
                 }
                 else if(tipoComponente == "Categoria")
                 {
@@ -244,7 +316,7 @@ namespace ControlInventario.Vistas.Extras
                     };
                     AreaRepository.InsertarArea(are);
                 }
-                else if (tipoComponente == "Estado")
+                else if (tipoComponente == "EstadoEmpleados")
                 {
                     var est = new Estado
                     {
@@ -253,20 +325,32 @@ namespace ControlInventario.Vistas.Extras
                     };
                     EstadoRepository.InsertarEstadoEmpleados(est);
                 }
-                else if(tipoComponente == "Categoria")
+                else if (tipoComponente == "EstadoArticulos")
                 {
-                    var categoria = new Categoria
+                    var est = new Estado
                     {
-                        Id = Convert.ToInt32(DgComponentes.CurrentRow.Cells["IdComponente"].Value),
-                        InventarioId = UsuarioSesion.InventarioId,
                         Nombre = TxtNombreComponente.Text,
-                        Descripcion = TxtDescripcionComponente.Text,
-                        FechaCreacion = DateTime.Now,
-                        UsuarioCreacion = UsuarioSesion.NombreUsuario
+                        Descripcion = TxtDescripcionComponente.Text
                     };
-                    CategoriaRepository.AgregarCategoría(categoria);
-                    var helper = new ClassHelper((VistaInventario)_vistaPrincipal);
-                    helper.AgregarBotonCategoria(categoria.Nombre, categoria.Id);
+                    EstadoRepository.InsertarEstadoArticulos(est);
+                }
+                else if(tipoComponente == "Condicion")
+                {
+                    var cond = new Condicion
+                    {
+                        Nombre = TxtNombreComponente.Text,
+                        Descripcion = TxtDescripcionComponente.Text
+                    };
+                    CondicionRepository.InsertarCondicion(cond);
+                }
+                else if (tipoComponente == "Ubicacion")
+                {
+                    var ubi = new Ubicacion
+                    {
+                        Nombre = TxtNombreComponente.Text,
+                        Descripcion = TxtDescripcionComponente.Text
+                    };
+                    UbicacionRepository.InsertarUbicacion(ubi);
                 }
                 else if(tipoComponente == "Categoria")
                 {
@@ -309,12 +393,18 @@ namespace ControlInventario.Vistas.Extras
                 isEdit = true;
                 BtnGuardar.Text = "Actualizar";
 
+                var text = $"Editar {tipoComponente}";
+
                 if (tipoComponente == "Cargo")
-                    Text = "Editar Cargo";
+                    Text = text;
                 else if (tipoComponente == "Area")
-                    Text = "Editar Área";
-                else if (tipoComponente == "Estado")
-                    Text = "Editar Estado";
+                    Text = text;
+                else if (tipoComponente == "EstadoEmpleados" || tipoComponente == "EstadoArticulos")
+                    Text = text;
+                else if (tipoComponente == "Condicion")
+                    Text = text;
+                else if (tipoComponente == "Ubicacion")
+                    Text = text;
             }
         }
 
@@ -339,15 +429,30 @@ namespace ControlInventario.Vistas.Extras
                     var dtArea = AreaRepository.ListarAreas(con);
                     RefreshService.RefrescarComboDT(areasVista.CbAreaPublic, dtArea, "Nombre", "Id", "SELECCIONE");
                 }
-                else if (tipoComponente == "Estado" && _vistaPrincipal is IEstadoEmpleadosRefrescable estadosVista)
+                else if (tipoComponente == "EstadoEmpleados" && _vistaPrincipal is IEstadoEmpleadosRefrescable estadosEmpleadosVista)
                 {
                     var dtEstado = EstadoRepository.ListarEstadosEmpleados(con);
-                    RefreshService.RefrescarComboDT(estadosVista.CbEstadoEmpleadosPublic, dtEstado, "Nombre", "Id", "SELECCIONE");
+                    RefreshService.RefrescarComboDT(estadosEmpleadosVista.CbEstadoEmpleadosPublic, dtEstado, "Nombre", "Id", "SELECCIONE");
+                }
+                else if (tipoComponente == "EstadoArticulos" && _vistaPrincipal is IEstadoArticulosRefrescable estadosArticulosVista)
+                {
+                    var dtEstado = EstadoRepository.ListarEstadosArticulos(con);
+                    RefreshService.RefrescarComboDT(estadosArticulosVista.CbEstadoArticulosPublic, dtEstado, "Nombre", "Id", "SELECCIONE");
                 }
                 else if (tipoComponente == "Categoria" && _vistaPrincipal is ICategoriasRefrescable categoriasVista)
                 {
                     var dtCategoria = CategoriaRepository.ListarCategorias(UsuarioSesion.InventarioId);
                     RefreshService.RefrescarComboDT(categoriasVista.CbCategoriasPublic, dtCategoria, "Nombre", "Id", "SELECCIONE");
+                }
+                else if (tipoComponente == "Ubicacion" && _vistaPrincipal is IUbicacionRefrescable ubicacionVista)
+                {
+                    var dtUbicacion = UbicacionRepository.ListarUbicacion(con);
+                    RefreshService.RefrescarComboDT(ubicacionVista.CbUbicacionPublic, dtUbicacion, "Nombre", "Id", "SELECCIONE");
+                }
+                else if (tipoComponente == "Condicion" && _vistaPrincipal is ICondicionRefrescable condicionVista)
+                {
+                    var dtCondicion = CondicionRepository.ListarCondicion(con);
+                    RefreshService.RefrescarComboDT(condicionVista.CbCondicionPublic, dtCondicion, "Nombre", "Id", "SELECCIONE");
                 }
                 else if (_vistaPrincipal is IMarcasRefrescable marcasVista)
                 { 
@@ -389,6 +494,22 @@ namespace ControlInventario.Vistas.Extras
                         Id = Convert.ToInt32(DgComponentes.CurrentRow.Cells["IdComponente"].Value)
                     };
                     CategoriaRepository.EliminarCategoria(cat);
+                }
+                else if (tipoComponente == "Condicion")
+                {
+                    var cond = new Condicion
+                    {
+                        Id = Convert.ToInt32(DgComponentes.CurrentRow.Cells["IdComponente"].Value)
+                    };
+                    CondicionRepository.EliminarCondicion(cond);
+                }
+                else if (tipoComponente == "Ubicacion")
+                {
+                    var ubi = new Ubicacion
+                    {
+                        Id = Convert.ToInt32(DgComponentes.CurrentRow.Cells["IdComponente"].Value)
+                    };
+                    UbicacionRepository.EliminarUbicacion(ubi);
                 }
                 else
                 {

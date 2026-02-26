@@ -1,6 +1,6 @@
 ﻿namespace ControlInventario.Modelos
 {
-    internal class Ubicacion
+    public class Ubicacion
     {
         public int Id { get; set; }
         public string Nombre { get; set; }

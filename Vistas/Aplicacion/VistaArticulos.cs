@@ -8,18 +8,21 @@ using PdfiumViewer;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 
 namespace ControlInventario.Vistas
 {
-    public partial class VistaArticulos : Form, IMarcasRefrescable
+    public partial class VistaArticulos : Form, IMarcasRefrescable, IEstadoArticulosRefrescable, ICondicionRefrescable, IUbicacionRefrescable
     {
         private PdfViewer pdfViewer;
         private readonly int _categoriaId;
         private readonly string _categoria;
         private readonly int _articuloId;
-
         public ComboBox CbMarcasPublic => CbMarcas;
+        public ComboBox CbEstadoArticulosPublic => CbEstadoArticulo;
+        public ComboBox CbCondicionPublic => CbCondicion;
+        public ComboBox CbUbicacionPublic => CbUbicacion;
 
         public VistaArticulos(int categoriaId, string categoria, int? articuloId = null)
         {
@@ -33,6 +36,72 @@ namespace ControlInventario.Vistas
             pdfViewer.ShowBookmarks = true;
 
             PanelComprobante.Controls.Add(pdfViewer);
+        }
+
+        private bool ValidarCampos()
+        {
+            bool valido = true;
+            if (string.IsNullOrWhiteSpace(TxtCodigo.Text))
+            {
+                ErrorArticulos.SetError(TxtCodigo, "El campo código no puede quedar vacío.");
+                valido = false;
+            }
+            
+            if (string.IsNullOrWhiteSpace(TxtModelo.Text))
+            {
+                ErrorArticulos.SetError(TxtCodigo, "El campo modelo no puede quedar vacío.");
+                valido = false;
+            }
+
+            if (string.IsNullOrWhiteSpace(TxtSerie.Text))
+            {
+                ErrorArticulos.SetError(TxtCodigo, "El campo serie no puede quedar vacío.");
+            }
+
+            if (CbMarcas.Text == "SELECCIONE" || CbMarcas.SelectedIndex == 0)
+            {
+                ErrorArticulos.SetError(CbMarcas, "Debe seleccionar una marca válida.");
+            }
+
+            if (ChkFechaBaja.Checked || ChkFechaGarantia.Checked)
+            {
+                if (DtpFechaBaja.Value < DtpFechaAdquisicion.Value)
+                {
+                    ErrorArticulos.SetError(DtpFechaBaja, "La fecha de baja no puede ser menor a la fecha de adquisición.");
+                }
+
+                if (DtpFechaFinGarantia.Value < DtpFechaAdquisicion.Value)
+                {
+                    ErrorArticulos.SetError(DtpFechaFinGarantia, "La fecha del fin de garantía no puede ser menor a la fecha de adquisición.");
+                }
+            }
+            
+            if (string.IsNullOrWhiteSpace(TxtDniUsuarioActual.Text))
+            {
+                ErrorArticulos.SetError(TxtDniUsuarioActual, "El campo DNI no puede quedar vacío.");
+            }
+
+            if (CbEstadoArticulo.Text == "SELECCIONE" || CbEstadoArticulo.SelectedIndex == 0)
+            {
+                ErrorArticulos.SetError(CbEstadoArticulo, "Debe seleccionar un estado válido.");
+            }
+
+            if (CbUbicacion.Text == "SELECCIONE" || CbUbicacion.SelectedIndex == 0)
+            {
+                ErrorArticulos.SetError(CbUbicacion, "Debe seleccionar una ubicación válida.");
+            }
+
+            if (CbCondicion.Text == "SELECCIONE" || CbCondicion.SelectedIndex == 0)
+            {
+                ErrorArticulos.SetError(CbCondicion, "Debe seleccionar una condición válida.");
+            }
+
+            if (string.IsNullOrWhiteSpace(TxtDireccionImagen.Text))
+            {
+                ErrorArticulos.SetError(TxtDireccionImagen, "Debe seleccionar una foto para el articulo.");
+            }
+
+            return valido;
         }
 
         private void btnAgregar_Click(object sender, EventArgs e)
@@ -244,86 +313,160 @@ namespace ControlInventario.Vistas
 
         private void BtnGuardar_Click(object sender, EventArgs e)
         {
-            if (VistaInventario.isEdit == false)
+            if (ValidarCampos())
             {
-                try
+                if (VistaInventario.isEdit == false)
                 {
-                    using (var con = ConexionGlobal.ObtenerConexion())
+                    try
                     {
-                        con.Open();
-                        Articulos art = new Articulos
+                        using (var con = ConexionGlobal.ObtenerConexion())
                         {
-                            Codigo = TxtCodigo.Text,
-                            Modelo = TxtModelo.Text,
-                            Serie = TxtSerie.Text,
-                            Marca = ObtenerMarca(),
-                            FechaAdquisicion = DtpFechaAdquisicion.Value,
-                            FechaBaja = ChkFechaBaja.Checked ? DtpFechaBaja.Value.Date : (DateTime?)null,
-                            FechaFinGarantia = ChkFechaGarantia.Checked ? DtpFechaFinGarantia.Value.Date : (DateTime?)null,
+                            con.Open();
+                            Articulos art = new Articulos
+                            {
+                                Codigo = TxtCodigo.Text,
+                                Modelo = TxtModelo.Text,
+                                Serie = TxtSerie.Text,
+                                Marca = ObtenerMarca(),
+                                FechaAdquisicion = DtpFechaAdquisicion.Value,
+                                FechaBaja = ChkFechaBaja.Checked ? DtpFechaBaja.Value.Date : (DateTime?)null,
+                                FechaFinGarantia = ChkFechaGarantia.Checked ? DtpFechaFinGarantia.Value.Date : (DateTime?)null,
 
-                            DniUsuarioActual = TxtDniUsuarioActual.Text,
-                            NombreUsuarioActual = TxtNombreUsuarioActual.Text,
-                            IdAreaUsuarioActual = Convert.ToInt32(CbAreaUsuarioActual.SelectedValue),
-                            AreaUsuarioActual = CbAreaUsuarioActual.Text,
-                            CargoUsuarioActual = CbCargoUsuarioActual.Text,
+                                DniUsuarioActual = TxtDniUsuarioActual.Text,
+                                NombreUsuarioActual = TxtNombreUsuarioActual.Text,
+                                IdAreaUsuarioActual = Convert.ToInt32(CbAreaUsuarioActual.SelectedValue),
+                                AreaUsuarioActual = CbAreaUsuarioActual.Text,
+                                CargoUsuarioActual = CbCargoUsuarioActual.Text,
 
-                            DniUsuarioAnterior = TxtDniUsuarioAnterior.Text,
-                            NombreUsuarioAnterior = TxtNombreUsuarioAnterior.Text,
-                            IdAreaUsuarioAnterior = Convert.ToInt32(CbAreaUsuarioAnterior.SelectedValue),
-                            AreaUsuarioAnterior = CbAreaUsuarioAnterior.Text,
-                            CargoUsuarioAnterior = CbCargoUsuarioAnterior.Text,
+                                DniUsuarioAnterior = TxtDniUsuarioAnterior.Text,
+                                NombreUsuarioAnterior = TxtNombreUsuarioAnterior.Text,
+                                IdAreaUsuarioAnterior = Convert.ToInt32(CbAreaUsuarioAnterior.SelectedValue),
+                                AreaUsuarioAnterior = CbAreaUsuarioAnterior.Text,
+                                CargoUsuarioAnterior = CbCargoUsuarioAnterior.Text,
 
-                            IdEstado = Convert.ToInt32(CbEstadoArticulo.SelectedValue),
-                            Estado = CbEstadoArticulo.Text,
-                            IdUbicacion = Convert.ToInt32(CbUbicacion.SelectedValue),
-                            Ubicacion = CbUbicacion.Text,
-                            IdCondicion = Convert.ToInt32(CbCondicion.SelectedValue),
-                            Condicion = CbCondicion.Text,
-                            ActivoFijo = TxtActivoFijo.Text,
-                            Observacion = TxtObservaciones.Text,
+                                IdEstado = Convert.ToInt32(CbEstadoArticulo.SelectedValue),
+                                Estado = CbEstadoArticulo.Text,
+                                IdUbicacion = Convert.ToInt32(CbUbicacion.SelectedValue),
+                                Ubicacion = CbUbicacion.Text,
+                                IdCondicion = Convert.ToInt32(CbCondicion.SelectedValue),
+                                Condicion = CbCondicion.Text,
+                                ActivoFijo = TxtActivoFijo.Text,
+                                Observacion = TxtObservaciones.Text,
 
-                            RucProveedor = TxtRuc.Text,
-                            Proveedor = TxtRazonSocial.Text,
-                            PrecioAdquisicion = string.IsNullOrWhiteSpace(TxtPrecio.Text) ? (decimal?)null : Convert.ToDecimal(TxtPrecio.Text),
+                                RucProveedor = TxtRuc.Text,
+                                Proveedor = TxtRazonSocial.Text,
+                                PrecioAdquisicion = string.IsNullOrWhiteSpace(TxtPrecio.Text) ? (decimal?)null : Convert.ToDecimal(TxtPrecio.Text),
 
-                            CategoriaId = _categoriaId,
-                            Categoria = _categoria
-                        };
+                                CategoriaId = _categoriaId,
+                                Categoria = _categoria
+                            };
 
-                        if ((ChkFechaGarantia.Checked && DtpFechaFinGarantia.Value < DateTime.Now) || (ChkFechaBaja.Checked && DtpFechaBaja.Value < DateTime.Now))
-                        {
-                            var result = MessageBox.Show("La fecha de garantía o fecha de baja es anterior a la fecha actual. ¿Desea continuar?", "Advertencia", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                            if (result == DialogResult.No)
-                                return;
+                            if ((ChkFechaGarantia.Checked && DtpFechaFinGarantia.Value < DateTime.Now) || (ChkFechaBaja.Checked && DtpFechaBaja.Value < DateTime.Now))
+                            {
+                                var result = MessageBox.Show("La fecha de garantía o fecha de baja es anterior a la fecha actual. ¿Desea continuar?", "Advertencia", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                                if (result == DialogResult.No)
+                                    return;
+                            }
+
+                            ArticuloRepository.InsertarArticulo(art, con);
+
+                            MessageBox.Show("Artículo guardado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                            this.DialogResult = DialogResult.OK;
+                            this.Close();
                         }
-
-                        ArticuloRepository.InsertarArticulo(art, con);
-
-                        MessageBox.Show("Artículo guardado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                        this.DialogResult = DialogResult.OK;
-                        this.Close();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error al guardar el artículo: " + ex.Message, "Error",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error
+                        );
                     }
                 }
-                catch (Exception ex)
+                else
                 {
-                    MessageBox.Show("Error al guardar el artículo: " + ex.Message, "Error",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error
-                    );
+                    try
+                    {
+                        using (var con = ConexionGlobal.ObtenerConexion())
+                        {
+                            con.Open();
+
+                            Articulos art = new Articulos
+                            {
+                                Id = _articuloId,
+                                Codigo = TxtCodigo.Text,
+                                Modelo = TxtModelo.Text,
+                                Serie = TxtSerie.Text,
+                                Marca = ObtenerMarca(),
+                                FechaAdquisicion = DtpFechaAdquisicion.Value,
+                                FechaBaja = DtpFechaBaja.Value,
+                                FechaFinGarantia = DtpFechaFinGarantia.Value,
+
+                                DniUsuarioActual = TxtDniUsuarioActual.Text,
+                                NombreUsuarioActual = TxtNombreUsuarioActual.Text,
+                                IdAreaUsuarioActual = Convert.ToInt32(CbAreaUsuarioActual.SelectedValue),
+                                AreaUsuarioActual = CbAreaUsuarioActual.Text,
+                                CargoUsuarioActual = CbCargoUsuarioActual.Text,
+
+                                DniUsuarioAnterior = TxtDniUsuarioAnterior.Text,
+                                NombreUsuarioAnterior = TxtNombreUsuarioAnterior.Text,
+                                IdAreaUsuarioAnterior = Convert.ToInt32(CbAreaUsuarioAnterior.SelectedValue),
+                                AreaUsuarioAnterior = CbAreaUsuarioAnterior.Text,
+                                CargoUsuarioAnterior = CbCargoUsuarioAnterior.Text,
+
+                                IdEstado = Convert.ToInt32(CbEstadoArticulo.SelectedValue),
+                                Estado = CbEstadoArticulo.Text,
+                                IdUbicacion = Convert.ToInt32(CbUbicacion.SelectedValue),
+                                Ubicacion = CbUbicacion.Text,
+                                IdCondicion = Convert.ToInt32(CbCondicion.SelectedValue),
+                                Condicion = CbCondicion.Text,
+                                ActivoFijo = TxtActivoFijo.Text,
+                                Observacion = TxtObservaciones.Text,
+
+                                RucProveedor = TxtRuc.Text,
+                                Proveedor = TxtRazonSocial.Text,
+                                PrecioAdquisicion = string.IsNullOrWhiteSpace(TxtPrecio.Text) ? (decimal?)null : Convert.ToDecimal(TxtPrecio.Text),
+
+                                CategoriaId = _categoriaId,
+                                Categoria = _categoria
+                            };
+                            ArticuloRepository repo = new ArticuloRepository();
+                            repo.ActualizarArticulo(art);
+
+                            MessageBox.Show("Artículo actualizado correctamente.", "Éxito",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Information
+                            );
+
+                            this.DialogResult = DialogResult.OK;
+                            this.Close();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error al actualizar el artículo: " + ex.Message, "Error",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error
+                        );
+                    }
                 }
+                VistaInventario vista = new VistaInventario();
+                vista.RefrescarArticulos();
             }
-            else
+        }
+
+        private void BtnGuardarPlus_Click(object sender, EventArgs e)
+        {
+            if (ValidarCampos())
             {
                 try
                 {
                     using (var con = ConexionGlobal.ObtenerConexion())
                     {
                         con.Open();
-
                         Articulos art = new Articulos
                         {
-                            Id = _articuloId,
                             Codigo = TxtCodigo.Text,
                             Modelo = TxtModelo.Text,
                             Serie = TxtSerie.Text,
@@ -360,16 +503,11 @@ namespace ControlInventario.Vistas
                             CategoriaId = _categoriaId,
                             Categoria = _categoria
                         };
-                        ArticuloRepository repo = new ArticuloRepository();
-                        repo.ActualizarArticulo(art);
+                        ArticuloRepository.InsertarArticulo(art, con);
 
-                        MessageBox.Show("Artículo actualizado correctamente.", "Éxito",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Information
-                        );
+                        MessageBox.Show("Artículo guardado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                        this.DialogResult = DialogResult.OK;
-                        this.Close();
+                        LimpiarCampos();
                     }
                 }
                 catch (Exception ex)
@@ -379,68 +517,10 @@ namespace ControlInventario.Vistas
                         MessageBoxIcon.Error
                     );
                 }
-            }
-        }
 
-        private void BtnGuardarPlus_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                using (var con = ConexionGlobal.ObtenerConexion())
-                {
-                    con.Open();
-                    Articulos art = new Articulos
-                    {
-                        Codigo = TxtCodigo.Text,
-                        Modelo = TxtModelo.Text,
-                        Serie = TxtSerie.Text,
-                        Marca = ObtenerMarca(),
-                        FechaAdquisicion = DtpFechaAdquisicion.Value,
-                        FechaBaja = DtpFechaBaja.Value,
-                        FechaFinGarantia = DtpFechaFinGarantia.Value,
-
-                        DniUsuarioActual = TxtDniUsuarioActual.Text,
-                        NombreUsuarioActual = TxtNombreUsuarioActual.Text,
-                        IdAreaUsuarioActual = Convert.ToInt32(CbAreaUsuarioActual.SelectedValue),
-                        AreaUsuarioActual = CbAreaUsuarioActual.Text,
-                        CargoUsuarioActual = CbCargoUsuarioActual.Text,
-
-                        DniUsuarioAnterior = TxtDniUsuarioAnterior.Text,
-                        NombreUsuarioAnterior = TxtNombreUsuarioAnterior.Text,
-                        IdAreaUsuarioAnterior = Convert.ToInt32(CbAreaUsuarioAnterior.SelectedValue),
-                        AreaUsuarioAnterior = CbAreaUsuarioAnterior.Text,
-                        CargoUsuarioAnterior = CbCargoUsuarioAnterior.Text,
-
-                        IdEstado = Convert.ToInt32(CbEstadoArticulo.SelectedValue),
-                        Estado = CbEstadoArticulo.Text,
-                        IdUbicacion = Convert.ToInt32(CbUbicacion.SelectedValue),
-                        Ubicacion = CbUbicacion.Text,
-                        IdCondicion = Convert.ToInt32(CbCondicion.SelectedValue),
-                        Condicion = CbCondicion.Text,
-                        ActivoFijo = TxtActivoFijo.Text,
-                        Observacion = TxtObservaciones.Text,
-
-                        RucProveedor = TxtRuc.Text,
-                        Proveedor = TxtRazonSocial.Text,
-                        PrecioAdquisicion = string.IsNullOrWhiteSpace(TxtPrecio.Text) ? (decimal?)null : Convert.ToDecimal(TxtPrecio.Text),
-
-                        CategoriaId = _categoriaId,
-                        Categoria = _categoria
-                    };
-                    ArticuloRepository.InsertarArticulo(art, con);
-
-                    MessageBox.Show("Artículo guardado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                    LimpiarCampos();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al actualizar el artículo: " + ex.Message, "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
-            }
+                VistaInventario vista = new VistaInventario();
+                vista.RefrescarArticulos();
+            }            
         }
 
         private void BtnAgregarComprobante_Click(object sender, EventArgs e)
@@ -568,6 +648,24 @@ namespace ControlInventario.Vistas
                 DtpFechaFinGarantia.Enabled = true;
             else
                 DtpFechaFinGarantia.Enabled = false;
+        }
+
+        private void BtnAgregarEstado_Click(object sender, EventArgs e)
+        {
+            VistaAgregarComponentes vistaAgregar = new VistaAgregarComponentes("EstadoArticulos", this);
+            vistaAgregar.ShowDialog();
+        }
+
+        private void BtnAgregarUbicacion_Click(object sender, EventArgs e)
+        {
+            VistaAgregarComponentes vistaAgregar = new VistaAgregarComponentes("Ubicacion", this);
+            vistaAgregar.ShowDialog();
+        }
+
+        private void BtnAgregarCondicion_Click(object sender, EventArgs e)
+        {
+            VistaAgregarComponentes vistaAgregar = new VistaAgregarComponentes("Condicion", this);
+            vistaAgregar.ShowDialog();
         }
     }
 }

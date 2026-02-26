@@ -102,7 +102,7 @@ namespace ControlInventario.Vistas.Aplicacion
 
         private void BtnNewEstado_Click(object sender, EventArgs e)
         {
-            VistaAgregarComponentes vistaAgregar = new VistaAgregarComponentes("Estado", this);
+            VistaAgregarComponentes vistaAgregar = new VistaAgregarComponentes("EstadoEmpleados", this);
             vistaAgregar.ShowDialog();
         }
 

@@ -12,7 +12,8 @@ namespace ControlInventario.Database
             string query = @"
             CREATE TABLE IF NOT EXISTS Condiciones (
                 Id INTEGER PRIMARY KEY AUTOINCREMENT,
-                Nombre TEXT NOT NULL
+                Nombre TEXT NOT NULL,
+                Descripcion TEXT 
             );";
             using (var cmd = new SQLiteCommand(query, con))
             {
@@ -25,27 +26,27 @@ namespace ControlInventario.Database
             using (var con = ConexionGlobal.ObtenerConexion())
             {
                 con.Open();
-                string query = "INSERT INTO Condiciones (Nombre, Description) VALUES (@Nombre, @Description);";
+                string query = "INSERT INTO Condiciones (Nombre, Descripcion) VALUES (@Nombre, @Descripcion);";
                 using (var cmd = new SQLiteCommand(query, con))
                 {
                     cmd.Parameters.AddWithValue("@Nombre", cond.Nombre);
-                    cmd.Parameters.AddWithValue("@Description", cond.Descripcion);
+                    cmd.Parameters.AddWithValue("@Descripcion", cond.Descripcion);
                     cmd.ExecuteNonQuery();
                 }
                 con.Close();
             }
         }
 
-        public void ActualizarCondicion(Condicion cond)
+        public static void ActualizarCondicion(Condicion cond)
         {
             using (var con = ConexionGlobal.ObtenerConexion())
             {
                 con.Open();
-                string query = "UPDATE Condiciones SET Nombre = @Nombre, Description = @Description WHERE Id = @Id;";
+                string query = "UPDATE Condiciones SET Nombre = @Nombre, Descripcion = @Descripcion WHERE Id = @Id;";
                 using (var cmd = new SQLiteCommand(query, con))
                 {
                     cmd.Parameters.AddWithValue("@Nombre", cond.Nombre);
-                    cmd.Parameters.AddWithValue("@Description", cond.Descripcion);
+                    cmd.Parameters.AddWithValue("@Descripcion", cond.Descripcion);
                     cmd.Parameters.AddWithValue("@Id", cond.Id);
                     cmd.ExecuteNonQuery();
                 }

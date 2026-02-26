@@ -31,4 +31,12 @@ namespace ControlInventario.Modelo.Interface
     {
         ComboBox CbCategoriasPublic { get; }
     }
+    public interface ICondicionRefrescable
+    {
+        ComboBox CbCondicionPublic { get; }
+    }
+    public interface IUbicacionRefrescable
+    {
+        ComboBox CbUbicacionPublic { get; }
+    }    
 }

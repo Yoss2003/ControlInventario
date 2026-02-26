@@ -40,6 +40,15 @@ namespace ControlInventario.Vistas
             vistaAgregar.ShowDialog();
         }
 
+        public void RefrescarArticulos()
+        {
+            if (categoriaSeleccionadaId > 0)
+            {
+                var articulosCategoria = ArticuloRepository.ListarArticulos(categoriaSeleccionadaId);
+                ClassHelper.RefrescarListView(LstArticulos, articulosCategoria);
+            }
+        }
+
         public void CargarArticulos()
         {
             // 1. Obtener todas las categorías del inventario actual
@@ -63,6 +72,8 @@ namespace ControlInventario.Vistas
                     Cursor = Cursors.Hand
                 };
 
+                var articulosCategoria = ArticuloRepository.ListarArticulos(idCategoria);
+
                 // Evento click: al pulsar, refresca el ListView con los artículos de esa categoría
                 btn.Click += (s, e) =>
                 {
@@ -73,8 +84,7 @@ namespace ControlInventario.Vistas
                     this.categoriaSeleccionadaNombre = nombreCategoria;
 
                     // Obtener artículos de la categoría seleccionada y refrescar el ListView
-                    var articulosCategoria = ArticuloRepository.ListarArticulos(idCategoria);
-                    ClassHelper.RefrescarListView(LstArticulos, articulosCategoria);
+                    RefrescarArticulos();
 
                     // Habilitar el botón previamente seleccionado
                     if (botonSeleccionado != null)
@@ -295,7 +305,7 @@ namespace ControlInventario.Vistas
                         {
                             con.Open();
                             ArticuloRepository.EliminarArticulo(_articuloId);
-                            CargarArticulos();
+                            RefrescarArticulos();
                         }
                     }
                     catch (Exception ex)

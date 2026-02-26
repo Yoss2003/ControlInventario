@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using ControlInventario.Modelos;
+using System.Data;
 using System.Data.SQLite;
 
 namespace ControlInventario.Database
@@ -10,11 +11,60 @@ namespace ControlInventario.Database
             string query = @"
             CREATE TABLE IF NOT EXISTS Ubicaciones (
                 Id INTEGER PRIMARY KEY AUTOINCREMENT,
-                Nombre TEXT NOT NULL
+                Nombre TEXT NOT NULL,
+                Descripcion TEXT    
             );";
             using (var cmd = new SQLiteCommand(query, con))
             {
                 cmd.ExecuteNonQuery();
+            }
+        }
+
+        public static void InsertarUbicacion(Ubicacion ubi)
+        {
+            using (var con = ConexionGlobal.ObtenerConexion())
+            {
+                con.Open();
+                string query = "INSERT INTO Ubicaciones (Nombre, Descripcion) VALUES (@Nombre, @Descripcion);";
+                using (var cmd = new SQLiteCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@Nombre", ubi.Nombre);
+                    cmd.Parameters.AddWithValue("@Descripcion", ubi.Descripcion);
+                    cmd.ExecuteNonQuery();
+                }
+                con.Close();
+            }
+        }
+
+        public static void ActualizarUbicacion(Ubicacion ubi)
+        {
+            using (var con = ConexionGlobal.ObtenerConexion())
+            {
+                con.Open();
+                string query = "UPDATE Ubicaciones SET Nombre = @Nombre, Descripcion = @Descripcion WHERE Id = @Id;";
+                using (var cmd = new SQLiteCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@Nombre", ubi.Nombre);
+                    cmd.Parameters.AddWithValue("@Descripcion", ubi.Descripcion);
+                    cmd.Parameters.AddWithValue("@Id", ubi.Id);
+                    cmd.ExecuteNonQuery();
+                }
+                con.Close();
+            }
+        }
+
+        public static void EliminarUbicacion(Ubicacion ubi)
+        {
+            using (var con = ConexionGlobal.ObtenerConexion())
+            {
+                con.Open();
+                string query = "DELETE FROM Ubicaciones WHERE Id = @Id;";
+                using (var cmd = new SQLiteCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@Id", ubi.Id);
+                    cmd.ExecuteNonQuery();
+                }
+                con.Close();
             }
         }
 

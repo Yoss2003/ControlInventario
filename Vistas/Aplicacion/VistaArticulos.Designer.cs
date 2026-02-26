@@ -28,9 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.TxtCodigo = new System.Windows.Forms.TextBox();
             this.CbMarcas = new System.Windows.Forms.ComboBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.ChkFechaGarantia = new System.Windows.Forms.CheckBox();
+            this.ChkFechaBaja = new System.Windows.Forms.CheckBox();
             this.BtnAgregarMarca = new System.Windows.Forms.Button();
             this.DtpFechaFinGarantia = new System.Windows.Forms.DateTimePicker();
             this.DtpFechaBaja = new System.Windows.Forms.DateTimePicker();
@@ -42,8 +45,6 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.CbMonitores = new System.Windows.Forms.ComboBox();
-            this.CbCelulares = new System.Windows.Forms.ComboBox();
             this.TxtSerie = new System.Windows.Forms.TextBox();
             this.TxtModelo = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -103,8 +104,10 @@
             this.BtnCancelar = new System.Windows.Forms.Button();
             this.BtnGuardarPlus = new System.Windows.Forms.Button();
             this.BtnGuardar = new System.Windows.Forms.Button();
-            this.ChkFechaBaja = new System.Windows.Forms.CheckBox();
-            this.ChkFechaGarantia = new System.Windows.Forms.CheckBox();
+            this.ErrorArticulos = new System.Windows.Forms.ErrorProvider(this.components);
+            this.BtnAgregarUbicacion = new System.Windows.Forms.Button();
+            this.BtnAgregarCondicion = new System.Windows.Forms.Button();
+            this.BtnAgregarEstado = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.GpUsos.SuspendLayout();
@@ -115,6 +118,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.PbFotoArticulo)).BeginInit();
             this.tabPage2.SuspendLayout();
             this.GpCaracteristicas.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ErrorArticulos)).BeginInit();
             this.SuspendLayout();
             // 
             // TxtCodigo
@@ -163,8 +167,6 @@
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.CbMonitores);
-            this.groupBox1.Controls.Add(this.CbCelulares);
             this.groupBox1.Controls.Add(this.CbMarcas);
             this.groupBox1.Controls.Add(this.TxtSerie);
             this.groupBox1.Controls.Add(this.TxtModelo);
@@ -175,6 +177,26 @@
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Información";
+            // 
+            // ChkFechaGarantia
+            // 
+            this.ChkFechaGarantia.AutoSize = true;
+            this.ChkFechaGarantia.Location = new System.Drawing.Point(329, 86);
+            this.ChkFechaGarantia.Name = "ChkFechaGarantia";
+            this.ChkFechaGarantia.Size = new System.Drawing.Size(15, 14);
+            this.ChkFechaGarantia.TabIndex = 9;
+            this.ChkFechaGarantia.UseVisualStyleBackColor = true;
+            this.ChkFechaGarantia.CheckedChanged += new System.EventHandler(this.ChkFechaGarantia_CheckedChanged);
+            // 
+            // ChkFechaBaja
+            // 
+            this.ChkFechaBaja.AutoSize = true;
+            this.ChkFechaBaja.Location = new System.Drawing.Point(212, 86);
+            this.ChkFechaBaja.Name = "ChkFechaBaja";
+            this.ChkFechaBaja.Size = new System.Drawing.Size(15, 14);
+            this.ChkFechaBaja.TabIndex = 9;
+            this.ChkFechaBaja.UseVisualStyleBackColor = true;
+            this.ChkFechaBaja.CheckedChanged += new System.EventHandler(this.ChkFechaBaja_CheckedChanged);
             // 
             // BtnAgregarMarca
             // 
@@ -274,50 +296,6 @@
             this.label1.Size = new System.Drawing.Size(81, 13);
             this.label1.TabIndex = 2;
             this.label1.Text = "Codigo Articulo:";
-            // 
-            // CbMonitores
-            // 
-            this.CbMonitores.FormattingEnabled = true;
-            this.CbMonitores.Items.AddRange(new object[] {
-            "Dell",
-            "Noc",
-            "Asus",
-            "ViewSonic",
-            "MSI",
-            "Benq",
-            "Samsung",
-            "Hp",
-            "LG"});
-            this.CbMonitores.Location = new System.Drawing.Point(258, 5);
-            this.CbMonitores.Name = "CbMonitores";
-            this.CbMonitores.Size = new System.Drawing.Size(100, 21);
-            this.CbMonitores.TabIndex = 4;
-            this.CbMonitores.Text = "SELECCIONAR";
-            this.CbMonitores.Visible = false;
-            this.CbMonitores.TextChanged += new System.EventHandler(this.CbMonitores_TextChanged);
-            // 
-            // CbCelulares
-            // 
-            this.CbCelulares.FormattingEnabled = true;
-            this.CbCelulares.Items.AddRange(new object[] {
-            "Xiaomi",
-            "Poco",
-            "Samsung",
-            "Apple",
-            "Huawei",
-            "LG",
-            "SONY",
-            "Motorola",
-            "Lenovo",
-            "Nokia",
-            "ZTE"});
-            this.CbCelulares.Location = new System.Drawing.Point(359, 5);
-            this.CbCelulares.Name = "CbCelulares";
-            this.CbCelulares.Size = new System.Drawing.Size(100, 21);
-            this.CbCelulares.TabIndex = 4;
-            this.CbCelulares.Text = "SELECCIONAR";
-            this.CbCelulares.Visible = false;
-            this.CbCelulares.TextChanged += new System.EventHandler(this.CbCelulares_TextChanged);
             // 
             // TxtSerie
             // 
@@ -557,6 +535,9 @@
             // 
             this.GpUsos.Controls.Add(this.CbUbicacion);
             this.GpUsos.Controls.Add(this.TxtObservaciones);
+            this.GpUsos.Controls.Add(this.BtnAgregarEstado);
+            this.GpUsos.Controls.Add(this.BtnAgregarCondicion);
+            this.GpUsos.Controls.Add(this.BtnAgregarUbicacion);
             this.GpUsos.Controls.Add(this.label17);
             this.GpUsos.Controls.Add(this.label20);
             this.GpUsos.Controls.Add(this.label18);
@@ -573,24 +554,25 @@
             // CbUbicacion
             // 
             this.CbUbicacion.FormattingEnabled = true;
-            this.CbUbicacion.Location = new System.Drawing.Point(127, 41);
+            this.CbUbicacion.Location = new System.Drawing.Point(9, 86);
             this.CbUbicacion.Name = "CbUbicacion";
-            this.CbUbicacion.Size = new System.Drawing.Size(100, 21);
+            this.CbUbicacion.Size = new System.Drawing.Size(92, 21);
             this.CbUbicacion.TabIndex = 5;
+            this.CbUbicacion.Text = "SELECCIONE";
             // 
             // TxtObservaciones
             // 
             this.TxtObservaciones.Enabled = false;
-            this.TxtObservaciones.Location = new System.Drawing.Point(10, 90);
+            this.TxtObservaciones.Location = new System.Drawing.Point(152, 35);
             this.TxtObservaciones.Multiline = true;
             this.TxtObservaciones.Name = "TxtObservaciones";
-            this.TxtObservaciones.Size = new System.Drawing.Size(333, 67);
+            this.TxtObservaciones.Size = new System.Drawing.Size(191, 122);
             this.TxtObservaciones.TabIndex = 20;
             // 
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(123, 25);
+            this.label17.Location = new System.Drawing.Point(5, 70);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(95, 13);
             this.label17.TabIndex = 7;
@@ -599,7 +581,7 @@
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(7, 74);
+            this.label20.Location = new System.Drawing.Point(149, 18);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(81, 13);
             this.label20.TabIndex = 10;
@@ -608,7 +590,7 @@
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(243, 24);
+            this.label18.Location = new System.Drawing.Point(6, 120);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(94, 13);
             this.label18.TabIndex = 12;
@@ -617,7 +599,7 @@
             // label22
             // 
             this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(6, 24);
+            this.label22.Location = new System.Drawing.Point(6, 18);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(81, 13);
             this.label22.TabIndex = 12;
@@ -631,7 +613,7 @@
             "Inoperativo",
             "Baja",
             "Vendido"});
-            this.CbCondicion.Location = new System.Drawing.Point(244, 41);
+            this.CbCondicion.Location = new System.Drawing.Point(10, 136);
             this.CbCondicion.Name = "CbCondicion";
             this.CbCondicion.Size = new System.Drawing.Size(92, 21);
             this.CbCondicion.TabIndex = 19;
@@ -646,7 +628,7 @@
             "Inoperativo",
             "Baja",
             "Vendido"});
-            this.CbEstadoArticulo.Location = new System.Drawing.Point(10, 41);
+            this.CbEstadoArticulo.Location = new System.Drawing.Point(10, 35);
             this.CbEstadoArticulo.Name = "CbEstadoArticulo";
             this.CbEstadoArticulo.Size = new System.Drawing.Size(92, 21);
             this.CbEstadoArticulo.TabIndex = 16;
@@ -970,25 +952,39 @@
             this.BtnGuardar.UseVisualStyleBackColor = true;
             this.BtnGuardar.Click += new System.EventHandler(this.BtnGuardar_Click);
             // 
-            // ChkFechaBaja
+            // ErrorArticulos
             // 
-            this.ChkFechaBaja.AutoSize = true;
-            this.ChkFechaBaja.Location = new System.Drawing.Point(212, 86);
-            this.ChkFechaBaja.Name = "ChkFechaBaja";
-            this.ChkFechaBaja.Size = new System.Drawing.Size(15, 14);
-            this.ChkFechaBaja.TabIndex = 9;
-            this.ChkFechaBaja.UseVisualStyleBackColor = true;
-            this.ChkFechaBaja.CheckedChanged += new System.EventHandler(this.ChkFechaBaja_CheckedChanged);
+            this.ErrorArticulos.ContainerControl = this;
             // 
-            // ChkFechaGarantia
+            // BtnAgregarUbicacion
             // 
-            this.ChkFechaGarantia.AutoSize = true;
-            this.ChkFechaGarantia.Location = new System.Drawing.Point(329, 86);
-            this.ChkFechaGarantia.Name = "ChkFechaGarantia";
-            this.ChkFechaGarantia.Size = new System.Drawing.Size(15, 14);
-            this.ChkFechaGarantia.TabIndex = 9;
-            this.ChkFechaGarantia.UseVisualStyleBackColor = true;
-            this.ChkFechaGarantia.CheckedChanged += new System.EventHandler(this.ChkFechaGarantia_CheckedChanged);
+            this.BtnAgregarUbicacion.Location = new System.Drawing.Point(108, 85);
+            this.BtnAgregarUbicacion.Name = "BtnAgregarUbicacion";
+            this.BtnAgregarUbicacion.Size = new System.Drawing.Size(26, 21);
+            this.BtnAgregarUbicacion.TabIndex = 8;
+            this.BtnAgregarUbicacion.Text = "...";
+            this.BtnAgregarUbicacion.UseVisualStyleBackColor = true;
+            this.BtnAgregarUbicacion.Click += new System.EventHandler(this.BtnAgregarUbicacion_Click);
+            // 
+            // BtnAgregarCondicion
+            // 
+            this.BtnAgregarCondicion.Location = new System.Drawing.Point(108, 135);
+            this.BtnAgregarCondicion.Name = "BtnAgregarCondicion";
+            this.BtnAgregarCondicion.Size = new System.Drawing.Size(26, 21);
+            this.BtnAgregarCondicion.TabIndex = 8;
+            this.BtnAgregarCondicion.Text = "...";
+            this.BtnAgregarCondicion.UseVisualStyleBackColor = true;
+            this.BtnAgregarCondicion.Click += new System.EventHandler(this.BtnAgregarCondicion_Click);
+            // 
+            // BtnAgregarEstado
+            // 
+            this.BtnAgregarEstado.Location = new System.Drawing.Point(108, 35);
+            this.BtnAgregarEstado.Name = "BtnAgregarEstado";
+            this.BtnAgregarEstado.Size = new System.Drawing.Size(26, 21);
+            this.BtnAgregarEstado.TabIndex = 8;
+            this.BtnAgregarEstado.Text = "...";
+            this.BtnAgregarEstado.UseVisualStyleBackColor = true;
+            this.BtnAgregarEstado.Click += new System.EventHandler(this.BtnAgregarEstado_Click);
             // 
             // VistaArticulos
             // 
@@ -1027,6 +1023,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.PbFotoArticulo)).EndInit();
             this.tabPage2.ResumeLayout(false);
             this.GpCaracteristicas.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.ErrorArticulos)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1070,8 +1067,6 @@
         private System.Windows.Forms.Button BtnEliminar;
         public System.Windows.Forms.FlowLayoutPanel FlCaracteristicas;
         public System.Windows.Forms.ComboBox CbMarcas;
-        public System.Windows.Forms.ComboBox CbCelulares;
-        public System.Windows.Forms.ComboBox CbMonitores;
         public System.Windows.Forms.GroupBox GpCaracteristicas;
         private System.Windows.Forms.Button BtnEmpleados;
         private System.Windows.Forms.Button BtnCancelar;
@@ -1109,5 +1104,9 @@
         private System.Windows.Forms.Button BtnAgregarMarca;
         public System.Windows.Forms.CheckBox ChkFechaGarantia;
         public System.Windows.Forms.CheckBox ChkFechaBaja;
+        private System.Windows.Forms.ErrorProvider ErrorArticulos;
+        private System.Windows.Forms.Button BtnAgregarUbicacion;
+        private System.Windows.Forms.Button BtnAgregarEstado;
+        private System.Windows.Forms.Button BtnAgregarCondicion;
     }
 }

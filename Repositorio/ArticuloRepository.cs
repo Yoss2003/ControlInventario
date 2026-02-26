@@ -3,9 +3,10 @@ using ControlInventario.Servicios;
 using ControlInventario.Vistas;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Data.SQLite;
-using System.Linq;
+using System.IO;
 
 namespace ControlInventario.Database
 {
@@ -203,8 +204,9 @@ namespace ControlInventario.Database
                 cmd.Parameters.AddWithValue("@ActivoFijo", art.ActivoFijo);
 
                 cmd.Parameters.AddWithValue("@Observacion", art.Observacion);
-                cmd.Parameters.AddWithValue("@Foto", art.Foto ?? (object)DBNull.Value);
-                cmd.Parameters.AddWithValue("@Comprobante", art.Comprobante ?? (object)DBNull.Value);
+
+                cmd.Parameters.AddWithValue("@Foto", (DbType)SqlDbType.VarBinary).Value = (object)art.Foto ?? DBNull.Value;
+                cmd.Parameters.AddWithValue("@Comprobante", (DbType)SqlDbType.VarBinary).Value = (object)art.Comprobante ?? DBNull.Value;
 
                 cmd.Parameters.AddWithValue("@RucProveedor", art.RucProveedor);
                 cmd.Parameters.AddWithValue("@Proveedor", art.Proveedor);
@@ -314,8 +316,9 @@ namespace ControlInventario.Database
                     cmd.Parameters.AddWithValue("@ActivoFijo", art.ActivoFijo);
 
                     cmd.Parameters.AddWithValue("@Observacion", art.Observacion);
-                    cmd.Parameters.AddWithValue("@Foto", art.Foto ?? (object)DBNull.Value);
-                    cmd.Parameters.AddWithValue("@Comprobante", art.Comprobante ?? (object)DBNull.Value);
+
+                    cmd.Parameters.AddWithValue("@Foto", (DbType)SqlDbType.VarBinary).Value = (object)art.Foto ?? DBNull.Value;
+                    cmd.Parameters.AddWithValue("@Comprobante", (DbType)SqlDbType.VarBinary).Value = (object)art.Comprobante ?? DBNull.Value;
 
                     cmd.Parameters.AddWithValue("@RucProveedor", art.RucProveedor);
                     cmd.Parameters.AddWithValue("@Proveedor", art.Proveedor);

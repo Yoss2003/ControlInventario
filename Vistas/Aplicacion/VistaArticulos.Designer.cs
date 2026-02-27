@@ -67,6 +67,9 @@
             this.GpUsos = new System.Windows.Forms.GroupBox();
             this.CbUbicacion = new System.Windows.Forms.ComboBox();
             this.TxtObservaciones = new System.Windows.Forms.TextBox();
+            this.BtnAgregarEstado = new System.Windows.Forms.Button();
+            this.BtnAgregarCondicion = new System.Windows.Forms.Button();
+            this.BtnAgregarUbicacion = new System.Windows.Forms.Button();
             this.label17 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
@@ -74,18 +77,18 @@
             this.CbCondicion = new System.Windows.Forms.ComboBox();
             this.CbEstadoArticulo = new System.Windows.Forms.ComboBox();
             this.TxtActivoFijo = new System.Windows.Forms.TextBox();
-            this.label16 = new System.Windows.Forms.Label();
+            this.LblActivoFijo = new System.Windows.Forms.Label();
             this.TxtRuc = new System.Windows.Forms.TextBox();
-            this.label19 = new System.Windows.Forms.Label();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.LblRuc = new System.Windows.Forms.Label();
+            this.GpAdquisicion = new System.Windows.Forms.GroupBox();
             this.BtnAgregarRUC = new System.Windows.Forms.Button();
             this.TxtRazonSocial = new System.Windows.Forms.TextBox();
             this.label25 = new System.Windows.Forms.Label();
-            this.label21 = new System.Windows.Forms.Label();
+            this.LblPrecio = new System.Windows.Forms.Label();
             this.TxtPrecio = new System.Windows.Forms.TextBox();
-            this.label24 = new System.Windows.Forms.Label();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.LblRazonSocial = new System.Windows.Forms.Label();
+            this.GpInformación = new System.Windows.Forms.GroupBox();
+            this.TabMultipedia = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.PbFotoArticulo = new System.Windows.Forms.PictureBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
@@ -100,25 +103,25 @@
             this.btnAgregar = new System.Windows.Forms.Button();
             this.FlCaracteristicas = new System.Windows.Forms.FlowLayoutPanel();
             this.BtnEliminar = new System.Windows.Forms.Button();
-            this.BtnEmpleados = new System.Windows.Forms.Button();
+            this.ErrorArticulos = new System.Windows.Forms.ErrorProvider(this.components);
+            this.GpAcciones = new System.Windows.Forms.GroupBox();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.BtnCancelar = new System.Windows.Forms.Button();
             this.BtnGuardarPlus = new System.Windows.Forms.Button();
             this.BtnGuardar = new System.Windows.Forms.Button();
-            this.ErrorArticulos = new System.Windows.Forms.ErrorProvider(this.components);
-            this.BtnAgregarUbicacion = new System.Windows.Forms.Button();
-            this.BtnAgregarCondicion = new System.Windows.Forms.Button();
-            this.BtnAgregarEstado = new System.Windows.Forms.Button();
+            this.BtnEmpleados = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.GpUsos.SuspendLayout();
-            this.groupBox4.SuspendLayout();
-            this.groupBox5.SuspendLayout();
-            this.tabControl1.SuspendLayout();
+            this.GpAdquisicion.SuspendLayout();
+            this.GpInformación.SuspendLayout();
+            this.TabMultipedia.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PbFotoArticulo)).BeginInit();
             this.tabPage2.SuspendLayout();
             this.GpCaracteristicas.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ErrorArticulos)).BeginInit();
+            this.GpAcciones.SuspendLayout();
             this.SuspendLayout();
             // 
             // TxtCodigo
@@ -562,12 +565,41 @@
             // 
             // TxtObservaciones
             // 
-            this.TxtObservaciones.Enabled = false;
             this.TxtObservaciones.Location = new System.Drawing.Point(152, 35);
             this.TxtObservaciones.Multiline = true;
             this.TxtObservaciones.Name = "TxtObservaciones";
             this.TxtObservaciones.Size = new System.Drawing.Size(191, 122);
             this.TxtObservaciones.TabIndex = 20;
+            // 
+            // BtnAgregarEstado
+            // 
+            this.BtnAgregarEstado.Location = new System.Drawing.Point(108, 35);
+            this.BtnAgregarEstado.Name = "BtnAgregarEstado";
+            this.BtnAgregarEstado.Size = new System.Drawing.Size(26, 21);
+            this.BtnAgregarEstado.TabIndex = 8;
+            this.BtnAgregarEstado.Text = "...";
+            this.BtnAgregarEstado.UseVisualStyleBackColor = true;
+            this.BtnAgregarEstado.Click += new System.EventHandler(this.BtnAgregarEstado_Click);
+            // 
+            // BtnAgregarCondicion
+            // 
+            this.BtnAgregarCondicion.Location = new System.Drawing.Point(108, 135);
+            this.BtnAgregarCondicion.Name = "BtnAgregarCondicion";
+            this.BtnAgregarCondicion.Size = new System.Drawing.Size(26, 21);
+            this.BtnAgregarCondicion.TabIndex = 8;
+            this.BtnAgregarCondicion.Text = "...";
+            this.BtnAgregarCondicion.UseVisualStyleBackColor = true;
+            this.BtnAgregarCondicion.Click += new System.EventHandler(this.BtnAgregarCondicion_Click);
+            // 
+            // BtnAgregarUbicacion
+            // 
+            this.BtnAgregarUbicacion.Location = new System.Drawing.Point(108, 85);
+            this.BtnAgregarUbicacion.Name = "BtnAgregarUbicacion";
+            this.BtnAgregarUbicacion.Size = new System.Drawing.Size(26, 21);
+            this.BtnAgregarUbicacion.TabIndex = 8;
+            this.BtnAgregarUbicacion.Text = "...";
+            this.BtnAgregarUbicacion.UseVisualStyleBackColor = true;
+            this.BtnAgregarUbicacion.Click += new System.EventHandler(this.BtnAgregarUbicacion_Click);
             // 
             // label17
             // 
@@ -643,14 +675,14 @@
             this.TxtActivoFijo.Size = new System.Drawing.Size(95, 20);
             this.TxtActivoFijo.TabIndex = 18;
             // 
-            // label16
+            // LblActivoFijo
             // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(202, 33);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(59, 13);
-            this.label16.TabIndex = 7;
-            this.label16.Text = "Activo Fijo:";
+            this.LblActivoFijo.AutoSize = true;
+            this.LblActivoFijo.Location = new System.Drawing.Point(202, 33);
+            this.LblActivoFijo.Name = "LblActivoFijo";
+            this.LblActivoFijo.Size = new System.Drawing.Size(59, 13);
+            this.LblActivoFijo.TabIndex = 7;
+            this.LblActivoFijo.Text = "Activo Fijo:";
             // 
             // TxtRuc
             // 
@@ -659,38 +691,38 @@
             this.TxtRuc.Size = new System.Drawing.Size(104, 20);
             this.TxtRuc.TabIndex = 21;
             // 
-            // label19
+            // LblRuc
             // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(3, 32);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(85, 13);
-            this.label19.TabIndex = 9;
-            this.label19.Text = "RUC Proveedor:";
+            this.LblRuc.AutoSize = true;
+            this.LblRuc.Location = new System.Drawing.Point(3, 29);
+            this.LblRuc.Name = "LblRuc";
+            this.LblRuc.Size = new System.Drawing.Size(85, 13);
+            this.LblRuc.TabIndex = 9;
+            this.LblRuc.Text = "RUC Proveedor:";
             // 
-            // groupBox4
+            // GpAdquisicion
             // 
-            this.groupBox4.Controls.Add(this.BtnAgregarRUC);
-            this.groupBox4.Controls.Add(this.TxtActivoFijo);
-            this.groupBox4.Controls.Add(this.TxtRazonSocial);
-            this.groupBox4.Controls.Add(this.label16);
-            this.groupBox4.Controls.Add(this.label25);
-            this.groupBox4.Controls.Add(this.label21);
-            this.groupBox4.Controls.Add(this.TxtPrecio);
-            this.groupBox4.Controls.Add(this.label24);
-            this.groupBox4.Controls.Add(this.TxtRuc);
-            this.groupBox4.Controls.Add(this.label19);
-            this.groupBox4.Location = new System.Drawing.Point(494, 12);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(306, 135);
-            this.groupBox4.TabIndex = 2;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Adquisición";
+            this.GpAdquisicion.Controls.Add(this.BtnAgregarRUC);
+            this.GpAdquisicion.Controls.Add(this.TxtActivoFijo);
+            this.GpAdquisicion.Controls.Add(this.TxtRazonSocial);
+            this.GpAdquisicion.Controls.Add(this.LblActivoFijo);
+            this.GpAdquisicion.Controls.Add(this.label25);
+            this.GpAdquisicion.Controls.Add(this.LblPrecio);
+            this.GpAdquisicion.Controls.Add(this.TxtPrecio);
+            this.GpAdquisicion.Controls.Add(this.LblRazonSocial);
+            this.GpAdquisicion.Controls.Add(this.TxtRuc);
+            this.GpAdquisicion.Controls.Add(this.LblRuc);
+            this.GpAdquisicion.Location = new System.Drawing.Point(494, 12);
+            this.GpAdquisicion.Name = "GpAdquisicion";
+            this.GpAdquisicion.Size = new System.Drawing.Size(306, 135);
+            this.GpAdquisicion.TabIndex = 2;
+            this.GpAdquisicion.TabStop = false;
+            this.GpAdquisicion.Text = "Adquisición";
             // 
             // BtnAgregarRUC
             // 
             this.BtnAgregarRUC.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.BtnAgregarRUC.Location = new System.Drawing.Point(124, 45);
+            this.BtnAgregarRUC.Location = new System.Drawing.Point(120, 45);
             this.BtnAgregarRUC.Name = "BtnAgregarRUC";
             this.BtnAgregarRUC.Size = new System.Drawing.Size(73, 23);
             this.BtnAgregarRUC.TabIndex = 24;
@@ -714,14 +746,14 @@
             this.label25.TabIndex = 9;
             this.label25.Text = "Razón Social:";
             // 
-            // label21
+            // LblPrecio
             // 
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(202, 86);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(87, 13);
-            this.label21.TabIndex = 9;
-            this.label21.Text = "Precio Adquirido:";
+            this.LblPrecio.AutoSize = true;
+            this.LblPrecio.Location = new System.Drawing.Point(202, 86);
+            this.LblPrecio.Name = "LblPrecio";
+            this.LblPrecio.Size = new System.Drawing.Size(87, 13);
+            this.LblPrecio.TabIndex = 9;
+            this.LblPrecio.Text = "Precio Adquirido:";
             // 
             // TxtPrecio
             // 
@@ -730,40 +762,40 @@
             this.TxtPrecio.Size = new System.Drawing.Size(95, 20);
             this.TxtPrecio.TabIndex = 23;
             // 
-            // label24
+            // LblRazonSocial
             // 
-            this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(3, 83);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(73, 13);
-            this.label24.TabIndex = 9;
-            this.label24.Text = "Razón Social:";
+            this.LblRazonSocial.AutoSize = true;
+            this.LblRazonSocial.Location = new System.Drawing.Point(3, 83);
+            this.LblRazonSocial.Name = "LblRazonSocial";
+            this.LblRazonSocial.Size = new System.Drawing.Size(73, 13);
+            this.LblRazonSocial.TabIndex = 9;
+            this.LblRazonSocial.Text = "Razón Social:";
             // 
-            // groupBox5
+            // GpInformación
             // 
-            this.groupBox5.Controls.Add(this.tabControl1);
-            this.groupBox5.Controls.Add(this.BtnAgregarComprobante);
-            this.groupBox5.Controls.Add(this.BtnAgregarImagen);
-            this.groupBox5.Controls.Add(this.TxtRutaComprobante);
-            this.groupBox5.Controls.Add(this.label26);
-            this.groupBox5.Controls.Add(this.TxtDireccionImagen);
-            this.groupBox5.Controls.Add(this.label23);
-            this.groupBox5.Location = new System.Drawing.Point(494, 153);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(306, 439);
-            this.groupBox5.TabIndex = 2;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Infirmación adicional";
+            this.GpInformación.Controls.Add(this.TabMultipedia);
+            this.GpInformación.Controls.Add(this.BtnAgregarComprobante);
+            this.GpInformación.Controls.Add(this.BtnAgregarImagen);
+            this.GpInformación.Controls.Add(this.TxtRutaComprobante);
+            this.GpInformación.Controls.Add(this.label26);
+            this.GpInformación.Controls.Add(this.TxtDireccionImagen);
+            this.GpInformación.Controls.Add(this.label23);
+            this.GpInformación.Location = new System.Drawing.Point(494, 153);
+            this.GpInformación.Name = "GpInformación";
+            this.GpInformación.Size = new System.Drawing.Size(306, 439);
+            this.GpInformación.TabIndex = 2;
+            this.GpInformación.TabStop = false;
+            this.GpInformación.Text = "Información adicional";
             // 
-            // tabControl1
+            // TabMultipedia
             // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(6, 119);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(294, 314);
-            this.tabControl1.TabIndex = 30;
+            this.TabMultipedia.Controls.Add(this.tabPage1);
+            this.TabMultipedia.Controls.Add(this.tabPage2);
+            this.TabMultipedia.Location = new System.Drawing.Point(6, 119);
+            this.TabMultipedia.Name = "TabMultipedia";
+            this.TabMultipedia.SelectedIndex = 0;
+            this.TabMultipedia.Size = new System.Drawing.Size(294, 314);
+            this.TabMultipedia.TabIndex = 30;
             // 
             // tabPage1
             // 
@@ -905,99 +937,76 @@
             this.BtnEliminar.UseVisualStyleBackColor = true;
             this.BtnEliminar.Click += new System.EventHandler(this.btnEliminar_Click);
             // 
-            // BtnEmpleados
-            // 
-            this.BtnEmpleados.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.BtnEmpleados.Location = new System.Drawing.Point(398, 436);
-            this.BtnEmpleados.Name = "BtnEmpleados";
-            this.BtnEmpleados.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.BtnEmpleados.Size = new System.Drawing.Size(75, 23);
-            this.BtnEmpleados.TabIndex = 8;
-            this.BtnEmpleados.Text = "Empleados";
-            this.BtnEmpleados.UseVisualStyleBackColor = true;
-            // 
-            // BtnCancelar
-            // 
-            this.BtnCancelar.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.BtnCancelar.Location = new System.Drawing.Point(398, 393);
-            this.BtnCancelar.Name = "BtnCancelar";
-            this.BtnCancelar.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.BtnCancelar.Size = new System.Drawing.Size(75, 23);
-            this.BtnCancelar.TabIndex = 9;
-            this.BtnCancelar.Text = "Cancelar";
-            this.BtnCancelar.UseVisualStyleBackColor = true;
-            this.BtnCancelar.Click += new System.EventHandler(this.BtnCancelar_Click);
-            // 
-            // BtnGuardarPlus
-            // 
-            this.BtnGuardarPlus.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.BtnGuardarPlus.Location = new System.Drawing.Point(398, 350);
-            this.BtnGuardarPlus.Name = "BtnGuardarPlus";
-            this.BtnGuardarPlus.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.BtnGuardarPlus.Size = new System.Drawing.Size(75, 23);
-            this.BtnGuardarPlus.TabIndex = 10;
-            this.BtnGuardarPlus.Text = "+ Guardar";
-            this.BtnGuardarPlus.UseVisualStyleBackColor = true;
-            this.BtnGuardarPlus.Click += new System.EventHandler(this.BtnGuardarPlus_Click);
-            // 
-            // BtnGuardar
-            // 
-            this.BtnGuardar.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.BtnGuardar.Location = new System.Drawing.Point(398, 307);
-            this.BtnGuardar.Name = "BtnGuardar";
-            this.BtnGuardar.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.BtnGuardar.Size = new System.Drawing.Size(75, 23);
-            this.BtnGuardar.TabIndex = 11;
-            this.BtnGuardar.Text = "Guardar";
-            this.BtnGuardar.UseVisualStyleBackColor = true;
-            this.BtnGuardar.Click += new System.EventHandler(this.BtnGuardar_Click);
-            // 
             // ErrorArticulos
             // 
             this.ErrorArticulos.ContainerControl = this;
             // 
-            // BtnAgregarUbicacion
+            // GpAcciones
             // 
-            this.BtnAgregarUbicacion.Location = new System.Drawing.Point(108, 85);
-            this.BtnAgregarUbicacion.Name = "BtnAgregarUbicacion";
-            this.BtnAgregarUbicacion.Size = new System.Drawing.Size(26, 21);
-            this.BtnAgregarUbicacion.TabIndex = 8;
-            this.BtnAgregarUbicacion.Text = "...";
-            this.BtnAgregarUbicacion.UseVisualStyleBackColor = true;
-            this.BtnAgregarUbicacion.Click += new System.EventHandler(this.BtnAgregarUbicacion_Click);
+            this.GpAcciones.Controls.Add(this.BtnCancelar);
+            this.GpAcciones.Controls.Add(this.BtnGuardarPlus);
+            this.GpAcciones.Controls.Add(this.BtnGuardar);
+            this.GpAcciones.Controls.Add(this.BtnEmpleados);
+            this.GpAcciones.Location = new System.Drawing.Point(376, 297);
+            this.GpAcciones.Name = "GpAcciones";
+            this.GpAcciones.Size = new System.Drawing.Size(112, 169);
+            this.GpAcciones.TabIndex = 12;
+            this.GpAcciones.TabStop = false;
+            this.GpAcciones.Text = "Acciones";
             // 
-            // BtnAgregarCondicion
+            // BtnCancelar
             // 
-            this.BtnAgregarCondicion.Location = new System.Drawing.Point(108, 135);
-            this.BtnAgregarCondicion.Name = "BtnAgregarCondicion";
-            this.BtnAgregarCondicion.Size = new System.Drawing.Size(26, 21);
-            this.BtnAgregarCondicion.TabIndex = 8;
-            this.BtnAgregarCondicion.Text = "...";
-            this.BtnAgregarCondicion.UseVisualStyleBackColor = true;
-            this.BtnAgregarCondicion.Click += new System.EventHandler(this.BtnAgregarCondicion_Click);
+            this.BtnCancelar.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BtnCancelar.Location = new System.Drawing.Point(18, 95);
+            this.BtnCancelar.Name = "BtnCancelar";
+            this.BtnCancelar.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.BtnCancelar.Size = new System.Drawing.Size(75, 23);
+            this.BtnCancelar.TabIndex = 13;
+            this.BtnCancelar.Text = "Cancelar";
+            this.BtnCancelar.UseVisualStyleBackColor = true;
             // 
-            // BtnAgregarEstado
+            // BtnGuardarPlus
             // 
-            this.BtnAgregarEstado.Location = new System.Drawing.Point(108, 35);
-            this.BtnAgregarEstado.Name = "BtnAgregarEstado";
-            this.BtnAgregarEstado.Size = new System.Drawing.Size(26, 21);
-            this.BtnAgregarEstado.TabIndex = 8;
-            this.BtnAgregarEstado.Text = "...";
-            this.BtnAgregarEstado.UseVisualStyleBackColor = true;
-            this.BtnAgregarEstado.Click += new System.EventHandler(this.BtnAgregarEstado_Click);
+            this.BtnGuardarPlus.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BtnGuardarPlus.Location = new System.Drawing.Point(18, 60);
+            this.BtnGuardarPlus.Name = "BtnGuardarPlus";
+            this.BtnGuardarPlus.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.BtnGuardarPlus.Size = new System.Drawing.Size(75, 23);
+            this.BtnGuardarPlus.TabIndex = 14;
+            this.BtnGuardarPlus.Text = "+ Guardar";
+            this.BtnGuardarPlus.UseVisualStyleBackColor = true;
+            // 
+            // BtnGuardar
+            // 
+            this.BtnGuardar.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BtnGuardar.Location = new System.Drawing.Point(18, 25);
+            this.BtnGuardar.Name = "BtnGuardar";
+            this.BtnGuardar.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.BtnGuardar.Size = new System.Drawing.Size(75, 23);
+            this.BtnGuardar.TabIndex = 15;
+            this.BtnGuardar.Text = "Guardar";
+            this.BtnGuardar.UseVisualStyleBackColor = true;
+            // 
+            // BtnEmpleados
+            // 
+            this.BtnEmpleados.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BtnEmpleados.Location = new System.Drawing.Point(18, 130);
+            this.BtnEmpleados.Name = "BtnEmpleados";
+            this.BtnEmpleados.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.BtnEmpleados.Size = new System.Drawing.Size(75, 23);
+            this.BtnEmpleados.TabIndex = 12;
+            this.BtnEmpleados.Text = "Empleados";
+            this.BtnEmpleados.UseVisualStyleBackColor = true;
             // 
             // VistaArticulos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(812, 604);
-            this.Controls.Add(this.BtnCancelar);
-            this.Controls.Add(this.BtnGuardarPlus);
-            this.Controls.Add(this.BtnGuardar);
-            this.Controls.Add(this.BtnEmpleados);
+            this.Controls.Add(this.GpAcciones);
             this.Controls.Add(this.GpCaracteristicas);
-            this.Controls.Add(this.groupBox5);
-            this.Controls.Add(this.groupBox4);
+            this.Controls.Add(this.GpInformación);
+            this.Controls.Add(this.GpAdquisicion);
             this.Controls.Add(this.GpUsos);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -1014,16 +1023,17 @@
             this.groupBox2.PerformLayout();
             this.GpUsos.ResumeLayout(false);
             this.GpUsos.PerformLayout();
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox4.PerformLayout();
-            this.groupBox5.ResumeLayout(false);
-            this.groupBox5.PerformLayout();
-            this.tabControl1.ResumeLayout(false);
+            this.GpAdquisicion.ResumeLayout(false);
+            this.GpAdquisicion.PerformLayout();
+            this.GpInformación.ResumeLayout(false);
+            this.GpInformación.PerformLayout();
+            this.TabMultipedia.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PbFotoArticulo)).EndInit();
             this.tabPage2.ResumeLayout(false);
             this.GpCaracteristicas.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.ErrorArticulos)).EndInit();
+            this.GpAcciones.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1046,21 +1056,13 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.GroupBox GpUsos;
         private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Label label22;
-        private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.Label label24;
-        private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.Button BtnAgregarImagen;
         private System.Windows.Forms.Label label23;
-        private System.Windows.Forms.Button BtnAgregarRUC;
         private System.Windows.Forms.Label label25;
-        private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Button BtnAgregarComprobante;
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.Button btnAgregar;
@@ -1068,15 +1070,8 @@
         public System.Windows.Forms.FlowLayoutPanel FlCaracteristicas;
         public System.Windows.Forms.ComboBox CbMarcas;
         public System.Windows.Forms.GroupBox GpCaracteristicas;
-        private System.Windows.Forms.Button BtnEmpleados;
-        private System.Windows.Forms.Button BtnCancelar;
-        private System.Windows.Forms.Button BtnGuardarPlus;
-        private System.Windows.Forms.Button BtnGuardar;
-        private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.PictureBox PbFotoArticulo;
-        private System.Windows.Forms.Panel PanelComprobante;
         public System.Windows.Forms.TextBox TxtCodigo;
         public System.Windows.Forms.TextBox TxtSerie;
         public System.Windows.Forms.TextBox TxtModelo;
@@ -1108,5 +1103,22 @@
         private System.Windows.Forms.Button BtnAgregarUbicacion;
         private System.Windows.Forms.Button BtnAgregarEstado;
         private System.Windows.Forms.Button BtnAgregarCondicion;
+        public System.Windows.Forms.PictureBox PbFotoArticulo;
+        public System.Windows.Forms.Panel PanelComprobante;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        public System.Windows.Forms.GroupBox GpAcciones;
+        public System.Windows.Forms.Button BtnCancelar;
+        public System.Windows.Forms.Button BtnGuardarPlus;
+        public System.Windows.Forms.Button BtnGuardar;
+        public System.Windows.Forms.Button BtnEmpleados;
+        public System.Windows.Forms.GroupBox GpUsos;
+        public System.Windows.Forms.Label LblRuc;
+        public System.Windows.Forms.GroupBox GpAdquisicion;
+        public System.Windows.Forms.Label LblRazonSocial;
+        public System.Windows.Forms.Label LblActivoFijo;
+        public System.Windows.Forms.GroupBox GpInformación;
+        public System.Windows.Forms.Button BtnAgregarRUC;
+        public System.Windows.Forms.Label LblPrecio;
+        public System.Windows.Forms.TabControl TabMultipedia;
     }
 }

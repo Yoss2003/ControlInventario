@@ -40,8 +40,10 @@ namespace ControlInventario.Modelos
 
         // Información adicional
         public string Observacion { get; set; } // Observasiones del articulo
-        public byte[] Foto { get; set; } // imagen del articulo
-        public byte[] Comprobante { get; set; } // imagen del comprobante
+        public string FotoPrincipal { get; set; } // Ruta foto principal
+        public string FotoSecundaria { get; set; } // Ruta foto secundaria
+        public string ComprobantePrincipal { get; set; } // Ruta comprobante principal
+        public string ComprobanteSecundaria { get; set; } // Ruta comprobante secundaria
 
         // Campos contables / logísticos
         public string RucProveedor { get; set; } // Identificador del proveedor
@@ -58,7 +60,7 @@ namespace ControlInventario.Modelos
 
         // Datos Busqueda
         public DateTime FechaRegistro { get; set; } // Fecha de registro del artículo
-        public DateTime? FechaModificacion { get; set; } // Fecha de modificación del artículo
+        public DateTime FechaModificacion { get; set; } // Fecha de modificación del artículo
         public string Accion { get; set; } // Acción realizada (Ingreso o Salida)
     }
 }

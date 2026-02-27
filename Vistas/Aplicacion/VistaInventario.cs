@@ -4,6 +4,7 @@ using ControlInventario.Vistas.Extras;
 using System;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 
 namespace ControlInventario.Vistas
@@ -19,7 +20,6 @@ namespace ControlInventario.Vistas
         public static bool isEdit = false;
         readonly int usuarioId = UsuarioSesion.UsuarioId;
         readonly string nombreUusario = UsuarioSesion.NombreUsuario;
-        readonly string nombrePersonal = UsuarioSesion.NombrePersonal;
         readonly int inventarioId = UsuarioSesion.InventarioId;
 
         public VistaInventario()
@@ -30,6 +30,7 @@ namespace ControlInventario.Vistas
 
         private void VistaInventario_Load(object sender, EventArgs e)
         {
+            LstArticulos.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
             LblAccionDecription.Text = "EXCEL";
             CargarArticulos();
         }
@@ -46,6 +47,7 @@ namespace ControlInventario.Vistas
             {
                 var articulosCategoria = ArticuloRepository.ListarArticulos(categoriaSeleccionadaId);
                 ClassHelper.RefrescarListView(LstArticulos, articulosCategoria);
+                LstArticulos.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
             }
         }
 
@@ -139,20 +141,59 @@ namespace ControlInventario.Vistas
                 switch (texto)
                 {
                     case "Accesorios":
-                        articulos.Size = new Size(828, 510);
+                        //articulos.Size = new Size(828, 510);
                         articulos.GpCaracteristicas.Visible = false;
-                        break;
+
+                        // Group Informacion
+                        articulos.GpInformación.Size = new Size(306, 454);
+                        articulos.GpInformación.Location = new Point(494, 12);
+                        articulos.TabMultipedia.Size = new Size(294, 329);
+
+                        // Group Adquisicion
+                        articulos.GpAdquisicion.Size = new Size(475, 116);
+                        articulos.GpAdquisicion.Location = new Point(12, 476);
+
+                        // Elementos de Group Adquisicion
+                        articulos.LblRuc.Location = new Point(7, 16);
+                        articulos.TxtRuc.Location = new Point(10, 32);
+                        articulos.BtnAgregarRUC.Location = new Point(120, 29);
+
+                        articulos.LblActivoFijo.Location = new Point(226, 16);
+                        articulos.TxtActivoFijo.Location = new Point(229, 32);
+
+                        articulos.LblPrecio.Location = new Point(361, 16);
+                        articulos.TxtPrecio.Location = new Point(364, 32);
+
+                        articulos.LblRazonSocial.Location = new Point(7, 66);
+                        articulos.TxtRazonSocial.Location = new Point(10, 82);
+                        articulos.TxtRazonSocial.Size = new Size(449, 20);
+
+                        // Gp Usos
+                        articulos.GpUsos.Size = new Size(476, 172);
+                        articulos.TxtObservaciones.Size = new Size(318, 122);
+
+                        //Gp Acciones
+                        articulos.GpAcciones.Location = new Point(494, 476);
+                        articulos.GpAcciones.Size = new Size(306, 116);
+
+                        articulos.BtnGuardar.Location = new Point(69, 38);
+                        articulos.BtnGuardarPlus.Location = new Point(190, 38);
+                        articulos.BtnCancelar.Location = new Point(69, 79);
+                        articulos.BtnEmpleados.Location = new Point(190, 79);
+
+
+                    break;
 
                     default:
-                        articulos.Size = new Size(828, 607);
-                        break;
+                        articulos.Size = new Size(828, 643);
+                    break;
                 }
 
                 // Mostrar el formulario de alta
                 if (articulos.ShowDialog() == DialogResult.OK)
                 {
                     // Refrescar la lista activa al volver
-                    CargarArticulos();
+                    RefrescarArticulos();
                 }
             }
         }
@@ -195,19 +236,52 @@ namespace ControlInventario.Vistas
                 switch (categoriaSeleccionadaNombre)
                 {
                     case "Accesorios":
-                        articulos.Size = new Size(828, 510);
+                        //articulos.Size = new Size(828, 510);
                         articulos.GpCaracteristicas.Visible = false;
-                        break;
 
-                    case "Categoria":
-                        // Si alguna vez necesitas lógica especial para categorías
-                        articulos.Size = new Size(828, 607);
-                        break;
+                        // Group Informacion
+                        articulos.GpInformación.Size = new Size(306, 454);
+                        articulos.GpInformación.Location = new Point(494, 12);
+                        articulos.TabMultipedia.Size = new Size(294, 329);
+
+                        // Group Adquisicion
+                        articulos.GpAdquisicion.Size = new Size(475, 116);
+                        articulos.GpAdquisicion.Location = new Point(12, 476);
+
+                        // Elementos de Group Adquisicion
+                        articulos.LblRuc.Location = new Point(7, 16);
+                        articulos.TxtRuc.Location = new Point(10, 32);
+                        articulos.BtnAgregarRUC.Location = new Point(120, 29);
+
+                        articulos.LblActivoFijo.Location = new Point(226, 16);
+                        articulos.TxtActivoFijo.Location = new Point(229, 32);
+
+                        articulos.LblPrecio.Location = new Point(361, 16);
+                        articulos.TxtPrecio.Location = new Point(364, 32);
+
+                        articulos.LblRazonSocial.Location = new Point(7, 66);
+                        articulos.TxtRazonSocial.Location = new Point(10, 82);
+                        articulos.TxtRazonSocial.Size = new Size(449, 20);
+
+                        // Gp Usos
+                        articulos.GpUsos.Size = new Size(476, 172);
+                        articulos.TxtObservaciones.Size = new Size(318, 122);
+
+                        //Gp Acciones
+                        articulos.GpAcciones.Location = new Point(494, 476);
+                        articulos.GpAcciones.Size = new Size(306, 116);
+
+                        articulos.BtnGuardar.Location = new Point(69, 38);
+                        articulos.BtnGuardarPlus.Location = new Point(190, 38);
+                        articulos.BtnCancelar.Location = new Point(69, 79);
+                        articulos.BtnEmpleados.Location = new Point(190, 79);
+
+
+                    break;
 
                     default:
                         // Caso genérico: cualquier categoría con marcas
-                        articulos.CbMarcas.Text = item.SubItems[4].Text;
-                        articulos.Size = new Size(828, 607);
+                        articulos.Size = new Size(828, 643);
                         break;
                 }
 
@@ -215,6 +289,7 @@ namespace ControlInventario.Vistas
                 if (item.SubItems.Count > 1) articulos.TxtCodigo.Text = item.SubItems[1]?.Text ?? string.Empty;
                 if (item.SubItems.Count > 2) articulos.TxtModelo.Text = item.SubItems[2]?.Text ?? string.Empty;
                 if (item.SubItems.Count > 3) articulos.TxtSerie.Text = item.SubItems[3]?.Text ?? string.Empty;
+                if (item.SubItems.Count > 4) articulos.CbMarcas.Text = item.SubItems[4]?.Text ?? string.Empty;
 
                 // Fechas con TryParse
                 if (item.SubItems.Count > 5 && DateTime.TryParse(item.SubItems[5]?.Text, out DateTime fechaAdquisicion))
@@ -248,16 +323,43 @@ namespace ControlInventario.Vistas
                 if (item.SubItems.Count > 20) articulos.TxtRazonSocial.Text = item.SubItems[20]?.Text ?? string.Empty;
                 if (item.SubItems.Count > 21) articulos.TxtPrecio.Text = item.SubItems[21]?.Text ?? string.Empty;
                 if (item.SubItems.Count > 22) articulos.TxtActivoFijo.Text = item.SubItems[22]?.Text ?? string.Empty;
-                if (item.SubItems.Count > 26) articulos.TxtObservaciones.Text = item.SubItems[26]?.Text ?? string.Empty;
-                if (item.SubItems.Count > 27) articulos.TxtDireccionImagen.Text = item.SubItems[27]?.Text ?? string.Empty;
+                if (item.SubItems.Count > 23) articulos.TxtObservaciones.Text = item.SubItems[23]?.Text ?? string.Empty;
+                if (item.SubItems.Count > 24) articulos.TxtDireccionImagen.Text = item.SubItems[24]?.Text ?? string.Empty;
+                if (item.SubItems.Count > 25) articulos.TxtRutaComprobante.Text = item.SubItems[25]?.Text ?? string.Empty;
 
-                //articulos.TxtRutaComprobante.Text = item.SubItems[31].Text;
+                // Obtener el artículo completo de la BD
+                var art = ArticuloRepository.ObtenerArticuloPorId(_articuloId);
+
+                string rutaFoto = File.Exists(art.FotoPrincipal)
+                                ? art.FotoPrincipal
+                                : art.FotoSecundaria;
+
+                if (!string.IsNullOrEmpty(rutaFoto) && File.Exists(rutaFoto))
+                {
+                    articulos.PbFotoArticulo.Image = Image.FromFile(rutaFoto);
+                }
+
+                string rutaComprobante = File.Exists(art.ComprobantePrincipal)
+                                            ? art.ComprobantePrincipal
+                                            : art.ComprobanteSecundaria;
+
+                if (!string.IsNullOrEmpty(rutaComprobante) && File.Exists(rutaComprobante))
+                {
+                    using (var pdfDocument = PdfiumViewer.PdfDocument.Load(rutaComprobante))
+                    {
+                        articulos.TxtRutaComprobante.Text = rutaComprobante;
+
+                        articulos.PdfViewerControl.Document?.Dispose();
+                        articulos.PdfViewerControl.Document = PdfiumViewer.PdfDocument.Load(rutaComprobante);
+                        articulos.PdfViewerControl.BringToFront();
+                    }
+                }
 
                 // Mostrar el formulario de alta
                 if (articulos.ShowDialog() == DialogResult.OK)
                 {
                     // Refrescar la lista activa al volver
-                    CargarArticulos();
+                    RefrescarArticulos();
                 }
             }
         }

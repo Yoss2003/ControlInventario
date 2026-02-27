@@ -86,6 +86,8 @@ namespace ControlInventario.Servicios
                 item.SubItems.Add(art.PrecioAdquisicion?.ToString() ?? "");
                 item.SubItems.Add(art.ActivoFijo ?? "");
                 item.SubItems.Add(art.Observacion ?? "");
+                item.SubItems.Add(art.FotoPrincipal ?? "");
+                item.SubItems.Add(art.ComprobantePrincipal ?? "");
 
                 listView.Items.Add(item);
             }

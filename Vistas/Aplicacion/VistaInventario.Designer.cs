@@ -35,6 +35,7 @@
             this.CodigoArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ModeloArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.MarcaArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.SerieArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.FechaAdquisicionArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.FechaBajaArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.FechaFinGarantiaArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -105,6 +106,7 @@
             this.Id,
             this.CodigoArticulo,
             this.ModeloArticulo,
+            this.SerieArticulo,
             this.MarcaArticulo,
             this.FechaAdquisicionArticulo,
             this.FechaBajaArticulo,
@@ -156,6 +158,11 @@
             this.MarcaArticulo.Text = "Marca";
             this.MarcaArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // SerieArticulo
+            // 
+            this.SerieArticulo.Text = "Serie";
+            this.SerieArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // FechaAdquisicionArticulo
             // 
             this.FechaAdquisicionArticulo.Text = "Fecha adquisicion";
@@ -184,6 +191,7 @@
             // AreaUsuarioActualArticulo
             // 
             this.AreaUsuarioActualArticulo.Text = "Area usuario actual";
+            this.AreaUsuarioActualArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // CargoUsuarioActualArticulo
             // 
@@ -198,54 +206,67 @@
             // NombreUsuarioAnteriorArticulo
             // 
             this.NombreUsuarioAnteriorArticulo.Text = "Usuario anterior";
+            this.NombreUsuarioAnteriorArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // AreaUsuarioAnteriorArticulo
             // 
             this.AreaUsuarioAnteriorArticulo.Text = "Area usuario anterior";
+            this.AreaUsuarioAnteriorArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // CargoUsuarioAnteriorArticulo
             // 
             this.CargoUsuarioAnteriorArticulo.Text = "Cargo usuario anterior";
+            this.CargoUsuarioAnteriorArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // EstadoArticulo
             // 
             this.EstadoArticulo.Text = "Estado";
+            this.EstadoArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // UbicacionArticulo
             // 
             this.UbicacionArticulo.Text = "Ubicación";
+            this.UbicacionArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // CondicionArticulo
             // 
             this.CondicionArticulo.Text = "Condición";
+            this.CondicionArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // RucArticulo
             // 
             this.RucArticulo.Text = "Ruc proveedor";
+            this.RucArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // ProveedorArticulo
             // 
             this.ProveedorArticulo.Text = "Razón social";
+            this.ProveedorArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // PrecioArticulo
             // 
             this.PrecioArticulo.Text = "Precio adquirido";
+            this.PrecioArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // ActivoFijoArticulo
             // 
             this.ActivoFijoArticulo.Text = "Activo fijo";
+            this.ActivoFijoArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // ObservacionArticulo
             // 
             this.ObservacionArticulo.Text = "Observacion";
+            this.ObservacionArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // ImagenArticulo
             // 
             this.ImagenArticulo.Text = "Imagen";
+            this.ImagenArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // ComprobanteArticulo
             // 
             this.ComprobanteArticulo.Text = "Comprobante";
+            this.ComprobanteArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // FlCategorias
             // 
@@ -446,5 +467,6 @@
         private System.Windows.Forms.ColumnHeader ObservacionArticulo;
         private System.Windows.Forms.ColumnHeader ImagenArticulo;
         private System.Windows.Forms.ColumnHeader ComprobanteArticulo;
+        private System.Windows.Forms.ColumnHeader SerieArticulo;
     }
 }

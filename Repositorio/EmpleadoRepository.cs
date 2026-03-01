@@ -93,7 +93,7 @@ namespace ControlInventario.Repositorio
                 using (var cmd = new SQLiteCommand (query, con))
                 {
                     cmd.Parameters.AddWithValue("@Nombres", emp.Nombres);
-                    cmd.Parameters.AddWithValue("@Apellidoss", emp.Apellidos);
+                    cmd.Parameters.AddWithValue("@Apellidos", emp.Apellidos);
                     cmd.Parameters.AddWithValue("@DNI", emp.DNI);
                     cmd.Parameters.AddWithValue("@IdCargo", emp.IdCargo);
                     cmd.Parameters.AddWithValue("@Cargo", emp.Cargo);
@@ -101,9 +101,43 @@ namespace ControlInventario.Repositorio
                     cmd.Parameters.AddWithValue("@Area", emp.Area);
                     cmd.Parameters.AddWithValue("@IdEstado", emp.IdEstado);
                     cmd.Parameters.AddWithValue("@Estado", emp.Estado);
+                    cmd.Parameters.AddWithValue("@Id", emp.Id);
 
                     cmd.ExecuteNonQuery();
                 }
+            }
+        }
+
+        public static void LimpiarCampoObsoleto(int idEmpleado, string columnaId, string columnaNombre)
+        {
+            using (var con = ConexionGlobal.ObtenerConexion())
+            {
+                con.Open();
+                string query = $@"UPDATE Empleado SET 
+                          {columnaId} = 0, 
+                          {columnaNombre} = 'SELECCIONE' 
+                          WHERE Id = @Id;";
+
+                using (var cmd = new SQLiteCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@Id", idEmpleado);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public static void EliminarEmpleado(Empleados emp)
+        {
+            using (var con = ConexionGlobal.ObtenerConexion())
+            {
+                con.Open();
+                string query = "DELETE FROM Empleado WHERE Id = @Id;";
+                using (var cmd = new SQLiteCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@Id", emp.Id);
+                    cmd.ExecuteNonQuery();
+                }
+                con.Close();
             }
         }
     
@@ -145,5 +179,27 @@ namespace ControlInventario.Repositorio
                 Estado = reader["Estado"].ToString()
             };
         }
+
+        public static Empleados ObtenerEmpleadoPorDni(string dni)
+        {
+            using (var con = ConexionGlobal.ObtenerConexion())
+            {
+                con.Open();
+                string query = "SELECT * FROM Empleado WHERE DNI = @DNI LIMIT 1;";
+                using (var cmd = new SQLiteCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@DNI", dni);
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            return MapearEmpleado(reader);
+                        }
+                    }
+                }
+            }
+            return null; // Si no existe
+        }
+
     }
 }

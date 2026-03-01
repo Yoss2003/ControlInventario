@@ -67,7 +67,6 @@ namespace ControlInventario.Vistas.Aplicacion
 
                 DgEmpleados.DefaultCellStyle.WrapMode = DataGridViewTriState.True; 
                 DgEmpleados.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
-                //DgEmpleados.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
                 DgEmpleados.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
                 // Cargar datos articulos
@@ -81,7 +80,6 @@ namespace ControlInventario.Vistas.Aplicacion
 
                 DgHistorial.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
                 DgHistorial.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
-                //DgHistorial.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
                 DgHistorial.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
                 CargarDatos();

@@ -105,11 +105,11 @@
             this.BtnEliminar = new System.Windows.Forms.Button();
             this.ErrorArticulos = new System.Windows.Forms.ErrorProvider(this.components);
             this.GpAcciones = new System.Windows.Forms.GroupBox();
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.BtnCancelar = new System.Windows.Forms.Button();
             this.BtnGuardarPlus = new System.Windows.Forms.Button();
             this.BtnGuardar = new System.Windows.Forms.Button();
             this.BtnEmpleados = new System.Windows.Forms.Button();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.GpUsos.SuspendLayout();
@@ -134,26 +134,12 @@
             // CbMarcas
             // 
             this.CbMarcas.FormattingEnabled = true;
-            this.CbMarcas.Items.AddRange(new object[] {
-            "Apple",
-            "Hp",
-            "Asus",
-            "ThinkPad",
-            "Lenovo",
-            "Dell",
-            "Acer",
-            "Toshiba",
-            "Samsung",
-            "Sony",
-            "LG",
-            "AlienWare",
-            "LANIX"});
             this.CbMarcas.Location = new System.Drawing.Point(361, 48);
             this.CbMarcas.Name = "CbMarcas";
             this.CbMarcas.Size = new System.Drawing.Size(90, 21);
             this.CbMarcas.TabIndex = 4;
             this.CbMarcas.Text = "SELECCIONE";
-            this.CbMarcas.TextChanged += new System.EventHandler(this.CbDesktop_TextChanged);
+            this.CbMarcas.TextUpdate += new System.EventHandler(this.CbMarcas_TextUpdate);
             // 
             // groupBox1
             // 
@@ -343,93 +329,45 @@
             // 
             this.CbCargoUsuarioAnterior.Enabled = false;
             this.CbCargoUsuarioAnterior.FormattingEnabled = true;
-            this.CbCargoUsuarioAnterior.Items.AddRange(new object[] {
-            "Gerencia General",
-            "RRHH",
-            "Seguridad",
-            "Contabilidad",
-            "Operaciones",
-            "Marketing",
-            "Comercial",
-            "Logística",
-            "Almacén",
-            "Sistemas",
-            "Operador(a)"});
             this.CbCargoUsuarioAnterior.Location = new System.Drawing.Point(359, 92);
             this.CbCargoUsuarioAnterior.Name = "CbCargoUsuarioAnterior";
             this.CbCargoUsuarioAnterior.Size = new System.Drawing.Size(92, 21);
             this.CbCargoUsuarioAnterior.TabIndex = 5;
             this.CbCargoUsuarioAnterior.Text = "SELECCIONE";
-            this.CbCargoUsuarioAnterior.TextChanged += new System.EventHandler(this.CbAreaUsuarioAnterior_TextChanged);
+            this.CbCargoUsuarioAnterior.TextUpdate += new System.EventHandler(this.CbAreaUsuarioAnterior_TextUpdate);
             // 
             // CbAreaUsuarioAnterior
             // 
             this.CbAreaUsuarioAnterior.Enabled = false;
             this.CbAreaUsuarioAnterior.FormattingEnabled = true;
-            this.CbAreaUsuarioAnterior.Items.AddRange(new object[] {
-            "Gerencia General",
-            "RRHH",
-            "Seguridad",
-            "Contabilidad",
-            "Operaciones",
-            "Marketing",
-            "Comercial",
-            "Logística",
-            "Almacén",
-            "Sistemas",
-            "Operador(a)"});
             this.CbAreaUsuarioAnterior.Location = new System.Drawing.Point(243, 92);
             this.CbAreaUsuarioAnterior.Name = "CbAreaUsuarioAnterior";
             this.CbAreaUsuarioAnterior.Size = new System.Drawing.Size(92, 21);
             this.CbAreaUsuarioAnterior.TabIndex = 5;
             this.CbAreaUsuarioAnterior.Text = "SELECCIONE";
-            this.CbAreaUsuarioAnterior.TextChanged += new System.EventHandler(this.CbAreaUsuarioAnterior_TextChanged);
+            this.CbAreaUsuarioAnterior.TextUpdate += new System.EventHandler(this.CbAreaUsuarioAnterior_TextUpdate);
             // 
             // CbCargoUsuarioActual
             // 
             this.CbCargoUsuarioActual.Enabled = false;
             this.CbCargoUsuarioActual.FormattingEnabled = true;
-            this.CbCargoUsuarioActual.Items.AddRange(new object[] {
-            "Gerencia General",
-            "RRHH",
-            "Seguridad",
-            "Contabilidad",
-            "Operaciones",
-            "Marketing",
-            "Comercial",
-            "Logística",
-            "Almacén",
-            "Sistemas",
-            "Operador(a)"});
             this.CbCargoUsuarioActual.Location = new System.Drawing.Point(360, 42);
             this.CbCargoUsuarioActual.Name = "CbCargoUsuarioActual";
             this.CbCargoUsuarioActual.Size = new System.Drawing.Size(92, 21);
             this.CbCargoUsuarioActual.TabIndex = 5;
             this.CbCargoUsuarioActual.Text = "SELECCIONE";
-            this.CbCargoUsuarioActual.TextChanged += new System.EventHandler(this.CbAreaUsuarioActual_TextChanged);
+            this.CbCargoUsuarioActual.TextUpdate += new System.EventHandler(this.CbAreaUsuarioActual_TextUpdate);
             // 
             // CbAreaUsuarioActual
             // 
             this.CbAreaUsuarioActual.Enabled = false;
             this.CbAreaUsuarioActual.FormattingEnabled = true;
-            this.CbAreaUsuarioActual.Items.AddRange(new object[] {
-            "Gerencia General",
-            "RRHH",
-            "Seguridad",
-            "Contabilidad",
-            "Operaciones",
-            "Marketing",
-            "Comercial",
-            "Logística",
-            "Almacén",
-            "Sistemas",
-            "Operador(a)"});
             this.CbAreaUsuarioActual.Location = new System.Drawing.Point(244, 42);
             this.CbAreaUsuarioActual.Name = "CbAreaUsuarioActual";
             this.CbAreaUsuarioActual.Size = new System.Drawing.Size(92, 21);
             this.CbAreaUsuarioActual.TabIndex = 5;
             this.CbAreaUsuarioActual.Text = "SELECCIONE";
-            this.CbAreaUsuarioActual.TextChanged += new System.EventHandler(this.CbAreaUsuarioActual_TextChanged);
+            this.CbAreaUsuarioActual.TextUpdate += new System.EventHandler(this.CbAreaUsuarioActual_TextUpdate);
             // 
             // TxtDniUsuarioAnterior
             // 
@@ -445,6 +383,8 @@
             this.TxtDniUsuarioActual.Name = "TxtDniUsuarioActual";
             this.TxtDniUsuarioActual.Size = new System.Drawing.Size(100, 20);
             this.TxtDniUsuarioActual.TabIndex = 8;
+            this.TxtDniUsuarioActual.Enter += new System.EventHandler(this.TxtDniUsuarioActual_Enter);
+            this.TxtDniUsuarioActual.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtDniUsuarioActual_KeyDown);
             // 
             // label14
             // 
@@ -562,6 +502,7 @@
             this.CbUbicacion.Size = new System.Drawing.Size(92, 21);
             this.CbUbicacion.TabIndex = 5;
             this.CbUbicacion.Text = "SELECCIONE";
+            this.CbUbicacion.TextUpdate += new System.EventHandler(this.CbUbicacion_TextUpdate);
             // 
             // TxtObservaciones
             // 
@@ -640,32 +581,22 @@
             // CbCondicion
             // 
             this.CbCondicion.FormattingEnabled = true;
-            this.CbCondicion.Items.AddRange(new object[] {
-            "Operativo",
-            "Inoperativo",
-            "Baja",
-            "Vendido"});
             this.CbCondicion.Location = new System.Drawing.Point(10, 136);
             this.CbCondicion.Name = "CbCondicion";
             this.CbCondicion.Size = new System.Drawing.Size(92, 21);
             this.CbCondicion.TabIndex = 19;
             this.CbCondicion.Text = "SELECCIONE";
-            this.CbCondicion.TextChanged += new System.EventHandler(this.CbCondicion_TextChanged);
+            this.CbCondicion.TextUpdate += new System.EventHandler(this.CbCondicion_TextUpdate);
             // 
             // CbEstadoArticulo
             // 
             this.CbEstadoArticulo.FormattingEnabled = true;
-            this.CbEstadoArticulo.Items.AddRange(new object[] {
-            "Operativo",
-            "Inoperativo",
-            "Baja",
-            "Vendido"});
             this.CbEstadoArticulo.Location = new System.Drawing.Point(10, 35);
             this.CbEstadoArticulo.Name = "CbEstadoArticulo";
             this.CbEstadoArticulo.Size = new System.Drawing.Size(92, 21);
             this.CbEstadoArticulo.TabIndex = 16;
             this.CbEstadoArticulo.Text = "SELECCIONE";
-            this.CbEstadoArticulo.TextChanged += new System.EventHandler(this.CbEstado_TextChanged);
+            this.CbEstadoArticulo.TextUpdate += new System.EventHandler(this.CbEstadoArticulo_TextUpdate);
             // 
             // TxtActivoFijo
             // 
@@ -728,6 +659,7 @@
             this.BtnAgregarRUC.TabIndex = 24;
             this.BtnAgregarRUC.Text = "Nuevo RUC";
             this.BtnAgregarRUC.UseVisualStyleBackColor = true;
+            this.BtnAgregarRUC.Click += new System.EventHandler(this.BtnAgregarRUC_Click);
             // 
             // TxtRazonSocial
             // 
@@ -964,6 +896,7 @@
             this.BtnCancelar.TabIndex = 13;
             this.BtnCancelar.Text = "Cancelar";
             this.BtnCancelar.UseVisualStyleBackColor = true;
+            this.BtnCancelar.Click += new System.EventHandler(this.BtnCancelar_Click);
             // 
             // BtnGuardarPlus
             // 
@@ -975,6 +908,7 @@
             this.BtnGuardarPlus.TabIndex = 14;
             this.BtnGuardarPlus.Text = "+ Guardar";
             this.BtnGuardarPlus.UseVisualStyleBackColor = true;
+            this.BtnGuardarPlus.Click += new System.EventHandler(this.BtnGuardarPlus_Click);
             // 
             // BtnGuardar
             // 
@@ -986,6 +920,7 @@
             this.BtnGuardar.TabIndex = 15;
             this.BtnGuardar.Text = "Guardar";
             this.BtnGuardar.UseVisualStyleBackColor = true;
+            this.BtnGuardar.Click += new System.EventHandler(this.BtnGuardar_Click);
             // 
             // BtnEmpleados
             // 
@@ -997,6 +932,7 @@
             this.BtnEmpleados.TabIndex = 12;
             this.BtnEmpleados.Text = "Empleados";
             this.BtnEmpleados.UseVisualStyleBackColor = true;
+            this.BtnEmpleados.Click += new System.EventHandler(this.BtnEmpleados_Click);
             // 
             // VistaArticulos
             // 

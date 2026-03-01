@@ -1,4 +1,5 @@
-﻿using ControlInventario.Database;
+﻿
+using ControlInventario.Database;
 using ControlInventario.Modelos;
 using ControlInventario.Vistas;
 using System;
@@ -53,7 +54,6 @@ namespace ControlInventario.Servicios
             RefrescarListView(inventario.LstArticulos, articulos);
         }
 
-
         public static void RefrescarListView(ListView listView, IEnumerable<Articulos> articulos)
         {
             listView.Items.Clear();
@@ -67,7 +67,7 @@ namespace ControlInventario.Servicios
                 item.SubItems.Add(art.Modelo ?? "");
                 item.SubItems.Add(art.Serie ?? "");
                 item.SubItems.Add(art.Marca ?? "");
-                item.SubItems.Add(art.FechaAdquisicion?.ToString("dd/MM/yyyy") ?? "");
+                item.SubItems.Add(art.FechaAdquisicion.ToString("dd/MM/yyyy") ?? "");
                 item.SubItems.Add(art.FechaBaja?.ToString("dd/MM/yyyy") ?? "");
                 item.SubItems.Add(art.FechaFinGarantia?.ToString("dd/MM/yyyy") ?? "");
                 item.SubItems.Add(art.DniUsuarioActual ?? "");
@@ -92,5 +92,21 @@ namespace ControlInventario.Servicios
                 listView.Items.Add(item);
             }
         }
+
+        public static string NormalizarCombo(ComboBox combo)
+        {
+            return string.IsNullOrWhiteSpace(combo.Text) || combo.Text == "SELECCIONE"
+                ? null
+                : combo.Text;
+        }
+
+        public static void NormalizarTexro(ComboBox combo)
+        {
+            if (string.IsNullOrWhiteSpace(combo.Text) || combo.Text != "SELECCIONE")
+            {
+                combo.Text = "SELECCIONE";
+            }
+        }
+
     }
 }

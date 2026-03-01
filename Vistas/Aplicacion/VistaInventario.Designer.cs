@@ -34,8 +34,8 @@
             this.Id = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.CodigoArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ModeloArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.MarcaArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SerieArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.MarcaArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.FechaAdquisicionArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.FechaBajaArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.FechaFinGarantiaArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -57,6 +57,7 @@
             this.ObservacionArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ImagenArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ComprobanteArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.LstDefault = new System.Windows.Forms.ListView();
             this.FlCategorias = new System.Windows.Forms.FlowLayoutPanel();
             this.TabAvanzado = new System.Windows.Forms.TabPage();
             this.treeView1 = new System.Windows.Forms.TreeView();
@@ -89,6 +90,7 @@
             // TabInventario
             // 
             this.TabInventario.Controls.Add(this.LstArticulos);
+            this.TabInventario.Controls.Add(this.LstDefault);
             this.TabInventario.Controls.Add(this.FlCategorias);
             this.TabInventario.Cursor = System.Windows.Forms.Cursors.Default;
             this.TabInventario.Location = new System.Drawing.Point(4, 22);
@@ -135,9 +137,10 @@
             this.LstArticulos.Location = new System.Drawing.Point(98, 7);
             this.LstArticulos.Name = "LstArticulos";
             this.LstArticulos.Size = new System.Drawing.Size(663, 386);
-            this.LstArticulos.TabIndex = 1;
+            this.LstArticulos.TabIndex = 3;
             this.LstArticulos.UseCompatibleStateImageBehavior = false;
             this.LstArticulos.View = System.Windows.Forms.View.Details;
+            this.LstArticulos.Visible = false;
             // 
             // Id
             // 
@@ -153,15 +156,15 @@
             this.ModeloArticulo.Text = "Modelo";
             this.ModeloArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // MarcaArticulo
-            // 
-            this.MarcaArticulo.Text = "Marca";
-            this.MarcaArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
             // SerieArticulo
             // 
             this.SerieArticulo.Text = "Serie";
             this.SerieArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // MarcaArticulo
+            // 
+            this.MarcaArticulo.Text = "Marca";
+            this.MarcaArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // FechaAdquisicionArticulo
             // 
@@ -267,6 +270,16 @@
             // 
             this.ComprobanteArticulo.Text = "Comprobante";
             this.ComprobanteArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // LstDefault
+            // 
+            this.LstDefault.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.LstDefault.HideSelection = false;
+            this.LstDefault.Location = new System.Drawing.Point(98, 7);
+            this.LstDefault.Name = "LstDefault";
+            this.LstDefault.Size = new System.Drawing.Size(663, 386);
+            this.LstDefault.TabIndex = 1;
+            this.LstDefault.UseCompatibleStateImageBehavior = false;
             // 
             // FlCategorias
             // 
@@ -445,6 +458,7 @@
         private System.Windows.Forms.ColumnHeader Id;
         private System.Windows.Forms.ColumnHeader CodigoArticulo;
         private System.Windows.Forms.ColumnHeader ModeloArticulo;
+        private System.Windows.Forms.ColumnHeader SerieArticulo;
         private System.Windows.Forms.ColumnHeader MarcaArticulo;
         private System.Windows.Forms.ColumnHeader FechaAdquisicionArticulo;
         private System.Windows.Forms.ColumnHeader FechaBajaArticulo;
@@ -467,6 +481,6 @@
         private System.Windows.Forms.ColumnHeader ObservacionArticulo;
         private System.Windows.Forms.ColumnHeader ImagenArticulo;
         private System.Windows.Forms.ColumnHeader ComprobanteArticulo;
-        private System.Windows.Forms.ColumnHeader SerieArticulo;
+        private System.Windows.Forms.ListView LstDefault;
     }
 }

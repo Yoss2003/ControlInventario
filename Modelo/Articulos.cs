@@ -10,8 +10,9 @@ namespace ControlInventario.Modelos
         public string Codigo { get; set; } // Codigo del articulo
         public string Modelo { get; set; } // Modelo del articulo
         public string Serie { get; set; } // Serie del articulo
+        public int IdMarca { get; set; } // Id marca del articulo
         public string Marca { get; set; } // Marca del articulo
-        public DateTime? FechaAdquisicion { get; set; } // Fecha de adquisición
+        public DateTime FechaAdquisicion { get; set; } // Fecha de adquisición
         public DateTime? FechaBaja { get; set; } // nullable, porque no siempre hay baja
         public DateTime? FechaFinGarantia { get; set; } // opcional: fin de garantía
 
@@ -20,6 +21,7 @@ namespace ControlInventario.Modelos
         public string NombreUsuarioActual { get; set; } // Usuario quien lo posee
         public int IdAreaUsuarioActual { get; set; } // Identificador del Area del usuario actual
         public string AreaUsuarioActual { get; set; } // Area del usuario actual
+        public int IdCargoUsuarioActual { get; set; } // Identificador del cargo del usuario actual
         public string CargoUsuarioActual { get; set; } // Cargo del usuario actual
 
         // Información Usuario Anterior
@@ -27,6 +29,7 @@ namespace ControlInventario.Modelos
         public string NombreUsuarioAnterior { get; set; } // Usuario quien lo poseyó
         public int IdAreaUsuarioAnterior { get; set; } // Identificador del Area del usuario anterior
         public string AreaUsuarioAnterior { get; set; } // Area del usuario anterior
+        public int IdCargoUsuarioAnterior { get; set; } // Identificador del cargo del usuario anterior
         public string CargoUsuarioAnterior { get; set; } // Cargo del usuario anterior
 
         // Información de articulo

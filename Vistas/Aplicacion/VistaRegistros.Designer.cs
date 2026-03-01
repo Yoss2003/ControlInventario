@@ -68,6 +68,7 @@
             this.TxtDNI = new System.Windows.Forms.TextBox();
             this.TxtNombres = new System.Windows.Forms.TextBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.ChkFiltros = new System.Windows.Forms.CheckBox();
             this.label16 = new System.Windows.Forms.Label();
             this.CbCategoria = new System.Windows.Forms.ComboBox();
             this.DtFechaFin = new System.Windows.Forms.DateTimePicker();
@@ -98,13 +99,6 @@
             this.DgHistorial = new System.Windows.Forms.DataGridView();
             this.TabEmpleados = new System.Windows.Forms.TabPage();
             this.DgEmpleados = new System.Windows.Forms.DataGridView();
-            this.IdEmpleado = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.NombreEmpleado = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ApellidoEmpleado = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DniEmpleado = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CargoEmpleado = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AreaEmpleado = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.EstadoEmpleado = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label17 = new System.Windows.Forms.Label();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.BtnLimpiar = new System.Windows.Forms.Button();
@@ -117,7 +111,6 @@
             this.EmpleadoCargo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.EmpleadoArea = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.EmpleadoEstado = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ChkFiltros = new System.Windows.Forms.CheckBox();
             this.IdArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CodigoArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CategoriaArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -125,6 +118,13 @@
             this.UsuarioArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FechaArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ObservacionArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IdEmpleado = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.NombreEmpleado = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ApellidoEmpleado = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DniEmpleado = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CargoEmpleado = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AreaEmpleado = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.EstadoEmpleado = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox2.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -336,6 +336,16 @@
             this.groupBox4.TabIndex = 6;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Filtros";
+            // 
+            // ChkFiltros
+            // 
+            this.ChkFiltros.AutoSize = true;
+            this.ChkFiltros.Location = new System.Drawing.Point(288, 11);
+            this.ChkFiltros.Name = "ChkFiltros";
+            this.ChkFiltros.Size = new System.Drawing.Size(15, 14);
+            this.ChkFiltros.TabIndex = 15;
+            this.ChkFiltros.UseVisualStyleBackColor = true;
+            this.ChkFiltros.CheckedChanged += new System.EventHandler(this.ChkFiltros_CheckedChanged);
             // 
             // label16
             // 
@@ -709,62 +719,6 @@
             this.DgEmpleados.Size = new System.Drawing.Size(435, 184);
             this.DgEmpleados.TabIndex = 15;
             // 
-            // IdEmpleado
-            // 
-            this.IdEmpleado.Frozen = true;
-            this.IdEmpleado.HeaderText = "Id";
-            this.IdEmpleado.Name = "IdEmpleado";
-            this.IdEmpleado.ReadOnly = true;
-            this.IdEmpleado.Width = 41;
-            // 
-            // NombreEmpleado
-            // 
-            this.NombreEmpleado.Frozen = true;
-            this.NombreEmpleado.HeaderText = "Nombres";
-            this.NombreEmpleado.Name = "NombreEmpleado";
-            this.NombreEmpleado.ReadOnly = true;
-            this.NombreEmpleado.Width = 74;
-            // 
-            // ApellidoEmpleado
-            // 
-            this.ApellidoEmpleado.Frozen = true;
-            this.ApellidoEmpleado.HeaderText = "Apellidos";
-            this.ApellidoEmpleado.Name = "ApellidoEmpleado";
-            this.ApellidoEmpleado.ReadOnly = true;
-            this.ApellidoEmpleado.Width = 74;
-            // 
-            // DniEmpleado
-            // 
-            this.DniEmpleado.Frozen = true;
-            this.DniEmpleado.HeaderText = "DNI";
-            this.DniEmpleado.Name = "DniEmpleado";
-            this.DniEmpleado.ReadOnly = true;
-            this.DniEmpleado.Width = 51;
-            // 
-            // CargoEmpleado
-            // 
-            this.CargoEmpleado.Frozen = true;
-            this.CargoEmpleado.HeaderText = "Cargo";
-            this.CargoEmpleado.Name = "CargoEmpleado";
-            this.CargoEmpleado.ReadOnly = true;
-            this.CargoEmpleado.Width = 60;
-            // 
-            // AreaEmpleado
-            // 
-            this.AreaEmpleado.Frozen = true;
-            this.AreaEmpleado.HeaderText = "Área";
-            this.AreaEmpleado.Name = "AreaEmpleado";
-            this.AreaEmpleado.ReadOnly = true;
-            this.AreaEmpleado.Width = 54;
-            // 
-            // EstadoEmpleado
-            // 
-            this.EstadoEmpleado.Frozen = true;
-            this.EstadoEmpleado.HeaderText = "Estado";
-            this.EstadoEmpleado.Name = "EstadoEmpleado";
-            this.EstadoEmpleado.ReadOnly = true;
-            this.EstadoEmpleado.Width = 65;
-            // 
             // label17
             // 
             this.label17.AutoSize = true;
@@ -853,19 +807,8 @@
             // 
             this.EmpleadoEstado.Text = "Estado";
             // 
-            // ChkFiltros
-            // 
-            this.ChkFiltros.AutoSize = true;
-            this.ChkFiltros.Location = new System.Drawing.Point(288, 11);
-            this.ChkFiltros.Name = "ChkFiltros";
-            this.ChkFiltros.Size = new System.Drawing.Size(15, 14);
-            this.ChkFiltros.TabIndex = 15;
-            this.ChkFiltros.UseVisualStyleBackColor = true;
-            this.ChkFiltros.CheckedChanged += new System.EventHandler(this.ChkFiltros_CheckedChanged);
-            // 
             // IdArticulo
             // 
-            this.IdArticulo.Frozen = true;
             this.IdArticulo.HeaderText = "Id";
             this.IdArticulo.Name = "IdArticulo";
             this.IdArticulo.ReadOnly = true;
@@ -873,7 +816,6 @@
             // 
             // CodigoArticulo
             // 
-            this.CodigoArticulo.Frozen = true;
             this.CodigoArticulo.HeaderText = "Articulo";
             this.CodigoArticulo.Name = "CodigoArticulo";
             this.CodigoArticulo.ReadOnly = true;
@@ -881,7 +823,6 @@
             // 
             // CategoriaArticulo
             // 
-            this.CategoriaArticulo.Frozen = true;
             this.CategoriaArticulo.HeaderText = "Categoría";
             this.CategoriaArticulo.Name = "CategoriaArticulo";
             this.CategoriaArticulo.ReadOnly = true;
@@ -889,7 +830,6 @@
             // 
             // AccionArticulo
             // 
-            this.AccionArticulo.Frozen = true;
             this.AccionArticulo.HeaderText = "Acción";
             this.AccionArticulo.Name = "AccionArticulo";
             this.AccionArticulo.ReadOnly = true;
@@ -897,7 +837,6 @@
             // 
             // UsuarioArticulo
             // 
-            this.UsuarioArticulo.Frozen = true;
             this.UsuarioArticulo.HeaderText = "Usuario";
             this.UsuarioArticulo.Name = "UsuarioArticulo";
             this.UsuarioArticulo.ReadOnly = true;
@@ -905,7 +844,6 @@
             // 
             // FechaArticulo
             // 
-            this.FechaArticulo.Frozen = true;
             this.FechaArticulo.HeaderText = "Fecha";
             this.FechaArticulo.Name = "FechaArticulo";
             this.FechaArticulo.ReadOnly = true;
@@ -913,11 +851,59 @@
             // 
             // ObservacionArticulo
             // 
-            this.ObservacionArticulo.Frozen = true;
             this.ObservacionArticulo.HeaderText = "Observaciones";
             this.ObservacionArticulo.Name = "ObservacionArticulo";
             this.ObservacionArticulo.ReadOnly = true;
             this.ObservacionArticulo.Width = 103;
+            // 
+            // IdEmpleado
+            // 
+            this.IdEmpleado.HeaderText = "Id";
+            this.IdEmpleado.Name = "IdEmpleado";
+            this.IdEmpleado.ReadOnly = true;
+            this.IdEmpleado.Width = 41;
+            // 
+            // NombreEmpleado
+            // 
+            this.NombreEmpleado.HeaderText = "Nombres";
+            this.NombreEmpleado.Name = "NombreEmpleado";
+            this.NombreEmpleado.ReadOnly = true;
+            this.NombreEmpleado.Width = 74;
+            // 
+            // ApellidoEmpleado
+            // 
+            this.ApellidoEmpleado.HeaderText = "Apellidos";
+            this.ApellidoEmpleado.Name = "ApellidoEmpleado";
+            this.ApellidoEmpleado.ReadOnly = true;
+            this.ApellidoEmpleado.Width = 74;
+            // 
+            // DniEmpleado
+            // 
+            this.DniEmpleado.HeaderText = "DNI";
+            this.DniEmpleado.Name = "DniEmpleado";
+            this.DniEmpleado.ReadOnly = true;
+            this.DniEmpleado.Width = 51;
+            // 
+            // CargoEmpleado
+            // 
+            this.CargoEmpleado.HeaderText = "Cargo";
+            this.CargoEmpleado.Name = "CargoEmpleado";
+            this.CargoEmpleado.ReadOnly = true;
+            this.CargoEmpleado.Width = 60;
+            // 
+            // AreaEmpleado
+            // 
+            this.AreaEmpleado.HeaderText = "Área";
+            this.AreaEmpleado.Name = "AreaEmpleado";
+            this.AreaEmpleado.ReadOnly = true;
+            this.AreaEmpleado.Width = 54;
+            // 
+            // EstadoEmpleado
+            // 
+            this.EstadoEmpleado.HeaderText = "Estado";
+            this.EstadoEmpleado.Name = "EstadoEmpleado";
+            this.EstadoEmpleado.ReadOnly = true;
+            this.EstadoEmpleado.Width = 65;
             // 
             // VistaRegistros
             // 
@@ -1022,13 +1008,6 @@
         public System.Windows.Forms.ComboBox CbEstadoEmpleados;
         public System.Windows.Forms.ComboBox CbArea;
         public System.Windows.Forms.ComboBox CbCargo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn IdEmpleado;
-        private System.Windows.Forms.DataGridViewTextBoxColumn NombreEmpleado;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ApellidoEmpleado;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DniEmpleado;
-        private System.Windows.Forms.DataGridViewTextBoxColumn CargoEmpleado;
-        private System.Windows.Forms.DataGridViewTextBoxColumn AreaEmpleado;
-        private System.Windows.Forms.DataGridViewTextBoxColumn EstadoEmpleado;
         private System.Windows.Forms.CheckBox ChkFiltros;
         private System.Windows.Forms.DataGridViewTextBoxColumn IdArticulo;
         private System.Windows.Forms.DataGridViewTextBoxColumn CodigoArticulo;
@@ -1037,5 +1016,12 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn UsuarioArticulo;
         private System.Windows.Forms.DataGridViewTextBoxColumn FechaArticulo;
         private System.Windows.Forms.DataGridViewTextBoxColumn ObservacionArticulo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn IdEmpleado;
+        private System.Windows.Forms.DataGridViewTextBoxColumn NombreEmpleado;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ApellidoEmpleado;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DniEmpleado;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CargoEmpleado;
+        private System.Windows.Forms.DataGridViewTextBoxColumn AreaEmpleado;
+        private System.Windows.Forms.DataGridViewTextBoxColumn EstadoEmpleado;
     }
 }

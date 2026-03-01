@@ -1,6 +1,8 @@
 ﻿using ControlInventario.Database;
+using ControlInventario.Modelo;
 using ControlInventario.Modelo.Interface;
 using ControlInventario.Modelos;
+using ControlInventario.Repositorio;
 using ControlInventario.Servicios;
 using ControlInventario.Vistas.Extras;
 using PdfiumViewer;
@@ -18,18 +20,22 @@ namespace ControlInventario.Vistas
         private readonly int _categoriaId;
         private readonly string _categoria;
         private readonly int _articuloId;
+        private string dniTemporal;
         public ComboBox CbMarcasPublic => CbMarcas;
         public ComboBox CbEstadoArticulosPublic => CbEstadoArticulo;
         public ComboBox CbCondicionPublic => CbCondicion;
         public ComboBox CbUbicacionPublic => CbUbicacion;
-        public PdfViewer PdfViewerControl => pdfViewer;
+        public PdfViewer PdfViewerControl => pdfViewer; 
+        public EdicionArticulo DatosEdicion { get; set; }
 
 
-        public VistaArticulos(int categoriaId, string categoria, int? articuloId = null)
+
+        public VistaArticulos(int categoriaId, string categoria, int articuloId)
         {
             InitializeComponent(); 
             _categoriaId = categoriaId;
             _categoria = categoria;
+            _articuloId = articuloId;
 
             pdfViewer = new PdfViewer();
             pdfViewer.Dock = DockStyle.Fill;
@@ -216,30 +222,6 @@ namespace ControlInventario.Vistas
             return null;
         }
 
-        private void CbEstado_TextChanged(object sender, EventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(CbEstadoArticulo.Text))
-            {
-                CbEstadoArticulo.Text = "SELECCIONE";
-            }
-        }
-
-        private void CbCondicion_TextChanged(object sender, EventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(CbCondicion.Text))
-            {
-                CbCondicion.Text = "SELECCIONE";
-            }
-        }
-
-        private void CbDesktop_TextChanged(object sender, EventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(CbMarcas.Text))
-            {
-                CbMarcas.Text = "SELECCIONE";
-            }
-        }
-
         private void BtnCancelar_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -302,35 +284,40 @@ namespace ControlInventario.Vistas
                                 Codigo = TxtCodigo.Text,
                                 Modelo = TxtModelo.Text,
                                 Serie = TxtSerie.Text,
-                                Marca = CbMarcas.Text,
+                                IdMarca = Convert.ToInt32(CbMarcas.SelectedValue),
+                                Marca = ClassHelper.NormalizarCombo(CbMarcas),
                                 FechaAdquisicion = DtpFechaAdquisicion.Value,
                                 FechaBaja = ChkFechaBaja.Checked ? DtpFechaBaja.Value.Date : (DateTime?)null,
                                 FechaFinGarantia = ChkFechaGarantia.Checked ? DtpFechaFinGarantia.Value.Date : (DateTime?)null,
 
-                                DniUsuarioActual = TxtDniUsuarioActual.Text,
-                                NombreUsuarioActual = TxtNombreUsuarioActual.Text,
+                                DniUsuarioActual = string.IsNullOrWhiteSpace(TxtDniUsuarioActual.Text) ? null : TxtDniUsuarioActual.Text,
+                                NombreUsuarioActual = string.IsNullOrWhiteSpace(TxtNombreUsuarioActual.Text) ? null : TxtNombreUsuarioActual.Text,
                                 IdAreaUsuarioActual = Convert.ToInt32(CbAreaUsuarioActual.SelectedValue),
-                                AreaUsuarioActual = CbAreaUsuarioActual.Text,
-                                CargoUsuarioActual = CbCargoUsuarioActual.Text,
+                                AreaUsuarioActual = ClassHelper.NormalizarCombo(CbAreaUsuarioActual),
+                                IdCargoUsuarioActual = Convert.ToInt32(CbCargoUsuarioActual.SelectedValue),
+                                CargoUsuarioActual = ClassHelper.NormalizarCombo(CbCargoUsuarioActual),
 
-                                DniUsuarioAnterior = TxtDniUsuarioAnterior.Text,
-                                NombreUsuarioAnterior = TxtNombreUsuarioAnterior.Text,
+                                DniUsuarioAnterior = string.IsNullOrWhiteSpace(TxtDniUsuarioAnterior.Text) ? null : TxtDniUsuarioAnterior.Text,
+                                NombreUsuarioAnterior = string.IsNullOrWhiteSpace(TxtNombreUsuarioAnterior.Text) ? null : TxtNombreUsuarioAnterior.Text,
                                 IdAreaUsuarioAnterior = Convert.ToInt32(CbAreaUsuarioAnterior.SelectedValue),
-                                AreaUsuarioAnterior = CbAreaUsuarioAnterior.Text,
-                                CargoUsuarioAnterior = CbCargoUsuarioAnterior.Text,
+                                AreaUsuarioAnterior = ClassHelper.NormalizarCombo(CbAreaUsuarioAnterior),
+                                IdCargoUsuarioAnterior = Convert.ToInt32(CbCargoUsuarioAnterior.SelectedValue),
+                                CargoUsuarioAnterior = ClassHelper.NormalizarCombo(CbCargoUsuarioAnterior),
 
                                 IdEstado = Convert.ToInt32(CbEstadoArticulo.SelectedValue),
-                                Estado = CbEstadoArticulo.Text,
+                                Estado = string.IsNullOrWhiteSpace(CbEstadoArticulo.Text) ? null : CbEstadoArticulo.Text,
                                 IdUbicacion = Convert.ToInt32(CbUbicacion.SelectedValue),
-                                Ubicacion = CbUbicacion.Text,
+                                Ubicacion = ClassHelper.NormalizarCombo(CbUbicacion),
                                 IdCondicion = Convert.ToInt32(CbCondicion.SelectedValue),
-                                Condicion = CbCondicion.Text,
-                                ActivoFijo = TxtActivoFijo.Text,
-                                Observacion = TxtObservaciones.Text,
+                                Condicion = ClassHelper.NormalizarCombo(CbCondicion),
+                                ActivoFijo = string.IsNullOrWhiteSpace(TxtActivoFijo.Text) ? null : TxtActivoFijo.Text,
+                                Observacion = string.IsNullOrWhiteSpace(TxtObservaciones.Text) ? null : TxtObservaciones.Text,
 
-                                RucProveedor = TxtRuc.Text,
-                                Proveedor = TxtRazonSocial.Text,
+                                RucProveedor = string.IsNullOrWhiteSpace(TxtRuc.Text) ? null : TxtRuc.Text,
+                                Proveedor = string.IsNullOrWhiteSpace(TxtRazonSocial.Text) ? null : TxtRazonSocial.Text,
                                 PrecioAdquisicion = string.IsNullOrWhiteSpace(TxtPrecio.Text) ? (decimal?)null : Convert.ToDecimal(TxtPrecio.Text),
+
+                                FechaRegistro = DateTime.Now,
 
                                 CategoriaId = _categoriaId,
                                 Categoria = _categoria
@@ -395,35 +382,40 @@ namespace ControlInventario.Vistas
                                 Codigo = TxtCodigo.Text,
                                 Modelo = TxtModelo.Text,
                                 Serie = TxtSerie.Text,
-                                Marca = CbMarcas.Text,
+                                IdMarca = Convert.ToInt32(CbMarcas.SelectedValue),
+                                Marca = ClassHelper.NormalizarCombo(CbMarcas),
                                 FechaAdquisicion = DtpFechaAdquisicion.Value,
-                                FechaBaja = DtpFechaBaja.Value,
-                                FechaFinGarantia = DtpFechaFinGarantia.Value,
+                                FechaBaja = ChkFechaBaja.Checked ? DtpFechaBaja.Value.Date : (DateTime?)null,
+                                FechaFinGarantia = ChkFechaGarantia.Checked ? DtpFechaFinGarantia.Value.Date : (DateTime?)null,
 
-                                DniUsuarioActual = TxtDniUsuarioActual.Text,
-                                NombreUsuarioActual = TxtNombreUsuarioActual.Text,
+                                DniUsuarioActual = string.IsNullOrWhiteSpace(TxtDniUsuarioActual.Text) ? null : TxtDniUsuarioActual.Text,
+                                NombreUsuarioActual = string.IsNullOrWhiteSpace(TxtNombreUsuarioActual.Text) ? null : TxtNombreUsuarioActual.Text,
                                 IdAreaUsuarioActual = Convert.ToInt32(CbAreaUsuarioActual.SelectedValue),
-                                AreaUsuarioActual = CbAreaUsuarioActual.Text,
-                                CargoUsuarioActual = CbCargoUsuarioActual.Text,
+                                AreaUsuarioActual = ClassHelper.NormalizarCombo(CbAreaUsuarioActual),
+                                IdCargoUsuarioActual = Convert.ToInt32(CbCargoUsuarioActual.SelectedValue),
+                                CargoUsuarioActual = ClassHelper.NormalizarCombo(CbCargoUsuarioActual),
 
-                                DniUsuarioAnterior = TxtDniUsuarioAnterior.Text,
-                                NombreUsuarioAnterior = TxtNombreUsuarioAnterior.Text,
+                                DniUsuarioAnterior = string.IsNullOrWhiteSpace(TxtDniUsuarioAnterior.Text) ? null : TxtDniUsuarioAnterior.Text,
+                                NombreUsuarioAnterior = string.IsNullOrWhiteSpace(TxtNombreUsuarioAnterior.Text) ? null : TxtNombreUsuarioAnterior.Text,
                                 IdAreaUsuarioAnterior = Convert.ToInt32(CbAreaUsuarioAnterior.SelectedValue),
-                                AreaUsuarioAnterior = CbAreaUsuarioAnterior.Text,
-                                CargoUsuarioAnterior = CbCargoUsuarioAnterior.Text,
+                                AreaUsuarioAnterior = ClassHelper.NormalizarCombo(CbAreaUsuarioAnterior),
+                                IdCargoUsuarioAnterior = Convert.ToInt32(CbCargoUsuarioAnterior.SelectedValue),
+                                CargoUsuarioAnterior = ClassHelper.NormalizarCombo(CbCargoUsuarioAnterior),
 
                                 IdEstado = Convert.ToInt32(CbEstadoArticulo.SelectedValue),
-                                Estado = CbEstadoArticulo.Text,
+                                Estado = string.IsNullOrWhiteSpace(CbEstadoArticulo.Text) ? null : CbEstadoArticulo.Text,
                                 IdUbicacion = Convert.ToInt32(CbUbicacion.SelectedValue),
-                                Ubicacion = CbUbicacion.Text,
+                                Ubicacion = ClassHelper.NormalizarCombo(CbUbicacion),
                                 IdCondicion = Convert.ToInt32(CbCondicion.SelectedValue),
-                                Condicion = CbCondicion.Text,
-                                ActivoFijo = TxtActivoFijo.Text,
-                                Observacion = TxtObservaciones.Text,
+                                Condicion = ClassHelper.NormalizarCombo(CbCondicion),
+                                ActivoFijo = string.IsNullOrWhiteSpace(TxtActivoFijo.Text) ? null : TxtActivoFijo.Text,
+                                Observacion = string.IsNullOrWhiteSpace(TxtObservaciones.Text) ? null : TxtObservaciones.Text,
 
-                                RucProveedor = TxtRuc.Text,
-                                Proveedor = TxtRazonSocial.Text,
+                                RucProveedor = string.IsNullOrWhiteSpace(TxtRuc.Text) ? null : TxtRuc.Text,
+                                Proveedor = string.IsNullOrWhiteSpace(TxtRazonSocial.Text) ? null : TxtRazonSocial.Text,
                                 PrecioAdquisicion = string.IsNullOrWhiteSpace(TxtPrecio.Text) ? (decimal?)null : Convert.ToDecimal(TxtPrecio.Text),
+
+                                FechaModificacion = DateTime.Now,
 
                                 CategoriaId = _categoriaId,
                                 Categoria = _categoria
@@ -440,11 +432,15 @@ namespace ControlInventario.Vistas
                                 art.ComprobanteSecundaria = destinoComprobante;
                             }
 
-                            if ((ChkFechaGarantia.Checked && DtpFechaFinGarantia.Value < DateTime.Now) || (ChkFechaBaja.Checked && DtpFechaBaja.Value < DateTime.Now))
+                            // guardar Foto
+                            if (!string.IsNullOrWhiteSpace(TxtDireccionImagen.Text) && File.Exists(TxtDireccionImagen.Text))
                             {
-                                var result = MessageBox.Show("La fecha de garantía o fecha de baja es anterior a la fecha actual. ¿Desea continuar?", "Advertencia", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                                if (result == DialogResult.No)
-                                    return;
+                                string nombreImagen = Path.GetFileName(TxtDireccionImagen.Text);
+                                string destinoImagen = Path.Combine(carpetaImagenes, nombreImagen);
+
+                                File.Copy(TxtDireccionImagen.Text, destinoImagen, true);
+                                art.FotoPrincipal = TxtDireccionImagen.Text;
+                                art.FotoSecundaria = destinoImagen;
                             }
 
                             if ((ChkFechaGarantia.Checked && DtpFechaFinGarantia.Value < DateTime.Now) || (ChkFechaBaja.Checked && DtpFechaBaja.Value < DateTime.Now))
@@ -454,8 +450,14 @@ namespace ControlInventario.Vistas
                                     return;
                             }
 
-                            ArticuloRepository repo = new ArticuloRepository();
-                            repo.ActualizarArticulo(art);
+                            if ((ChkFechaGarantia.Checked && DtpFechaFinGarantia.Value < DateTime.Now) || (ChkFechaBaja.Checked && DtpFechaBaja.Value < DateTime.Now))
+                            {
+                                var result = MessageBox.Show("La fecha de garantía o fecha de baja es anterior a la fecha actual. ¿Desea continuar?", "Advertencia", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                                if (result == DialogResult.No)
+                                    return;
+                            }
+
+                            ArticuloRepository.ActualizarArticulo(art);
 
                             MessageBox.Show("Artículo actualizado correctamente.", "Éxito",
                                 MessageBoxButtons.OK,
@@ -495,34 +497,35 @@ namespace ControlInventario.Vistas
                             Codigo = TxtCodigo.Text,
                             Modelo = TxtModelo.Text,
                             Serie = TxtSerie.Text,
-                            Marca = CbMarcas.Text,
+                            IdMarca = Convert.ToInt32(CbMarcas.SelectedValue),
+                            Marca = ClassHelper.NormalizarCombo(CbMarcas),
                             FechaAdquisicion = DtpFechaAdquisicion.Value,
                             FechaBaja = ChkFechaBaja.Checked ? DtpFechaBaja.Value.Date : (DateTime?)null,
                             FechaFinGarantia = ChkFechaGarantia.Checked ? DtpFechaFinGarantia.Value.Date : (DateTime?)null,
 
-                            DniUsuarioActual = TxtDniUsuarioActual.Text,
-                            NombreUsuarioActual = TxtNombreUsuarioActual.Text,
+                            DniUsuarioActual = string.IsNullOrWhiteSpace(TxtDniUsuarioActual.Text) ? null : TxtDniUsuarioActual.Text,
+                            NombreUsuarioActual = string.IsNullOrWhiteSpace(TxtNombreUsuarioActual.Text) ? null : TxtNombreUsuarioActual.Text,
                             IdAreaUsuarioActual = Convert.ToInt32(CbAreaUsuarioActual.SelectedValue),
-                            AreaUsuarioActual = CbAreaUsuarioActual.Text,
-                            CargoUsuarioActual = CbCargoUsuarioActual.Text,
+                            AreaUsuarioActual = ClassHelper.NormalizarCombo(CbAreaUsuarioActual),
+                            CargoUsuarioActual = ClassHelper.NormalizarCombo(CbCargoUsuarioActual),
 
-                            DniUsuarioAnterior = TxtDniUsuarioAnterior.Text,
-                            NombreUsuarioAnterior = TxtNombreUsuarioAnterior.Text,
+                            DniUsuarioAnterior = string.IsNullOrWhiteSpace(TxtDniUsuarioAnterior.Text) ? null : TxtDniUsuarioAnterior.Text,
+                            NombreUsuarioAnterior = string.IsNullOrWhiteSpace(TxtNombreUsuarioAnterior.Text) ? null : TxtNombreUsuarioAnterior.Text,
                             IdAreaUsuarioAnterior = Convert.ToInt32(CbAreaUsuarioAnterior.SelectedValue),
-                            AreaUsuarioAnterior = CbAreaUsuarioAnterior.Text,
-                            CargoUsuarioAnterior = CbCargoUsuarioAnterior.Text,
+                            AreaUsuarioAnterior = ClassHelper.NormalizarCombo(CbAreaUsuarioAnterior),
+                            CargoUsuarioAnterior = ClassHelper.NormalizarCombo(CbCargoUsuarioAnterior),
 
                             IdEstado = Convert.ToInt32(CbEstadoArticulo.SelectedValue),
-                            Estado = CbEstadoArticulo.Text,
+                            Estado = ClassHelper.NormalizarCombo(CbEstadoArticulo),
                             IdUbicacion = Convert.ToInt32(CbUbicacion.SelectedValue),
-                            Ubicacion = CbUbicacion.Text,
+                            Ubicacion = ClassHelper.NormalizarCombo(CbUbicacion),
                             IdCondicion = Convert.ToInt32(CbCondicion.SelectedValue),
-                            Condicion = CbCondicion.Text,
-                            ActivoFijo = TxtActivoFijo.Text,
-                            Observacion = TxtObservaciones.Text,
+                            Condicion = ClassHelper.NormalizarCombo(CbCondicion),
+                            ActivoFijo = string.IsNullOrWhiteSpace(TxtActivoFijo.Text) ? null : TxtActivoFijo.Text,
+                            Observacion = string.IsNullOrWhiteSpace(TxtObservaciones.Text) ? null : TxtObservaciones.Text,
 
-                            RucProveedor = TxtRuc.Text,
-                            Proveedor = TxtRazonSocial.Text,
+                            RucProveedor = string.IsNullOrWhiteSpace(TxtRuc.Text) ? null : TxtRuc.Text,
+                            Proveedor = string.IsNullOrWhiteSpace(TxtRazonSocial.Text) ? null : TxtRazonSocial.Text,
                             PrecioAdquisicion = string.IsNullOrWhiteSpace(TxtPrecio.Text) ? (decimal?)null : Convert.ToDecimal(TxtPrecio.Text),
 
                             CategoriaId = _categoriaId,
@@ -623,22 +626,6 @@ namespace ControlInventario.Vistas
                 }
             }
         }
-              
-        private void CbAreaUsuarioAnterior_TextChanged(object sender, EventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(CbAreaUsuarioAnterior.Text))
-            {
-                CbAreaUsuarioAnterior.Text = "SELECCIONE";
-            }
-        }
-
-        private void CbAreaUsuarioActual_TextChanged(object sender, EventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(CbAreaUsuarioActual.Text))
-            {
-                CbAreaUsuarioActual.Text = "SELECCIONE";
-            }
-        }
 
         private void VistaArticulos_Load(object sender, EventArgs e)
         {
@@ -674,6 +661,20 @@ namespace ControlInventario.Vistas
                     BtnGuardarPlus.Enabled = false;
                 else
                     BtnGuardarPlus.Enabled = true;
+
+                Articulos art = new Articulos();
+
+                if (DatosEdicion != null)
+                {
+                    CbMarcas.SelectedIndex = CbMarcas.FindStringExact(DatosEdicion.Marca);
+                    CbAreaUsuarioActual.SelectedIndex = CbAreaUsuarioActual.FindStringExact(DatosEdicion.Area1);
+                    CbCargoUsuarioActual.SelectedIndex = CbCargoUsuarioActual.FindStringExact(DatosEdicion.Cargo1);
+                    CbAreaUsuarioAnterior.SelectedIndex = CbAreaUsuarioAnterior.FindStringExact(DatosEdicion.Area2);
+                    CbCargoUsuarioAnterior.SelectedIndex = CbCargoUsuarioAnterior.FindStringExact(DatosEdicion.Cargo2);
+                    CbEstadoArticulo.SelectedIndex = CbEstadoArticulo.FindStringExact(DatosEdicion.Estado);
+                    CbUbicacion.SelectedIndex = CbUbicacion.FindStringExact(DatosEdicion.Ubicacion);
+                    CbCondicion.SelectedIndex = CbCondicion.FindStringExact(DatosEdicion.Condicion);
+                }
             }
         }
 
@@ -721,6 +722,98 @@ namespace ControlInventario.Vistas
         {
             VistaAgregarComponentes vistaAgregar = new VistaAgregarComponentes("Condicion", this);
             vistaAgregar.ShowDialog();
+        }
+
+        private void CbEstadoArticulo_TextUpdate(object sender, EventArgs e)
+        {
+            ClassHelper.NormalizarTexro(CbEstadoArticulo);
+        }
+
+        private void CbAreaUsuarioAnterior_TextUpdate(object sender, EventArgs e)
+        {
+            ClassHelper.NormalizarTexro(CbAreaUsuarioAnterior);
+        }
+
+        private void CbAreaUsuarioActual_TextUpdate(object sender, EventArgs e)
+        {
+            ClassHelper.NormalizarTexro(CbAreaUsuarioActual);
+        }
+
+        private void CbCondicion_TextUpdate(object sender, EventArgs e)
+        {
+            ClassHelper.NormalizarTexro(CbCondicion);
+        }
+
+        private void CbMarcas_TextUpdate(object sender, EventArgs e)
+        {
+            ClassHelper.NormalizarTexro(CbMarcas);
+        }
+
+        private void CbUbicacion_TextUpdate(object sender, EventArgs e)
+        {
+            ClassHelper.NormalizarTexro(CbUbicacion);
+        }
+
+        private void BtnAgregarRUC_Click(object sender, EventArgs e)
+        {
+            // En desarrollo
+        }
+
+        private void BtnEmpleados_Click(object sender, EventArgs e)
+        {
+            VistaAgregarEmpleado vistaEmpleado = new VistaAgregarEmpleado();
+            vistaEmpleado.ShowDialog();
+        }
+
+        private void TxtDniUsuarioActual_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true;
+
+                if (TxtDniUsuarioActual.Text.Trim().Length == 8)
+                {         
+                    var emp = EmpleadoRepository.ObtenerEmpleadoPorDni(TxtDniUsuarioActual.Text);
+                    if (emp != null)
+                    {
+                        // Guardar valores actuales
+                        TxtDniUsuarioAnterior.Text = dniTemporal;
+                        var Nombre1 = TxtNombreUsuarioActual.Text;
+                        var IdArea1 = CbAreaUsuarioActual.SelectedValue;
+                        var Area1 = CbAreaUsuarioActual.Text;
+                        var IdCargo1 = CbCargoUsuarioActual.SelectedValue;
+                        var Cargo1 = CbCargoUsuarioActual.Text;
+
+                        // Cargar usaurio actual
+                        TxtNombreUsuarioActual.Text = emp.Nombres;
+                        CbAreaUsuarioActual.SelectedValue = emp.IdArea;
+                        CbAreaUsuarioActual.Text = emp.Area;
+                        CbCargoUsuarioActual.Text = emp.Cargo;
+                        CbCargoUsuarioActual.SelectedValue = emp.IdCargo;
+
+                        // Cargar usuario anterior
+                        dniTemporal = TxtDniUsuarioAnterior.Text;
+                        TxtNombreUsuarioAnterior.Text = Nombre1;
+                        CbAreaUsuarioAnterior.SelectedValue = IdArea1;
+                        CbAreaUsuarioAnterior.Text = Area1;
+                        CbCargoUsuarioAnterior.SelectedValue = IdCargo1;
+                        CbCargoUsuarioAnterior.Text = Cargo1;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("No se encontró ningún empleado con el DNI ingresado. Por favor, verifique el número.",
+                    "Búsqueda de Empleado",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+                }
+            }
+        }
+
+        private void TxtDniUsuarioActual_Enter(object sender, EventArgs e)
+        {
+            dniTemporal = TxtDniUsuarioActual.Text;
         }
     }
 }

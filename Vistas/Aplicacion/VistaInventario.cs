@@ -1,4 +1,6 @@
 ﻿using ControlInventario.Database;
+using ControlInventario.Modelo;
+using ControlInventario.Modelos;
 using ControlInventario.Servicios;
 using ControlInventario.Vistas.Extras;
 using System;
@@ -13,11 +15,12 @@ namespace ControlInventario.Vistas
     {
         public int categoriaSeleccionadaId;
         public string categoriaSeleccionadaNombre;
+        public int articuloID;
+        public static bool isEdit = false;
 
         private ClassHelper helper;
         private int _articuloId;
         private Button botonSeleccionado = null;
-        public static bool isEdit = false;
         readonly int usuarioId = UsuarioSesion.UsuarioId;
         readonly string nombreUusario = UsuarioSesion.NombreUsuario;
         readonly int inventarioId = UsuarioSesion.InventarioId;
@@ -79,6 +82,7 @@ namespace ControlInventario.Vistas
                 // Evento click: al pulsar, refresca el ListView con los artículos de esa categoría
                 btn.Click += (s, e) =>
                 {
+                    LstArticulos.Visible = true;
                     var botonActual = s as Button;
                     idCategoria = (int)botonActual.Tag;
 
@@ -120,6 +124,9 @@ namespace ControlInventario.Vistas
             int categoriaId = categoriaSeleccionadaId;
             string categoria = categoriaSeleccionadaNombre;
             string texto = categoriaSeleccionadaNombre;
+            ListViewItem item = LstArticulos.SelectedItems[0];
+            _articuloId = Convert.ToInt32(item.SubItems[0].Text);
+            int articuloId = _articuloId;
 
             if (categoriaId == 0)
             {
@@ -130,10 +137,10 @@ namespace ControlInventario.Vistas
                 return;
             }                
 
-            using (var articulos = new VistaArticulos(categoriaId, categoria))
+            using (var articulos = new VistaArticulos(categoriaId, categoria, articuloId))
             {
                 // Configuración inicial
-                articulos.Text = "Crear Artículo";
+                articulos.Text = "Crear Artículo " + "(" + $"{categoria}" + ")";
                 articulos.TxtCodigo.Enabled = true;
                 articulos.CbMarcas.Visible = true;
                 articulos.GpCaracteristicas.Visible = true;
@@ -172,7 +179,7 @@ namespace ControlInventario.Vistas
                         articulos.GpUsos.Size = new Size(476, 172);
                         articulos.TxtObservaciones.Size = new Size(318, 122);
 
-                        //Gp Acciones
+                        // Gp Acciones
                         articulos.GpAcciones.Location = new Point(494, 476);
                         articulos.GpAcciones.Size = new Size(306, 116);
 
@@ -204,8 +211,14 @@ namespace ControlInventario.Vistas
             int categoriaId = categoriaSeleccionadaId;
             string categoria = categoriaSeleccionadaNombre;
 
-            ListViewItem item = LstArticulos.SelectedItems[0];
-            _articuloId = Convert.ToInt32(item.SubItems[0].Text);
+            if (categoriaId == 0)
+            {
+                MessageBox.Show("Seleccione una categoría para editar un artículo.", "Información",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+                return;
+            }
 
             if (LstArticulos == null || LstArticulos.SelectedItems.Count == 0)
             {
@@ -216,21 +229,27 @@ namespace ControlInventario.Vistas
                 return;
             }
 
-            if (categoriaId == 0)
-            {
-                MessageBox.Show("Seleccione una categoría para editar un artículo.", "Información",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information
-                );
-                return;
-            }
+            ListViewItem item = LstArticulos.SelectedItems[0];
+            _articuloId = Convert.ToInt32(item.SubItems[0].Text);
 
-            using (var articulos = new VistaArticulos(categoriaId, categoria, Convert.ToInt32(item.SubItems[0].Text)))
+            using (var articulos = new VistaArticulos(categoriaId, categoria, _articuloId))
             {
+                var datos = new EdicionArticulo
+                {
+                    Id = _articuloId,
+                    Marca = item.SubItems[4].Text,
+                    Area1 = item.SubItems[10].Text,
+                    Cargo1 = item.SubItems[11].Text,
+                    Area2 = item.SubItems[14].Text,
+                    Cargo2 = item.SubItems[15].Text,
+                    Estado = item.SubItems[16].Text,
+                    Ubicacion = item.SubItems[17].Text,
+                    Condicion = item.SubItems[18].Text,
+                };
+
                 // Configuración inicial
                 articulos.Text = "Editar Artículo";
                 articulos.TxtCodigo.Enabled = false;
-
                 articulos.GpCaracteristicas.Visible = true;
 
                 switch (categoriaSeleccionadaNombre)
@@ -285,11 +304,12 @@ namespace ControlInventario.Vistas
                         break;
                 }
 
+                articulos.DatosEdicion = datos;
+
                 // Campos básicos
-                if (item.SubItems.Count > 1) articulos.TxtCodigo.Text = item.SubItems[1]?.Text ?? string.Empty;
-                if (item.SubItems.Count > 2) articulos.TxtModelo.Text = item.SubItems[2]?.Text ?? string.Empty;
-                if (item.SubItems.Count > 3) articulos.TxtSerie.Text = item.SubItems[3]?.Text ?? string.Empty;
-                if (item.SubItems.Count > 4) articulos.CbMarcas.Text = item.SubItems[4]?.Text ?? string.Empty;
+                articulos.TxtCodigo.Text = item.SubItems[1]?.Text ?? string.Empty;
+                articulos.TxtModelo.Text = item.SubItems[2]?.Text ?? string.Empty;
+                articulos.TxtSerie.Text = item.SubItems[3]?.Text ?? string.Empty;
 
                 // Fechas con TryParse
                 if (item.SubItems.Count > 5 && DateTime.TryParse(item.SubItems[5]?.Text, out DateTime fechaAdquisicion))
@@ -304,19 +324,10 @@ namespace ControlInventario.Vistas
                 // Usuario actual
                 if (item.SubItems.Count > 8) articulos.TxtDniUsuarioActual.Text = item.SubItems[8]?.Text ?? string.Empty;
                 if (item.SubItems.Count > 9) articulos.TxtNombreUsuarioActual.Text = item.SubItems[9]?.Text ?? string.Empty;
-                if (item.SubItems.Count > 10) articulos.CbAreaUsuarioActual.Text = item.SubItems[10]?.Text ?? string.Empty;
-                if (item.SubItems.Count > 11) articulos.CbCargoUsuarioActual.Text = item.SubItems[11]?.Text ?? string.Empty;
 
                 // Usuario anterior
                 if (item.SubItems.Count > 12) articulos.TxtDniUsuarioAnterior.Text = item.SubItems[12]?.Text ?? string.Empty;
                 if (item.SubItems.Count > 13) articulos.TxtNombreUsuarioAnterior.Text = item.SubItems[13]?.Text ?? string.Empty;
-                if (item.SubItems.Count > 14) articulos.CbAreaUsuarioAnterior.Text = item.SubItems[14]?.Text ?? string.Empty;
-                if (item.SubItems.Count > 15) articulos.CbCargoUsuarioAnterior.Text = item.SubItems[15]?.Text ?? string.Empty;
-
-                // Estado, ubicación, condición
-                if (item.SubItems.Count > 16) articulos.CbEstadoArticulo.Text = item.SubItems[16]?.Text ?? string.Empty;
-                if (item.SubItems.Count > 17) articulos.CbUbicacion.Text = item.SubItems[17]?.Text ?? string.Empty;
-                if (item.SubItems.Count > 18) articulos.CbCondicion.Text = item.SubItems[18]?.Text ?? string.Empty;
 
                 // Datos adicionales
                 if (item.SubItems.Count > 19) articulos.TxtRuc.Text = item.SubItems[19]?.Text ?? string.Empty;
@@ -379,9 +390,6 @@ namespace ControlInventario.Vistas
                 return;
             }
 
-            ListViewItem item = LstArticulos.SelectedItems[0];
-            _articuloId = Convert.ToInt32(item.SubItems[0].Text);
-
             if (LstArticulos == null || LstArticulos.SelectedItems.Count == 0)
             {
                 MessageBox.Show("Seleccione un artículo para eliminar.", "Información",
@@ -392,6 +400,9 @@ namespace ControlInventario.Vistas
             }
             else
             {
+                ListViewItem item = LstArticulos.SelectedItems[0];
+                _articuloId = Convert.ToInt32(item.SubItems[0].Text);
+
                 DialogResult result = MessageBox.Show(
                     "¿Seguro que quieres eliminar este artículo?",
                     "Información",
@@ -421,8 +432,27 @@ namespace ControlInventario.Vistas
 
         private void btnExportar_Click(object sender, EventArgs e)
         {
+            int categoriaId = categoriaSeleccionadaId;
             string categoria = categoriaSeleccionadaNombre;
             string usuario = nombreUusario;
+
+            if (categoriaId == 0)
+            {
+                MessageBox.Show("Seleccione una categoría para exportar.", "Información",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+                return;
+            }
+
+            if (LstArticulos.Items.Count == 0)
+            {
+                MessageBox.Show("No hay articulos para exportar.", "Advertencia",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+                return;
+            }
 
             // Determinar extensión según el valor del NumericUpDown
             string extension = NuAccionInventario.Value == 1 ? "xlsx" : "csv";

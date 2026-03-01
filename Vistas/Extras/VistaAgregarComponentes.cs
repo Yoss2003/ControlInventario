@@ -459,15 +459,22 @@ namespace ControlInventario.Vistas.Extras
                     var dtMarca = MarcasRepository.ListarMarcas(con, CategoriaId); 
                     RefreshService.RefrescarComboDT(marcasVista.CbMarcasPublic, dtMarca, "Nombre", "Id", "SELECCIONE"); 
                 }
+
+                if (_vistaPrincipal is VistaInventario inventarioVista)
+                {
+                    inventarioVista.CargarArticulos();
+                }
+
             }
         }
 
         private void BtnEliminar_Click(object sender, EventArgs e)
         {
             var result = MessageBox.Show($"¿Desea eliminar el {tipoComponente} seleccionado?",
-                             "Confirmación",
-                             MessageBoxButtons.YesNo,
-                             MessageBoxIcon.Question);
+                "Confirmación",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
 
             if (result == DialogResult.Yes)
             {

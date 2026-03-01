@@ -20,7 +20,8 @@ namespace ControlInventario.Database
                 Codigo TEXT NOT NULL,
                 Modelo TEXT NOT NULL,
                 Serie TEXT NOT NULL,
-                Marca TEXT NOT NULL,
+                IdMarca INTEGER NOT NULL,
+                Marca TEXT NOT NULL,                
                 FechaAdquisicion TEXT NOT NULL,
                 FechaBaja TEXT,
                 FechaFinGarantia TEXT,
@@ -28,13 +29,15 @@ namespace ControlInventario.Database
                 DniUsuarioActual TEXT NOT NULL,
                 NombreUsuarioActual TEXT,
                 IdAreaUsuarioActual INTEGER,
-                AreaUsuarioActual TEXT,
+                AreaUsuarioActual TEXT,                
+                IdCargoUsuarioActual INTEGER,
                 CargoUsuarioActual TEXT,
 
-                DniUsuarioAnterior TEXT NOT NULL,
+                DniUsuarioAnterior TEXT,
                 NombreUsuarioAnterior TEXT,
                 IdAreaUsuarioAnterior INTEGER,
-                AreaUsuarioAnterior TEXT,
+                AreaUsuarioAnterior TEXT,                
+                IdCargoUsuarioAnterior INTEGER,
                 CargoUsuarioAnterior TEXT,
 
                 IdEstado INTEGER NOT NULL,
@@ -91,6 +94,7 @@ namespace ControlInventario.Database
                 Codigo,
                 Modelo,
                 Serie,
+                IdMarca,
                 Marca,
                 FechaAdquisicion,
                 FechaBaja,
@@ -100,12 +104,14 @@ namespace ControlInventario.Database
                 NombreUsuarioActual,
                 IdAreaUsuarioActual,
                 AreaUsuarioActual,
+                IdCargoUsuarioActual,
                 CargoUsuarioActual,
 
                 DniUsuarioAnterior,
                 NombreUsuarioAnterior,
                 IdAreaUsuarioAnterior,
                 AreaUsuarioAnterior,
+                IdCargoUsuarioAnterior,
                 CargoUsuarioAnterior,
 
                 IdEstado,
@@ -136,6 +142,7 @@ namespace ControlInventario.Database
                 @Codigo,
                 @Modelo,
                 @Serie,
+                @IdMarca,
                 @Marca,
                 @FechaAdquisicion,
                 @FechaBaja,
@@ -145,12 +152,14 @@ namespace ControlInventario.Database
                 @NombreUsuarioActual,
                 @IdAreaUsuarioActual,
                 @AreaUsuarioActual,
+                @IdCargoUsuarioActual,
                 @CargoUsuarioActual,
 
                 @DniUsuarioAnterior,
                 @NombreUsuarioAnterior,
                 @IdAreaUsuarioAnterior,
                 @AreaUsuarioAnterior,
+                @IdCargoUsuarioAnterior,
                 @CargoUsuarioAnterior,
 
                 @IdEstado,
@@ -187,8 +196,9 @@ namespace ControlInventario.Database
                 cmd.Parameters.AddWithValue("@Codigo", art.Codigo);
                 cmd.Parameters.AddWithValue("@Modelo", art.Modelo);
                 cmd.Parameters.AddWithValue("@Serie", art.Serie);
+                cmd.Parameters.AddWithValue("@IdMarca", art.IdMarca);
                 cmd.Parameters.AddWithValue("@Marca", art.Marca);
-                cmd.Parameters.AddWithValue("@FechaAdquisicion", art.FechaAdquisicion);
+                cmd.Parameters.AddWithValue("@FechaAdquisicion", art.FechaAdquisicion.ToString("yyyy-MM-dd"));
                 cmd.Parameters.AddWithValue("@FechaBaja", art.FechaBaja.HasValue ? art.FechaBaja.Value.ToString("yyyy-MM-dd") : (object)DBNull.Value);
                 cmd.Parameters.AddWithValue("@FechaFinGarantia", art.FechaFinGarantia.HasValue ? art.FechaFinGarantia.Value.ToString("yyyy-MM-dd") : (object)DBNull.Value);
 
@@ -196,12 +206,14 @@ namespace ControlInventario.Database
                 cmd.Parameters.AddWithValue("@NombreUsuarioActual", art.NombreUsuarioActual);
                 cmd.Parameters.AddWithValue("@IdAreaUsuarioActual", art.IdAreaUsuarioActual);
                 cmd.Parameters.AddWithValue("@AreaUsuarioActual", art.AreaUsuarioActual);
+                cmd.Parameters.AddWithValue("@IdCargoUsuarioActual", art.IdCargoUsuarioActual);
                 cmd.Parameters.AddWithValue("@CargoUsuarioActual", art.CargoUsuarioActual);
 
                 cmd.Parameters.AddWithValue("@DniUsuarioAnterior", art.DniUsuarioAnterior);
                 cmd.Parameters.AddWithValue("@NombreUsuarioAnterior", art.NombreUsuarioAnterior);
                 cmd.Parameters.AddWithValue("@IdAreaUsuarioAnterior", art.IdAreaUsuarioAnterior);
                 cmd.Parameters.AddWithValue("@AreaUsuarioAnterior", art.AreaUsuarioAnterior);
+                cmd.Parameters.AddWithValue("@IdCargoUsuarioAnterior", art.IdCargoUsuarioAnterior);
                 cmd.Parameters.AddWithValue("@CargoUsuarioAnterior", art.CargoUsuarioAnterior);
 
                 cmd.Parameters.AddWithValue("@IdEstado", art.IdEstado);
@@ -248,7 +260,7 @@ namespace ControlInventario.Database
             }
         }
 
-        public void ActualizarArticulo(Articulos art)
+        public static void ActualizarArticulo(Articulos art)
         {
             using (var con = ConexionGlobal.ObtenerConexion())
             {
@@ -258,7 +270,8 @@ namespace ControlInventario.Database
                     Codigo = @Codigo,
                     Modelo = @Modelo,
                     Serie = @Serie,
-                    Marca = @Marca,
+                    IdMarca = @IdMarca,
+                    Marca = @Marca,                    
                     FechaAdquisicion = @FechaAdquisicion,
                     FechaBaja = @FechaBaja,
                     FechaFinGarantia = @FechaFinGarantia,
@@ -267,12 +280,14 @@ namespace ControlInventario.Database
                     NombreUsuarioActual = @NombreUsuarioActual,
                     IdAreaUsuarioActual = @IdAreaUsuarioActual,
                     AreaUsuarioActual = @AreaUsuarioActual,
+                    IdCargoUsuarioActual = @IdCargoUsuarioActual,
                     CargoUsuarioActual = @CargoUsuarioActual,
 
                     DniUsuarioAnterior = @DniUsuarioAnterior,
                     NombreUsuarioAnterior = @NombreUsuarioAnterior,
                     IdAreaUsuarioAnterior = @IdAreaUsuarioAnterior,
                     AreaUsuarioAnterior = @AreaUsuarioAnterior,
+                    IdCargoUsuarioAnterior = @IdCargoUsuarioAnterior,
                     CargoUsuarioAnterior = @CargoUsuarioAnterior,
 
                     IdEstado = @IdEstado,
@@ -304,6 +319,7 @@ namespace ControlInventario.Database
                     cmd.Parameters.AddWithValue("@Codigo", art.Codigo);
                     cmd.Parameters.AddWithValue("@Modelo", art.Modelo);
                     cmd.Parameters.AddWithValue("@Serie", art.Serie);
+                    cmd.Parameters.AddWithValue("@IdMarca", art.IdMarca);
                     cmd.Parameters.AddWithValue("@Marca", art.Marca);
                     cmd.Parameters.AddWithValue("@FechaAdquisicion", art.FechaAdquisicion);
                     cmd.Parameters.AddWithValue("@FechaBaja", art.FechaBaja ?? (object)DBNull.Value);
@@ -313,12 +329,14 @@ namespace ControlInventario.Database
                     cmd.Parameters.AddWithValue("@NombreUsuarioActual", art.NombreUsuarioActual);
                     cmd.Parameters.AddWithValue("@IdAreaUsuarioActual", art.IdAreaUsuarioActual);
                     cmd.Parameters.AddWithValue("@AreaUsuarioActual", art.AreaUsuarioActual);
+                    cmd.Parameters.AddWithValue("@IdCargoUsuarioActual", art.IdCargoUsuarioActual);
                     cmd.Parameters.AddWithValue("@CargoUsuarioActual", art.CargoUsuarioActual);
 
                     cmd.Parameters.AddWithValue("@DniUsuarioAnterior", art.DniUsuarioAnterior);
                     cmd.Parameters.AddWithValue("@NombreUsuarioAnterior", art.NombreUsuarioAnterior);
                     cmd.Parameters.AddWithValue("@IdAreaUsuarioAnterior", art.IdAreaUsuarioAnterior);
                     cmd.Parameters.AddWithValue("@AreaUsuarioAnterior", art.AreaUsuarioAnterior);
+                    cmd.Parameters.AddWithValue("@IdCargoUsuarioAnterior", art.IdCargoUsuarioAnterior);
                     cmd.Parameters.AddWithValue("@CargoUsuarioAnterior", art.CargoUsuarioAnterior);
 
                     cmd.Parameters.AddWithValue("@IdEstado", art.IdEstado);
@@ -466,6 +484,7 @@ namespace ControlInventario.Database
                 Codigo = reader["Codigo"]?.ToString(),
                 Modelo = reader["Modelo"]?.ToString(),
                 Serie = reader["Serie"]?.ToString(),
+                IdMarca = reader["IdMarca"] != DBNull.Value ? Convert.ToInt32(reader["IdMarca"]) : 0,
                 Marca = reader["Marca"]?.ToString(),
 
                 FechaAdquisicion = reader["FechaAdquisicion"] != DBNull.Value? DateTime.Parse(reader["FechaAdquisicion"].ToString()): DateTime.MinValue,
@@ -476,12 +495,14 @@ namespace ControlInventario.Database
                 NombreUsuarioActual = reader["NombreUsuarioActual"]?.ToString(),
                 IdAreaUsuarioActual = reader["IdAreaUsuarioActual"] != DBNull.Value? Convert.ToInt32(reader["IdAreaUsuarioActual"]): 0,
                 AreaUsuarioActual = reader["AreaUsuarioActual"]?.ToString(),
+                IdCargoUsuarioActual = reader["IdCargoUsuarioActual"] != DBNull.Value ? Convert.ToInt32(reader["IdCargoUsuarioActual"]) : 0,
                 CargoUsuarioActual = reader["CargoUsuarioActual"]?.ToString(),
 
                 DniUsuarioAnterior = reader["DniUsuarioAnterior"]?.ToString(),
                 NombreUsuarioAnterior = reader["NombreUsuarioAnterior"]?.ToString(),
                 IdAreaUsuarioAnterior = reader["IdAreaUsuarioAnterior"] != DBNull.Value? Convert.ToInt32(reader["IdAreaUsuarioAnterior"]): 0,
                 AreaUsuarioAnterior = reader["AreaUsuarioAnterior"]?.ToString(),
+                IdCargoUsuarioAnterior = reader["IdCargoUsuarioAnterior"] != DBNull.Value ? Convert.ToInt32(reader["IdCargoUsuarioAnterior"]) : 0,
                 CargoUsuarioAnterior = reader["CargoUsuarioAnterior"]?.ToString(),
 
                 IdEstado = reader["IdEstado"] != DBNull.Value? Convert.ToInt32(reader["IdEstado"]): 0,

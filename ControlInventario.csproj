@@ -136,6 +136,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Modelo\EdicionArticulo.cs" />
     <Compile Include="Modelo\Empleados.cs" />
     <Compile Include="Modelo\Interface\IRefrescable.cs" />
     <Compile Include="Repositorio\AreaRepository.cs" />
@@ -191,6 +192,12 @@
     </Compile>
     <Compile Include="Vistas\Extras\VistaAgregarComponentes.Designer.cs">
       <DependentUpon>VistaAgregarComponentes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Vistas\Extras\VistaAgregarEmpleado.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Vistas\Extras\VistaAgregarEmpleado.Designer.cs">
+      <DependentUpon>VistaAgregarEmpleado.cs</DependentUpon>
     </Compile>
     <Compile Include="Vistas\Extras\VistaCaracteristicas.cs">
       <SubType>Form</SubType>
@@ -278,6 +285,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Vistas\Extras\VistaAgregarComponentes.resx">
       <DependentUpon>VistaAgregarComponentes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Vistas\Extras\VistaAgregarEmpleado.resx">
+      <DependentUpon>VistaAgregarEmpleado.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Vistas\Extras\VistaCaracteristicas.resx">
       <DependentUpon>VistaCaracteristicas.cs</DependentUpon>

@@ -54,6 +54,9 @@ namespace ControlInventario.Servicios
             // Crear tabla de Empleados
             EmpleadoRepository.CrearTablaEmpleado(con);
 
+            // Crear tabla Usuarios
+            UsuarioRepository.CrearTablaUsuario(con);
+
             // Agregar más tablas según sea necesario
             Console.WriteLine("Tablas creadas exitosamente.");
         }

@@ -1,11 +1,8 @@
 ﻿using ControlInventario.Modelos;
 using ControlInventario.Servicios;
-using ControlInventario.Vistas;
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace ControlInventario.Database
 {
@@ -113,29 +110,6 @@ namespace ControlInventario.Database
 
                     int newId = InsertarInventarioUsuario(inventario, con);
                     inventario.Id = newId;
-                }
-
-                // 3. Verificar categorías
-                string queryCheckCategorias = "SELECT Id FROM Categorias WHERE InventarioId = @InventarioId LIMIT 1;";
-                using (var cmdCheckCategorias = new SQLiteCommand(queryCheckCategorias, con))
-                {
-                    cmdCheckCategorias.Parameters.AddWithValue("@InventarioId", inventario.Id);
-                    var result = cmdCheckCategorias.ExecuteScalar();
-                    if (result == null)
-                    {
-                        // Crear categorías por defecto (ejemplo)
-                        var categoriasPorDefecto = new List<string> { "General", "Otros" };
-                        foreach (var nombreCat in categoriasPorDefecto)
-                        {
-                            var categoria = new Categoria
-                            {
-                                Nombre = nombreCat,
-                                InventarioId = inventario.Id
-                            };
-                            var categoriaRepo = new CategoriaRepository(inventario);
-                            categoriaRepo.InsertarCategoriaInventario(categoria, con);
-                        }
-                    }
                 }
 
                 con.Close();

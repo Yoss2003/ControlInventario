@@ -9,12 +9,14 @@ namespace ControlInventario.Vistas
 {
     public partial class VistaPreguntasSeguridad : Form
     {
-        int idUsuario = UsuarioSesion.UsuarioId;
-        string nombreUsuario = UsuarioSesion.NombreUsuario;
+        private long idUsuario = UsuarioSesion.UsuarioId;
+        private string nombreUsuario = UsuarioSesion.NombreUsuario;
 
-        public VistaPreguntasSeguridad()
+        public VistaPreguntasSeguridad(long id, string nombre)
         {
             InitializeComponent();
+            this.idUsuario = id;
+            this.nombreUsuario = nombre;
         }
 
         private bool ValidarPreguntas()
@@ -119,7 +121,7 @@ namespace ControlInventario.Vistas
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
 
-                    long nuevoId = UsuarioRepository.EliminarUsuario(idUsuario);
+                    long nuevoId = UsuarioRepository.EliminarUsuario((int)idUsuario);
                     Close();
                 }                
             }
@@ -237,7 +239,7 @@ namespace ControlInventario.Vistas
                                 MessageBoxIcon.Error);
 
                 // Si ocurre un error al guardar, se elimina el usuario recién creado para evitar inconsistencias
-                long nuevoId = UsuarioRepository.EliminarUsuario(idUsuario);
+                long nuevoId = UsuarioRepository.EliminarUsuario((int)idUsuario);
                 this.Close();
             }
         }

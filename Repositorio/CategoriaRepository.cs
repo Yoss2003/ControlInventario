@@ -22,8 +22,8 @@ namespace ControlInventario.Database
                 InventarioId INTEGER NOT NULL,
                 Nombre TEXT NOT NULL,
                 Descripcion TEXT,
-                FechaCreacion TEXT NOT NULL,
-                UsuarioCreacion TEXT NOT NULL,
+                FechaCreacion TEXT,
+                UsuarioCreacion TEXT,
                 FechaModificacion TEXT,
                 UsuarioModificacion TEXT,
                 FechaEliminacion TEXT,
@@ -36,11 +36,21 @@ namespace ControlInventario.Database
             }
         }
 
-        public static void AgregarCategoría(Categoria cat)
-        {            
+        public static long AgregarCategoría(Categoria cat) 
+        {
+            if (cat.Nombre.Length > 11)
+            {
+                MessageBox.Show("El nombre de la categoría no puede superar los 11 caracteres.", "Validación",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+                return -1;
+            }
+
             using (var con = ConexionGlobal.ObtenerConexion())
             {
                 con.Open();
+
                 string query = @"
                 INSERT INTO Categorias (
                     InventarioId,
@@ -54,28 +64,21 @@ namespace ControlInventario.Database
                     @Descripcion,
                     @FechaCreacion,
                     @UsuarioCreacion
-                );";
+                );
+                SELECT last_insert_rowid();";
 
                 using (var cmd = new SQLiteCommand(query, con))
                 {
                     cmd.Parameters.AddWithValue("@InventarioId", cat.InventarioId);
-
-                    if (cat.Nombre.Length > 11)
-                    {
-                        MessageBox.Show("El nombre de la categoría no puede superar los 11 caracteres.", "Validación", 
-                            MessageBoxButtons.OK, 
-                            MessageBoxIcon.Warning
-                        ); 
-                        return;
-                    }
-
                     cmd.Parameters.AddWithValue("@Nombre", cat.Nombre);
                     cmd.Parameters.AddWithValue("@Descripcion", cat.Descripcion);
                     cmd.Parameters.AddWithValue("@FechaCreacion", cat.FechaCreacion);
                     cmd.Parameters.AddWithValue("@UsuarioCreacion", cat.UsuarioCreacion);
-                    cmd.ExecuteNonQuery();
+
+                    long nuevoId = (long)cmd.ExecuteScalar();
+
+                    return nuevoId;
                 }
-                con.Close();
             }
         }
 
@@ -119,30 +122,30 @@ namespace ControlInventario.Database
             }
         }
 
-        public void InsertarCategoriaInventario(Categoria cat, SQLiteConnection con)
+        public static bool ExisteCategoria(Categoria cat)
         {
-            string query = @"
-            INSERT INTO Categorias (
-                Nombre,
-                InventarioId,
-                FechaCreacion,
-                UsuarioCreacion
-            )   
-            VALUES(
-                @Nombre,
-                @InventarioId,
-                @FechaCreacion,
-                @UsuarioCreacion
-            );";
-
-            using (var cmd = new SQLiteCommand(query, con))
+            using (var con = ConexionGlobal.ObtenerConexion())
             {
-                cmd.Parameters.AddWithValue("@Nombre", cat.Nombre);
-                cmd.Parameters.AddWithValue("@InventarioId", cat.InventarioId);
-                cmd.Parameters.AddWithValue("@FechaCreacion", cat.FechaCreacion);
-                cmd.Parameters.AddWithValue("@UsuarioCreacion", cat.UsuarioCreacion);
+                con.Open();
 
-                cmd.ExecuteNonQuery();
+                // Buscamos si el nombre existe ignorando mayúsculas/minúsculas (COLLATE NOCASE).
+                // Si estamos editando, excluimos el ID actual (Id != @IdActual) para no marcar error consigo mismo.
+                string query = @"
+                    SELECT COUNT(*) 
+                    FROM Categorias 
+                    WHERE TRIM(Nombre) = TRIM(@Nombre) COLLATE NOCASE 
+                    AND InventarioId = @InventarioId 
+                    AND Id != @Id;";
+
+                using (var cmd = new SQLiteCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@Nombre", cat.Nombre);
+                    cmd.Parameters.AddWithValue("@InventarioId", cat.InventarioId);
+                    cmd.Parameters.AddWithValue("@Id", cat.Id);
+
+                    long cantidad = (long)cmd.ExecuteScalar();
+                    return cantidad > 0;
+                }
             }
         }
 
@@ -154,7 +157,7 @@ namespace ControlInventario.Database
                 con.Open();
                 var dt = new DataTable();
 
-                string query = "SELECT Id, Nombre FROM Categorias WHERE InventarioId = @InventarioId;";
+                string query = "SELECT * FROM Categorias WHERE InventarioId = @InventarioId;";
                 using (var cmd = new SQLiteCommand(query, con))
                 {
                     cmd.Parameters.AddWithValue("@InventarioId", inventarioId);

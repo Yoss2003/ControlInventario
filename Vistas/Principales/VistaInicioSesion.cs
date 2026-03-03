@@ -141,9 +141,7 @@ namespace ControlInventario
                 lblErrorContraseña.Text = "Contraseña incorrecta."; 
                 lblErrorContraseña.Visible = true; 
                 return;
-            }
-
-            
+            }            
 
             Properties.Settings.Default.Save(); // Guardar cambios en la configuración
 

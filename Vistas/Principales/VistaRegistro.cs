@@ -1,5 +1,6 @@
 ﻿using ControlInventario.Database;
 using ControlInventario.Modelos;
+using ControlInventario.Servicios;
 using System;
 using System.Data.SQLite;
 using System.Text.RegularExpressions;
@@ -121,7 +122,7 @@ namespace ControlInventario.Vistas
             using (var con = ConexionGlobal.ObtenerConexion())
             {
                 con.Open();
-                string query = "SELECT COUNT(*) FROM Empleados WHERE Usuario = @Usuario";
+                string query = "SELECT COUNT(*) FROM Usuario WHERE Usuario = @Usuario";
                 using (var cmd = new SQLiteCommand(query, con))
                 {
                     cmd.Parameters.AddWithValue("@Usuario", txtUsuario.Text);
@@ -250,6 +251,11 @@ namespace ControlInventario.Vistas
                     //Guardar en BD
                     long nuevoId = UsuarioRepository.InsertarUsuario(emp, con);
 
+                    UsuarioSesion.UsuarioId = (int)nuevoId; // Asegúrate de castear a int si UsuarioId lo requiere
+                    UsuarioSesion.NombreUsuario = emp.NombreUsuario;
+                    UsuarioSesion.Rol = emp.Rol;
+                    UsuarioSesion.NombrePersonal = emp.Nombres;
+
                     //Abrir vista de preguntas de seguridad
                     MessageBox.Show("Usuario registrado correctamente.",
                                     "Éxito",
@@ -257,7 +263,7 @@ namespace ControlInventario.Vistas
                                     MessageBoxIcon.Information);
 
                     // Pasar el nuevo ID y el usuario a la vista de preguntas de seguridad
-                    VistaPreguntasSeguridad seguridad = new VistaPreguntasSeguridad();
+                    VistaPreguntasSeguridad seguridad = new VistaPreguntasSeguridad(nuevoId, emp.NombreUsuario);
                     seguridad.ShowDialog();
 
                     this.Close();

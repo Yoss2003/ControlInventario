@@ -29,6 +29,10 @@ namespace ControlInventario.Vistas
         {
             InitializeComponent();
             helper = new ClassHelper(this);
+
+            typeof(FlowLayoutPanel).InvokeMember("DoubleBuffered",
+                System.Reflection.BindingFlags.SetProperty | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic,
+                null, FlCategorias, new object[] { true });
         }
 
         private void VistaInventario_Load(object sender, EventArgs e)
@@ -54,15 +58,37 @@ namespace ControlInventario.Vistas
             }
         }
 
+        private void ActivarBotonCategoria(Button botonActivar, int idCat, string nombreCat)
+        {
+            LstArticulos.Visible = true;
+
+            this.categoriaSeleccionadaId = idCat;
+            this.categoriaSeleccionadaNombre = nombreCat;
+
+            RefrescarArticulos();
+
+            if (botonSeleccionado != null)
+                botonSeleccionado.Enabled = true;
+
+            botonActivar.Enabled = false;
+            botonSeleccionado = botonActivar;
+            LstArticulos.Focus();
+        }
+
         public void CargarArticulos()
         {
-            // 1. Obtener todas las categorías del inventario actual
+            // 1. Guardar memoria de lo que estaba seleccionado
+            int idSeleccionadoPreviamente = this.categoriaSeleccionadaId;
+            Button botonARestaurar = null;
+
             var dtCategorias = CategoriaRepository.ListarCategorias(inventarioId);
 
-            // 2. Limpiar el FlowLayoutPanel antes de volver a cargar
+            // 2. Congelamos el panel
+            FlCategorias.SuspendLayout();
             FlCategorias.Controls.Clear();
+            botonSeleccionado = null;
 
-            // 3. Crear un botón por cada categoría
+            // 3. Crear botones
             foreach (DataRow row in dtCategorias.Rows)
             {
                 string nombreCategoria = row["Nombre"].ToString();
@@ -77,34 +103,27 @@ namespace ControlInventario.Vistas
                     Cursor = Cursors.Hand
                 };
 
-                var articulosCategoria = ArticuloRepository.ListarArticulos(idCategoria);
-
-                // Evento click: al pulsar, refresca el ListView con los artículos de esa categoría
                 btn.Click += (s, e) =>
                 {
-                    LstArticulos.Visible = true;
-                    var botonActual = s as Button;
-                    idCategoria = (int)botonActual.Tag;
-
-                    this.categoriaSeleccionadaId = idCategoria;
-                    this.categoriaSeleccionadaNombre = nombreCategoria;
-
-                    // Obtener artículos de la categoría seleccionada y refrescar el ListView
-                    RefrescarArticulos();
-
-                    // Habilitar el botón previamente seleccionado
-                    if (botonSeleccionado != null)
-                        botonSeleccionado.Enabled = true; 
-
-                    // Deshabilitar el botón de la categoría seleccionada
-                    botonActual.Enabled = false; 
-
-                    // Guardar el botón actual como seleccionado
-                    botonSeleccionado = botonActual;
-                    LstArticulos.Focus();
+                    ActivarBotonCategoria((Button)s, idCategoria, nombreCategoria);
                 };
 
                 FlCategorias.Controls.Add(btn);
+
+                // Guardamos el botón si es el que estábamos viendo antes de refrescar
+                if (idCategoria == idSeleccionadoPreviamente)
+                {
+                    botonARestaurar = btn;
+                }
+            }
+
+            // 4. Descongelamos el panel
+            FlCategorias.ResumeLayout();
+
+            // 5. Restaurar la selección simulando un clic (para que no pierdas de vista los artículos)
+            if (botonARestaurar != null)
+            {
+                botonARestaurar.PerformClick();
             }
         }
 
@@ -124,9 +143,8 @@ namespace ControlInventario.Vistas
             int categoriaId = categoriaSeleccionadaId;
             string categoria = categoriaSeleccionadaNombre;
             string texto = categoriaSeleccionadaNombre;
-            ListViewItem item = LstArticulos.SelectedItems[0];
-            _articuloId = Convert.ToInt32(item.SubItems[0].Text);
-            int articuloId = _articuloId;
+
+            int articuloId = 0;
 
             if (categoriaId == 0)
             {
@@ -316,27 +334,41 @@ namespace ControlInventario.Vistas
                     articulos.DtpFechaAdquisicion.Value = fechaAdquisicion;
 
                 if (item.SubItems.Count > 6 && DateTime.TryParse(item.SubItems[6]?.Text, out DateTime fechaBaja))
+                {
                     articulos.DtpFechaBaja.Value = fechaBaja;
+                    articulos.ChkFechaBaja.Checked = true;
+                }
+                else
+                {
+                    articulos.ChkFechaBaja.Checked = false;
+                }
 
                 if (item.SubItems.Count > 7 && DateTime.TryParse(item.SubItems[7]?.Text, out DateTime fechaFinGarantia))
+                {
                     articulos.DtpFechaFinGarantia.Value = fechaFinGarantia;
+                    articulos.ChkFechaGarantia.Checked = true;
+                }
+                else
+                {
+                    articulos.ChkFechaGarantia.Checked = false;
+                }
 
                 // Usuario actual
-                if (item.SubItems.Count > 8) articulos.TxtDniUsuarioActual.Text = item.SubItems[8]?.Text ?? string.Empty;
-                if (item.SubItems.Count > 9) articulos.TxtNombreUsuarioActual.Text = item.SubItems[9]?.Text ?? string.Empty;
+                articulos.TxtDniUsuarioActual.Text = item.SubItems[8]?.Text ?? string.Empty;
+                articulos.TxtNombreUsuarioActual.Text = item.SubItems[9]?.Text ?? string.Empty;
 
                 // Usuario anterior
-                if (item.SubItems.Count > 12) articulos.TxtDniUsuarioAnterior.Text = item.SubItems[12]?.Text ?? string.Empty;
-                if (item.SubItems.Count > 13) articulos.TxtNombreUsuarioAnterior.Text = item.SubItems[13]?.Text ?? string.Empty;
+                articulos.TxtDniUsuarioAnterior.Text = item.SubItems[12]?.Text ?? string.Empty;
+                articulos.TxtNombreUsuarioAnterior.Text = item.SubItems[13]?.Text ?? string.Empty;
 
                 // Datos adicionales
-                if (item.SubItems.Count > 19) articulos.TxtRuc.Text = item.SubItems[19]?.Text ?? string.Empty;
-                if (item.SubItems.Count > 20) articulos.TxtRazonSocial.Text = item.SubItems[20]?.Text ?? string.Empty;
-                if (item.SubItems.Count > 21) articulos.TxtPrecio.Text = item.SubItems[21]?.Text ?? string.Empty;
-                if (item.SubItems.Count > 22) articulos.TxtActivoFijo.Text = item.SubItems[22]?.Text ?? string.Empty;
-                if (item.SubItems.Count > 23) articulos.TxtObservaciones.Text = item.SubItems[23]?.Text ?? string.Empty;
-                if (item.SubItems.Count > 24) articulos.TxtDireccionImagen.Text = item.SubItems[24]?.Text ?? string.Empty;
-                if (item.SubItems.Count > 25) articulos.TxtRutaComprobante.Text = item.SubItems[25]?.Text ?? string.Empty;
+                articulos.TxtRuc.Text = item.SubItems[19]?.Text ?? string.Empty;
+                articulos.TxtRazonSocial.Text = item.SubItems[20]?.Text ?? string.Empty;
+                articulos.TxtPrecio.Text = item.SubItems[21]?.Text ?? string.Empty;
+                articulos.TxtActivoFijo.Text = item.SubItems[22]?.Text ?? string.Empty;
+                articulos.TxtObservaciones.Text = item.SubItems[23]?.Text ?? string.Empty;
+                articulos.TxtDireccionImagen.Text = item.SubItems[24]?.Text ?? string.Empty;
+                articulos.TxtRutaComprobante.Text = item.SubItems[25]?.Text ?? string.Empty;
 
                 // Obtener el artículo completo de la BD
                 var art = ArticuloRepository.ObtenerArticuloPorId(_articuloId);

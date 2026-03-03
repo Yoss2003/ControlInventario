@@ -682,7 +682,7 @@ namespace ControlInventario.Vistas
         {
             if (_categoriaId > 0)
             {
-                var vistaAgregar = new VistaAgregarComponentes(_categoria, this)
+                var vistaAgregar = new VistaAgregarComponentes("Marca", this)
                 {
                     CategoriaId = _categoriaId
                 };
@@ -792,6 +792,11 @@ namespace ControlInventario.Vistas
                         CbCargoUsuarioActual.SelectedValue = emp.IdCargo;
 
                         // Cargar usuario anterior
+                        if(dniTemporal == TxtDniUsuarioActual.Text)
+                        {
+                            dniTemporal = "";
+                        }
+
                         dniTemporal = TxtDniUsuarioAnterior.Text;
                         TxtNombreUsuarioAnterior.Text = Nombre1;
                         CbAreaUsuarioAnterior.SelectedValue = IdArea1;

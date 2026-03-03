@@ -17,6 +17,28 @@ namespace ControlInventario.Servicios
         {
             inventario = vista;
         }
+        public void EliminarBotonCategoria(int idCategoria)
+        {
+            foreach (Control control in inventario.LstArticulos.Controls)
+            {
+                if (control is Button btn && btn.Tag != null && Convert.ToInt32(btn.Tag) == idCategoria)
+                {
+                    inventario.LstArticulos.Controls.Remove(btn);
+                    btn.Dispose();
+                    break;
+                }
+            }
+
+            if (inventario.LstArticulos.Controls.Count == 0)
+            {
+                inventario.LstArticulos.Visible = false;
+            }
+            else
+            {
+                Button primerBoton = (Button)inventario.LstArticulos.Controls[0];
+                primerBoton.PerformClick();
+            }
+        }
 
         public void AgregarBotonCategoria(string nombreCategoria, int idCategoria)
         {
@@ -32,9 +54,8 @@ namespace ControlInventario.Servicios
             Button btn = new Button();
             btn.Text = nombreCategoria;
             btn.Tag = idCategoria;
-            btn.Width = 120;
-            btn.Height = 40;
-            btn.Margin = new Padding(5);
+            btn.Width = 75;
+            btn.Height = 23;
 
             btn.Click += BtnCategoria_Click;
 

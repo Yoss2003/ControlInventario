@@ -12,6 +12,7 @@ namespace ControlInventario.Database
             string query = @"
             CREATE TABLE IF NOT EXISTS Condiciones (
                 Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                InventarioId INTEGER,
                 Nombre TEXT NOT NULL,
                 Descripcion TEXT 
             );";
@@ -26,9 +27,12 @@ namespace ControlInventario.Database
             using (var con = ConexionGlobal.ObtenerConexion())
             {
                 con.Open();
-                string query = "INSERT INTO Condiciones (Nombre, Descripcion) VALUES (@Nombre, @Descripcion);";
+                string query = @"
+                    INSERT INTO Condiciones (InventarioId, Nombre, Descripcion) 
+                    VALUES (@InventarioId, @Nombre, @Descripcion);";
                 using (var cmd = new SQLiteCommand(query, con))
                 {
+                    cmd.Parameters.AddWithValue("@InventarioId", cond.InventarioId);
                     cmd.Parameters.AddWithValue("@Nombre", cond.Nombre);
                     cmd.Parameters.AddWithValue("@Descripcion", cond.Descripcion);
                     cmd.ExecuteNonQuery();

@@ -170,11 +170,11 @@
     <Compile Include="Modelo\Ubicacion.cs" />
     <Compile Include="Servicios\ClassHelper.cs" />
     <Compile Include="Servicios\CreateTables.cs" />
-    <Compile Include="Servicios\InventarioUsuario.cs" />
+    <Compile Include="Modelo\InventarioUsuario.cs" />
     <Compile Include="Servicios\OverlayCarga.cs" />
     <Compile Include="Modelo\Recuperacion.cs" />
     <Compile Include="Servicios\RefreshService.cs" />
-    <Compile Include="Servicios\UsuarioSesion.cs" />
+    <Compile Include="Modelo\UsuarioSesion.cs" />
     <Compile Include="Vistas\Aplicacion\VistaArticulos.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -1,17 +1,22 @@
 ﻿using ControlInventario.Database;
 using ControlInventario.Modelo;
+using ControlInventario.Modelo.Interface;
 using ControlInventario.Modelos;
 using ControlInventario.Repositorio;
 using ControlInventario.Servicios;
+using DocumentFormat.OpenXml.Office2010.Excel;
 using DocumentFormat.OpenXml.Wordprocessing;
 using System;
 using System.Windows.Forms;
 
 namespace ControlInventario.Vistas.Extras
 {
-    public partial class VistaAgregarEmpleado : Form
+    public partial class VistaAgregarEmpleado : Form, IAreasRefrescable, ICargosRefrescable, IEstadoEmpleadosRefrescable
     {
         bool isEdit = false;
+        public ComboBox CbAreaPublic => CbArea;
+        public ComboBox CbCargoPublic => CbCargo;
+        public ComboBox CbEstadoEmpleadosPublic => CbEstadoEmpleados;
         public VistaAgregarEmpleado()
         {
             InitializeComponent();
@@ -101,8 +106,12 @@ namespace ControlInventario.Vistas.Extras
                     using (var con = ConexionGlobal.ObtenerConexion())
                     {
                         con.Open();
+
+                        int IdEmpleado = Convert.ToInt32(DgEmpleados.CurrentRow.Cells["IdEmpleado"].Value);
+
                         Empleados emp = new Empleados
                         {
+                            Id = IdEmpleado,
                             Nombres = TxtNombres.Text,
                             Apellidos = TxtApellidos.Text,
                             DNI = TxtDNI.Text,
@@ -209,7 +218,7 @@ namespace ControlInventario.Vistas.Extras
             if (e.RowIndex >= 0)
             {
                 DataGridViewRow fila = DgEmpleados.Rows[e.RowIndex];
-                var id = DgEmpleados.CurrentRow.Cells["IdEmpleado"].Value;
+                int idEmpleadoActual = Convert.ToInt32(DgEmpleados.CurrentRow.Cells["IdEmpleado"].Value);
                 TxtNombres.Text = fila.Cells["NombreEmpleado"].Value.ToString();
                 TxtApellidos.Text = fila.Cells["ApellidoEmpleado"].Value.ToString();
                 TxtDNI.Text = fila.Cells["DniEmpleado"].Value.ToString();
@@ -217,9 +226,19 @@ namespace ControlInventario.Vistas.Extras
                 CbCargo.Text = fila.Cells["CargoEmpleado"].Value.ToString();
                 CbEstadoEmpleados.Text = fila.Cells["EstadoEmpleado"].Value.ToString();
 
-                ValidarDatos(CbArea, fila.Cells["AreaEmpleado"].Value?.ToString(), "Area", Convert.ToInt32(id));
-                ValidarDatos(CbCargo, fila.Cells["CargoEmpleado"].Value?.ToString(), "Cargo", Convert.ToInt32(id));
-                ValidarDatos(CbEstadoEmpleados, fila.Cells["EstadoEmpleado"].Value?.ToString(), "Estado", Convert.ToInt32(id));
+                string valorvalorFilaArea = DgEmpleados.CurrentRow.Cells["IdEmpleado"].Value.ToString();
+                string valorFilaEstado = DgEmpleados.CurrentRow.Cells["IdEmpleado"].Value.ToString();
+
+                if (!ClassHelper.ValidarComboObsoleto(CbEstadoEmpleados, valorFilaEstado, "Estado"))
+                {
+                    ClassHelper.LimpiarCampoObsoletoBD("Empleado", "IdEstado", "Estado", idEmpleadoActual);
+                }
+
+                ValidarDatos(CbArea, fila.Cells["AreaEmpleado"].Value?.ToString(), "Area");
+
+
+
+                ValidarDatos(CbCargo, fila.Cells["CargoEmpleado"].Value?.ToString(), "Cargo");
 
                 isEdit = true;
                 BtnAgregarEmpleado.Text = "Actualizar";
@@ -227,11 +246,11 @@ namespace ControlInventario.Vistas.Extras
             }
         }
 
-        private void ValidarDatos(ComboBox combo, string valorFila, string nombreCampo, int idEmpleado)
+        private void ValidarDatos(ComboBox combo, string valorFila, string nombreCampo)
         {
             if (string.IsNullOrEmpty(valorFila))
             {
-                combo.SelectedText = "SELECCIONE";
+                combo.SelectedIndex = 0;
                 return;
             }
 
@@ -243,31 +262,27 @@ namespace ControlInventario.Vistas.Extras
             }
             else
             {
-                combo.SelectedIndex = 0; // Cambiamos .Text por .SelectedIndex para asegurar el primer item
+                combo.SelectedIndex = 0;
 
                 MessageBox.Show($"El valor '{valorFila}' de {nombreCampo} ya no existe.\nSe restablecerá.",
                                 "Dato Obsoleto", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-                //// Creamos el objeto con el ID del empleado seleccionado
+                // Creamos el objeto con el ID del empleado seleccionado
                 var id = DgEmpleados.CurrentRow.Cells["IdEmpleado"].Value;
 
                 // Solo activamos el ID que falló
                 switch (nombreCampo)
                 {
                     case "Area":
-                        // Pasa: ID del empleado, Nombre de la columna ID, Nombre de la columna Texto
                         EmpleadoRepository.LimpiarCampoObsoleto(Convert.ToInt32(id), "IdArea", "Area");
-                        CbArea.SelectedText = "SELECCIONE";
                         break;
 
                     case "Cargo":
                         EmpleadoRepository.LimpiarCampoObsoleto(Convert.ToInt32(id), "IdCargo", "Cargo");
-                        CbCargo.SelectedText = "SELECCIONE";
                         break;
 
                     case "Estado":
                         EmpleadoRepository.LimpiarCampoObsoleto(Convert.ToInt32(id), "IdEstado", "Estado");
-                        CbEstadoEmpleados.SelectedText = "SELECCIONE";
                         break;
                 }
             }

@@ -69,11 +69,25 @@
             this.BtnEliminarArticulo = new System.Windows.Forms.Button();
             this.BtnEditarArticulo = new System.Windows.Forms.Button();
             this.BtnAgregarArticulo = new System.Windows.Forms.Button();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.DtBuscarFechaFin = new System.Windows.Forms.DateTimePicker();
+            this.DtBuscarFechaInicio = new System.Windows.Forms.DateTimePicker();
+            this.TxtBuscarCodArticulo = new System.Windows.Forms.TextBox();
+            this.CbBuscarMarcaArticulo = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.BtnBuscar = new System.Windows.Forms.Button();
+            this.BtnLimpiar = new System.Windows.Forms.Button();
+            this.ChkUsarFechas = new System.Windows.Forms.CheckBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.TbPrincipal.SuspendLayout();
             this.TabInventario.SuspendLayout();
             this.TabAvanzado.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NuAccionInventario)).BeginInit();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // TbPrincipal
@@ -89,6 +103,7 @@
             // 
             // TabInventario
             // 
+            this.TabInventario.Controls.Add(this.groupBox2);
             this.TabInventario.Controls.Add(this.LstArticulos);
             this.TabInventario.Controls.Add(this.LstDefault);
             this.TabInventario.Controls.Add(this.FlCategorias);
@@ -134,9 +149,9 @@
             this.LstArticulos.FullRowSelect = true;
             this.LstArticulos.GridLines = true;
             this.LstArticulos.HideSelection = false;
-            this.LstArticulos.Location = new System.Drawing.Point(98, 7);
+            this.LstArticulos.Location = new System.Drawing.Point(98, 87);
             this.LstArticulos.Name = "LstArticulos";
-            this.LstArticulos.Size = new System.Drawing.Size(663, 386);
+            this.LstArticulos.Size = new System.Drawing.Size(663, 306);
             this.LstArticulos.TabIndex = 3;
             this.LstArticulos.UseCompatibleStateImageBehavior = false;
             this.LstArticulos.View = System.Windows.Forms.View.Details;
@@ -275,9 +290,9 @@
             // 
             this.LstDefault.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.LstDefault.HideSelection = false;
-            this.LstDefault.Location = new System.Drawing.Point(98, 7);
+            this.LstDefault.Location = new System.Drawing.Point(98, 87);
             this.LstDefault.Name = "LstDefault";
-            this.LstDefault.Size = new System.Drawing.Size(663, 386);
+            this.LstDefault.Size = new System.Drawing.Size(663, 306);
             this.LstDefault.TabIndex = 1;
             this.LstDefault.UseCompatibleStateImageBehavior = false;
             // 
@@ -416,6 +431,139 @@
             this.BtnAgregarArticulo.UseVisualStyleBackColor = true;
             this.BtnAgregarArticulo.Click += new System.EventHandler(this.BtnAgregarArticulo_Click);
             // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.ChkUsarFechas);
+            this.groupBox2.Controls.Add(this.BtnLimpiar);
+            this.groupBox2.Controls.Add(this.BtnBuscar);
+            this.groupBox2.Controls.Add(this.label4);
+            this.groupBox2.Controls.Add(this.label5);
+            this.groupBox2.Controls.Add(this.label3);
+            this.groupBox2.Controls.Add(this.label2);
+            this.groupBox2.Controls.Add(this.label1);
+            this.groupBox2.Controls.Add(this.CbBuscarMarcaArticulo);
+            this.groupBox2.Controls.Add(this.TxtBuscarCodArticulo);
+            this.groupBox2.Controls.Add(this.DtBuscarFechaInicio);
+            this.groupBox2.Controls.Add(this.DtBuscarFechaFin);
+            this.groupBox2.Location = new System.Drawing.Point(98, 7);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(663, 74);
+            this.groupBox2.TabIndex = 4;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Buscar Articulo";
+            // 
+            // DtBuscarFechaFin
+            // 
+            this.DtBuscarFechaFin.Enabled = false;
+            this.DtBuscarFechaFin.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.DtBuscarFechaFin.Location = new System.Drawing.Point(414, 38);
+            this.DtBuscarFechaFin.Name = "DtBuscarFechaFin";
+            this.DtBuscarFechaFin.Size = new System.Drawing.Size(82, 20);
+            this.DtBuscarFechaFin.TabIndex = 1;
+            // 
+            // DtBuscarFechaInicio
+            // 
+            this.DtBuscarFechaInicio.Enabled = false;
+            this.DtBuscarFechaInicio.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.DtBuscarFechaInicio.Location = new System.Drawing.Point(316, 39);
+            this.DtBuscarFechaInicio.Name = "DtBuscarFechaInicio";
+            this.DtBuscarFechaInicio.Size = new System.Drawing.Size(82, 20);
+            this.DtBuscarFechaInicio.TabIndex = 1;
+            // 
+            // TxtBuscarCodArticulo
+            // 
+            this.TxtBuscarCodArticulo.Location = new System.Drawing.Point(9, 38);
+            this.TxtBuscarCodArticulo.Name = "TxtBuscarCodArticulo";
+            this.TxtBuscarCodArticulo.Size = new System.Drawing.Size(100, 20);
+            this.TxtBuscarCodArticulo.TabIndex = 2;
+            this.TxtBuscarCodArticulo.TextChanged += new System.EventHandler(this.TxtBuscarCodArticulo_TextChanged);
+            // 
+            // CbBuscarMarcaArticulo
+            // 
+            this.CbBuscarMarcaArticulo.FormattingEnabled = true;
+            this.CbBuscarMarcaArticulo.Location = new System.Drawing.Point(143, 38);
+            this.CbBuscarMarcaArticulo.Name = "CbBuscarMarcaArticulo";
+            this.CbBuscarMarcaArticulo.Size = new System.Drawing.Size(121, 21);
+            this.CbBuscarMarcaArticulo.TabIndex = 3;
+            this.CbBuscarMarcaArticulo.SelectedIndexChanged += new System.EventHandler(this.CbBuscarMarcaArticulo_SelectedIndexChanged);
+            this.CbBuscarMarcaArticulo.TextUpdate += new System.EventHandler(this.CbBuscarMarcaArticulo_TextUpdate);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 22);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(80, 13);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "Código articulo:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(140, 22);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(40, 13);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "Marca:";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(313, 23);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(41, 13);
+            this.label3.TabIndex = 4;
+            this.label3.Text = "Desde:";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(411, 22);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(38, 13);
+            this.label4.TabIndex = 4;
+            this.label4.Text = "Hasta:";
+            // 
+            // BtnBuscar
+            // 
+            this.BtnBuscar.Location = new System.Drawing.Point(555, 15);
+            this.BtnBuscar.Name = "BtnBuscar";
+            this.BtnBuscar.Size = new System.Drawing.Size(75, 23);
+            this.BtnBuscar.TabIndex = 5;
+            this.BtnBuscar.Text = "Buscar";
+            this.BtnBuscar.UseVisualStyleBackColor = true;
+            this.BtnBuscar.Click += new System.EventHandler(this.BtnBuscar_Click);
+            // 
+            // BtnLimpiar
+            // 
+            this.BtnLimpiar.Enabled = false;
+            this.BtnLimpiar.Location = new System.Drawing.Point(555, 44);
+            this.BtnLimpiar.Name = "BtnLimpiar";
+            this.BtnLimpiar.Size = new System.Drawing.Size(75, 23);
+            this.BtnLimpiar.TabIndex = 5;
+            this.BtnLimpiar.Text = "Limpiar";
+            this.BtnLimpiar.UseVisualStyleBackColor = true;
+            this.BtnLimpiar.Click += new System.EventHandler(this.BtnLimpiar_Click);
+            // 
+            // ChkUsarFechas
+            // 
+            this.ChkUsarFechas.AutoSize = true;
+            this.ChkUsarFechas.Location = new System.Drawing.Point(502, 41);
+            this.ChkUsarFechas.Name = "ChkUsarFechas";
+            this.ChkUsarFechas.Size = new System.Drawing.Size(15, 14);
+            this.ChkUsarFechas.TabIndex = 6;
+            this.ChkUsarFechas.UseVisualStyleBackColor = true;
+            this.ChkUsarFechas.CheckedChanged += new System.EventHandler(this.ChkUsarFechas_CheckedChanged);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(401, 42);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(10, 13);
+            this.label5.TabIndex = 4;
+            this.label5.Text = "-";
+            // 
             // VistaInventario
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -435,6 +583,8 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NuAccionInventario)).EndInit();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -482,5 +632,18 @@
         private System.Windows.Forms.ColumnHeader ImagenArticulo;
         private System.Windows.Forms.ColumnHeader ComprobanteArticulo;
         private System.Windows.Forms.ListView LstDefault;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.DateTimePicker DtBuscarFechaInicio;
+        private System.Windows.Forms.DateTimePicker DtBuscarFechaFin;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox CbBuscarMarcaArticulo;
+        private System.Windows.Forms.TextBox TxtBuscarCodArticulo;
+        private System.Windows.Forms.Button BtnLimpiar;
+        private System.Windows.Forms.Button BtnBuscar;
+        private System.Windows.Forms.CheckBox ChkUsarFechas;
+        private System.Windows.Forms.Label label5;
     }
 }

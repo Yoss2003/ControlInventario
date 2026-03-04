@@ -7,6 +7,7 @@ namespace ControlInventario.Modelos
     {
         // Identificación básica
         public int Id { get; set; } // Identificador articulo
+        public int InventarioId { get; set; } // Identificador inventario
         public string Codigo { get; set; } // Codigo del articulo
         public string Modelo { get; set; } // Modelo del articulo
         public string Serie { get; set; } // Serie del articulo

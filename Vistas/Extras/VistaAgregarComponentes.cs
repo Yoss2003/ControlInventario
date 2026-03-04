@@ -216,7 +216,32 @@ namespace ControlInventario.Vistas.Extras
                 MessageBox.Show("El campo nombre no puede quedar vacío", "Información");
                 return;
             }
+
             string nombreIngresado = TxtNombreComponente.Text.Trim();
+            int idActual = isEdit ? Convert.ToInt32(DgComponentes.CurrentRow.Cells["IdComponente"].Value) : 0;
+            string nombreTablaBD = "";
+
+            // VERIFICAR DUPLICIDAD
+            if (tipoComponente == "Cargo") nombreTablaBD = "Cargos";
+            else if (tipoComponente == "Area") nombreTablaBD = "Areas";
+            else if (tipoComponente == "Categoria") nombreTablaBD = "Categorias";
+            else if (tipoComponente == "EstadoEmpleados") nombreTablaBD = "EstadoEmpleados";
+            else if (tipoComponente == "EstadoArticulos") nombreTablaBD = "EstadoArticulos";
+            else if (tipoComponente == "Ubicacion") nombreTablaBD = "Ubicaciones";
+            else if (tipoComponente == "Categoria") nombreTablaBD = "Categorias";
+            else if (tipoComponente == "Marca") nombreTablaBD = "Marcas";
+
+            if (!string.IsNullOrEmpty(nombreTablaBD))
+            {
+                if (ClassHelper.ExisteComponenteDuplicado(nombreTablaBD, nombreIngresado, idActual))
+                {
+                    MessageBox.Show($"El {tipoComponente} '{nombreIngresado}' ya está registrado.",
+                                    "Duplicado detectado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+            }
+            
+            // MODO EDICIÓN
             if (isEdit == true)
             {
                 if (tipoComponente == "Cargo")
@@ -285,22 +310,15 @@ namespace ControlInventario.Vistas.Extras
                     {
                         Id = Convert.ToInt32(DgComponentes.CurrentRow.Cells["IdComponente"].Value),
                         InventarioId = UsuarioSesion.InventarioId,
-                        Nombre = nombreIngresado,
+                        Nombre = TxtNombreComponente.Text,
                         Descripcion = TxtDescripcionComponente.Text,
                         FechaCreacion = DateTime.Now.ToString("dd/MM/yyyy"),
                         UsuarioCreacion = UsuarioSesion.NombreUsuario
                     };
 
-                    // Validar antes de actualizar
-                    if (CategoriaRepository.ExisteCategoria(cat))
-                    {
-                        MessageBox.Show($"La categoría '{nombreIngresado}' ya está registrada.", "Duplicado detectado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return;
-                    }
-
                     CategoriaRepository.ActualizarCategoria(cat);
                 }
-                else
+                else if (tipoComponente == "Marca")
                 {
                     var marca = new Marcas
                     {
@@ -311,12 +329,14 @@ namespace ControlInventario.Vistas.Extras
                     MarcasRepository.ActualizarMarca(marca);
                 }
             }
+            // MODO INSERCIÓN
             else
             {
                 if (tipoComponente == "Cargo")
                 {
                     var car = new Cargo
                     {
+                        InventarioId = UsuarioSesion.InventarioId,
                         Nombre = TxtNombreComponente.Text,
                         Descripcion = TxtDescripcionComponente.Text
                     };
@@ -326,6 +346,7 @@ namespace ControlInventario.Vistas.Extras
                 {
                     var are = new Area
                     {
+                        InventarioId = UsuarioSesion.InventarioId,
                         Nombre = TxtNombreComponente.Text,
                         Descripcion = TxtDescripcionComponente.Text
                     };
@@ -335,6 +356,7 @@ namespace ControlInventario.Vistas.Extras
                 {
                     var est = new Estado
                     {
+                        InventarioId = UsuarioSesion.InventarioId,
                         Nombre = TxtNombreComponente.Text,
                         Descripcion = TxtDescripcionComponente.Text
                     };
@@ -344,15 +366,17 @@ namespace ControlInventario.Vistas.Extras
                 {
                     var est = new Estado
                     {
+                        InventarioId = UsuarioSesion.InventarioId,
                         Nombre = TxtNombreComponente.Text,
                         Descripcion = TxtDescripcionComponente.Text
                     };
                     EstadoRepository.InsertarEstadoArticulos(est);
                 }
-                else if(tipoComponente == "Condicion")
+                else if (tipoComponente == "Condicion")
                 {
                     var cond = new Condicion
                     {
+                        InventarioId = UsuarioSesion.InventarioId,
                         Nombre = TxtNombreComponente.Text,
                         Descripcion = TxtDescripcionComponente.Text
                     };
@@ -362,6 +386,7 @@ namespace ControlInventario.Vistas.Extras
                 {
                     var ubi = new Ubicacion
                     {
+                        InventarioId = UsuarioSesion.InventarioId,
                         Nombre = TxtNombreComponente.Text,
                         Descripcion = TxtDescripcionComponente.Text
                     };
@@ -371,20 +396,12 @@ namespace ControlInventario.Vistas.Extras
                 {
                     var cat = new Categoria
                     {
-                        Id = 0,
                         InventarioId = UsuarioSesion.InventarioId,
-                        Nombre = nombreIngresado,
+                        Nombre = TxtNombreComponente.Text,
                         Descripcion = TxtDescripcionComponente.Text,
                         FechaCreacion = DateTime.Now.ToString("dd/MM/yyyy"),
                         UsuarioCreacion = UsuarioSesion.NombreUsuario
                     };
-
-                    // Validar antes de guardar
-                    if (CategoriaRepository.ExisteCategoria(cat))
-                    {
-                        MessageBox.Show($"La categoría '{nombreIngresado}' ya está registrada.", "Duplicado detectado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return;
-                    }
 
                     long nuevoId = CategoriaRepository.AgregarCategoría(cat);
 
@@ -395,10 +412,11 @@ namespace ControlInventario.Vistas.Extras
                         helper.AgregarBotonCategoria(cat.Nombre, cat.Id);
                     }
                 }
-                else
+                else if (tipoComponente == "Marca")
                 {
                     var marca = new Marcas
                     {
+                        InventarioId = UsuarioSesion.InventarioId,
                         Nombre = TxtNombreComponente.Text,
                         CategoriasId = CategoriaId,
                         Categoria = tipoComponente

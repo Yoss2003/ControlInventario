@@ -11,6 +11,7 @@ namespace ControlInventario.Database
             string query = @"
             CREATE TABLE IF NOT EXISTS EstadoEmpleados (
                 Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                InventarioId INTEGER,
                 Nombre TEXT NOT NULL,
                 Descripcion TEXT    
             );";
@@ -25,6 +26,7 @@ namespace ControlInventario.Database
             string query = @"
             CREATE TABLE IF NOT EXISTS EstadoArticulos (
                 Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                InventarioId INTEGER,
                 Nombre TEXT NOT NULL,
                 Descripcion TEXT    
             );";
@@ -40,10 +42,11 @@ namespace ControlInventario.Database
             {
                 con.Open();
                 string query = @"
-                INSERT INTO EstadoArticulos (Nombre, Descripcion) 
-                VALUES (@Nombre, @Descripcion);";
+                INSERT INTO EstadoArticulos (InventarioId, Nombre, Descripcion) 
+                VALUES (@InventarioId, @Nombre, @Descripcion);";
                 using (var cmd = new SQLiteCommand(query, con))
                 {
+                    cmd.Parameters.AddWithValue("@InventarioId", est.InventarioId);
                     cmd.Parameters.AddWithValue("@Nombre", est.Nombre);
                     cmd.Parameters.AddWithValue("@Descripcion", est.Descripcion);
                     cmd.ExecuteNonQuery();
@@ -57,10 +60,11 @@ namespace ControlInventario.Database
             {
                 con.Open();
                 string query = @"
-                INSERT INTO EstadoEmpleados (Nombre, Descripcion) 
-                VALUES (@Nombre, @Descripcion);";
+                INSERT INTO EstadoEmpleados (InventarioId, Nombre, Descripcion) 
+                VALUES (@InventarioId, @Nombre, @Descripcion);";
                 using (var cmd = new SQLiteCommand(query, con))
                 {
+                    cmd.Parameters.AddWithValue("@InventarioId", est.InventarioId);
                     cmd.Parameters.AddWithValue("@Nombre", est.Nombre);
                     cmd.Parameters.AddWithValue("@Descripcion", est.Descripcion);
                     cmd.ExecuteNonQuery();

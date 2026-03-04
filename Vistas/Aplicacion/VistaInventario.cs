@@ -1,5 +1,6 @@
 ﻿using ControlInventario.Database;
 using ControlInventario.Modelo;
+using ControlInventario.Modelo.Interface;
 using ControlInventario.Modelos;
 using ControlInventario.Servicios;
 using ControlInventario.Vistas.Extras;
@@ -11,12 +12,13 @@ using System.Windows.Forms;
 
 namespace ControlInventario.Vistas
 {
-    public partial class VistaInventario : Form
+    public partial class VistaInventario : Form, IMarcasRefrescable
     {
         public int categoriaSeleccionadaId;
         public string categoriaSeleccionadaNombre;
         public int articuloID;
         public static bool isEdit = false;
+        public ComboBox CbMarcasPublic => CbBuscarMarcaArticulo;
 
         private ClassHelper helper;
         private int _articuloId;
@@ -37,6 +39,7 @@ namespace ControlInventario.Vistas
 
         private void VistaInventario_Load(object sender, EventArgs e)
         {
+            CbBuscarMarcaArticulo.Text = "SELECCIONE";
             LstArticulos.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
             LblAccionDecription.Text = "EXCEL";
             CargarArticulos();
@@ -64,6 +67,13 @@ namespace ControlInventario.Vistas
 
             this.categoriaSeleccionadaId = idCat;
             this.categoriaSeleccionadaNombre = nombreCat;
+
+            using (var con = ConexionGlobal.ObtenerConexion())
+            {
+                con.Open();
+                var dtMarcas = MarcasRepository.BuscarMarcasPorArticulosPorCategoria(con, this.categoriaSeleccionadaId, UsuarioSesion.InventarioId);
+                RefreshService.RefrescarComboDT(CbMarcasPublic, dtMarcas, "Nombre", "Id", "SELECCIONE");
+            }
 
             RefrescarArticulos();
 
@@ -556,6 +566,149 @@ namespace ControlInventario.Vistas
             string nombreArchivo = $"Invent_{usuarioLimpio}_{categoriaLimpia}_{fecha}.{formato}";
 
             return nombreArchivo;
+        }
+
+        private void BusquedaArticulos(DataTable dt)
+        {
+            LstArticulos.Items.Clear();
+
+            foreach (DataRow row in dt.Rows)
+            {
+                ListViewItem item = new ListViewItem(row["Id"].ToString());
+
+                // Agregamos el resto de las columnas como SubItems (Asegúrate de poner los nombres exactos de tus columnas SQL)
+                item.SubItems.Add(row["Codigo"].ToString());
+                item.SubItems.Add(row["Modelo"].ToString());
+                item.SubItems.Add(row["Serie"].ToString());
+                item.SubItems.Add(row["Marca"].ToString());
+                item.SubItems.Add(row["FechaAdquisicion"].ToString());
+                item.SubItems.Add(row["FechaBaja"].ToString());
+                item.SubItems.Add(row["FechaFinGarantia"].ToString());
+                item.SubItems.Add(row["DniUsuarioActual"].ToString());
+                item.SubItems.Add(row["NombreUsuarioActual"].ToString());
+                item.SubItems.Add(row["AreaUsuarioActual"].ToString());
+                item.SubItems.Add(row["CargoUsuarioActual"].ToString());
+                item.SubItems.Add(row["DniUsuarioAnterior"].ToString());
+                item.SubItems.Add(row["NombreUsuarioAnterior"].ToString());
+                item.SubItems.Add(row["AreaUsuarioAnterior"].ToString());
+                item.SubItems.Add(row["CargoUsuarioAnterior"].ToString());
+                item.SubItems.Add(row["Estado"].ToString());
+                item.SubItems.Add(row["Ubicacion"].ToString());
+                item.SubItems.Add(row["Condicion"].ToString());
+                item.SubItems.Add(row["RucProveedor"].ToString());
+                item.SubItems.Add(row["Proveedor"].ToString());
+                item.SubItems.Add(row["PrecioAdquisicion"].ToString());
+                item.SubItems.Add(row["ActivoFijo"].ToString());
+                item.SubItems.Add(row["Observacion"].ToString());
+                item.SubItems.Add(row["RutaFotoPrincipal"].ToString());
+                item.SubItems.Add(row["RutaComprobantePrincipal"].ToString());
+                LstArticulos.Items.Add(item);
+            }
+        }
+
+        private void BtnBuscar_Click(object sender, EventArgs e)
+        {
+            if (this.categoriaSeleccionadaId == 0)
+            {
+                MessageBox.Show("Por favor, seleccione una categoría primero para buscar.",
+                                "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            if(TxtBuscarCodArticulo.Text == "" || CbBuscarMarcaArticulo.SelectedIndex == 0 || ChkUsarFechas.Checked == false)
+            {
+                MessageBox.Show("Por favor, debe ingresar datos en los campos de búqueda.",
+                                "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            string codigo = TxtBuscarCodArticulo.Text.Trim();
+
+            int idMarca = 0;
+            if (CbBuscarMarcaArticulo.SelectedValue != null && int.TryParse(CbBuscarMarcaArticulo.SelectedValue.ToString(), out int marcaParsed))
+            {
+                idMarca = marcaParsed;
+            }
+
+            DateTime? fechaInicio = null;
+            DateTime? fechaFin = null;
+
+            if (ChkUsarFechas.Checked)
+            {
+                DtBuscarFechaInicio.Enabled = true;
+                DtBuscarFechaFin.Enabled = true;
+
+                fechaInicio = DtBuscarFechaInicio.Value.Date;
+                fechaFin = DtBuscarFechaFin.Value.Date;
+
+                // Validación de lógica de fechas
+                if (fechaInicio > fechaFin)
+                {
+                    MessageBox.Show("La fecha de inicio no puede ser mayor que la fecha de fin.",
+                                    "Rango inválido", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+            }
+            else
+            {
+                DtBuscarFechaInicio.Enabled = false;
+                DtBuscarFechaFin.Enabled = false;
+            }
+
+            // 5. Llamamos a tu repositorio con todos los datos recolectados
+            var resultados = ArticuloRepository.BuscarArticulosPorCategoria(UsuarioSesion.InventarioId, this.categoriaSeleccionadaId,codigo,idMarca,fechaInicio,fechaFin);
+
+            // 6. Actualizar tu LstArticulos (ListView) con los resultados
+            BusquedaArticulos(resultados);
+
+            // 7. Feedback visual si no hay resultados
+            if (resultados.Rows.Count == 0)
+            {
+                MessageBox.Show("No se encontraron artículos que coincidan con los filtros de búsqueda.",
+                                "Sin resultados", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void ValidarBtnLimpiar()
+        {
+            bool tieneTexto = !string.IsNullOrWhiteSpace(TxtBuscarCodArticulo.Text);
+
+            bool tieneMarca = CbBuscarMarcaArticulo.SelectedIndex > 0;
+
+            bool tieneFecha = ChkUsarFechas.Checked;
+
+            BtnLimpiar.Enabled = (tieneTexto || tieneMarca || tieneFecha);
+        }
+
+        private void BtnLimpiar_Click(object sender, EventArgs e)
+        {
+            TxtBuscarCodArticulo.Text = "";
+            CbBuscarMarcaArticulo.SelectedIndex = 0;
+            DtBuscarFechaInicio.Value = DateTime.Now;
+            DtBuscarFechaFin.Value = DateTime.Now;
+
+            TxtBuscarCodArticulo.Focus();
+            CargarArticulos();
+        }
+
+        private void TxtBuscarCodArticulo_TextChanged(object sender, EventArgs e)
+        {
+            ValidarBtnLimpiar();
+        }
+
+        private void CbBuscarMarcaArticulo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ValidarBtnLimpiar();
+        }
+
+        private void ChkUsarFechas_CheckedChanged(object sender, EventArgs e)
+        {
+            ValidarBtnLimpiar();
+        }
+
+        private void CbBuscarMarcaArticulo_TextUpdate(object sender, EventArgs e)
+        {
+            ClassHelper.NormalizarTexro(CbBuscarMarcaArticulo);
         }
     }
 }

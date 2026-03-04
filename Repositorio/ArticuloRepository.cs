@@ -17,6 +17,7 @@ namespace ControlInventario.Database
             string query = @"
             CREATE TABLE IF NOT EXISTS Articulos (
                 Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                InventarioId INTEGER NOT NULL,
                 Codigo TEXT NOT NULL,
                 Modelo TEXT NOT NULL,
                 Serie TEXT NOT NULL,
@@ -91,6 +92,7 @@ namespace ControlInventario.Database
         {
             string query = @"
             INSERT INTO Articulos(
+                InventarioId,
                 Codigo,
                 Modelo,
                 Serie,
@@ -139,6 +141,7 @@ namespace ControlInventario.Database
                 FechaRegistro,
                 Accion
             ) VALUES (
+                @InventarioId,
                 @Codigo,
                 @Modelo,
                 @Serie,
@@ -193,6 +196,7 @@ namespace ControlInventario.Database
 
                 art.CategoriaId = ObtenerCategoriaId(art.Categoria, UsuarioSesion.InventarioId, con);
 
+                cmd.Parameters.AddWithValue("@InventarioId", art.InventarioId);
                 cmd.Parameters.AddWithValue("@Codigo", art.Codigo);
                 cmd.Parameters.AddWithValue("@Modelo", art.Modelo);
                 cmd.Parameters.AddWithValue("@Serie", art.Serie);
@@ -441,7 +445,7 @@ namespace ControlInventario.Database
             {
                 con.Open();
                 string query = @"
-                    SELECT art.Id, art.Codigo, art.Modelo, art.CategoriaId, cat.Nombre AS Categoria, art.Estado, art.FechaRegistro
+                    SELECT art.*
                     FROM Articulos art
                     INNER JOIN Categorias cat ON art.CategoriaId = cat.Id
                     WHERE (@Categoria IS NULL OR cat.Nombre = @Categoria)
@@ -474,6 +478,45 @@ namespace ControlInventario.Database
                     }
                 }
             }
+        }
+
+        public static DataTable BuscarArticulosPorCategoria(int inventarioId, int categoriaId, string codigo, int idMarca, DateTime? fechaInicio, DateTime? fechaFin)
+        {
+            var dt = new DataTable();
+            using (var con = ConexionGlobal.ObtenerConexion())
+            {
+                con.Open();
+
+                // 1. La base siempre filtra por el Inventario y la Categoría seleccionada
+                string query = @"
+                SELECT * FROM Articulos 
+                WHERE InventarioId = @InventarioId 
+                  AND CategoriaId = @CategoriaId
+                  AND (@Codigo IS NULL OR Codigo LIKE @CodigoBusqueda)
+                  AND (@IdMarca = 0 OR IdMarca = @IdMarca)
+                  AND (@FechaInicio IS NULL OR FechaAdquisicion >= @FechaInicio)
+                  AND (@FechaFin IS NULL OR FechaAdquisicion <= @FechaFin);";
+
+                using (var cmd = new SQLiteCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@InventarioId", inventarioId);
+                    cmd.Parameters.AddWithValue("@CategoriaId", categoriaId);
+
+                    cmd.Parameters.AddWithValue("@Codigo", string.IsNullOrWhiteSpace(codigo) ? (object)DBNull.Value : codigo);
+                    cmd.Parameters.AddWithValue("@CodigoBusqueda", $"%{codigo}%");
+
+                    cmd.Parameters.AddWithValue("@IdMarca", idMarca);
+
+                    cmd.Parameters.AddWithValue("@FechaInicio", fechaInicio.HasValue ? fechaInicio.Value.ToString("yyyy-MM-dd") : (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@FechaFin", fechaFin.HasValue ? fechaFin.Value.ToString("yyyy-MM-dd") : (object)DBNull.Value);
+
+                    using (var adapter = new SQLiteDataAdapter(cmd))
+                    {
+                        adapter.Fill(dt);
+                    }
+                }
+            }
+            return dt;
         }
 
         private static Articulos MapearArticulos(SQLiteDataReader reader)

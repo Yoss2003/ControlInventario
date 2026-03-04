@@ -1,9 +1,12 @@
 ﻿
 using ControlInventario.Database;
+using ControlInventario.Modelo;
 using ControlInventario.Modelos;
+using ControlInventario.Repositorio;
 using ControlInventario.Vistas;
 using System;
 using System.Collections.Generic;
+using System.Data.SQLite;
 using System.Windows.Forms;
 
 namespace ControlInventario.Servicios
@@ -126,6 +129,72 @@ namespace ControlInventario.Servicios
             if (string.IsNullOrWhiteSpace(combo.Text) || combo.Text != "SELECCIONE")
             {
                 combo.Text = "SELECCIONE";
+            }
+        }
+
+        // Método genérico que sirve para CUALQUIER tabla
+        public static bool ExisteComponenteDuplicado(string nombreTabla, string nombreIngresado, int idActual = 0)
+        {
+            using (var con = ConexionGlobal.ObtenerConexion())
+            {
+                con.Open();
+
+                string query = $@"
+                SELECT COUNT(*) 
+                FROM {nombreTabla} 
+                WHERE TRIM(Nombre) = TRIM(@Nombre) COLLATE NOCASE 
+                AND Id != @Id;";
+
+                using (var cmd = new SQLiteCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@Nombre", nombreIngresado);
+                    cmd.Parameters.AddWithValue("@Id", idActual);
+
+                    long cantidad = (long)cmd.ExecuteScalar();
+                    return cantidad > 0;
+                }
+            }
+        }
+
+        public static bool ValidarComboObsoleto(ComboBox combo, string valorFila, string nombreCampo)
+        {
+            if (string.IsNullOrWhiteSpace(valorFila))
+            {
+                combo.SelectedIndex = 0;
+                return true;
+            }
+
+            int indice = combo.FindStringExact(valorFila);
+
+            if (indice != -1)
+            {
+                combo.SelectedIndex = indice;
+                return true;
+            }
+            else
+            {
+                combo.SelectedIndex = 0;
+                MessageBox.Show($"El valor '{valorFila}' de {nombreCampo} ya no existe.\nSe restablecerá.",
+                                "Dato Obsoleto", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+        }
+
+        public static void LimpiarCampoObsoletoBD(string tablaDestino, string columnaId, string columnaNombre, int idRegistro)
+        {
+            using (var con = ConexionGlobal.ObtenerConexion())
+            {
+                con.Open();
+                string query = $@"UPDATE {tablaDestino} SET
+                        {columnaId} = 0, 
+                        {columnaNombre} = 'SELECCIONE' 
+                        WHERE Id = @Id;";
+
+                using (var cmd = new SQLiteCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@Id", idRegistro);
+                    cmd.ExecuteNonQuery();
+                }
             }
         }
 

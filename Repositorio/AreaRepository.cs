@@ -10,11 +10,12 @@ namespace ControlInventario.Database
         public static void CrearTablaAreas(SQLiteConnection con)
         {
             string sql = @"
-                CREATE TABLE IF NOT EXISTS Areas (
-                    Id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    Nombre TEXT NOT NULL,
-                    Descripcion TEXT
-                );";
+            CREATE TABLE IF NOT EXISTS Areas (
+                Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                InventarioId INTEGER,
+                Nombre TEXT NOT NULL,
+                Descripcion TEXT
+            );";
             using (var cmd = new SQLiteCommand(sql, con))
             {
                 cmd.ExecuteNonQuery();
@@ -27,10 +28,11 @@ namespace ControlInventario.Database
             {
                 con.Open();
                 string sql = @"
-                INSERT INTO Areas (Nombre, Descripcion) 
-                VALUES (@Nombre, @Descripcion);";
+                INSERT INTO Areas (InventarioId, Nombre, Descripcion) 
+                VALUES (@InventarioId, @Nombre, @Descripcion);";
                 using (var cmd = new SQLiteCommand(sql, con))
                 {
+                    cmd.Parameters.AddWithValue("@InventarioId", ar.InventarioId);
                     cmd.Parameters.AddWithValue("@Nombre", ar.Nombre);
                     cmd.Parameters.AddWithValue("@Descripcion", ar.Descripcion);
                     cmd.ExecuteNonQuery();

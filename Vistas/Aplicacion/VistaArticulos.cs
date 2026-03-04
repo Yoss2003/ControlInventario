@@ -281,6 +281,7 @@ namespace ControlInventario.Vistas
                             con.Open();
                             Articulos art = new Articulos
                             {
+                                InventarioId = UsuarioSesion.InventarioId,
                                 Codigo = TxtCodigo.Text,
                                 Modelo = TxtModelo.Text,
                                 Serie = TxtSerie.Text,

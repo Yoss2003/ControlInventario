@@ -1,7 +1,10 @@
 ﻿using ControlInventario.Database;
+using ControlInventario.Modelo;
 using ControlInventario.Modelo.Interface;
 using ControlInventario.Modelos;
+using ControlInventario.Repositorio;
 using ControlInventario.Servicios;
+using SixLabors.Fonts;
 using System;
 using System.Data;
 using System.Windows.Forms;
@@ -14,6 +17,9 @@ namespace ControlInventario.Vistas.Extras
         private readonly object _vistaPrincipal;
         private readonly string tipoComponente;
         private bool isEdit = false;
+        private string direccionTemporal = "";
+        private string estadoTemporalTexto = "";
+        private int estadoTemporalId = 1;
 
         public VistaAgregarComponentes(string componente, object vistaPadre)
         {
@@ -61,17 +67,31 @@ namespace ControlInventario.Vistas.Extras
                 else if (tipoComponente == "Categoria")
                     lista = CategoriaRepository.ListarCategorias(UsuarioSesion.InventarioId);
 
+                else if (tipoComponente == "Proveedor")
+                    lista = ProveedorRepository.ListarProveedor(con);
+
                 // Asignar la lista al DataGridView
                 DgComponentes.DataSource = lista;
 
+                if (tipoComponente == "Proveedor")
+                {
+                    DgComponentes.Columns[1].HeaderText = "Ruc";
+                    DgComponentes.Columns["NombreComponente"].DataPropertyName = "Ruc";
+                    DgComponentes.Columns[2].HeaderText = "RazonSocial";
+                    DgComponentes.Columns["DescripcionComponente"].DataPropertyName = "RazonSocial";
+                }
+                else
+                {
+                    DgComponentes.Columns["IdComponente"].DataPropertyName = "Id";
+                    DgComponentes.Columns["NombreComponente"].DataPropertyName = "Nombre";
+                    DgComponentes.Columns["DescripcionComponente"].DataPropertyName = "Descripcion";
+                }
+                
                 // Mapear propiedades a columnas creadas manualmente
-                DgComponentes.Columns["IdComponente"].DataPropertyName = "Id";
-                DgComponentes.Columns["NombreComponente"].DataPropertyName = "Nombre";
-                DgComponentes.Columns["DescripcionComponente"].DataPropertyName = "Descripcion";
-
+                DgComponentes.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                DgComponentes.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                 DgComponentes.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
                 DgComponentes.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-                DgComponentes.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             }
             LimpiarCampos();
         }
@@ -97,10 +117,13 @@ namespace ControlInventario.Vistas.Extras
                 Text = text;
             else if (tipoComponente == "Marca")
                 Text = text;
+            else if (tipoComponente == "Proveedor")
+                Text = text;
         }
 
         private void VistaAgregarComponentes_Load(object sender, EventArgs e)
         {
+            BtnConsultarRUC.Visible = false;
             DgComponentes.AutoGenerateColumns = false;
             LblFecha.Text = DateTime.Now.ToString("dd/MM/yyyy");
             if (tipoComponente == "Cargo")
@@ -206,10 +229,23 @@ namespace ControlInventario.Vistas.Extras
                     DgComponentes.DataSource = dt;
                 }
             }
-            CargarDatos();
+            else if (tipoComponente == "Proveedor")
+            {
+                BtnConsultarRUC.Visible = true;
+                Text = $"Agregar {tipoComponente}";
+                LblNuevoComponente.Text = $"Nombre del {tipoComponente} nuevo:";
+                using (var con = ConexionGlobal.ObtenerConexion())
+                {
+                    con.Open();
+                    ProveedorRepository.ListarProveedor(con);
+                    DataTable dt = new DataTable();
+                    DgComponentes.DataSource = dt;
+                }
+            }
+                CargarDatos();
         }
 
-        private void BtnGuardar_Click(object sender, EventArgs e)
+        private async void BtnGuardar_Click(object sender, EventArgs e)
         {
             if (TxtNombreComponente == null)
             {
@@ -220,6 +256,7 @@ namespace ControlInventario.Vistas.Extras
             string nombreIngresado = TxtNombreComponente.Text.Trim();
             int idActual = isEdit ? Convert.ToInt32(DgComponentes.CurrentRow.Cells["IdComponente"].Value) : 0;
             string nombreTablaBD = "";
+            string nombreColumnaBD = "Nombre";
 
             // VERIFICAR DUPLICIDAD
             if (tipoComponente == "Cargo") nombreTablaBD = "Cargos";
@@ -228,16 +265,39 @@ namespace ControlInventario.Vistas.Extras
             else if (tipoComponente == "EstadoEmpleados") nombreTablaBD = "EstadoEmpleados";
             else if (tipoComponente == "EstadoArticulos") nombreTablaBD = "EstadoArticulos";
             else if (tipoComponente == "Ubicacion") nombreTablaBD = "Ubicaciones";
-            else if (tipoComponente == "Categoria") nombreTablaBD = "Categorias";
             else if (tipoComponente == "Marca") nombreTablaBD = "Marcas";
+            else if (tipoComponente == "Proveedor")
+            {
+                nombreTablaBD = "Proveedores";
+                nombreColumnaBD = "RazonSocial";
+            }
 
             if (!string.IsNullOrEmpty(nombreTablaBD))
             {
-                if (ClassHelper.ExisteComponenteDuplicado(nombreTablaBD, nombreIngresado, idActual))
+                if (ClassHelper.ExisteComponenteDuplicado(nombreTablaBD, nombreIngresado, idActual, nombreColumnaBD))
                 {
                     MessageBox.Show($"El {tipoComponente} '{nombreIngresado}' ya está registrado.",
-                                    "Duplicado detectado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        "Duplicado detectado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
+                }
+
+                if (tipoComponente == "Proveedor")
+                {
+                    string rucIngresado = TxtNombreComponente.Text.Trim();
+                    string razonIngresada = TxtDescripcionComponente.Text.Trim();
+
+                    if (ClassHelper.ExisteComponenteDuplicado(nombreTablaBD, rucIngresado, idActual, "RUC"))
+                    {
+                        MessageBox.Show($"El RUC '{rucIngresado}' ya está registrado en otro proveedor.",
+                            "RUC Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    if (ClassHelper.ExisteComponenteDuplicado("Proveedores", razonIngresada, 0, "RazonSocial"))
+                    {
+                        MessageBox.Show($"La empresa '{razonIngresada}' ya se encuentra registrada.", "Razón Social Duplicada", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
                 }
             }
             
@@ -327,6 +387,15 @@ namespace ControlInventario.Vistas.Extras
                         Categoria = tipoComponente
                     };
                     MarcasRepository.ActualizarMarca(marca);
+                }
+                else if (tipoComponente == "Proveedor")
+                {
+                    var prov = new Proveedor
+                    {
+                        Ruc = TxtNombreComponente.Text,
+                        RazonSocial = TxtNombreComponente.Text
+                    };
+                    ProveedorRepository.ActualizarProveedor(prov);
                 }
             }
             // MODO INSERCIÓN
@@ -423,6 +492,44 @@ namespace ControlInventario.Vistas.Extras
                     };
                     MarcasRepository.InsertarMarca(marca);
                 }
+                else if (tipoComponente == "Proveedor")
+                {
+                    string rucIngresado = TxtNombreComponente.Text.Trim();
+
+                    if (rucIngresado.Length != 11)
+                    {
+                        MessageBox.Show("Por favor ingrese un RUC válido de 11 dígitos.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    var empresa = await ApiHelper.ConsultarRucAsync(rucIngresado);
+
+                    if (empresa != null)
+                    {
+                        TxtDescripcionComponente.Text = empresa.nombre;
+
+                        int idEstado = ApiHelper.MapearEstadoSunat(empresa.estado);
+
+                        var prov = new Proveedor
+                        {
+                            InventarioId = UsuarioSesion.InventarioId,
+                            Ruc = empresa.numeroDocumento,
+                            RazonSocial = empresa.nombre,
+                            NombreContacto = "",
+                            Telefono = "",
+                            Correo = "",
+                            Direccion = $"{empresa.direccion} - {empresa.distrito}, {empresa.provincia}",
+                            IdEstado = idEstado,
+                            Estado = empresa.estado
+                        };
+
+                        ProveedorRepository.InsertarProveedor(prov);
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se encontró información del RUC en SUNAT.", "Sin resultados", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
             }
             isEdit = false;
             CargarDatos();
@@ -450,6 +557,8 @@ namespace ControlInventario.Vistas.Extras
                 else if (tipoComponente == "Condicion")
                     Text = text;
                 else if (tipoComponente == "Ubicacion")
+                    Text = text;
+                else if (tipoComponente == "Proveedor")
                     Text = text;
             }
         }
@@ -504,6 +613,11 @@ namespace ControlInventario.Vistas.Extras
                 { 
                     var dtMarca = MarcasRepository.ListarMarcas(con, CategoriaId); 
                     RefreshService.RefrescarComboDT(marcasVista.CbMarcasPublic, dtMarca, "Nombre", "Id", "SELECCIONE"); 
+                }
+                else if (tipoComponente == "Proveedor" && _vistaPrincipal is IProveedoreRefrescable proveedorVista)
+                {
+                    var dtProveedor = ProveedorRepository.ListarProveedor(con);
+                    RefreshService.RefrescarComboDT(proveedorVista.CbProveedorPublic, dtProveedor, "Nombre", "Id", "SELECCIONE");
                 }
 
                 if (_vistaPrincipal is VistaInventario inventarioVista)
@@ -567,13 +681,21 @@ namespace ControlInventario.Vistas.Extras
                     };
                     UbicacionRepository.EliminarUbicacion(ubi);
                 }
-                else
+                else if (tipoComponente == "Marca")
                 {
                     var mar = new Marcas
                     {
                         Id = Convert.ToInt32(DgComponentes.CurrentRow.Cells["IdComponente"].Value)
                     };
                     MarcasRepository.EliminarMarca(mar);
+                }
+                else if (tipoComponente == "Proveedor")
+                {
+                    var prov = new Proveedor
+                    {
+                        Id = Convert.ToInt32(DgComponentes.CurrentRow.Cells["IdComponente"].Value)
+                    };
+                    ProveedorRepository.EliminarProveedor(prov);
                 }
             }
             else
@@ -596,6 +718,21 @@ namespace ControlInventario.Vistas.Extras
             else
             {
                 BtnEliminar.Enabled = false;
+            }
+        }
+
+        private async void BtnConsultarRUC_Click(object sender, EventArgs e)
+        {
+            string ruc = TxtNombreComponente.Text.Trim();
+            var empresa = await ApiHelper.ConsultarRucAsync(ruc);
+
+            if (empresa != null)
+            {
+                TxtDescripcionComponente.Text = empresa.nombre;
+
+                direccionTemporal = $"{empresa.direccion} - {empresa.distrito}, {empresa.provincia}";
+                estadoTemporalTexto = empresa.estado;
+                estadoTemporalId = ApiHelper.MapearEstadoSunat(empresa.estado);
             }
         }
     }

@@ -83,10 +83,8 @@ namespace ControlInventario.Servicios
             listView.Items.Clear();
             foreach (var art in articulos)
             {
-                // Columna principal: Id
                 var item = new ListViewItem(art.Id.ToString());
 
-                // SubItems en el mismo orden que usas al editar
                 item.SubItems.Add(art.Codigo ?? "");
                 item.SubItems.Add(art.Modelo ?? "");
                 item.SubItems.Add(art.Serie ?? "");
@@ -107,7 +105,7 @@ namespace ControlInventario.Servicios
                 item.SubItems.Add(art.Condicion ?? "");
                 item.SubItems.Add(art.RucProveedor ?? "");
                 item.SubItems.Add(art.Proveedor ?? "");
-                item.SubItems.Add(art.PrecioAdquisicion?.ToString() ?? "");
+                item.SubItems.Add(art.PrecioAdquisicion?.ToString("C2") ?? "");
                 item.SubItems.Add(art.ActivoFijo ?? "");
                 item.SubItems.Add(art.Observacion ?? "");
                 item.SubItems.Add(art.FotoPrincipal ?? "");
@@ -124,7 +122,7 @@ namespace ControlInventario.Servicios
                 : combo.Text;
         }
 
-        public static void NormalizarTexro(ComboBox combo)
+        public static void NormalizarTexto(ComboBox combo)
         {
             if (string.IsNullOrWhiteSpace(combo.Text) || combo.Text != "SELECCIONE")
             {
@@ -133,21 +131,23 @@ namespace ControlInventario.Servicios
         }
 
         // Método genérico que sirve para CUALQUIER tabla
-        public static bool ExisteComponenteDuplicado(string nombreTabla, string nombreIngresado, int idActual = 0)
+        public static bool ExisteComponenteDuplicado(string nombreTabla, string valorIngresado, int idActual = 0, string nombreColumna = "Nombre")
         {
             using (var con = ConexionGlobal.ObtenerConexion())
             {
                 con.Open();
 
+                // Ahora inyectamos {nombreColumna} en lugar de escribirlo a mano
                 string query = $@"
                 SELECT COUNT(*) 
                 FROM {nombreTabla} 
-                WHERE TRIM(Nombre) = TRIM(@Nombre) COLLATE NOCASE 
+                WHERE TRIM({nombreColumna}) = TRIM(@ValorIngresado) COLLATE NOCASE 
                 AND Id != @Id;";
 
                 using (var cmd = new SQLiteCommand(query, con))
                 {
-                    cmd.Parameters.AddWithValue("@Nombre", nombreIngresado);
+                    // Cambié @Nombre por @ValorIngresado para que tenga más sentido lógico
+                    cmd.Parameters.AddWithValue("@ValorIngresado", valorIngresado);
                     cmd.Parameters.AddWithValue("@Id", idActual);
 
                     long cantidad = (long)cmd.ExecuteScalar();
@@ -198,5 +198,6 @@ namespace ControlInventario.Servicios
             }
         }
 
+        
     }
 }

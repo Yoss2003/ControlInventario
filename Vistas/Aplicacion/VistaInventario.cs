@@ -1,7 +1,6 @@
 ﻿using ControlInventario.Database;
 using ControlInventario.Modelo;
 using ControlInventario.Modelo.Interface;
-using ControlInventario.Modelos;
 using ControlInventario.Servicios;
 using ControlInventario.Vistas.Extras;
 using System;
@@ -39,7 +38,9 @@ namespace ControlInventario.Vistas
 
         private void VistaInventario_Load(object sender, EventArgs e)
         {
-            CbBuscarMarcaArticulo.Text = "SELECCIONE";
+            TxtBuscarCodArticulo.Enabled = false;
+            CbBuscarMarcaArticulo.Enabled = false;
+            ChkUsarFechas.Enabled = false;
             LstArticulos.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
             LblAccionDecription.Text = "EXCEL";
             CargarArticulos();
@@ -82,6 +83,11 @@ namespace ControlInventario.Vistas
 
             botonActivar.Enabled = false;
             botonSeleccionado = botonActivar;
+
+            TxtBuscarCodArticulo.Enabled = true;
+            CbBuscarMarcaArticulo.Enabled = true;
+            ChkUsarFechas.Enabled = true;
+
             LstArticulos.Focus();
         }
 
@@ -686,6 +692,7 @@ namespace ControlInventario.Vistas
             CbBuscarMarcaArticulo.SelectedIndex = 0;
             DtBuscarFechaInicio.Value = DateTime.Now;
             DtBuscarFechaFin.Value = DateTime.Now;
+            ChkUsarFechas.Checked = false;
 
             TxtBuscarCodArticulo.Focus();
             CargarArticulos();
@@ -703,12 +710,23 @@ namespace ControlInventario.Vistas
 
         private void ChkUsarFechas_CheckedChanged(object sender, EventArgs e)
         {
+            if (ChkUsarFechas.Checked)
+            {
+                DtBuscarFechaInicio.Enabled = true;
+                DtBuscarFechaFin.Enabled = true;
+            }
+            else
+            {
+                DtBuscarFechaInicio.Enabled = false;
+                DtBuscarFechaFin.Enabled = false;
+            }
+
             ValidarBtnLimpiar();
         }
 
         private void CbBuscarMarcaArticulo_TextUpdate(object sender, EventArgs e)
         {
-            ClassHelper.NormalizarTexro(CbBuscarMarcaArticulo);
+            ClassHelper.NormalizarTexto(CbBuscarMarcaArticulo);
         }
     }
 }

@@ -57,6 +57,9 @@ namespace ControlInventario.Servicios
             // Crear tabla Usuarios
             UsuarioRepository.CrearTablaUsuario(con);
 
+            // Crear tabla Proveedores
+            ProveedorRepository.CrearTablaProveedor(con);
+
             // Agregar más tablas según sea necesario
             Console.WriteLine("Tablas creadas exitosamente.");
         }

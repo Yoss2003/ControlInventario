@@ -198,7 +198,7 @@ namespace ControlInventario.Repositorio
                     }
                 }
             }
-            return null; // Si no existe
+            return null;
         }
 
     }

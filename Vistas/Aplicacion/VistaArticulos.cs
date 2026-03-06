@@ -25,14 +25,14 @@ namespace ControlInventario.Vistas
         public ComboBox CbEstadoArticulosPublic => CbEstadoArticulo;
         public ComboBox CbCondicionPublic => CbCondicion;
         public ComboBox CbUbicacionPublic => CbUbicacion;
-        public PdfViewer PdfViewerControl => pdfViewer; 
+        public PdfViewer PdfViewerControl => pdfViewer;
         public EdicionArticulo DatosEdicion { get; set; }
-
-
+        private bool generarCodigoAutomatico = false;
+        private string nombreCategoriaActual = "";
 
         public VistaArticulos(int categoriaId, string categoria, int articuloId)
         {
-            InitializeComponent(); 
+            InitializeComponent();
             _categoriaId = categoriaId;
             _categoria = categoria;
             _articuloId = articuloId;
@@ -43,6 +43,7 @@ namespace ControlInventario.Vistas
             pdfViewer.ShowBookmarks = true;
 
             PanelComprobante.Controls.Add(pdfViewer);
+            nombreCategoriaActual = categoria;
         }
 
         private bool ValidarCampos()
@@ -53,7 +54,7 @@ namespace ControlInventario.Vistas
                 ErrorArticulos.SetError(TxtCodigo, "El campo código no puede quedar vacío.");
                 valido = false;
             }
-            
+
             if (string.IsNullOrWhiteSpace(TxtModelo.Text))
             {
                 ErrorArticulos.SetError(TxtModelo, "El campo modelo no puede quedar vacío.");
@@ -82,7 +83,7 @@ namespace ControlInventario.Vistas
                     ErrorArticulos.SetError(DtpFechaFinGarantia, "La fecha del fin de garantía no puede ser menor a la fecha de adquisición.");
                 }
             }
-            
+
             if (string.IsNullOrWhiteSpace(TxtDniUsuarioActual.Text))
             {
                 ErrorArticulos.SetError(TxtDniUsuarioActual, "El campo DNI no puede quedar vacío.");
@@ -145,10 +146,10 @@ namespace ControlInventario.Vistas
                     lbl.TextAlign = ContentAlignment.MiddleLeft;
                     lbl.Margin = new Padding(5, 3, 10, 0);
 
-                    int panelWidth = FlCaracteristicas.ClientSize.Width; 
+                    int panelWidth = FlCaracteristicas.ClientSize.Width;
                     int marginSum = (lbl.Margin.Left + lbl.Margin.Right) + (ctrl.Margin.Left + ctrl.Margin.Right);
 
-                    int lblPreferred = lbl.AutoSize ? lbl.PreferredSize.Width : lbl.Width; 
+                    int lblPreferred = lbl.AutoSize ? lbl.PreferredSize.Width : lbl.Width;
                     int ctrlPreferred = ctrl.AutoSize ? ctrl.PreferredSize.Width : ctrl.Width;
 
                     int totalNecesario = lblPreferred + ctrlPreferred + marginSum;
@@ -158,7 +159,7 @@ namespace ControlInventario.Vistas
                         int minimoControl = Math.Min(ctrlPreferred, 80);
                         int nuevoLblWidth = Math.Max(40, panelWidth - minimoControl - marginSum);
 
-                        if(nuevoLblWidth < lblPreferred)
+                        if (nuevoLblWidth < lblPreferred)
                         {
                             lbl.AutoSize = false;
                             lbl.Width = nuevoLblWidth;
@@ -270,8 +271,48 @@ namespace ControlInventario.Vistas
         {
             if (ValidarCampos())
             {
+                string codigoFinal = TxtCodigo.Text.Trim();
                 string carpetaComprobantes = ConexionGlobal.ObtenerCarpetaComprobantes();
                 string carpetaImagenes = ConexionGlobal.ObtenerCarpetaImagenes();
+
+                string codigoActivoFijo = TxtActivoFijo.Text.Trim();
+                string precioTexto = TxtPrecio.Text.Trim().Replace(".", ",");
+                decimal? precioFinal = null;
+
+                if (!string.IsNullOrEmpty(codigoActivoFijo))
+                {
+                    if (ClassHelper.ExisteComponenteDuplicado("Articulos", codigoActivoFijo, _articuloId, "ActivoFijo"))
+                    {
+                        MessageBox.Show($"El código de Activo Fijo '{codigoActivoFijo}' ya está asignado a otro artículo en el sistema.",
+                                        "Código Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        TxtActivoFijo.Focus();
+                        return;
+                    }
+                }
+
+                if (decimal.TryParse(precioTexto, out decimal resultadoDecimal))
+                {
+                    precioFinal = resultadoDecimal;
+                }
+
+                if (generarCodigoAutomatico)
+                {
+                    string prefijo = nombreCategoriaActual.Length >= 3 ?
+                                     nombreCategoriaActual.Substring(0, 3).ToUpper() :
+                                     nombreCategoriaActual.ToUpper();
+
+                    codigoFinal = ArticuloRepository.GenerarCodigoArticulo(prefijo, UsuarioSesion.InventarioId);
+                }
+                else
+                {
+                    if (string.IsNullOrEmpty(codigoFinal) || codigoFinal == "[Automático]")
+                    {
+                        MessageBox.Show("Por favor ingrese el Código del Artículo.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        TxtCodigo.Focus();
+                        return;
+                    }
+                }
+
                 if (VistaInventario.isEdit == false)
                 {
                     try
@@ -282,7 +323,7 @@ namespace ControlInventario.Vistas
                             Articulos art = new Articulos
                             {
                                 InventarioId = UsuarioSesion.InventarioId,
-                                Codigo = TxtCodigo.Text,
+                                Codigo = codigoFinal,
                                 Modelo = TxtModelo.Text,
                                 Serie = TxtSerie.Text,
                                 IdMarca = Convert.ToInt32(CbMarcas.SelectedValue),
@@ -311,12 +352,12 @@ namespace ControlInventario.Vistas
                                 Ubicacion = ClassHelper.NormalizarCombo(CbUbicacion),
                                 IdCondicion = Convert.ToInt32(CbCondicion.SelectedValue),
                                 Condicion = ClassHelper.NormalizarCombo(CbCondicion),
-                                ActivoFijo = string.IsNullOrWhiteSpace(TxtActivoFijo.Text) ? null : TxtActivoFijo.Text,
+                                ActivoFijo = string.IsNullOrEmpty(codigoActivoFijo) ? null : codigoActivoFijo,
                                 Observacion = string.IsNullOrWhiteSpace(TxtObservaciones.Text) ? null : TxtObservaciones.Text,
 
                                 RucProveedor = string.IsNullOrWhiteSpace(TxtRuc.Text) ? null : TxtRuc.Text,
                                 Proveedor = string.IsNullOrWhiteSpace(TxtRazonSocial.Text) ? null : TxtRazonSocial.Text,
-                                PrecioAdquisicion = string.IsNullOrWhiteSpace(TxtPrecio.Text) ? (decimal?)null : Convert.ToDecimal(TxtPrecio.Text),
+                                PrecioAdquisicion = precioFinal,
 
                                 FechaRegistro = DateTime.Now,
 
@@ -325,7 +366,7 @@ namespace ControlInventario.Vistas
                             };
 
                             // guardar Foto
-                            if(!string.IsNullOrWhiteSpace(TxtDireccionImagen.Text)&& File.Exists(TxtDireccionImagen.Text))
+                            if (!string.IsNullOrWhiteSpace(TxtDireccionImagen.Text) && File.Exists(TxtDireccionImagen.Text))
                             {
                                 string nombreImagen = Path.GetFileName(TxtDireccionImagen.Text);
                                 string destinoImagen = Path.Combine(carpetaImagenes, nombreImagen);
@@ -336,7 +377,7 @@ namespace ControlInventario.Vistas
                             }
 
                             // guardar comprobante
-                            if(!string.IsNullOrWhiteSpace(TxtRutaComprobante.Text) && File.Exists(TxtRutaComprobante.Text))
+                            if (!string.IsNullOrWhiteSpace(TxtRutaComprobante.Text) && File.Exists(TxtRutaComprobante.Text))
                             {
                                 string nombreComprobate = Path.GetFileName(TxtRutaComprobante.Text);
                                 string destinoComprobante = Path.Combine(carpetaComprobantes, nombreComprobate);
@@ -346,6 +387,7 @@ namespace ControlInventario.Vistas
                                 art.ComprobanteSecundaria = destinoComprobante;
                             }
 
+                            // verificar fecha garantía y fecha baja
                             if ((ChkFechaGarantia.Checked && DtpFechaFinGarantia.Value < DateTime.Now) || (ChkFechaBaja.Checked && DtpFechaBaja.Value < DateTime.Now))
                             {
                                 var result = MessageBox.Show("La fecha de garantía o fecha de baja es anterior a la fecha actual. ¿Desea continuar?", "Advertencia", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
@@ -380,7 +422,7 @@ namespace ControlInventario.Vistas
                             Articulos art = new Articulos
                             {
                                 Id = _articuloId,
-                                Codigo = TxtCodigo.Text,
+                                Codigo = codigoFinal,
                                 Modelo = TxtModelo.Text,
                                 Serie = TxtSerie.Text,
                                 IdMarca = Convert.ToInt32(CbMarcas.SelectedValue),
@@ -409,18 +451,18 @@ namespace ControlInventario.Vistas
                                 Ubicacion = ClassHelper.NormalizarCombo(CbUbicacion),
                                 IdCondicion = Convert.ToInt32(CbCondicion.SelectedValue),
                                 Condicion = ClassHelper.NormalizarCombo(CbCondicion),
-                                ActivoFijo = string.IsNullOrWhiteSpace(TxtActivoFijo.Text) ? null : TxtActivoFijo.Text,
+                                ActivoFijo = string.IsNullOrEmpty(codigoActivoFijo) ? null : codigoActivoFijo,
                                 Observacion = string.IsNullOrWhiteSpace(TxtObservaciones.Text) ? null : TxtObservaciones.Text,
 
                                 RucProveedor = string.IsNullOrWhiteSpace(TxtRuc.Text) ? null : TxtRuc.Text,
                                 Proveedor = string.IsNullOrWhiteSpace(TxtRazonSocial.Text) ? null : TxtRazonSocial.Text,
-                                PrecioAdquisicion = string.IsNullOrWhiteSpace(TxtPrecio.Text) ? (decimal?)null : Convert.ToDecimal(TxtPrecio.Text),
+                                PrecioAdquisicion = precioFinal,
 
                                 FechaModificacion = DateTime.Now,
 
                                 CategoriaId = _categoriaId,
                                 Categoria = _categoria
-                            };
+                            };                           
 
                             // guardar comprobante
                             if (!string.IsNullOrWhiteSpace(TxtRutaComprobante.Text) && File.Exists(TxtRutaComprobante.Text))
@@ -444,13 +486,7 @@ namespace ControlInventario.Vistas
                                 art.FotoSecundaria = destinoImagen;
                             }
 
-                            if ((ChkFechaGarantia.Checked && DtpFechaFinGarantia.Value < DateTime.Now) || (ChkFechaBaja.Checked && DtpFechaBaja.Value < DateTime.Now))
-                            {
-                                var result = MessageBox.Show("La fecha de garantía o fecha de baja es anterior a la fecha actual. ¿Desea continuar?", "Advertencia", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                                if (result == DialogResult.No)
-                                    return;
-                            }
-
+                            // verificar fecha garantía y fecha baja
                             if ((ChkFechaGarantia.Checked && DtpFechaFinGarantia.Value < DateTime.Now) || (ChkFechaBaja.Checked && DtpFechaBaja.Value < DateTime.Now))
                             {
                                 var result = MessageBox.Show("La fecha de garantía o fecha de baja es anterior a la fecha actual. ¿Desea continuar?", "Advertencia", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
@@ -488,6 +524,15 @@ namespace ControlInventario.Vistas
             {
                 string carpetaComprobantes = ConexionGlobal.ObtenerCarpetaComprobantes();
                 string carpetaImagenes = ConexionGlobal.ObtenerCarpetaImagenes();
+
+                string precioTexto = TxtPrecio.Text.Trim().Replace(".", ",");
+                decimal? precioFinal = null;
+
+                if (decimal.TryParse(precioTexto, out decimal resultadoDecimal))
+                {
+                    precioFinal = resultadoDecimal;
+                }
+
                 try
                 {
                     using (var con = ConexionGlobal.ObtenerConexion())
@@ -527,7 +572,7 @@ namespace ControlInventario.Vistas
 
                             RucProveedor = string.IsNullOrWhiteSpace(TxtRuc.Text) ? null : TxtRuc.Text,
                             Proveedor = string.IsNullOrWhiteSpace(TxtRazonSocial.Text) ? null : TxtRazonSocial.Text,
-                            PrecioAdquisicion = string.IsNullOrWhiteSpace(TxtPrecio.Text) ? (decimal?)null : Convert.ToDecimal(TxtPrecio.Text),
+                            PrecioAdquisicion = precioFinal,
 
                             CategoriaId = _categoriaId,
                             Categoria = _categoria
@@ -544,6 +589,7 @@ namespace ControlInventario.Vistas
                             art.ComprobanteSecundaria = destinoComprobante;
                         }
 
+                        // verificar fecha garantía y fecha baja
                         if ((ChkFechaGarantia.Checked && DtpFechaFinGarantia.Value < DateTime.Now) || (ChkFechaBaja.Checked && DtpFechaBaja.Value < DateTime.Now))
                         {
                             var result = MessageBox.Show("La fecha de garantía o fecha de baja es anterior a la fecha actual. ¿Desea continuar?", "Advertencia", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
@@ -551,6 +597,7 @@ namespace ControlInventario.Vistas
                                 return;
                         }
 
+                        // verificar fecha baja
                         if ((ChkFechaGarantia.Checked && DtpFechaFinGarantia.Value < DateTime.Now) || (ChkFechaBaja.Checked && DtpFechaBaja.Value < DateTime.Now))
                         {
                             var result = MessageBox.Show("La fecha de garantía o fecha de baja es anterior a la fecha actual. ¿Desea continuar?", "Advertencia", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
@@ -575,14 +622,14 @@ namespace ControlInventario.Vistas
 
                 VistaInventario vista = new VistaInventario();
                 vista.RefrescarArticulos();
-            }            
+            }
         }
 
         private void BtnAgregarComprobante_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog ofd = new OpenFileDialog())
             {
-                ofd.Filter = "Archivos PDF (*.pdf)|*.pdf"; 
+                ofd.Filter = "Archivos PDF (*.pdf)|*.pdf";
                 ofd.Title = "Seleccionar comprobante de compra";
                 if (ofd.ShowDialog() == DialogResult.OK)
                 {
@@ -608,7 +655,7 @@ namespace ControlInventario.Vistas
         {
             using (OpenFileDialog ofd = new OpenFileDialog())
             {
-                ofd.Filter = "Archivos de imagen (*.jpg;*.jpeg;*.png;*.bmp)|*.jpg;*.jpeg;*.png;*.bmp"; 
+                ofd.Filter = "Archivos de imagen (*.jpg;*.jpeg;*.png;*.bmp)|*.jpg;*.jpeg;*.png;*.bmp";
                 ofd.Title = "Seleccionar foto";
                 if (ofd.ShowDialog() == DialogResult.OK)
                 {
@@ -630,11 +677,33 @@ namespace ControlInventario.Vistas
 
         private void VistaArticulos_Load(object sender, EventArgs e)
         {
+            try
+            {
+                using (var con = ConexionGlobal.ObtenerConexion())
+                {
+                    con.Open();
+                    // Le preguntamos a la base de datos qué configuración tiene este usuario
+                    var perfil = PerfilRepository.ObtenerPerfilUsuario(UsuarioSesion.NombreUsuario, con);
+
+                    if (perfil != null)
+                    {
+                        ChkAuto.Checked = perfil.GeneracionCodigos; // true o false
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar configuración: " + ex.Message);
+            }
+
+            this.Click += Fondo_Click; 
+            ConfigurarPerdidaDeFoco(this);
+
             using (var con = ConexionGlobal.ObtenerConexion())
             {
                 con.Open();
 
-                var dtAreaActual = AreaRepository.ListarAreas(con); 
+                var dtAreaActual = AreaRepository.ListarAreas(con);
                 RefreshService.RefrescarComboDT(CbAreaUsuarioActual, dtAreaActual, "Nombre", "Id", "SELECCIONE");
 
                 var dtAreaAnterior = AreaRepository.ListarAreas(con);
@@ -658,7 +727,7 @@ namespace ControlInventario.Vistas
                 var dtMarcas = MarcasRepository.ListarMarcas(con, _categoriaId);
                 RefreshService.RefrescarComboDT(CbMarcas, dtMarcas, "Nombre", "Id", "SELECCIONE");
 
-                if(VistaInventario.isEdit==true)
+                if (VistaInventario.isEdit == true)
                     BtnGuardarPlus.Enabled = false;
                 else
                     BtnGuardarPlus.Enabled = true;
@@ -701,7 +770,7 @@ namespace ControlInventario.Vistas
 
         private void ChkFechaGarantia_CheckedChanged(object sender, EventArgs e)
         {
-            if(ChkFechaGarantia.Checked)
+            if (ChkFechaGarantia.Checked)
                 DtpFechaFinGarantia.Enabled = true;
             else
                 DtpFechaFinGarantia.Enabled = false;
@@ -727,37 +796,38 @@ namespace ControlInventario.Vistas
 
         private void CbEstadoArticulo_TextUpdate(object sender, EventArgs e)
         {
-            ClassHelper.NormalizarTexro(CbEstadoArticulo);
+            ClassHelper.NormalizarTexto(CbEstadoArticulo);
         }
 
         private void CbAreaUsuarioAnterior_TextUpdate(object sender, EventArgs e)
         {
-            ClassHelper.NormalizarTexro(CbAreaUsuarioAnterior);
+            ClassHelper.NormalizarTexto(CbAreaUsuarioAnterior);
         }
 
         private void CbAreaUsuarioActual_TextUpdate(object sender, EventArgs e)
         {
-            ClassHelper.NormalizarTexro(CbAreaUsuarioActual);
+            ClassHelper.NormalizarTexto(CbAreaUsuarioActual);
         }
 
         private void CbCondicion_TextUpdate(object sender, EventArgs e)
         {
-            ClassHelper.NormalizarTexro(CbCondicion);
+            ClassHelper.NormalizarTexto(CbCondicion);
         }
 
         private void CbMarcas_TextUpdate(object sender, EventArgs e)
         {
-            ClassHelper.NormalizarTexro(CbMarcas);
+            ClassHelper.NormalizarTexto(CbMarcas);
         }
 
         private void CbUbicacion_TextUpdate(object sender, EventArgs e)
         {
-            ClassHelper.NormalizarTexro(CbUbicacion);
+            ClassHelper.NormalizarTexto(CbUbicacion);
         }
 
         private void BtnAgregarRUC_Click(object sender, EventArgs e)
         {
-            // En desarrollo
+            VistaAgregarComponentes vistaAgregar = new VistaAgregarComponentes("Proveedor", this);
+            vistaAgregar.ShowDialog();
         }
 
         private void BtnEmpleados_Click(object sender, EventArgs e)
@@ -773,7 +843,7 @@ namespace ControlInventario.Vistas
                 e.SuppressKeyPress = true;
 
                 if (TxtDniUsuarioActual.Text.Trim().Length == 8)
-                {         
+                {
                     var emp = EmpleadoRepository.ObtenerEmpleadoPorDni(TxtDniUsuarioActual.Text);
                     if (emp != null)
                     {
@@ -793,7 +863,7 @@ namespace ControlInventario.Vistas
                         CbCargoUsuarioActual.SelectedValue = emp.IdCargo;
 
                         // Cargar usuario anterior
-                        if(dniTemporal == TxtDniUsuarioActual.Text)
+                        if (dniTemporal == TxtDniUsuarioActual.Text)
                         {
                             dniTemporal = "";
                         }
@@ -820,6 +890,123 @@ namespace ControlInventario.Vistas
         private void TxtDniUsuarioActual_Enter(object sender, EventArgs e)
         {
             dniTemporal = TxtDniUsuarioActual.Text;
+        }
+
+        private void TxtRuc_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true;
+
+                if (TxtRuc.Text.Trim().Length == 11)
+                {
+                    var prov = ProveedorRepository.ObtenerProveedorPorRUC(TxtRuc.Text);
+                    if (prov != null)
+                    {
+                        TxtRazonSocial.Text = prov.RazonSocial;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("No se encontró ninguna razón social con el RUC ingresado. Por favor, verifique el número.",
+                    "Búsqueda de Empleado",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+                }
+            }
+        }
+
+        private void TxtPrecio_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.' && e.KeyChar != ',')
+            {
+                e.Handled = true;
+            }
+
+            TextBox txt = sender as TextBox;
+            if ((e.KeyChar == '.' || e.KeyChar == ',') && (txt.Text.IndexOf('.') > -1 || txt.Text.IndexOf(',') > -1))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void TxtPrecio_Enter(object sender, EventArgs e)
+        {
+            string valorLimpio = TxtPrecio.Text.Replace("S/", "").Replace(",", "").Trim();
+
+            if (decimal.TryParse(valorLimpio, out decimal numero))
+            {
+                TxtPrecio.Text = numero.ToString("0.00");
+            }
+        }
+
+        private void TxtPrecio_Leave(object sender, EventArgs e)
+        {
+            if (decimal.TryParse(TxtPrecio.Text, out decimal numero))
+            {
+                TxtPrecio.Text = numero.ToString("C2");
+            }
+        }
+
+        private void Fondo_Click(object sender, EventArgs e)
+        {
+            this.ActiveControl = null;
+        }
+
+        private void ConfigurarPerdidaDeFoco(Control contenedorPadre)
+        {
+            foreach (Control c in contenedorPadre.Controls)
+            {
+                if (c is GroupBox || c is Panel || c is Label || c is PictureBox)
+                {
+                    c.Click += Fondo_Click;
+
+                    ConfigurarPerdidaDeFoco(c);
+                }
+            }
+        }
+
+        private void ChkAuto_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ChkAuto.Checked)
+            {
+                TxtCodigo.Enabled = false;
+                TxtCodigo.BackColor = Color.LightGray;
+                ActualizarCodigo();
+            }
+            else
+            {
+                TxtCodigo.Enabled = true;
+                TxtCodigo.BackColor = Color.White;
+                TxtCodigo.Clear();
+                TxtCodigo.Focus();
+            }
+        }
+
+        private void ActualizarCodigo()
+        {
+            // Solo hacemos esto si el CheckBox "Auto" está marcado
+            if (ChkAuto.Checked)
+            {
+                // Validamos por seguridad
+                if (string.IsNullOrWhiteSpace(nombreCategoriaActual))
+                {
+                    TxtCodigo.Text = "[Sin Categoría]";
+                    return;
+                }
+
+                // Extraemos las 3 primeras letras de tu variable global
+                string prefijo = nombreCategoriaActual.Length >= 3 ?
+                                 nombreCategoriaActual.Substring(0, 3).ToUpper() :
+                                 nombreCategoriaActual.ToUpper();
+
+                // Vamos a la BD a buscar el siguiente número libre
+                string siguienteCodigo = ArticuloRepository.GenerarCodigoArticulo(prefijo, UsuarioSesion.InventarioId);
+
+                // Lo mostramos en pantalla
+                TxtCodigo.Text = siguienteCodigo;
+            }
         }
     }
 }

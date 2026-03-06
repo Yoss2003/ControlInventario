@@ -595,5 +595,43 @@ namespace ControlInventario.Database
             return null;
         }
 
+        public static string GenerarCodigoArticulo(string prefijoCategoria, int inventarioId)
+        {
+            string prefijoCompleto = $"{prefijoCategoria}-";
+            int siguienteNumero = 1;
+
+            using (var con = ConexionGlobal.ObtenerConexion())
+            {
+                con.Open();
+                string query = @"
+                    SELECT MAX(Codigo) 
+                    FROM Articulos 
+                    WHERE InventarioId = @InventarioId 
+                    AND Codigo LIKE @PrefijoBusqueda;";
+
+                using (var cmd = new SQLiteCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@InventarioId", inventarioId);
+                    cmd.Parameters.AddWithValue("@PrefijoBusqueda", prefijoCompleto + "%");
+
+                    object resultado = cmd.ExecuteScalar();
+
+                    if (resultado != DBNull.Value && resultado != null)
+                    {
+                        string codigoMaximo = resultado.ToString();
+
+                        string soloNumeroStr = codigoMaximo.Replace(prefijoCompleto, "");
+
+                        if (int.TryParse(soloNumeroStr, out int numeroActual))
+                        {
+                            siguienteNumero = numeroActual + 1; // Ahora es 46
+                        }
+                    }
+                }
+            }
+
+            return $"{prefijoCompleto}{siguienteNumero.ToString("D4")}";
+        }
+
     }
 }

@@ -110,6 +110,7 @@
             this.BtnGuardar = new System.Windows.Forms.Button();
             this.BtnEmpleados = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.ChkAuto = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.GpUsos.SuspendLayout();
@@ -143,6 +144,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.ChkAuto);
             this.groupBox1.Controls.Add(this.ChkFechaGarantia);
             this.groupBox1.Controls.Add(this.ChkFechaBaja);
             this.groupBox1.Controls.Add(this.BtnAgregarMarca);
@@ -621,6 +623,7 @@
             this.TxtRuc.Name = "TxtRuc";
             this.TxtRuc.Size = new System.Drawing.Size(104, 20);
             this.TxtRuc.TabIndex = 21;
+            this.TxtRuc.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtRuc_KeyDown);
             // 
             // LblRuc
             // 
@@ -693,6 +696,9 @@
             this.TxtPrecio.Name = "TxtPrecio";
             this.TxtPrecio.Size = new System.Drawing.Size(95, 20);
             this.TxtPrecio.TabIndex = 23;
+            this.TxtPrecio.Enter += new System.EventHandler(this.TxtPrecio_Enter);
+            this.TxtPrecio.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtPrecio_KeyPress);
+            this.TxtPrecio.Leave += new System.EventHandler(this.TxtPrecio_Leave);
             // 
             // LblRazonSocial
             // 
@@ -934,6 +940,16 @@
             this.BtnEmpleados.UseVisualStyleBackColor = true;
             this.BtnEmpleados.Click += new System.EventHandler(this.BtnEmpleados_Click);
             // 
+            // ChkAuto
+            // 
+            this.ChkAuto.AutoSize = true;
+            this.ChkAuto.Location = new System.Drawing.Point(95, 29);
+            this.ChkAuto.Name = "ChkAuto";
+            this.ChkAuto.Size = new System.Drawing.Size(15, 14);
+            this.ChkAuto.TabIndex = 10;
+            this.ChkAuto.UseVisualStyleBackColor = true;
+            this.ChkAuto.CheckedChanged += new System.EventHandler(this.ChkAuto_CheckedChanged);
+            // 
             // VistaArticulos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1056,5 +1072,6 @@
         public System.Windows.Forms.Button BtnAgregarRUC;
         public System.Windows.Forms.Label LblPrecio;
         public System.Windows.Forms.TabControl TabMultipedia;
+        private System.Windows.Forms.CheckBox ChkAuto;
     }
 }

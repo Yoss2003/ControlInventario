@@ -91,44 +91,14 @@ namespace ControlInventario.Database
 
         public RutasExportar ObtenerRutas(int usuarioId)
         {
+            RutasExportar rutasEncontradas = null;
             using (var con = ConexionGlobal.ObtenerConexion())
             {
                 con.Open();
-
-                // Validar existencia de la tabla
-                string checkTableQuery = @"SELECT name 
-                                   FROM sqlite_master 
-                                   WHERE type='table' AND name='RutasExportar'";
-
-                using (var checkCmd = new SQLiteCommand(checkTableQuery, con))
-                {
-                    var tableExists = checkCmd.ExecuteScalar();
-                    if (tableExists == null)
-                    {
-                        string queryRutas = @"
-                        CREATE TABLE IF NOT EXISTS RutasExportar (
-                            Id INTEGER PRIMARY KEY AUTOINCREMENT,
-                            UsuarioId INT NOT NULL,
-                            RutaPredeterminada1 NVARCHAR(500),
-                            RutaPersonalizada1 NVARCHAR(500),
-                            RutaPredeterminada2 NVARCHAR(500),
-                            RutaPersonalizada2 NVARCHAR(500),
-                            TipoArchivo1 VARCHAR(20),
-                            TipoArchivo2 VARCHAR(20),
-                            EsPredeterminado1 BOOLEAN,
-                            EsPredeterminado2 BOOLEAN,
-                            UNIQUE (UsuarioId)
-                        );";
-
-                        using (var rut = new SQLiteCommand(queryRutas, con))
-                            rut.ExecuteNonQuery();
-                    }
-                }
-
-                // Ahora sí ejecutar el SELECT
+                
                 string query = @"SELECT rutaPredeterminada1, rutaPersonalizada1, TipoArchivo1, 
-                                rutaPredeterminada2, rutaPersonalizada2, TipoArchivo2, 
-                                EsPredeterminado1, EsPredeterminado2
+                                        rutaPredeterminada2, rutaPersonalizada2, TipoArchivo2, 
+                                        EsPredeterminado1, EsPredeterminado2
                                 FROM RutasExportar 
                                 WHERE usuarioId = @usuarioId";
 
@@ -140,7 +110,7 @@ namespace ControlInventario.Database
                     {
                         if (reader.Read())
                         {
-                            return new RutasExportar
+                            rutasEncontradas = new RutasExportar
                             {
                                 UsuarioId = usuarioId,
 
@@ -156,13 +126,22 @@ namespace ControlInventario.Database
 
                             };
                         }
-                        else
-                        {
-                            return null;
-                        }
                     }
                 }
+                if(rutasEncontradas == null)
+                {
+                    rutasEncontradas = new RutasExportar
+                    {
+                        UsuarioId = usuarioId,
+                        EsPredeterminado1 = false,
+                        TipoArchivo1 = "xlsx",
+                        EsPredeterminado2 = false,
+                        TipoArchivo2 = "csv"
+                    };
+                    GuardarRuta(rutasEncontradas, con);
+                }
             }
+            return rutasEncontradas;
         }
     }
 }

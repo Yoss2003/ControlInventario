@@ -37,7 +37,6 @@ namespace ControlInventario.Database
                     cmd.Parameters.AddWithValue("@Descripcion", ar.Descripcion);
                     cmd.ExecuteNonQuery();
                 }
-                con.Close();
             }
         }
 
@@ -58,7 +57,6 @@ namespace ControlInventario.Database
                     cmd.Parameters.AddWithValue("@Id", ar.Id);
                     cmd.ExecuteNonQuery();
                 }
-                con.Close();
             }            
         }
 

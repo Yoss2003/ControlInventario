@@ -187,6 +187,8 @@
             this.Controls.Add(this.groupAcciones);
             this.Controls.Add(this.groupInicio);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "VistaMenuPrincipal";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

@@ -274,6 +274,7 @@
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Reportes";
+            this.Load += new System.EventHandler(this.VistaReporte_Load);
             this.tabControl1.ResumeLayout(false);
             this.TabInformación.ResumeLayout(false);
             this.TabGráfica.ResumeLayout(false);

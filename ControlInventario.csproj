@@ -163,7 +163,9 @@
     <Compile Include="Repositorio\CategoriaRepository.cs" />
     <Compile Include="Repositorio\CondicionRepository.cs" />
     <Compile Include="Database\ConexionGlobal.cs" />
+    <Compile Include="Repositorio\ConfiguracionRepository.cs" />
     <Compile Include="Repositorio\EmpleadoRepository.cs" />
+    <Compile Include="Repositorio\LogsRepository.cs" />
     <Compile Include="Repositorio\PerfilRepository.cs" />
     <Compile Include="Repositorio\ProveedorRepository.cs" />
     <Compile Include="Repositorio\UsuarioRepository.cs" />

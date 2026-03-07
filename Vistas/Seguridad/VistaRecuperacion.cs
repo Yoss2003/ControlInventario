@@ -1,5 +1,6 @@
 ﻿using ControlInventario.Database;
 using ControlInventario.Modelos;
+using ControlInventario.Servicios;
 using System;
 using System.Data.SQLite;
 using System.Linq;
@@ -90,6 +91,7 @@ namespace ControlInventario.Vistas
             sesion.Show();
             this.Close();
         }
+
         private void Codigo_TextChanged(object sender, EventArgs e)
         {
             TextBox actual = sender as TextBox;
@@ -129,6 +131,7 @@ namespace ControlInventario.Vistas
                 txt.KeyDown += Codigo_KeyDown;
                 txt.TextAlign = HorizontalAlignment.Center;
             }
+            ClassHelper.AplicarTema(this);
         }
     }
 }

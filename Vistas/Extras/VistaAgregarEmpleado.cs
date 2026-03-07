@@ -170,8 +170,9 @@ namespace ControlInventario.Vistas.Extras
 
                 DgEmpleados.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
 
-                CargarDatos(); 
+                CargarDatos();
             }
+            ClassHelper.AplicarTema(this);
         }
 
         private void BtnBorrar_Click(object sender, EventArgs e)

@@ -44,6 +44,8 @@ namespace ControlInventario.Vistas
             LstArticulos.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
             LblAccionDecription.Text = "EXCEL";
             CargarArticulos();
+
+            ClassHelper.AplicarTema(this);
         }
 
         private void BtnNuevaCategoria_Click(object sender, EventArgs e)

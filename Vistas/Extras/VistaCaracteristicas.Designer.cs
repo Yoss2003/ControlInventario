@@ -482,6 +482,7 @@
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Caracteristicas articulos";
+            this.Load += new System.EventHandler(this.VistaCaracteristicas_Load);
             this.GrpDesktop.ResumeLayout(false);
             this.GrpDesktop.PerformLayout();
             this.GrpCelular.ResumeLayout(false);

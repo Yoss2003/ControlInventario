@@ -6,7 +6,11 @@ using ControlInventario.Repositorio;
 using ControlInventario.Vistas;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SQLite;
+using System.Drawing;
+using System.Globalization;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace ControlInventario.Servicios
@@ -198,6 +202,75 @@ namespace ControlInventario.Servicios
             }
         }
 
-        
+        public static void LlenarDesdeTabla(ComboBox cb, string nombreTabla, string nombreColumnaTexto)
+        {
+            using (var con = ConexionGlobal.ObtenerConexion())
+            {
+                con.Open();
+                string query = $"SELECT Id, {nombreColumnaTexto} FROM {nombreTabla}";
+
+                using (SQLiteDataAdapter da = new SQLiteDataAdapter(query, con))
+                {
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+
+                    cb.DataSource = dt;
+                    cb.DisplayMember = nombreColumnaTexto;
+                    cb.ValueMember = "Id";
+                }
+            }
+        }
+
+        public static void AplicarTema(Control controlPrincipal)
+        {
+            string tema = UsuarioSesion.Configuracion?.Tema ?? "Claro";
+
+            Color colorFondo = tema == "Oscuro" ? Color.FromArgb(45, 45, 48) : SystemColors.Control;
+            Color colorTexto = tema == "Oscuro" ? Color.White : Color.Black;
+            Color colorCajas = tema == "Oscuro" ? Color.FromArgb(30, 30, 30) : Color.White;
+
+            controlPrincipal.BackColor = colorFondo;
+            controlPrincipal.ForeColor = colorTexto;
+
+            foreach (Control hijo in controlPrincipal.Controls)
+            {
+                if (hijo is TextBox || hijo is ComboBox || hijo is ListBox)
+                {
+                    hijo.BackColor = colorCajas;
+                    hijo.ForeColor = colorTexto;
+                }
+                else
+                {
+                    AplicarTema(hijo);
+                }
+            }
+        }
+
+        public static void ActualizarTemaGlobal()
+        {
+            foreach (Form formulario in Application.OpenForms)
+            {
+                AplicarTema(formulario);
+            }
+        }
+
+        public static void AplicarIdiomaGlobal()
+        {
+            string idiomaSeleccionado = UsuarioSesion.Configuracion?.Idioma ?? "Español";
+
+            string codigoCultura = "es-ES";
+
+            if (idiomaSeleccionado.Contains("Inglés") || idiomaSeleccionado.Contains("English"))
+            {
+                codigoCultura = "en-US";
+            }
+            else if (idiomaSeleccionado.Contains("Portugués"))
+            {
+                codigoCultura = "pt-BR";
+            }
+
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo(codigoCultura);
+            Thread.CurrentThread.CurrentCulture = new CultureInfo(codigoCultura);
+        }
     }
 }

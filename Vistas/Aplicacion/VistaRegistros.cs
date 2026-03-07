@@ -84,6 +84,8 @@ namespace ControlInventario.Vistas.Aplicacion
 
                 CargarDatos();
             }
+
+            ClassHelper.AplicarTema(this);
         }
 
         private void BtnNewCargo_Click(object sender, EventArgs e)

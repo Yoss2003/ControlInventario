@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ControlInventario.Servicios;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,6 +16,12 @@ namespace ControlInventario.Vistas
         public VistaReporte()
         {
             InitializeComponent();
+        }
+
+        private void VistaReporte_Load(object sender, EventArgs e)
+        {
+
+            ClassHelper.AplicarTema(this);
         }
     }
 }

@@ -242,7 +242,8 @@ namespace ControlInventario.Vistas.Extras
                     DgComponentes.DataSource = dt;
                 }
             }
-                CargarDatos();
+            CargarDatos();
+            ClassHelper.AplicarTema(this);
         }
 
         private async void BtnGuardar_Click(object sender, EventArgs e)
@@ -312,7 +313,8 @@ namespace ControlInventario.Vistas.Extras
                         Nombre = TxtNombreComponente.Text,
                         Descripcion = TxtDescripcionComponente.Text
                     };
-                    CargoRepository.ActualizarCargo(car);
+                    CargoRepository.ActualizarCargo(car); 
+                    LogsRepository.InsertarLogs($"{tipoComponente}", "Actualizar", $"Se actualizó un {tipoComponente} con el código: {car.Nombre}");
                 }
                 else if (tipoComponente == "Area")
                 {
@@ -323,6 +325,7 @@ namespace ControlInventario.Vistas.Extras
                         Descripcion = TxtDescripcionComponente.Text
                     };
                     AreaRepository.ActualizarArea(are);
+                    LogsRepository.InsertarLogs($"{tipoComponente}", "Actualizar", $"Se actualizó un {tipoComponente} con el código: {are.Nombre}");
                 }
                 else if (tipoComponente == "EstadoEmpleados")
                 {
@@ -333,6 +336,7 @@ namespace ControlInventario.Vistas.Extras
                         Descripcion = TxtDescripcionComponente.Text
                     };
                     EstadoRepository.ActualizarEstadoEmpleados(est);
+                    LogsRepository.InsertarLogs($"{tipoComponente}", "Actualizar", $"Se actualizó un {tipoComponente} con el código: {est.Nombre}");
                 }
                 else if (tipoComponente == "EstadoArticulos")
                 {
@@ -343,6 +347,7 @@ namespace ControlInventario.Vistas.Extras
                         Descripcion = TxtDescripcionComponente.Text
                     };
                     EstadoRepository.ActualizarEstadoArticulos(est);
+                    LogsRepository.InsertarLogs($"{tipoComponente}", "Actualizar", $"Se actualizó un {tipoComponente} con el código: {est.Nombre}");
                 }
                 else if (tipoComponente == "Condicion")
                 {
@@ -353,6 +358,7 @@ namespace ControlInventario.Vistas.Extras
                         Descripcion = TxtDescripcionComponente.Text
                     };
                     CondicionRepository.ActualizarCondicion(cond);
+                    LogsRepository.InsertarLogs($"{tipoComponente}", "Actualizar", $"Se actualizó una {tipoComponente} con el código: {cond.Nombre}");
                 }
                 else if (tipoComponente == "Ubicacion")
                 {
@@ -363,6 +369,7 @@ namespace ControlInventario.Vistas.Extras
                         Descripcion = TxtDescripcionComponente.Text
                     };
                     UbicacionRepository.ActualizarUbicacion(ubi);
+                    LogsRepository.InsertarLogs($"{tipoComponente}", "Actualizar", $"Se actualizó una {tipoComponente} con el código: {ubi.Nombre}");
                 }
                 else if (tipoComponente == "Categoria")
                 {
@@ -377,6 +384,7 @@ namespace ControlInventario.Vistas.Extras
                     };
 
                     CategoriaRepository.ActualizarCategoria(cat);
+                    LogsRepository.InsertarLogs($"{tipoComponente}", "Actualizar", $"Se actualizó una {tipoComponente} con el código: {cat.Nombre}");
                 }
                 else if (tipoComponente == "Marca")
                 {
@@ -387,6 +395,7 @@ namespace ControlInventario.Vistas.Extras
                         Categoria = tipoComponente
                     };
                     MarcasRepository.ActualizarMarca(marca);
+                    LogsRepository.InsertarLogs($"{tipoComponente}", "Actualizar", $"Se actualizó una {tipoComponente} con el código: {marca.Nombre}");
                 }
                 else if (tipoComponente == "Proveedor")
                 {
@@ -396,6 +405,7 @@ namespace ControlInventario.Vistas.Extras
                         RazonSocial = TxtNombreComponente.Text
                     };
                     ProveedorRepository.ActualizarProveedor(prov);
+                    LogsRepository.InsertarLogs($"{tipoComponente}", "Actualizar", $"Se actualizó un {tipoComponente} con el código: {prov.Ruc}");
                 }
             }
             // MODO INSERCIÓN
@@ -410,6 +420,7 @@ namespace ControlInventario.Vistas.Extras
                         Descripcion = TxtDescripcionComponente.Text
                     };
                     CargoRepository.InsertarCargo(car);
+                    LogsRepository.InsertarLogs($"{tipoComponente}", "Crear", $"Se registró un {tipoComponente} con el código: {car.Nombre}");
                 }
                 else if (tipoComponente == "Area")
                 {
@@ -420,6 +431,7 @@ namespace ControlInventario.Vistas.Extras
                         Descripcion = TxtDescripcionComponente.Text
                     };
                     AreaRepository.InsertarArea(are);
+                    LogsRepository.InsertarLogs($"{tipoComponente}", "Crear", $"Se registró un {tipoComponente} con el código: {are.Nombre}");
                 }
                 else if (tipoComponente == "EstadoEmpleados")
                 {
@@ -430,6 +442,7 @@ namespace ControlInventario.Vistas.Extras
                         Descripcion = TxtDescripcionComponente.Text
                     };
                     EstadoRepository.InsertarEstadoEmpleados(est);
+                    LogsRepository.InsertarLogs($"{tipoComponente}", "Crear", $"Se registró un {tipoComponente} con el código: {est.Nombre}");
                 }
                 else if (tipoComponente == "EstadoArticulos")
                 {
@@ -440,6 +453,7 @@ namespace ControlInventario.Vistas.Extras
                         Descripcion = TxtDescripcionComponente.Text
                     };
                     EstadoRepository.InsertarEstadoArticulos(est);
+                    LogsRepository.InsertarLogs($"{tipoComponente}", "Crear", $"Se registró un {tipoComponente} con el código: {est.Nombre}");
                 }
                 else if (tipoComponente == "Condicion")
                 {
@@ -450,6 +464,7 @@ namespace ControlInventario.Vistas.Extras
                         Descripcion = TxtDescripcionComponente.Text
                     };
                     CondicionRepository.InsertarCondicion(cond);
+                    LogsRepository.InsertarLogs($"{tipoComponente}", "Crear", $"Se registró una {tipoComponente} con el código: {cond.Nombre}");
                 }
                 else if (tipoComponente == "Ubicacion")
                 {
@@ -460,6 +475,7 @@ namespace ControlInventario.Vistas.Extras
                         Descripcion = TxtDescripcionComponente.Text
                     };
                     UbicacionRepository.InsertarUbicacion(ubi);
+                    LogsRepository.InsertarLogs($"{tipoComponente}", "Crear", $"Se registró una {tipoComponente} con el código: {ubi.Nombre}");
                 }
                 else if (tipoComponente == "Categoria")
                 {
@@ -473,6 +489,7 @@ namespace ControlInventario.Vistas.Extras
                     };
 
                     long nuevoId = CategoriaRepository.AgregarCategoría(cat);
+                    LogsRepository.InsertarLogs($"{tipoComponente}", "Crear", $"Se registró una {tipoComponente} con el código: {cat.Nombre}");
 
                     if (nuevoId != -1)
                     {
@@ -491,6 +508,7 @@ namespace ControlInventario.Vistas.Extras
                         Categoria = tipoComponente
                     };
                     MarcasRepository.InsertarMarca(marca);
+                    LogsRepository.InsertarLogs($"{tipoComponente}", "Crear", $"Se registró una {tipoComponente} con el código: {marca.Nombre}");
                 }
                 else if (tipoComponente == "Proveedor")
                 {
@@ -524,6 +542,7 @@ namespace ControlInventario.Vistas.Extras
                         };
 
                         ProveedorRepository.InsertarProveedor(prov);
+                        LogsRepository.InsertarLogs($"{tipoComponente}", "Crear", $"Se registró un {tipoComponente} con el código: {empresa.numeroDocumento}");
                     }
                     else
                     {
@@ -642,59 +661,74 @@ namespace ControlInventario.Vistas.Extras
                 {
                     var car = new Cargo
                     {
-                        Id = Convert.ToInt32(DgComponentes.CurrentRow.Cells["IdComponente"].Value)
+                        Id = Convert.ToInt32(DgComponentes.CurrentRow.Cells["IdComponente"].Value),
+                        Nombre = DgComponentes.CurrentRow.Cells["NombreComponente"].Value?.ToString() ?? "Sin Nombre"
                     };
+                    LogsRepository.InsertarLogs($"{tipoComponente}", "Eliminar", $"Se eliminó un {tipoComponente} con el dato: {car.Nombre}");
                     CargoRepository.EliminarCargo(car);
                 }
                 else if (tipoComponente == "Area")
                 {
                     var are = new Area
                     {
-                        Id = Convert.ToInt32(DgComponentes.CurrentRow.Cells["IdComponente"].Value)
+                        Id = Convert.ToInt32(DgComponentes.CurrentRow.Cells["IdComponente"].Value),
+                        Nombre = DgComponentes.CurrentRow.Cells["NombreComponente"].Value?.ToString() ?? "Sin Nombre"
                     };
+                    LogsRepository.InsertarLogs($"{tipoComponente}", "Eliminar", $"Se eliminó un {tipoComponente} con el dato: {are.Nombre}");
                     AreaRepository.EliminarArea(are);
                 }
                 else if (tipoComponente == "Categoria")
                 {
                     var cat = new Categoria
                     {
-                        Id = Convert.ToInt32(DgComponentes.CurrentRow.Cells["IdComponente"].Value)
+                        Id = Convert.ToInt32(DgComponentes.CurrentRow.Cells["IdComponente"].Value),
+                        Nombre = DgComponentes.CurrentRow.Cells["NombreComponente"].Value?.ToString() ?? "Sin Nombre"
                     };
+                    LogsRepository.InsertarLogs($"{tipoComponente}", "Eliminar", $"Se eliminó una {tipoComponente} con el dato: {cat.Nombre}");
                     CategoriaRepository.EliminarCategoria(cat);
 
                     var helper = new ClassHelper((VistaInventario)_vistaPrincipal);
                     helper.EliminarBotonCategoria(cat.Id);
+
                 }
                 else if (tipoComponente == "Condicion")
                 {
                     var cond = new Condicion
                     {
-                        Id = Convert.ToInt32(DgComponentes.CurrentRow.Cells["IdComponente"].Value)
+                        Id = Convert.ToInt32(DgComponentes.CurrentRow.Cells["IdComponente"].Value),
+                        Nombre = DgComponentes.CurrentRow.Cells["NombreComponente"].Value?.ToString() ?? "Sin Nombre"
                     };
+                    LogsRepository.InsertarLogs($"{tipoComponente}", "Eliminar", $"Se eliminó una {tipoComponente} con el dato: {cond.Nombre}");
                     CondicionRepository.EliminarCondicion(cond);
                 }
                 else if (tipoComponente == "Ubicacion")
                 {
                     var ubi = new Ubicacion
                     {
-                        Id = Convert.ToInt32(DgComponentes.CurrentRow.Cells["IdComponente"].Value)
+                        Id = Convert.ToInt32(DgComponentes.CurrentRow.Cells["IdComponente"].Value),
+                        Nombre = DgComponentes.CurrentRow.Cells["NombreComponente"].Value?.ToString() ?? "Sin Nombre"
                     };
+                    LogsRepository.InsertarLogs($"{tipoComponente}", "Eliminar", $"Se eliminó una {tipoComponente} con el dato: {ubi.Nombre}");
                     UbicacionRepository.EliminarUbicacion(ubi);
                 }
                 else if (tipoComponente == "Marca")
                 {
                     var mar = new Marcas
                     {
-                        Id = Convert.ToInt32(DgComponentes.CurrentRow.Cells["IdComponente"].Value)
+                        Id = Convert.ToInt32(DgComponentes.CurrentRow.Cells["IdComponente"].Value),
+                        Nombre = DgComponentes.CurrentRow.Cells["NombreComponente"].Value?.ToString() ?? "Sin Nombre"
                     };
+                    LogsRepository.InsertarLogs($"{tipoComponente}", "Eliminar", $"Se registró una {tipoComponente} con el dato: {mar.Nombre}");
                     MarcasRepository.EliminarMarca(mar);
                 }
                 else if (tipoComponente == "Proveedor")
                 {
                     var prov = new Proveedor
                     {
-                        Id = Convert.ToInt32(DgComponentes.CurrentRow.Cells["IdComponente"].Value)
+                        Id = Convert.ToInt32(DgComponentes.CurrentRow.Cells["IdComponente"].Value),
+                        Ruc = DgComponentes.CurrentRow.Cells["NombreComponente"].Value?.ToString() ?? "Sin Nombre"
                     };
+                    LogsRepository.InsertarLogs($"{tipoComponente}", "Eliminar", $"Se registró un {tipoComponente} con el dato: {prov.Ruc}");
                     ProveedorRepository.EliminarProveedor(prov);
                 }
             }

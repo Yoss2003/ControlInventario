@@ -76,6 +76,7 @@ namespace ControlInventario.Vistas
 
             // Insertar el panel en el GroupBox
             groupInicio.Controls.Add(panelInfo);
+            ClassHelper.AplicarTema(this);
         }
 
         private void btnRegistros_Click(object sender, EventArgs e)

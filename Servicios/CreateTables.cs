@@ -60,6 +60,12 @@ namespace ControlInventario.Servicios
             // Crear tabla Proveedores
             ProveedorRepository.CrearTablaProveedor(con);
 
+            // Crear tabla Logs
+            LogsRepository.CrearTablaLogs(con);
+
+            // Crear tabla configuracion
+            ConfiguracionRepository.CrearTablaConfiguracion(con);
+
             // Agregar más tablas según sea necesario
             Console.WriteLine("Tablas creadas exitosamente.");
         }

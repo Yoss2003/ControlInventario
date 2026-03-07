@@ -288,6 +288,7 @@ namespace ControlInventario.Vistas.Extras
         private void VistaRutaExportacion_Load(object sender, EventArgs e)
         {
             VistaInicioSesion.CentrarElementos(LblRutaArchivo, GpRutas);
+            ClassHelper.AplicarTema(this);
         }
 
         private void BtnBuscarRutaPred_Click(object sender, EventArgs e)

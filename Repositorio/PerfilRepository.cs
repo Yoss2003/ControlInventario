@@ -1,6 +1,8 @@
-﻿using System;
+﻿using ControlInventario.Modelos;
+using System;
 using System.Data.SQLite;
-using ControlInventario.Modelos;
+using System.Drawing;
+using System.Globalization;
 
 namespace ControlInventario.Database
 {
@@ -29,7 +31,6 @@ namespace ControlInventario.Database
                     Autenticacion BOOL,
                     ActividadCompartida BOOL,
                     CodigoBarras BOOL,
-                    CategoriaPersonalizada BOOL,
                     CalcularDevaluacion BOOL,
                     GeneracionCodigos BOOL
                 );";
@@ -60,7 +61,6 @@ namespace ControlInventario.Database
                 Autenticacion,
                 ActividadCompartida,
                 CodigoBarras,
-                CategoriaPersonalizada,
                 CalcularDevaluacion,
                 GeneracionCodigos
             )VALUES(
@@ -82,7 +82,6 @@ namespace ControlInventario.Database
                 @Autenticacion,
                 @ActividadCompartida,
                 @CodigoBarras,
-                @CategoriaPersonalizada,
                 @CalcularDevaluacion,
                 @GeneracionCodigos
             );";
@@ -106,7 +105,6 @@ namespace ControlInventario.Database
                 cmd.Parameters.AddWithValue("@Autenticacion", perf.Autenticacion);
                 cmd.Parameters.AddWithValue("@ActividadCompartida", perf.ActividadCompartida);
                 cmd.Parameters.AddWithValue("@CodigoBarras", perf.CodigoBarras);
-                cmd.Parameters.AddWithValue("@CategoriaPersonalizada", perf.CategoriaPersonalizada);
                 cmd.Parameters.AddWithValue("@CalcularDevaluacion", perf.CalcularDevaluacion);
                 cmd.Parameters.AddWithValue("@GeneracionCodigos", perf.GeneracionCodigos);
 
@@ -135,7 +133,6 @@ namespace ControlInventario.Database
                 Autenticacion = @Autenticacion,
                 ActividadCompartida = @ActividadCompartida,
                 CodigoBarras = @CodigoBarras,
-                CategoriaPersonalizada = @CategoriaPersonalizada,
                 CalcularDevaluacion = @CalcularDevaluacion,
                 GeneracionCodigos = @GeneracionCodigos
             WHERE IdPerfil = @IdPerfil;";
@@ -159,7 +156,6 @@ namespace ControlInventario.Database
                 cmd.Parameters.AddWithValue("@Autenticacion", perf.Autenticacion);
                 cmd.Parameters.AddWithValue("@ActividadCompartida", perf.ActividadCompartida);
                 cmd.Parameters.AddWithValue("@CodigoBarras", perf.CodigoBarras);
-                cmd.Parameters.AddWithValue("@CategoriaPersonalizada", perf.CategoriaPersonalizada);
                 cmd.Parameters.AddWithValue("@CalcularDevaluacion", perf.CalcularDevaluacion);
                 cmd.Parameters.AddWithValue("@GeneracionCodigos", perf.GeneracionCodigos);
                 cmd.Parameters.AddWithValue("@IdPerfil", perf.IdPerfil);
@@ -198,7 +194,6 @@ namespace ControlInventario.Database
                             Autenticacion = Convert.ToBoolean(reader["Autenticacion"]),
                             ActividadCompartida = Convert.ToBoolean(reader["ActividadCompartida"]),
                             CodigoBarras = Convert.ToBoolean(reader["CodigoBarras"]),
-                            CategoriaPersonalizada = Convert.ToBoolean(reader["CategoriaPersonalizada"]),
                             CalcularDevaluacion = Convert.ToBoolean(reader["CalcularDevaluacion"]),
                             GeneracionCodigos = Convert.ToBoolean(reader["GeneracionCodigos"])
                         };
@@ -213,7 +208,6 @@ namespace ControlInventario.Database
             var existente = ObtenerPerfilUsuario(perfil.NombreUsuario, con);
             if (existente != null)
             {
-                // ASIGNAR IdPerfil para que UPDATE afecte la fila correcta
                 perfil.IdPerfil = existente.IdPerfil;
                 ActualizarPerfilUsuario(perfil, con);
             }
@@ -229,6 +223,85 @@ namespace ControlInventario.Database
                 cmd.Parameters.AddWithValue("@IdPerfil", idPerfil);
                 cmd.ExecuteNonQuery();
             }
+        }
+
+        private static (int Id, string Texto) BuscarEnCatalogo(SQLiteConnection con, string nombreTabla, string columnaTexto, string textoBuscar)
+        {
+            string query = $"SELECT Id, {columnaTexto} FROM {nombreTabla} WHERE {columnaTexto} LIKE @texto LIMIT 1";
+
+            using (var cmd = new SQLiteCommand(query, con))
+            {
+                cmd.Parameters.AddWithValue("@texto", "%" + textoBuscar + "%");
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        return (Convert.ToInt32(reader["Id"]), reader[columnaTexto].ToString());
+                    }
+                }
+            }
+
+            string queryFallback = $"SELECT Id, {columnaTexto} FROM {nombreTabla} LIMIT 1";
+            using (var cmdFallback = new SQLiteCommand(queryFallback, con))
+            {
+                using (var readerFallback = cmdFallback.ExecuteReader())
+                {
+                    if (readerFallback.Read())
+                    {
+                        return (Convert.ToInt32(readerFallback["Id"]), readerFallback[columnaTexto].ToString());
+                    }
+                }
+            }
+
+            return (1, textoBuscar);
+        }
+
+        public static Perfiles GenerarPerfilPorDefecto(string nombreUsuario, SQLiteConnection con)
+        {
+
+            string idiomaWindows = CultureInfo.CurrentUICulture.Parent.NativeName;
+            if (!string.IsNullOrEmpty(idiomaWindows))
+                idiomaWindows = char.ToUpper(idiomaWindows[0]) + idiomaWindows.Substring(1);
+
+            string zonaHorariaWindows = TimeZoneInfo.Local.DisplayName;
+            string monedaWindows = RegionInfo.CurrentRegion.ISOCurrencySymbol;
+            string fechaWindows = CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern;
+
+            var dbMoneda = BuscarEnCatalogo(con, "Moneda", "Moneda", monedaWindows);
+            var dbFecha = BuscarEnCatalogo(con, "FormatoFecha", "FormatoFecha", fechaWindows);
+            var dbIdioma = BuscarEnCatalogo(con, "Idioma", "Idioma", idiomaWindows);
+            var dbZona = BuscarEnCatalogo(con, "ZonaHoraria", "ZonaHoraria", zonaHorariaWindows);
+
+            return new Perfiles
+            {
+                NombreUsuario = nombreUsuario,
+
+                IdMoneda = dbMoneda.Id,
+                Moneda = dbMoneda.Texto,
+
+                IdFormatoFecha = dbFecha.Id,
+                FormatoFecha = dbFecha.Texto,
+
+                IdIdioma = dbIdioma.Id,
+                Idioma = dbIdioma.Texto,
+
+                IdZonaHoraria = dbZona.Id,
+                ZonaHoraria = dbZona.Texto,
+
+                IdTema = 1,
+                Tema = "Claro",
+                IdNotificaciones = 1,
+                Notificaciones = "Activadas",
+                IdUnidadMedida = 1,
+                UnidadMedida = "Unidades",
+
+                Autenticacion = false,
+                ActividadCompartida = false,
+                CodigoBarras = false,
+                CategoriaPersonalizada = false,
+                CalcularDevaluacion = false,
+                GeneracionCodigos = false
+            };
         }
     }
 }

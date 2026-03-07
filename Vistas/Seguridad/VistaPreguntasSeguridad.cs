@@ -174,6 +174,7 @@ namespace ControlInventario.Vistas
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
+            ClassHelper.AplicarTema(this);
         }
 
         private void btnGuardar_Click(object sender, EventArgs e)

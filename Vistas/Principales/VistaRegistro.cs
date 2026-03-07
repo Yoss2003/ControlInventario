@@ -200,6 +200,7 @@ namespace ControlInventario.Vistas
             }
 
             checkedListRol.Enabled = false;
+            ClassHelper.AplicarTema(this);
         }
 
         private void btnGuardar_Click(object sender, EventArgs e)

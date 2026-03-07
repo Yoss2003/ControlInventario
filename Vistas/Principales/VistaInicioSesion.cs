@@ -1,10 +1,12 @@
 ﻿using ControlInventario.Database;
 using ControlInventario.Modelos;
+using ControlInventario.Repositorio;
 using ControlInventario.Servicios;
 using ControlInventario.Vistas;
 using System;
 using System.Data.SQLite;
 using System.Drawing;
+using System.Globalization;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
@@ -72,21 +74,25 @@ namespace ControlInventario
             CentrarElementos(lnkDerechos, groupInformation);
 
             // Verificar conexión a la base de datos
-            try
-            {
-                var conexion = ConexionGlobal.ObtenerConexion();
-                conexion.Open();
+            using (var con = ConexionGlobal.ObtenerConexion())
+            {                
+                try
+                {
+                    con.Open();
 
-                lblConexion.Visible = true;
-                lblConexion.Text = "Conexión exitosa";
-                lblConexion.ForeColor = Color.Green;
+                    lblConexion.Visible = true;
+                    lblConexion.Text = "Conexión exitosa";
+                    lblConexion.ForeColor = Color.Green;
+                }
+                catch (Exception ex)
+                {
+                    lblConexion.Visible = true;
+                    lblConexion.Text = "Error de conexión: " + ex.Message;
+                    lblConexion.ForeColor = Color.Red;
+                }
             }
-            catch (Exception ex)
-            {
-                lblConexion.Visible = true;
-                lblConexion.Text = "Error de conexión: " + ex.Message;
-                lblConexion.ForeColor = Color.Red;
-            }
+            ClassHelper.AplicarTema(this);
+            ClassHelper.AplicarIdiomaGlobal();
         }
 
         private void btnIngresar_Click(object sender, EventArgs e)
@@ -141,14 +147,37 @@ namespace ControlInventario
                 lblErrorContraseña.Text = "Contraseña incorrecta."; 
                 lblErrorContraseña.Visible = true; 
                 return;
-            }            
+            }
 
-            Properties.Settings.Default.Save(); // Guardar cambios en la configuración
+            // Guardar cambios en la configuración
+            Properties.Settings.Default.Save();
+            try
+            {
+                UsuarioSesion.UsuarioId = user.Id;
+                UsuarioSesion.NombreUsuario = user.NombreUsuario;
+                UsuarioSesion.Rol = user.Rol;
+                UsuarioSesion.NombrePersonal = $"{user.Nombres}";
 
-            UsuarioSesion.UsuarioId = user.Id; 
-            UsuarioSesion.NombreUsuario = user.NombreUsuario; 
-            UsuarioSesion.Rol = user.Rol;
-            UsuarioSesion.NombrePersonal = $"{user.Nombres}";
+                using (var con = ConexionGlobal.ObtenerConexion())
+                {
+                    con.Open();
+                    var perfil = PerfilRepository.ObtenerPerfilUsuario(UsuarioSesion.NombreUsuario, con);
+
+                    if (perfil != null)
+                    {
+                        UsuarioSesion.Configuracion = perfil;
+                    }
+                    else
+                    {
+                        Perfiles nuevoPerfil = PerfilRepository.GenerarPerfilPorDefecto(UsuarioSesion.NombreUsuario, con);
+                        PerfilRepository.GuardarPerfilUsuario(nuevoPerfil, con);
+                        UsuarioSesion.Configuracion = nuevoPerfil;
+
+                        LogsRepository.InsertarLogs("Perfil", "Crear", $"Se creó un nuevo perfil con el usuario: {nuevoPerfil.NombreUsuario}");
+                    }
+                }
+            }
+            catch { }
 
             var repo = new InventarioRepository();
             var inventario = repo.ObtenerOCrearInventarioPorUsuario(user.NombreUsuario);

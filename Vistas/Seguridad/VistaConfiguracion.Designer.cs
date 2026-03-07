@@ -28,11 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode57 = new System.Windows.Forms.TreeNode("General");
-            System.Windows.Forms.TreeNode treeNode58 = new System.Windows.Forms.TreeNode("Sistema", new System.Windows.Forms.TreeNode[] {
-            treeNode57});
-            System.Windows.Forms.TreeNode treeNode59 = new System.Windows.Forms.TreeNode("Inventario");
-            System.Windows.Forms.TreeNode treeNode60 = new System.Windows.Forms.TreeNode("Seguridad");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("General");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Sistema", new System.Windows.Forms.TreeNode[] {
+            treeNode1});
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Inventario");
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Seguridad");
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.GrpGeneral = new System.Windows.Forms.GroupBox();
@@ -118,10 +118,6 @@
             // CbFormatoFecha
             // 
             this.CbFormatoFecha.FormattingEnabled = true;
-            this.CbFormatoFecha.Items.AddRange(new object[] {
-            "YYYY/MM/DD",
-            "DD/MM/YYYY",
-            "MM/DD/YYYY"});
             this.CbFormatoFecha.Location = new System.Drawing.Point(113, 127);
             this.CbFormatoFecha.Name = "CbFormatoFecha";
             this.CbFormatoFecha.Size = new System.Drawing.Size(152, 21);
@@ -133,11 +129,6 @@
             // 
             this.CbZonaHoraria.Enabled = false;
             this.CbZonaHoraria.FormattingEnabled = true;
-            this.CbZonaHoraria.Items.AddRange(new object[] {
-            "Si",
-            "No",
-            "Prioritarios",
-            "Personalizado"});
             this.CbZonaHoraria.Location = new System.Drawing.Point(113, 235);
             this.CbZonaHoraria.Name = "CbZonaHoraria";
             this.CbZonaHoraria.Size = new System.Drawing.Size(152, 21);
@@ -148,11 +139,6 @@
             // CbNotificaciones
             // 
             this.CbNotificaciones.FormattingEnabled = true;
-            this.CbNotificaciones.Items.AddRange(new object[] {
-            "Si",
-            "No",
-            "Prioritarios",
-            "Personalizado"});
             this.CbNotificaciones.Location = new System.Drawing.Point(113, 91);
             this.CbNotificaciones.Name = "CbNotificaciones";
             this.CbNotificaciones.Size = new System.Drawing.Size(152, 21);
@@ -163,9 +149,6 @@
             // CbMoneda
             // 
             this.CbMoneda.FormattingEnabled = true;
-            this.CbMoneda.Items.AddRange(new object[] {
-            "PEN",
-            "USD"});
             this.CbMoneda.Location = new System.Drawing.Point(113, 163);
             this.CbMoneda.Name = "CbMoneda";
             this.CbMoneda.Size = new System.Drawing.Size(152, 21);
@@ -176,11 +159,6 @@
             // CbUniMedida
             // 
             this.CbUniMedida.FormattingEnabled = true;
-            this.CbUniMedida.Items.AddRange(new object[] {
-            "Unidades",
-            "Cajas",
-            "Litros",
-            "Kilos"});
             this.CbUniMedida.Location = new System.Drawing.Point(113, 199);
             this.CbUniMedida.Name = "CbUniMedida";
             this.CbUniMedida.Size = new System.Drawing.Size(152, 21);
@@ -191,9 +169,6 @@
             // CbIdioma
             // 
             this.CbIdioma.FormattingEnabled = true;
-            this.CbIdioma.Items.AddRange(new object[] {
-            "Español",
-            "Inglés"});
             this.CbIdioma.Location = new System.Drawing.Point(113, 19);
             this.CbIdioma.Name = "CbIdioma";
             this.CbIdioma.Size = new System.Drawing.Size(152, 21);
@@ -204,15 +179,12 @@
             // CbTema
             // 
             this.CbTema.FormattingEnabled = true;
-            this.CbTema.Items.AddRange(new object[] {
-            "Claro",
-            "Osucro",
-            "Negativo"});
             this.CbTema.Location = new System.Drawing.Point(113, 55);
             this.CbTema.Name = "CbTema";
             this.CbTema.Size = new System.Drawing.Size(152, 21);
             this.CbTema.TabIndex = 2;
             this.CbTema.Text = "SELECCIONE";
+            this.CbTema.SelectedIndexChanged += new System.EventHandler(this.CbTema_SelectedIndexChanged);
             this.CbTema.TextChanged += new System.EventHandler(this.CbTema_TextChanged);
             // 
             // label4
@@ -430,18 +402,18 @@
             // 
             this.TreeMenu.Location = new System.Drawing.Point(12, 12);
             this.TreeMenu.Name = "TreeMenu";
-            treeNode57.Name = "General";
-            treeNode57.Text = "General";
-            treeNode58.Name = "Sistema";
-            treeNode58.Text = "Sistema";
-            treeNode59.Name = "Inventario";
-            treeNode59.Text = "Inventario";
-            treeNode60.Name = "Seguridad";
-            treeNode60.Text = "Seguridad";
+            treeNode1.Name = "General";
+            treeNode1.Text = "General";
+            treeNode2.Name = "Sistema";
+            treeNode2.Text = "Sistema";
+            treeNode3.Name = "Inventario";
+            treeNode3.Text = "Inventario";
+            treeNode4.Name = "Seguridad";
+            treeNode4.Text = "Seguridad";
             this.TreeMenu.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode58,
-            treeNode59,
-            treeNode60});
+            treeNode2,
+            treeNode3,
+            treeNode4});
             this.TreeMenu.Size = new System.Drawing.Size(185, 356);
             this.TreeMenu.TabIndex = 17;
             this.TreeMenu.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeMenu_AfterSelect);

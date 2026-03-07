@@ -279,6 +279,7 @@ namespace ControlInventario.Vistas
                 string precioTexto = TxtPrecio.Text.Trim().Replace(".", ",");
                 decimal? precioFinal = null;
 
+                // Verificar ActivoFijo
                 if (!string.IsNullOrEmpty(codigoActivoFijo))
                 {
                     if (ClassHelper.ExisteComponenteDuplicado("Articulos", codigoActivoFijo, _articuloId, "ActivoFijo"))
@@ -290,11 +291,13 @@ namespace ControlInventario.Vistas
                     }
                 }
 
+                // Verificar Precio
                 if (decimal.TryParse(precioTexto, out decimal resultadoDecimal))
                 {
                     precioFinal = resultadoDecimal;
                 }
 
+                // Mapear Codigo automatico
                 if (generarCodigoAutomatico)
                 {
                     string prefijo = nombreCategoriaActual.Length >= 3 ?
@@ -313,6 +316,7 @@ namespace ControlInventario.Vistas
                     }
                 }
 
+                // Actualizar o Guardar articuloa
                 if (VistaInventario.isEdit == false)
                 {
                     try
@@ -396,6 +400,7 @@ namespace ControlInventario.Vistas
                             }
 
                             ArticuloRepository.InsertarArticulo(art, con);
+                            LogsRepository.InsertarLogs("Artículos", "Crear", $"Se registró un nuevo artículo con el código: {art.Codigo}");
 
                             MessageBox.Show("Artículo guardado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -495,6 +500,7 @@ namespace ControlInventario.Vistas
                             }
 
                             ArticuloRepository.ActualizarArticulo(art);
+                            LogsRepository.InsertarLogs("Artículos", "Actualizar", $"Se actualizó un nuevo artículo con el código: {art.Codigo}");
 
                             MessageBox.Show("Artículo actualizado correctamente.", "Éxito",
                                 MessageBoxButtons.OK,
@@ -522,15 +528,49 @@ namespace ControlInventario.Vistas
         {
             if (ValidarCampos())
             {
+                string codigoFinal = TxtCodigo.Text.Trim();
                 string carpetaComprobantes = ConexionGlobal.ObtenerCarpetaComprobantes();
                 string carpetaImagenes = ConexionGlobal.ObtenerCarpetaImagenes();
 
+                string codigoActivoFijo = TxtActivoFijo.Text.Trim();
                 string precioTexto = TxtPrecio.Text.Trim().Replace(".", ",");
                 decimal? precioFinal = null;
 
+                // Verificar ActivoFijo
+                if (!string.IsNullOrEmpty(codigoActivoFijo))
+                {
+                    if (ClassHelper.ExisteComponenteDuplicado("Articulos", codigoActivoFijo, _articuloId, "ActivoFijo"))
+                    {
+                        MessageBox.Show($"El código de Activo Fijo '{codigoActivoFijo}' ya está asignado a otro artículo en el sistema.",
+                                        "Código Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        TxtActivoFijo.Focus();
+                        return;
+                    }
+                }
+
+                // Verificar Precio
                 if (decimal.TryParse(precioTexto, out decimal resultadoDecimal))
                 {
                     precioFinal = resultadoDecimal;
+                }
+
+                // Mapear Codigo automatico
+                if (generarCodigoAutomatico)
+                {
+                    string prefijo = nombreCategoriaActual.Length >= 3 ?
+                                     nombreCategoriaActual.Substring(0, 3).ToUpper() :
+                                     nombreCategoriaActual.ToUpper();
+
+                    codigoFinal = ArticuloRepository.GenerarCodigoArticulo(prefijo, UsuarioSesion.InventarioId);
+                }
+                else
+                {
+                    if (string.IsNullOrEmpty(codigoFinal) || codigoFinal == "[Automático]")
+                    {
+                        MessageBox.Show("Por favor ingrese el Código del Artículo.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        TxtCodigo.Focus();
+                        return;
+                    }
                 }
 
                 try
@@ -606,6 +646,7 @@ namespace ControlInventario.Vistas
                         }
 
                         ArticuloRepository.InsertarArticulo(art, con);
+                        LogsRepository.InsertarLogs("Artículos", "Crear", $"Se registró un nuevo artículo con el código: {art.Codigo}");
 
                         MessageBox.Show("Artículo guardado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -687,7 +728,7 @@ namespace ControlInventario.Vistas
 
                     if (perfil != null)
                     {
-                        ChkAuto.Checked = perfil.GeneracionCodigos; // true o false
+                        ChkAuto.Checked = perfil.GeneracionCodigos;
                     }
                 }
             }
@@ -746,6 +787,7 @@ namespace ControlInventario.Vistas
                     CbCondicion.SelectedIndex = CbCondicion.FindStringExact(DatosEdicion.Condicion);
                 }
             }
+            ClassHelper.AplicarTema(this);
         }
 
         private void BtnAgregarMarca_Click(object sender, EventArgs e)

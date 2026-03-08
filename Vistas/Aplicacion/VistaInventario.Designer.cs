@@ -28,8 +28,22 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VistaInventario));
             this.TbPrincipal = new System.Windows.Forms.TabControl();
             this.TabInventario = new System.Windows.Forms.TabPage();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.ChkUsarFechas = new System.Windows.Forms.CheckBox();
+            this.BtnLimpiar = new System.Windows.Forms.Button();
+            this.BtnBuscar = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.CbBuscarMarcaArticulo = new System.Windows.Forms.ComboBox();
+            this.TxtBuscarCodArticulo = new System.Windows.Forms.TextBox();
+            this.DtBuscarFechaInicio = new System.Windows.Forms.DateTimePicker();
+            this.DtBuscarFechaFin = new System.Windows.Forms.DateTimePicker();
             this.LstArticulos = new System.Windows.Forms.ListView();
             this.Id = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.CodigoArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -69,25 +83,12 @@
             this.BtnEliminarArticulo = new System.Windows.Forms.Button();
             this.BtnEditarArticulo = new System.Windows.Forms.Button();
             this.BtnAgregarArticulo = new System.Windows.Forms.Button();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.DtBuscarFechaFin = new System.Windows.Forms.DateTimePicker();
-            this.DtBuscarFechaInicio = new System.Windows.Forms.DateTimePicker();
-            this.TxtBuscarCodArticulo = new System.Windows.Forms.TextBox();
-            this.CbBuscarMarcaArticulo = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.BtnBuscar = new System.Windows.Forms.Button();
-            this.BtnLimpiar = new System.Windows.Forms.Button();
-            this.ChkUsarFechas = new System.Windows.Forms.CheckBox();
-            this.label5 = new System.Windows.Forms.Label();
             this.TbPrincipal.SuspendLayout();
             this.TabInventario.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.TabAvanzado.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NuAccionInventario)).BeginInit();
-            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // TbPrincipal
@@ -95,11 +96,9 @@
             this.TbPrincipal.Controls.Add(this.TabInventario);
             this.TbPrincipal.Controls.Add(this.TabAvanzado);
             this.TbPrincipal.Cursor = System.Windows.Forms.Cursors.Default;
-            this.TbPrincipal.Location = new System.Drawing.Point(13, 13);
+            resources.ApplyResources(this.TbPrincipal, "TbPrincipal");
             this.TbPrincipal.Name = "TbPrincipal";
             this.TbPrincipal.SelectedIndex = 0;
-            this.TbPrincipal.Size = new System.Drawing.Size(775, 425);
-            this.TbPrincipal.TabIndex = 0;
             // 
             // TabInventario
             // 
@@ -108,13 +107,99 @@
             this.TabInventario.Controls.Add(this.LstDefault);
             this.TabInventario.Controls.Add(this.FlCategorias);
             this.TabInventario.Cursor = System.Windows.Forms.Cursors.Default;
-            this.TabInventario.Location = new System.Drawing.Point(4, 22);
+            resources.ApplyResources(this.TabInventario, "TabInventario");
             this.TabInventario.Name = "TabInventario";
-            this.TabInventario.Padding = new System.Windows.Forms.Padding(3);
-            this.TabInventario.Size = new System.Drawing.Size(767, 399);
-            this.TabInventario.TabIndex = 0;
-            this.TabInventario.Text = "Inventario";
             this.TabInventario.UseVisualStyleBackColor = true;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.ChkUsarFechas);
+            this.groupBox2.Controls.Add(this.BtnLimpiar);
+            this.groupBox2.Controls.Add(this.BtnBuscar);
+            this.groupBox2.Controls.Add(this.label4);
+            this.groupBox2.Controls.Add(this.label5);
+            this.groupBox2.Controls.Add(this.label3);
+            this.groupBox2.Controls.Add(this.label2);
+            this.groupBox2.Controls.Add(this.label1);
+            this.groupBox2.Controls.Add(this.CbBuscarMarcaArticulo);
+            this.groupBox2.Controls.Add(this.TxtBuscarCodArticulo);
+            this.groupBox2.Controls.Add(this.DtBuscarFechaInicio);
+            this.groupBox2.Controls.Add(this.DtBuscarFechaFin);
+            resources.ApplyResources(this.groupBox2, "groupBox2");
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.TabStop = false;
+            // 
+            // ChkUsarFechas
+            // 
+            resources.ApplyResources(this.ChkUsarFechas, "ChkUsarFechas");
+            this.ChkUsarFechas.Name = "ChkUsarFechas";
+            this.ChkUsarFechas.UseVisualStyleBackColor = true;
+            this.ChkUsarFechas.CheckedChanged += new System.EventHandler(this.ChkUsarFechas_CheckedChanged);
+            // 
+            // BtnLimpiar
+            // 
+            resources.ApplyResources(this.BtnLimpiar, "BtnLimpiar");
+            this.BtnLimpiar.Name = "BtnLimpiar";
+            this.BtnLimpiar.UseVisualStyleBackColor = true;
+            this.BtnLimpiar.Click += new System.EventHandler(this.BtnLimpiar_Click);
+            // 
+            // BtnBuscar
+            // 
+            resources.ApplyResources(this.BtnBuscar, "BtnBuscar");
+            this.BtnBuscar.Name = "BtnBuscar";
+            this.BtnBuscar.UseVisualStyleBackColor = true;
+            this.BtnBuscar.Click += new System.EventHandler(this.BtnBuscar_Click);
+            // 
+            // label4
+            // 
+            resources.ApplyResources(this.label4, "label4");
+            this.label4.Name = "label4";
+            // 
+            // label5
+            // 
+            resources.ApplyResources(this.label5, "label5");
+            this.label5.Name = "label5";
+            // 
+            // label3
+            // 
+            resources.ApplyResources(this.label3, "label3");
+            this.label3.Name = "label3";
+            // 
+            // label2
+            // 
+            resources.ApplyResources(this.label2, "label2");
+            this.label2.Name = "label2";
+            // 
+            // label1
+            // 
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.Name = "label1";
+            // 
+            // CbBuscarMarcaArticulo
+            // 
+            this.CbBuscarMarcaArticulo.FormattingEnabled = true;
+            resources.ApplyResources(this.CbBuscarMarcaArticulo, "CbBuscarMarcaArticulo");
+            this.CbBuscarMarcaArticulo.Name = "CbBuscarMarcaArticulo";
+            this.CbBuscarMarcaArticulo.SelectedIndexChanged += new System.EventHandler(this.CbBuscarMarcaArticulo_SelectedIndexChanged);
+            this.CbBuscarMarcaArticulo.TextUpdate += new System.EventHandler(this.CbBuscarMarcaArticulo_TextUpdate);
+            // 
+            // TxtBuscarCodArticulo
+            // 
+            resources.ApplyResources(this.TxtBuscarCodArticulo, "TxtBuscarCodArticulo");
+            this.TxtBuscarCodArticulo.Name = "TxtBuscarCodArticulo";
+            this.TxtBuscarCodArticulo.TextChanged += new System.EventHandler(this.TxtBuscarCodArticulo_TextChanged);
+            // 
+            // DtBuscarFechaInicio
+            // 
+            resources.ApplyResources(this.DtBuscarFechaInicio, "DtBuscarFechaInicio");
+            this.DtBuscarFechaInicio.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.DtBuscarFechaInicio.Name = "DtBuscarFechaInicio";
+            // 
+            // DtBuscarFechaFin
+            // 
+            resources.ApplyResources(this.DtBuscarFechaFin, "DtBuscarFechaFin");
+            this.DtBuscarFechaFin.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.DtBuscarFechaFin.Name = "DtBuscarFechaFin";
             // 
             // LstArticulos
             // 
@@ -149,183 +234,141 @@
             this.LstArticulos.FullRowSelect = true;
             this.LstArticulos.GridLines = true;
             this.LstArticulos.HideSelection = false;
-            this.LstArticulos.Location = new System.Drawing.Point(98, 87);
+            resources.ApplyResources(this.LstArticulos, "LstArticulos");
             this.LstArticulos.Name = "LstArticulos";
-            this.LstArticulos.Size = new System.Drawing.Size(663, 306);
-            this.LstArticulos.TabIndex = 3;
             this.LstArticulos.UseCompatibleStateImageBehavior = false;
             this.LstArticulos.View = System.Windows.Forms.View.Details;
-            this.LstArticulos.Visible = false;
             // 
             // Id
             // 
-            this.Id.Text = "Id";
+            resources.ApplyResources(this.Id, "Id");
             // 
             // CodigoArticulo
             // 
-            this.CodigoArticulo.Text = "Codigo";
-            this.CodigoArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            resources.ApplyResources(this.CodigoArticulo, "CodigoArticulo");
             // 
             // ModeloArticulo
             // 
-            this.ModeloArticulo.Text = "Modelo";
-            this.ModeloArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            resources.ApplyResources(this.ModeloArticulo, "ModeloArticulo");
             // 
             // SerieArticulo
             // 
-            this.SerieArticulo.Text = "Serie";
-            this.SerieArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            resources.ApplyResources(this.SerieArticulo, "SerieArticulo");
             // 
             // MarcaArticulo
             // 
-            this.MarcaArticulo.Text = "Marca";
-            this.MarcaArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            resources.ApplyResources(this.MarcaArticulo, "MarcaArticulo");
             // 
             // FechaAdquisicionArticulo
             // 
-            this.FechaAdquisicionArticulo.Text = "Fecha adquisicion";
-            this.FechaAdquisicionArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            resources.ApplyResources(this.FechaAdquisicionArticulo, "FechaAdquisicionArticulo");
             // 
             // FechaBajaArticulo
             // 
-            this.FechaBajaArticulo.Text = "FechaBaja";
-            this.FechaBajaArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            resources.ApplyResources(this.FechaBajaArticulo, "FechaBajaArticulo");
             // 
             // FechaFinGarantiaArticulo
             // 
-            this.FechaFinGarantiaArticulo.Text = "Fecha fin garantia";
-            this.FechaFinGarantiaArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            resources.ApplyResources(this.FechaFinGarantiaArticulo, "FechaFinGarantiaArticulo");
             // 
             // DniUsuarioActualArticulo
             // 
-            this.DniUsuarioActualArticulo.Text = "Dni usuario actual";
-            this.DniUsuarioActualArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            resources.ApplyResources(this.DniUsuarioActualArticulo, "DniUsuarioActualArticulo");
             // 
             // NombreUsuarioActualArticulo
             // 
-            this.NombreUsuarioActualArticulo.Text = "Usuario actual";
-            this.NombreUsuarioActualArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            resources.ApplyResources(this.NombreUsuarioActualArticulo, "NombreUsuarioActualArticulo");
             // 
             // AreaUsuarioActualArticulo
             // 
-            this.AreaUsuarioActualArticulo.Text = "Area usuario actual";
-            this.AreaUsuarioActualArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            resources.ApplyResources(this.AreaUsuarioActualArticulo, "AreaUsuarioActualArticulo");
             // 
             // CargoUsuarioActualArticulo
             // 
-            this.CargoUsuarioActualArticulo.Text = "Cargo usuario actual";
-            this.CargoUsuarioActualArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            resources.ApplyResources(this.CargoUsuarioActualArticulo, "CargoUsuarioActualArticulo");
             // 
             // DniUsuarioAnteriorArticulo
             // 
-            this.DniUsuarioAnteriorArticulo.Text = "Dni usuario anterior";
-            this.DniUsuarioAnteriorArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            resources.ApplyResources(this.DniUsuarioAnteriorArticulo, "DniUsuarioAnteriorArticulo");
             // 
             // NombreUsuarioAnteriorArticulo
             // 
-            this.NombreUsuarioAnteriorArticulo.Text = "Usuario anterior";
-            this.NombreUsuarioAnteriorArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            resources.ApplyResources(this.NombreUsuarioAnteriorArticulo, "NombreUsuarioAnteriorArticulo");
             // 
             // AreaUsuarioAnteriorArticulo
             // 
-            this.AreaUsuarioAnteriorArticulo.Text = "Area usuario anterior";
-            this.AreaUsuarioAnteriorArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            resources.ApplyResources(this.AreaUsuarioAnteriorArticulo, "AreaUsuarioAnteriorArticulo");
             // 
             // CargoUsuarioAnteriorArticulo
             // 
-            this.CargoUsuarioAnteriorArticulo.Text = "Cargo usuario anterior";
-            this.CargoUsuarioAnteriorArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            resources.ApplyResources(this.CargoUsuarioAnteriorArticulo, "CargoUsuarioAnteriorArticulo");
             // 
             // EstadoArticulo
             // 
-            this.EstadoArticulo.Text = "Estado";
-            this.EstadoArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            resources.ApplyResources(this.EstadoArticulo, "EstadoArticulo");
             // 
             // UbicacionArticulo
             // 
-            this.UbicacionArticulo.Text = "Ubicación";
-            this.UbicacionArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            resources.ApplyResources(this.UbicacionArticulo, "UbicacionArticulo");
             // 
             // CondicionArticulo
             // 
-            this.CondicionArticulo.Text = "Condición";
-            this.CondicionArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            resources.ApplyResources(this.CondicionArticulo, "CondicionArticulo");
             // 
             // RucArticulo
             // 
-            this.RucArticulo.Text = "Ruc proveedor";
-            this.RucArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            resources.ApplyResources(this.RucArticulo, "RucArticulo");
             // 
             // ProveedorArticulo
             // 
-            this.ProveedorArticulo.Text = "Razón social";
-            this.ProveedorArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            resources.ApplyResources(this.ProveedorArticulo, "ProveedorArticulo");
             // 
             // PrecioArticulo
             // 
-            this.PrecioArticulo.Text = "Precio adquirido";
-            this.PrecioArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            resources.ApplyResources(this.PrecioArticulo, "PrecioArticulo");
             // 
             // ActivoFijoArticulo
             // 
-            this.ActivoFijoArticulo.Text = "Activo fijo";
-            this.ActivoFijoArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            resources.ApplyResources(this.ActivoFijoArticulo, "ActivoFijoArticulo");
             // 
             // ObservacionArticulo
             // 
-            this.ObservacionArticulo.Text = "Observacion";
-            this.ObservacionArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            resources.ApplyResources(this.ObservacionArticulo, "ObservacionArticulo");
             // 
             // ImagenArticulo
             // 
-            this.ImagenArticulo.Text = "Imagen";
-            this.ImagenArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            resources.ApplyResources(this.ImagenArticulo, "ImagenArticulo");
             // 
             // ComprobanteArticulo
             // 
-            this.ComprobanteArticulo.Text = "Comprobante";
-            this.ComprobanteArticulo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            resources.ApplyResources(this.ComprobanteArticulo, "ComprobanteArticulo");
             // 
             // LstDefault
             // 
             this.LstDefault.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.LstDefault.HideSelection = false;
-            this.LstDefault.Location = new System.Drawing.Point(98, 87);
+            resources.ApplyResources(this.LstDefault, "LstDefault");
             this.LstDefault.Name = "LstDefault";
-            this.LstDefault.Size = new System.Drawing.Size(663, 306);
-            this.LstDefault.TabIndex = 1;
             this.LstDefault.UseCompatibleStateImageBehavior = false;
             // 
             // FlCategorias
             // 
-            this.FlCategorias.AutoScroll = true;
+            resources.ApplyResources(this.FlCategorias, "FlCategorias");
             this.FlCategorias.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.FlCategorias.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.FlCategorias.Location = new System.Drawing.Point(6, 7);
             this.FlCategorias.Name = "FlCategorias";
-            this.FlCategorias.Size = new System.Drawing.Size(86, 386);
-            this.FlCategorias.TabIndex = 0;
-            this.FlCategorias.WrapContents = false;
             // 
             // TabAvanzado
             // 
             this.TabAvanzado.Controls.Add(this.treeView1);
             this.TabAvanzado.Cursor = System.Windows.Forms.Cursors.Default;
-            this.TabAvanzado.Location = new System.Drawing.Point(4, 22);
+            resources.ApplyResources(this.TabAvanzado, "TabAvanzado");
             this.TabAvanzado.Name = "TabAvanzado";
-            this.TabAvanzado.Padding = new System.Windows.Forms.Padding(3);
-            this.TabAvanzado.Size = new System.Drawing.Size(767, 399);
-            this.TabAvanzado.TabIndex = 1;
-            this.TabAvanzado.Text = "Avanzado";
             this.TabAvanzado.UseVisualStyleBackColor = true;
             // 
             // treeView1
             // 
-            this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeView1.Location = new System.Drawing.Point(3, 3);
+            resources.ApplyResources(this.treeView1, "treeView1");
             this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(761, 393);
-            this.treeView1.TabIndex = 0;
             // 
             // groupBox1
             // 
@@ -336,17 +379,14 @@
             this.groupBox1.Controls.Add(this.BtnEliminarArticulo);
             this.groupBox1.Controls.Add(this.BtnEditarArticulo);
             this.groupBox1.Controls.Add(this.BtnAgregarArticulo);
-            this.groupBox1.Location = new System.Drawing.Point(17, 444);
+            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(771, 56);
-            this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Acciones";
             // 
             // NuAccionInventario
             // 
             this.NuAccionInventario.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.NuAccionInventario.Location = new System.Drawing.Point(6, 22);
+            resources.ApplyResources(this.NuAccionInventario, "NuAccionInventario");
             this.NuAccionInventario.Maximum = new decimal(new int[] {
             2,
             0,
@@ -358,8 +398,6 @@
             0,
             0});
             this.NuAccionInventario.Name = "NuAccionInventario";
-            this.NuAccionInventario.Size = new System.Drawing.Size(37, 20);
-            this.NuAccionInventario.TabIndex = 2;
             this.NuAccionInventario.Value = new decimal(new int[] {
             1,
             0,
@@ -369,222 +407,67 @@
             // 
             // LblAccionDecription
             // 
-            this.LblAccionDecription.AutoSize = true;
-            this.LblAccionDecription.Location = new System.Drawing.Point(57, 24);
+            resources.ApplyResources(this.LblAccionDecription, "LblAccionDecription");
             this.LblAccionDecription.Name = "LblAccionDecription";
-            this.LblAccionDecription.Size = new System.Drawing.Size(35, 13);
-            this.LblAccionDecription.TabIndex = 1;
-            this.LblAccionDecription.Text = "label1";
             // 
             // BtnNuevaCategoria
             // 
             this.BtnNuevaCategoria.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.BtnNuevaCategoria.Location = new System.Drawing.Point(287, 19);
+            resources.ApplyResources(this.BtnNuevaCategoria, "BtnNuevaCategoria");
             this.BtnNuevaCategoria.Name = "BtnNuevaCategoria";
-            this.BtnNuevaCategoria.Size = new System.Drawing.Size(95, 23);
-            this.BtnNuevaCategoria.TabIndex = 0;
-            this.BtnNuevaCategoria.Text = "Nueva Categoria";
             this.BtnNuevaCategoria.UseVisualStyleBackColor = true;
             this.BtnNuevaCategoria.Click += new System.EventHandler(this.BtnNuevaCategoria_Click);
             // 
             // BtnExportar
             // 
             this.BtnExportar.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.BtnExportar.Location = new System.Drawing.Point(106, 19);
+            resources.ApplyResources(this.BtnExportar, "BtnExportar");
             this.BtnExportar.Name = "BtnExportar";
-            this.BtnExportar.Size = new System.Drawing.Size(57, 23);
-            this.BtnExportar.TabIndex = 0;
-            this.BtnExportar.Text = "Exportar";
             this.BtnExportar.UseVisualStyleBackColor = true;
             this.BtnExportar.Click += new System.EventHandler(this.btnExportar_Click);
             // 
             // BtnEliminarArticulo
             // 
             this.BtnEliminarArticulo.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.BtnEliminarArticulo.Location = new System.Drawing.Point(476, 19);
+            resources.ApplyResources(this.BtnEliminarArticulo, "BtnEliminarArticulo");
             this.BtnEliminarArticulo.Name = "BtnEliminarArticulo";
-            this.BtnEliminarArticulo.Size = new System.Drawing.Size(91, 23);
-            this.BtnEliminarArticulo.TabIndex = 0;
-            this.BtnEliminarArticulo.Text = "EliminarArticulo";
             this.BtnEliminarArticulo.UseVisualStyleBackColor = true;
             this.BtnEliminarArticulo.Click += new System.EventHandler(this.BtnEliminarArticulo_Click);
             // 
             // BtnEditarArticulo
             // 
             this.BtnEditarArticulo.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.BtnEditarArticulo.Location = new System.Drawing.Point(573, 19);
+            resources.ApplyResources(this.BtnEditarArticulo, "BtnEditarArticulo");
             this.BtnEditarArticulo.Name = "BtnEditarArticulo";
-            this.BtnEditarArticulo.Size = new System.Drawing.Size(91, 23);
-            this.BtnEditarArticulo.TabIndex = 0;
-            this.BtnEditarArticulo.Text = "Editar Articulo";
             this.BtnEditarArticulo.UseVisualStyleBackColor = true;
             this.BtnEditarArticulo.Click += new System.EventHandler(this.BtnEditarArticulo_Click);
             // 
             // BtnAgregarArticulo
             // 
             this.BtnAgregarArticulo.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.BtnAgregarArticulo.Location = new System.Drawing.Point(670, 19);
+            resources.ApplyResources(this.BtnAgregarArticulo, "BtnAgregarArticulo");
             this.BtnAgregarArticulo.Name = "BtnAgregarArticulo";
-            this.BtnAgregarArticulo.Size = new System.Drawing.Size(91, 23);
-            this.BtnAgregarArticulo.TabIndex = 0;
-            this.BtnAgregarArticulo.Text = "Agregar Articulo";
             this.BtnAgregarArticulo.UseVisualStyleBackColor = true;
             this.BtnAgregarArticulo.Click += new System.EventHandler(this.BtnAgregarArticulo_Click);
             // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.ChkUsarFechas);
-            this.groupBox2.Controls.Add(this.BtnLimpiar);
-            this.groupBox2.Controls.Add(this.BtnBuscar);
-            this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Controls.Add(this.label5);
-            this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Controls.Add(this.label2);
-            this.groupBox2.Controls.Add(this.label1);
-            this.groupBox2.Controls.Add(this.CbBuscarMarcaArticulo);
-            this.groupBox2.Controls.Add(this.TxtBuscarCodArticulo);
-            this.groupBox2.Controls.Add(this.DtBuscarFechaInicio);
-            this.groupBox2.Controls.Add(this.DtBuscarFechaFin);
-            this.groupBox2.Location = new System.Drawing.Point(98, 7);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(663, 74);
-            this.groupBox2.TabIndex = 4;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Buscar Articulo";
-            // 
-            // DtBuscarFechaFin
-            // 
-            this.DtBuscarFechaFin.Enabled = false;
-            this.DtBuscarFechaFin.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.DtBuscarFechaFin.Location = new System.Drawing.Point(414, 38);
-            this.DtBuscarFechaFin.Name = "DtBuscarFechaFin";
-            this.DtBuscarFechaFin.Size = new System.Drawing.Size(82, 20);
-            this.DtBuscarFechaFin.TabIndex = 1;
-            // 
-            // DtBuscarFechaInicio
-            // 
-            this.DtBuscarFechaInicio.Enabled = false;
-            this.DtBuscarFechaInicio.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.DtBuscarFechaInicio.Location = new System.Drawing.Point(316, 39);
-            this.DtBuscarFechaInicio.Name = "DtBuscarFechaInicio";
-            this.DtBuscarFechaInicio.Size = new System.Drawing.Size(82, 20);
-            this.DtBuscarFechaInicio.TabIndex = 1;
-            // 
-            // TxtBuscarCodArticulo
-            // 
-            this.TxtBuscarCodArticulo.Location = new System.Drawing.Point(9, 38);
-            this.TxtBuscarCodArticulo.Name = "TxtBuscarCodArticulo";
-            this.TxtBuscarCodArticulo.Size = new System.Drawing.Size(100, 20);
-            this.TxtBuscarCodArticulo.TabIndex = 2;
-            this.TxtBuscarCodArticulo.TextChanged += new System.EventHandler(this.TxtBuscarCodArticulo_TextChanged);
-            // 
-            // CbBuscarMarcaArticulo
-            // 
-            this.CbBuscarMarcaArticulo.FormattingEnabled = true;
-            this.CbBuscarMarcaArticulo.Location = new System.Drawing.Point(143, 38);
-            this.CbBuscarMarcaArticulo.Name = "CbBuscarMarcaArticulo";
-            this.CbBuscarMarcaArticulo.Size = new System.Drawing.Size(121, 21);
-            this.CbBuscarMarcaArticulo.TabIndex = 3;
-            this.CbBuscarMarcaArticulo.SelectedIndexChanged += new System.EventHandler(this.CbBuscarMarcaArticulo_SelectedIndexChanged);
-            this.CbBuscarMarcaArticulo.TextUpdate += new System.EventHandler(this.CbBuscarMarcaArticulo_TextUpdate);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 22);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(80, 13);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "Código articulo:";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(140, 22);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(40, 13);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "Marca:";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(313, 23);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(41, 13);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "Desde:";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(411, 22);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(38, 13);
-            this.label4.TabIndex = 4;
-            this.label4.Text = "Hasta:";
-            // 
-            // BtnBuscar
-            // 
-            this.BtnBuscar.Location = new System.Drawing.Point(555, 15);
-            this.BtnBuscar.Name = "BtnBuscar";
-            this.BtnBuscar.Size = new System.Drawing.Size(75, 23);
-            this.BtnBuscar.TabIndex = 5;
-            this.BtnBuscar.Text = "Buscar";
-            this.BtnBuscar.UseVisualStyleBackColor = true;
-            this.BtnBuscar.Click += new System.EventHandler(this.BtnBuscar_Click);
-            // 
-            // BtnLimpiar
-            // 
-            this.BtnLimpiar.Enabled = false;
-            this.BtnLimpiar.Location = new System.Drawing.Point(555, 44);
-            this.BtnLimpiar.Name = "BtnLimpiar";
-            this.BtnLimpiar.Size = new System.Drawing.Size(75, 23);
-            this.BtnLimpiar.TabIndex = 5;
-            this.BtnLimpiar.Text = "Limpiar";
-            this.BtnLimpiar.UseVisualStyleBackColor = true;
-            this.BtnLimpiar.Click += new System.EventHandler(this.BtnLimpiar_Click);
-            // 
-            // ChkUsarFechas
-            // 
-            this.ChkUsarFechas.AutoSize = true;
-            this.ChkUsarFechas.Location = new System.Drawing.Point(502, 41);
-            this.ChkUsarFechas.Name = "ChkUsarFechas";
-            this.ChkUsarFechas.Size = new System.Drawing.Size(15, 14);
-            this.ChkUsarFechas.TabIndex = 6;
-            this.ChkUsarFechas.UseVisualStyleBackColor = true;
-            this.ChkUsarFechas.CheckedChanged += new System.EventHandler(this.ChkUsarFechas_CheckedChanged);
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(401, 42);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(10, 13);
-            this.label5.TabIndex = 4;
-            this.label5.Text = "-";
-            // 
             // VistaInventario
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 508);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.TbPrincipal);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "VistaInventario";
             this.ShowIcon = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Inventario";
             this.Load += new System.EventHandler(this.VistaInventario_Load);
             this.TbPrincipal.ResumeLayout(false);
             this.TabInventario.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.TabAvanzado.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NuAccionInventario)).EndInit();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }

@@ -51,62 +51,58 @@ namespace ControlInventario.Vistas
             bool valido = true;
             if (string.IsNullOrWhiteSpace(TxtCodigo.Text))
             {
-                ErrorArticulos.SetError(TxtCodigo, "El campo código no puede quedar vacío.");
+                ErrorArticulos.SetError(TxtCodigo, Idiomas.MensajeErrorCodigoAgregarArticulo);
                 valido = false;
             }
 
             if (string.IsNullOrWhiteSpace(TxtModelo.Text))
             {
-                ErrorArticulos.SetError(TxtModelo, "El campo modelo no puede quedar vacío.");
+                ErrorArticulos.SetError(TxtModelo, Idiomas.MensajeErrorModeloAgregarArticulo);
                 valido = false;
             }
 
             if (string.IsNullOrWhiteSpace(TxtSerie.Text))
             {
-                ErrorArticulos.SetError(TxtSerie, "El campo serie no puede quedar vacío.");
+                ErrorArticulos.SetError(TxtSerie, Idiomas.MensajeErrorSerieAgregarArticulo);
             }
 
-            if (CbMarcas.Text == "SELECCIONE" || CbMarcas.SelectedIndex == 0)
+            if (CbMarcas.Text == Idiomas.OpcionSeleccione || CbMarcas.SelectedIndex == 0)
             {
-                ErrorArticulos.SetError(CbMarcas, "Debe seleccionar una marca válida.");
+                ErrorArticulos.SetError(CbMarcas, Idiomas.MensajeErrorMarcaAgregarArticulo);
             }
 
             if (ChkFechaBaja.Checked || ChkFechaGarantia.Checked)
             {
                 if (DtpFechaBaja.Value < DtpFechaAdquisicion.Value)
-                {
-                    ErrorArticulos.SetError(DtpFechaBaja, "La fecha de baja no puede ser menor a la fecha de adquisición.");
-                }
+                    ErrorArticulos.SetError(DtpFechaBaja, Idiomas.MensajeErrorFechaBajaAgregarArticulo);
 
                 if (DtpFechaFinGarantia.Value < DtpFechaAdquisicion.Value)
-                {
-                    ErrorArticulos.SetError(DtpFechaFinGarantia, "La fecha del fin de garantía no puede ser menor a la fecha de adquisición.");
-                }
+                    ErrorArticulos.SetError(DtpFechaFinGarantia, Idiomas.MensajeErrorFechaGarantiaAgregarArticulo);
             }
 
             if (string.IsNullOrWhiteSpace(TxtDniUsuarioActual.Text))
             {
-                ErrorArticulos.SetError(TxtDniUsuarioActual, "El campo DNI no puede quedar vacío.");
+                ErrorArticulos.SetError(TxtDniUsuarioActual, Idiomas.MensajeErrorDniAgregarArticulo);
             }
 
-            if (CbEstadoArticulo.Text == "SELECCIONE" || CbEstadoArticulo.SelectedIndex == 0)
+            if (CbEstadoArticulo.Text == Idiomas.OpcionSeleccione || CbEstadoArticulo.SelectedIndex == 0)
             {
-                ErrorArticulos.SetError(CbEstadoArticulo, "Debe seleccionar un estado válido.");
+                ErrorArticulos.SetError(CbEstadoArticulo, Idiomas.MensajeErrorEstadoAgregarArticulo);
             }
 
-            if (CbUbicacion.Text == "SELECCIONE" || CbUbicacion.SelectedIndex == 0)
+            if (CbUbicacion.Text == Idiomas.OpcionSeleccione || CbUbicacion.SelectedIndex == 0)
             {
-                ErrorArticulos.SetError(CbUbicacion, "Debe seleccionar una ubicación válida.");
+                ErrorArticulos.SetError(CbUbicacion, Idiomas.MensajeErrorUbicacionAgregarArticulo);
             }
 
-            if (CbCondicion.Text == "SELECCIONE" || CbCondicion.SelectedIndex == 0)
+            if (CbCondicion.Text == Idiomas.OpcionSeleccione || CbCondicion.SelectedIndex == 0)
             {
-                ErrorArticulos.SetError(CbCondicion, "Debe seleccionar una condición válida.");
+                ErrorArticulos.SetError(CbCondicion, Idiomas.MensajeErrorCondicionAgregarArticulo);
             }
 
             if (string.IsNullOrWhiteSpace(TxtDireccionImagen.Text))
             {
-                ErrorArticulos.SetError(TxtDireccionImagen, "Debe seleccionar una foto para el articulo.");
+                ErrorArticulos.SetError(TxtDireccionImagen, Idiomas.MensajeErrorFotoAgregarArticulo);
             }
 
             return valido;
@@ -284,8 +280,10 @@ namespace ControlInventario.Vistas
                 {
                     if (ClassHelper.ExisteComponenteDuplicado("Articulos", codigoActivoFijo, _articuloId, "ActivoFijo"))
                     {
-                        MessageBox.Show($"El código de Activo Fijo '{codigoActivoFijo}' ya está asignado a otro artículo en el sistema.",
-                                        "Código Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        string mensajeArmado = string.Format(Idiomas.MensajeAdvertenciaActivoFijo, codigoActivoFijo);
+
+                        MessageBox.Show(mensajeArmado, Idiomas.MensajeCodigoDuplicado,
+                                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         TxtActivoFijo.Focus();
                         return;
                     }
@@ -299,15 +297,6 @@ namespace ControlInventario.Vistas
                                      nombreCategoriaActual.ToUpper();
 
                     codigoFinal = ArticuloRepository.GenerarCodigoArticulo(prefijo, UsuarioSesion.InventarioId);
-                }
-                else
-                {
-                    if (string.IsNullOrEmpty(codigoFinal) || codigoFinal == "[Automático]")
-                    {
-                        MessageBox.Show("Por favor ingrese el Código del Artículo.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        TxtCodigo.Focus();
-                        return;
-                    }
                 }
 
                 // Actualizar o Guardar articuloa
@@ -388,7 +377,7 @@ namespace ControlInventario.Vistas
                             // verificar fecha garantía y fecha baja
                             if ((ChkFechaGarantia.Checked && DtpFechaFinGarantia.Value < DateTime.Now) || (ChkFechaBaja.Checked && DtpFechaBaja.Value < DateTime.Now))
                             {
-                                var result = MessageBox.Show("La fecha de garantía o fecha de baja es anterior a la fecha actual. ¿Desea continuar?", "Advertencia", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                                var result = MessageBox.Show(Idiomas.VerificarFechasAgregarArticulo, Idiomas.MensajeAdvertencia, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                                 if (result == DialogResult.No)
                                     return;
                             }
@@ -396,7 +385,7 @@ namespace ControlInventario.Vistas
                             ArticuloRepository.InsertarArticulo(art, con);
                             LogsRepository.InsertarLogs("Artículos", "Crear", $"Se registró un nuevo artículo con el código: {art.Codigo}");
 
-                            MessageBox.Show("Artículo guardado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show(Idiomas.MensajeAgregarArticulo, Idiomas.MensajeExito, MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                             this.DialogResult = DialogResult.OK;
                             this.Close();
@@ -404,7 +393,7 @@ namespace ControlInventario.Vistas
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("Error al guardar el artículo: " + ex.Message, "Error",
+                        MessageBox.Show(Idiomas.MensajeErrorAgregarArticulo + ex.Message, "Error",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Error
                         );
@@ -488,7 +477,7 @@ namespace ControlInventario.Vistas
                             // verificar fecha garantía y fecha baja
                             if ((ChkFechaGarantia.Checked && DtpFechaFinGarantia.Value < DateTime.Now) || (ChkFechaBaja.Checked && DtpFechaBaja.Value < DateTime.Now))
                             {
-                                var result = MessageBox.Show("La fecha de garantía o fecha de baja es anterior a la fecha actual. ¿Desea continuar?", "Advertencia", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                                var result = MessageBox.Show(Idiomas.VerificarFechasAgregarArticulo, Idiomas.MensajeAdvertencia, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                                 if (result == DialogResult.No)
                                     return;
                             }
@@ -507,7 +496,7 @@ namespace ControlInventario.Vistas
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("Error al actualizar el artículo: " + ex.Message, "Error",
+                        MessageBox.Show(Idiomas.MensajeErrorActualizarArticulo + ex.Message, "Error",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Error
                         );
@@ -535,8 +524,10 @@ namespace ControlInventario.Vistas
                 {
                     if (ClassHelper.ExisteComponenteDuplicado("Articulos", codigoActivoFijo, _articuloId, "ActivoFijo"))
                     {
-                        MessageBox.Show($"El código de Activo Fijo '{codigoActivoFijo}' ya está asignado a otro artículo en el sistema.",
-                                        "Código Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        string mensajeArmado = string.Format(Idiomas.MensajeAdvertenciaActivoFijo, codigoActivoFijo);
+
+                        MessageBox.Show(mensajeArmado, Idiomas.MensajeCodigoDuplicado,
+                                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         TxtActivoFijo.Focus();
                         return;
                     }
@@ -556,15 +547,6 @@ namespace ControlInventario.Vistas
                                      nombreCategoriaActual.ToUpper();
 
                     codigoFinal = ArticuloRepository.GenerarCodigoArticulo(prefijo, UsuarioSesion.InventarioId);
-                }
-                else
-                {
-                    if (string.IsNullOrEmpty(codigoFinal) || codigoFinal == "[Automático]")
-                    {
-                        MessageBox.Show("Por favor ingrese el Código del Artículo.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        TxtCodigo.Focus();
-                        return;
-                    }
                 }
 
                 try
@@ -626,15 +608,7 @@ namespace ControlInventario.Vistas
                         // verificar fecha garantía y fecha baja
                         if ((ChkFechaGarantia.Checked && DtpFechaFinGarantia.Value < DateTime.Now) || (ChkFechaBaja.Checked && DtpFechaBaja.Value < DateTime.Now))
                         {
-                            var result = MessageBox.Show("La fecha de garantía o fecha de baja es anterior a la fecha actual. ¿Desea continuar?", "Advertencia", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                            if (result == DialogResult.No)
-                                return;
-                        }
-
-                        // verificar fecha baja
-                        if ((ChkFechaGarantia.Checked && DtpFechaFinGarantia.Value < DateTime.Now) || (ChkFechaBaja.Checked && DtpFechaBaja.Value < DateTime.Now))
-                        {
-                            var result = MessageBox.Show("La fecha de garantía o fecha de baja es anterior a la fecha actual. ¿Desea continuar?", "Advertencia", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                            var result = MessageBox.Show(Idiomas.VerificarFechasAgregarArticulo, Idiomas.MensajeAdvertencia, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                             if (result == DialogResult.No)
                                 return;
                         }
@@ -642,14 +616,14 @@ namespace ControlInventario.Vistas
                         ArticuloRepository.InsertarArticulo(art, con);
                         LogsRepository.InsertarLogs("Artículos", "Crear", $"Se registró un nuevo artículo con el código: {art.Codigo}");
 
-                        MessageBox.Show("Artículo guardado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show(Idiomas.MensajeAgregarArticulo, Idiomas.MensajeExito, MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                         LimpiarCampos();
                     }
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error al actualizar el artículo: " + ex.Message, "Error",
+                    MessageBox.Show(Idiomas.MensajeErrorAgregarArticulo + ex.Message, "Error",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Error
                     );
@@ -677,7 +651,7 @@ namespace ControlInventario.Vistas
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("No se pudo cargar el comprobante: " + ex.Message, "Error",
+                        MessageBox.Show(Idiomas.MensajeErrorComprobante + ex.Message, "Error",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Error
                         );
@@ -697,11 +671,11 @@ namespace ControlInventario.Vistas
                     TxtDireccionImagen.Text = ofd.FileName;
                     try
                     {
-                        PbFotoArticulo.Image = System.Drawing.Image.FromFile(ofd.FileName);
+                        PbFotoArticulo.Image = Image.FromFile(ofd.FileName);
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("No se pudo cargar la imagen: " + ex.Message, "Error",
+                        MessageBox.Show(Idiomas.MensajeErrorImagen + ex.Message, "Error",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Error
                         );
@@ -739,28 +713,28 @@ namespace ControlInventario.Vistas
                 con.Open();
 
                 var dtAreaActual = AreaRepository.ListarAreas(con);
-                RefreshService.RefrescarComboDT(CbAreaUsuarioActual, dtAreaActual, "Nombre", "Id", "SELECCIONE");
+                RefreshService.RefrescarComboDT(CbAreaUsuarioActual, dtAreaActual, "Nombre", "Id", Idiomas.OpcionSeleccione);
 
                 var dtAreaAnterior = AreaRepository.ListarAreas(con);
-                RefreshService.RefrescarComboDT(CbAreaUsuarioAnterior, dtAreaAnterior, "Nombre", "Id", "SELECCIONE");
+                RefreshService.RefrescarComboDT(CbAreaUsuarioAnterior, dtAreaAnterior, "Nombre", "Id", Idiomas.OpcionSeleccione);
 
                 var dtCargoActual = CargoRepository.ListarCargos(con);
-                RefreshService.RefrescarComboDT(CbCargoUsuarioActual, dtCargoActual, "Nombre", "Id", "SELECCIONE");
+                RefreshService.RefrescarComboDT(CbCargoUsuarioActual, dtCargoActual, "Nombre", "Id", Idiomas.OpcionSeleccione);
 
                 var dtCargoAnterior = CargoRepository.ListarCargos(con);
-                RefreshService.RefrescarComboDT(CbCargoUsuarioAnterior, dtCargoAnterior, "Nombre", "Id", "SELECCIONE");
+                RefreshService.RefrescarComboDT(CbCargoUsuarioAnterior, dtCargoAnterior, "Nombre", "Id", Idiomas.OpcionSeleccione);
 
                 var dtEstadoArticulos = EstadoRepository.ListarEstadosArticulos(con);
-                RefreshService.RefrescarComboDT(CbEstadoArticulo, dtEstadoArticulos, "Nombre", "Id", "SELECCIONE");
+                RefreshService.RefrescarComboDT(CbEstadoArticulo, dtEstadoArticulos, "Nombre", "Id", Idiomas.OpcionSeleccione);
 
                 var dtCondicion = CondicionRepository.ListarCondicion(con);
-                RefreshService.RefrescarComboDT(CbCondicion, dtCondicion, "Nombre", "Id", "SELECCIONE");
+                RefreshService.RefrescarComboDT(CbCondicion, dtCondicion, "Nombre", "Id", Idiomas.OpcionSeleccione);
 
                 var dtUbicacion = UbicacionRepository.ListarUbicacion(con);
-                RefreshService.RefrescarComboDT(CbUbicacion, dtUbicacion, "Nombre", "Id", "SELECCIONE");
+                RefreshService.RefrescarComboDT(CbUbicacion, dtUbicacion, "Nombre", "Id", Idiomas.OpcionSeleccione);
 
                 var dtMarcas = MarcasRepository.ListarMarcas(con, _categoriaId);
-                RefreshService.RefrescarComboDT(CbMarcas, dtMarcas, "Nombre", "Id", "SELECCIONE");
+                RefreshService.RefrescarComboDT(CbMarcas, dtMarcas, "Nombre", "Id", Idiomas.OpcionSeleccione);
 
                 if (VistaInventario.isEdit == true)
                     BtnGuardarPlus.Enabled = false;
@@ -917,8 +891,8 @@ namespace ControlInventario.Vistas
                 }
                 else
                 {
-                    MessageBox.Show("No se encontró ningún empleado con el DNI ingresado. Por favor, verifique el número.",
-                    "Búsqueda de Empleado",
+                    MessageBox.Show(Idiomas.MensajeErrorBuscarEmpleado,
+                    Idiomas.MensajeBuscarEmpleado,
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
 
@@ -947,8 +921,8 @@ namespace ControlInventario.Vistas
                 }
                 else
                 {
-                    MessageBox.Show("No se encontró ninguna razón social con el RUC ingresado. Por favor, verifique el número.",
-                    "Búsqueda de Empleado",
+                    MessageBox.Show(Idiomas.MensajeErrorBuscarRuc,
+                    Idiomas.MensajeBuscarEmpleado,
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
 
@@ -1019,25 +993,20 @@ namespace ControlInventario.Vistas
 
         private void ActualizarCodigo()
         {
-            // Solo hacemos esto si el CheckBox "Auto" está marcado
             if (ChkAuto.Checked)
             {
-                // Validamos por seguridad
                 if (string.IsNullOrWhiteSpace(nombreCategoriaActual))
                 {
-                    TxtCodigo.Text = "[Sin Categoría]";
+                    TxtCodigo.Text = Idiomas.MensajeSinCodigoAutomatico;
                     return;
                 }
 
-                // Extraemos las 3 primeras letras de tu variable global
                 string prefijo = nombreCategoriaActual.Length >= 3 ?
                                  nombreCategoriaActual.Substring(0, 3).ToUpper() :
                                  nombreCategoriaActual.ToUpper();
 
-                // Vamos a la BD a buscar el siguiente número libre
                 string siguienteCodigo = ArticuloRepository.GenerarCodigoArticulo(prefijo, UsuarioSesion.InventarioId);
 
-                // Lo mostramos en pantalla
                 TxtCodigo.Text = siguienteCodigo;
             }
         }

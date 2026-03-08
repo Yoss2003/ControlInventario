@@ -1,0 +1,204 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="MensajeAdvertenciaActivoFijo" xml:space="preserve">
+    <value>El código de Activo Fijo {0} ya está asignado a otro artículo en el sistema.</value>
+  </data>
+  <data name="MensajeAdvertencia" xml:space="preserve">
+    <value>Advertencia</value>
+  </data>
+  <data name="MensajeAgregarArticulo" xml:space="preserve">
+    <value>Artículo guardado correctamente.</value>
+  </data>
+  <data name="MensajeCodigoAutomatico" xml:space="preserve">
+    <value>[Automático]</value>
+  </data>
+  <data name="MensajeCodigoDuplicado" xml:space="preserve">
+    <value>Código Duplicado</value>
+  </data>
+  <data name="MensajeErrorActualizarArticulo" xml:space="preserve">
+    <value>Error al actualizar el artículo: </value>
+  </data>
+  <data name="MensajeErrorAgregarArticulo" xml:space="preserve">
+    <value>Error al guardar el artículo: </value>
+  </data>
+  <data name="MensajeErrorCodigoAgregarArticulo" xml:space="preserve">
+    <value>El campo código no puede quedar vacío.</value>
+  </data>
+  <data name="MensajeErrorCondicionAgregarArticulo" xml:space="preserve">
+    <value>Debe seleccionar una condición válida.</value>
+  </data>
+  <data name="MensajeErrorDireccionAgregarArticulo" xml:space="preserve">
+    <value>Debe seleccionar una foto para el articulo.</value>
+  </data>
+  <data name="MensajeErrorDniAgregarArticulo" xml:space="preserve">
+    <value>El campo DNI no puede quedar vacío.</value>
+  </data>
+  <data name="MensajeErrorEstadoAgregarArticulo" xml:space="preserve">
+    <value>Debe seleccionar un estado válido.</value>
+  </data>
+  <data name="MensajeErrorFechaBajaAgregarArticulo" xml:space="preserve">
+    <value>La fecha de baja no puede ser menor a la fecha de adquisición.</value>
+  </data>
+  <data name="MensajeErrorFechaGarantiaAgregarArticulo" xml:space="preserve">
+    <value>La fecha del fin de garantía no puede ser menor a la fecha de adquisición.</value>
+  </data>
+  <data name="MensajeErrorFotoAgregarArticulo" xml:space="preserve">
+    <value>Debe seleccionar una foto para el articulo.</value>
+  </data>
+  <data name="MensajeErrorMarcaAgregarArticulo" xml:space="preserve">
+    <value>Debe seleccionar una marca válida.</value>
+  </data>
+  <data name="MensajeErrorModeloAgregarArticulo" xml:space="preserve">
+    <value>El campo modelo no puede quedar vacío.</value>
+  </data>
+  <data name="MensajeErrorSerieAgregarArticulo" xml:space="preserve">
+    <value>El campo serie no puede quedar vacío.</value>
+  </data>
+  <data name="MensajeErrorUbicacionAgregarArticulo" xml:space="preserve">
+    <value>Debe seleccionar una ubicación válida.</value>
+  </data>
+  <data name="MensajeExito" xml:space="preserve">
+    <value>Éxito</value>
+  </data>
+  <data name="OpcionSeleccione" xml:space="preserve">
+    <value>SELECCIONE</value>
+  </data>
+  <data name="VerificarFechasAgregarArticulo" xml:space="preserve">
+    <value>La fecha de garantía o fecha de baja es anterior a la fecha actual. ¿Desea continuar?</value>
+  </data>
+  <data name="MensajeErrorComprobante" xml:space="preserve">
+    <value>No se pudo cargar el comprobante: </value>
+  </data>
+  <data name="MensajeErrorImagen" xml:space="preserve">
+    <value>No se pudo cargar la imagen: </value>
+  </data>
+  <data name="MensajeErrorBuscarEmpleado" xml:space="preserve">
+    <value>No se encontró ningún empleado con el DNI ingresado. Por favor, verifique el número.</value>
+  </data>
+  <data name="MensajeBuscarEmpleado" xml:space="preserve">
+    <value>Búsqueda de Empleado</value>
+  </data>
+  <data name="MensajeErrorBuscarRuc" xml:space="preserve">
+    <value>No se encontró ninguna razón social con el RUC ingresado. Por favor, verifique el número.</value>
+  </data>
+  <data name="MensajeSinCodigoAutomatico" xml:space="preserve">
+    <value>[Sin Categoría]</value>
+  </data>
+</root>

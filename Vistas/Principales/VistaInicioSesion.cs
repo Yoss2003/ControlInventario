@@ -186,6 +186,7 @@ namespace ControlInventario
             UsuarioSesion.InventarioId = inventario.Id;
 
             // Abrir el menú principal
+            ClassHelper.AplicarIdiomaGlobal();
             VistaMenuPrincipal frm = new VistaMenuPrincipal();
             this.Hide();
             frm.ShowDialog();

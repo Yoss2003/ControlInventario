@@ -117,4 +117,1030 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="ChkUsarFechas.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="ChkUsarFechas.Location" type="System.Drawing.Point, System.Drawing">
+    <value>502, 41</value>
+  </data>
+  <data name="ChkUsarFechas.Size" type="System.Drawing.Size, System.Drawing">
+    <value>15, 14</value>
+  </data>
+  <data name="ChkUsarFechas.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;ChkUsarFechas.Name" xml:space="preserve">
+    <value>ChkUsarFechas</value>
+  </data>
+  <data name="&gt;&gt;ChkUsarFechas.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ChkUsarFechas.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;ChkUsarFechas.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="BtnLimpiar.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="BtnLimpiar.Location" type="System.Drawing.Point, System.Drawing">
+    <value>555, 44</value>
+  </data>
+  <data name="BtnLimpiar.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="BtnLimpiar.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="BtnLimpiar.Text" xml:space="preserve">
+    <value>Limpiar</value>
+  </data>
+  <data name="&gt;&gt;BtnLimpiar.Name" xml:space="preserve">
+    <value>BtnLimpiar</value>
+  </data>
+  <data name="&gt;&gt;BtnLimpiar.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;BtnLimpiar.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;BtnLimpiar.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="BtnBuscar.Location" type="System.Drawing.Point, System.Drawing">
+    <value>555, 15</value>
+  </data>
+  <data name="BtnBuscar.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="BtnBuscar.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="BtnBuscar.Text" xml:space="preserve">
+    <value>Buscar</value>
+  </data>
+  <data name="&gt;&gt;BtnBuscar.Name" xml:space="preserve">
+    <value>BtnBuscar</value>
+  </data>
+  <data name="&gt;&gt;BtnBuscar.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;BtnBuscar.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;BtnBuscar.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="label4.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>411, 22</value>
+  </data>
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>38, 13</value>
+  </data>
+  <data name="label4.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Hasta:</value>
+  </data>
+  <data name="&gt;&gt;label4.Name" xml:space="preserve">
+    <value>label4</value>
+  </data>
+  <data name="&gt;&gt;label4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label4.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="label5.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>401, 42</value>
+  </data>
+  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>10, 13</value>
+  </data>
+  <data name="label5.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>-</value>
+  </data>
+  <data name="&gt;&gt;label5.Name" xml:space="preserve">
+    <value>label5</value>
+  </data>
+  <data name="&gt;&gt;label5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label5.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="label3.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>313, 23</value>
+  </data>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>41, 13</value>
+  </data>
+  <data name="label3.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Desde:</value>
+  </data>
+  <data name="&gt;&gt;label3.Name" xml:space="preserve">
+    <value>label3</value>
+  </data>
+  <data name="&gt;&gt;label3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="label2.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>140, 22</value>
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>40, 13</value>
+  </data>
+  <data name="label2.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Marca:</value>
+  </data>
+  <data name="&gt;&gt;label2.Name" xml:space="preserve">
+    <value>label2</value>
+  </data>
+  <data name="&gt;&gt;label2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="label1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 22</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 13</value>
+  </data>
+  <data name="label1.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Código articulo:</value>
+  </data>
+  <data name="&gt;&gt;label1.Name" xml:space="preserve">
+    <value>label1</value>
+  </data>
+  <data name="&gt;&gt;label1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="CbBuscarMarcaArticulo.Location" type="System.Drawing.Point, System.Drawing">
+    <value>143, 38</value>
+  </data>
+  <data name="CbBuscarMarcaArticulo.Size" type="System.Drawing.Size, System.Drawing">
+    <value>121, 21</value>
+  </data>
+  <data name="CbBuscarMarcaArticulo.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;CbBuscarMarcaArticulo.Name" xml:space="preserve">
+    <value>CbBuscarMarcaArticulo</value>
+  </data>
+  <data name="&gt;&gt;CbBuscarMarcaArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CbBuscarMarcaArticulo.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;CbBuscarMarcaArticulo.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="TxtBuscarCodArticulo.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 38</value>
+  </data>
+  <data name="TxtBuscarCodArticulo.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 20</value>
+  </data>
+  <data name="TxtBuscarCodArticulo.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;TxtBuscarCodArticulo.Name" xml:space="preserve">
+    <value>TxtBuscarCodArticulo</value>
+  </data>
+  <data name="&gt;&gt;TxtBuscarCodArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TxtBuscarCodArticulo.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;TxtBuscarCodArticulo.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="DtBuscarFechaInicio.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="DtBuscarFechaInicio.Location" type="System.Drawing.Point, System.Drawing">
+    <value>316, 39</value>
+  </data>
+  <data name="DtBuscarFechaInicio.Size" type="System.Drawing.Size, System.Drawing">
+    <value>82, 20</value>
+  </data>
+  <data name="DtBuscarFechaInicio.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;DtBuscarFechaInicio.Name" xml:space="preserve">
+    <value>DtBuscarFechaInicio</value>
+  </data>
+  <data name="&gt;&gt;DtBuscarFechaInicio.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DateTimePicker, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;DtBuscarFechaInicio.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;DtBuscarFechaInicio.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="DtBuscarFechaFin.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="DtBuscarFechaFin.Location" type="System.Drawing.Point, System.Drawing">
+    <value>414, 38</value>
+  </data>
+  <data name="DtBuscarFechaFin.Size" type="System.Drawing.Size, System.Drawing">
+    <value>82, 20</value>
+  </data>
+  <data name="DtBuscarFechaFin.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;DtBuscarFechaFin.Name" xml:space="preserve">
+    <value>DtBuscarFechaFin</value>
+  </data>
+  <data name="&gt;&gt;DtBuscarFechaFin.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DateTimePicker, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;DtBuscarFechaFin.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;DtBuscarFechaFin.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="groupBox2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>98, 7</value>
+  </data>
+  <data name="groupBox2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>663, 74</value>
+  </data>
+  <data name="groupBox2.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>Buscar Articulo</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.Name" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.Parent" xml:space="preserve">
+    <value>TabInventario</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="Id.Text" xml:space="preserve">
+    <value>Id</value>
+  </data>
+  <data name="CodigoArticulo.Text" xml:space="preserve">
+    <value>Codigo</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="CodigoArticulo.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="ModeloArticulo.Text" xml:space="preserve">
+    <value>Modelo</value>
+  </data>
+  <data name="ModeloArticulo.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="SerieArticulo.Text" xml:space="preserve">
+    <value>Serie</value>
+  </data>
+  <data name="SerieArticulo.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="MarcaArticulo.Text" xml:space="preserve">
+    <value>Marca</value>
+  </data>
+  <data name="MarcaArticulo.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="FechaAdquisicionArticulo.Text" xml:space="preserve">
+    <value>Fecha adquisicion</value>
+  </data>
+  <data name="FechaAdquisicionArticulo.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="FechaBajaArticulo.Text" xml:space="preserve">
+    <value>FechaBaja</value>
+  </data>
+  <data name="FechaBajaArticulo.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="FechaFinGarantiaArticulo.Text" xml:space="preserve">
+    <value>Fecha fin garantia</value>
+  </data>
+  <data name="FechaFinGarantiaArticulo.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="DniUsuarioActualArticulo.Text" xml:space="preserve">
+    <value>Dni usuario actual</value>
+  </data>
+  <data name="DniUsuarioActualArticulo.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="NombreUsuarioActualArticulo.Text" xml:space="preserve">
+    <value>Usuario actual</value>
+  </data>
+  <data name="NombreUsuarioActualArticulo.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="AreaUsuarioActualArticulo.Text" xml:space="preserve">
+    <value>Area usuario actual</value>
+  </data>
+  <data name="AreaUsuarioActualArticulo.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="CargoUsuarioActualArticulo.Text" xml:space="preserve">
+    <value>Cargo usuario actual</value>
+  </data>
+  <data name="CargoUsuarioActualArticulo.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="DniUsuarioAnteriorArticulo.Text" xml:space="preserve">
+    <value>Dni usuario anterior</value>
+  </data>
+  <data name="DniUsuarioAnteriorArticulo.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="NombreUsuarioAnteriorArticulo.Text" xml:space="preserve">
+    <value>Usuario anterior</value>
+  </data>
+  <data name="NombreUsuarioAnteriorArticulo.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="AreaUsuarioAnteriorArticulo.Text" xml:space="preserve">
+    <value>Area usuario anterior</value>
+  </data>
+  <data name="AreaUsuarioAnteriorArticulo.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="CargoUsuarioAnteriorArticulo.Text" xml:space="preserve">
+    <value>Cargo usuario anterior</value>
+  </data>
+  <data name="CargoUsuarioAnteriorArticulo.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="EstadoArticulo.Text" xml:space="preserve">
+    <value>Estado</value>
+  </data>
+  <data name="EstadoArticulo.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="UbicacionArticulo.Text" xml:space="preserve">
+    <value>Ubicación</value>
+  </data>
+  <data name="UbicacionArticulo.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="CondicionArticulo.Text" xml:space="preserve">
+    <value>Condición</value>
+  </data>
+  <data name="CondicionArticulo.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="RucArticulo.Text" xml:space="preserve">
+    <value>Ruc proveedor</value>
+  </data>
+  <data name="RucArticulo.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="ProveedorArticulo.Text" xml:space="preserve">
+    <value>Razón social</value>
+  </data>
+  <data name="ProveedorArticulo.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="PrecioArticulo.Text" xml:space="preserve">
+    <value>Precio adquirido</value>
+  </data>
+  <data name="PrecioArticulo.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="ActivoFijoArticulo.Text" xml:space="preserve">
+    <value>Activo fijo</value>
+  </data>
+  <data name="ActivoFijoArticulo.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="ObservacionArticulo.Text" xml:space="preserve">
+    <value>Observacion</value>
+  </data>
+  <data name="ObservacionArticulo.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="ImagenArticulo.Text" xml:space="preserve">
+    <value>Imagen</value>
+  </data>
+  <data name="ImagenArticulo.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="ComprobanteArticulo.Text" xml:space="preserve">
+    <value>Comprobante</value>
+  </data>
+  <data name="ComprobanteArticulo.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="LstArticulos.Location" type="System.Drawing.Point, System.Drawing">
+    <value>98, 87</value>
+  </data>
+  <data name="LstArticulos.Size" type="System.Drawing.Size, System.Drawing">
+    <value>663, 306</value>
+  </data>
+  <data name="LstArticulos.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="LstArticulos.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;LstArticulos.Name" xml:space="preserve">
+    <value>LstArticulos</value>
+  </data>
+  <data name="&gt;&gt;LstArticulos.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ListView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LstArticulos.Parent" xml:space="preserve">
+    <value>TabInventario</value>
+  </data>
+  <data name="&gt;&gt;LstArticulos.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="LstDefault.Location" type="System.Drawing.Point, System.Drawing">
+    <value>98, 87</value>
+  </data>
+  <data name="LstDefault.Size" type="System.Drawing.Size, System.Drawing">
+    <value>663, 306</value>
+  </data>
+  <data name="LstDefault.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;LstDefault.Name" xml:space="preserve">
+    <value>LstDefault</value>
+  </data>
+  <data name="&gt;&gt;LstDefault.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ListView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LstDefault.Parent" xml:space="preserve">
+    <value>TabInventario</value>
+  </data>
+  <data name="&gt;&gt;LstDefault.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="FlCategorias.AutoScroll" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="FlCategorias.FlowDirection" type="System.Windows.Forms.FlowDirection, System.Windows.Forms">
+    <value>TopDown</value>
+  </data>
+  <data name="FlCategorias.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 7</value>
+  </data>
+  <data name="FlCategorias.Size" type="System.Drawing.Size, System.Drawing">
+    <value>86, 386</value>
+  </data>
+  <data name="FlCategorias.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="FlCategorias.WrapContents" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;FlCategorias.Name" xml:space="preserve">
+    <value>FlCategorias</value>
+  </data>
+  <data name="&gt;&gt;FlCategorias.Type" xml:space="preserve">
+    <value>System.Windows.Forms.FlowLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;FlCategorias.Parent" xml:space="preserve">
+    <value>TabInventario</value>
+  </data>
+  <data name="&gt;&gt;FlCategorias.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="TabInventario.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 22</value>
+  </data>
+  <data name="TabInventario.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="TabInventario.Size" type="System.Drawing.Size, System.Drawing">
+    <value>767, 399</value>
+  </data>
+  <data name="TabInventario.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="TabInventario.Text" xml:space="preserve">
+    <value>Inventario</value>
+  </data>
+  <data name="&gt;&gt;TabInventario.Name" xml:space="preserve">
+    <value>TabInventario</value>
+  </data>
+  <data name="&gt;&gt;TabInventario.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TabInventario.Parent" xml:space="preserve">
+    <value>TbPrincipal</value>
+  </data>
+  <data name="&gt;&gt;TabInventario.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="treeView1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="treeView1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="treeView1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>761, 393</value>
+  </data>
+  <data name="treeView1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;treeView1.Name" xml:space="preserve">
+    <value>treeView1</value>
+  </data>
+  <data name="&gt;&gt;treeView1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TreeView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;treeView1.Parent" xml:space="preserve">
+    <value>TabAvanzado</value>
+  </data>
+  <data name="&gt;&gt;treeView1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="TabAvanzado.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 22</value>
+  </data>
+  <data name="TabAvanzado.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="TabAvanzado.Size" type="System.Drawing.Size, System.Drawing">
+    <value>767, 399</value>
+  </data>
+  <data name="TabAvanzado.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="TabAvanzado.Text" xml:space="preserve">
+    <value>Avanzado</value>
+  </data>
+  <data name="&gt;&gt;TabAvanzado.Name" xml:space="preserve">
+    <value>TabAvanzado</value>
+  </data>
+  <data name="&gt;&gt;TabAvanzado.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TabAvanzado.Parent" xml:space="preserve">
+    <value>TbPrincipal</value>
+  </data>
+  <data name="&gt;&gt;TabAvanzado.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="TbPrincipal.Location" type="System.Drawing.Point, System.Drawing">
+    <value>13, 13</value>
+  </data>
+  <data name="TbPrincipal.Size" type="System.Drawing.Size, System.Drawing">
+    <value>775, 425</value>
+  </data>
+  <data name="TbPrincipal.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;TbPrincipal.Name" xml:space="preserve">
+    <value>TbPrincipal</value>
+  </data>
+  <data name="&gt;&gt;TbPrincipal.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TbPrincipal.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;TbPrincipal.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="NuAccionInventario.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 22</value>
+  </data>
+  <data name="NuAccionInventario.Size" type="System.Drawing.Size, System.Drawing">
+    <value>37, 20</value>
+  </data>
+  <data name="NuAccionInventario.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;NuAccionInventario.Name" xml:space="preserve">
+    <value>NuAccionInventario</value>
+  </data>
+  <data name="&gt;&gt;NuAccionInventario.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NuAccionInventario.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;NuAccionInventario.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="LblAccionDecription.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LblAccionDecription.Location" type="System.Drawing.Point, System.Drawing">
+    <value>57, 24</value>
+  </data>
+  <data name="LblAccionDecription.Size" type="System.Drawing.Size, System.Drawing">
+    <value>35, 13</value>
+  </data>
+  <data name="LblAccionDecription.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="LblAccionDecription.Text" xml:space="preserve">
+    <value>label1</value>
+  </data>
+  <data name="&gt;&gt;LblAccionDecription.Name" xml:space="preserve">
+    <value>LblAccionDecription</value>
+  </data>
+  <data name="&gt;&gt;LblAccionDecription.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LblAccionDecription.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;LblAccionDecription.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="BtnNuevaCategoria.Location" type="System.Drawing.Point, System.Drawing">
+    <value>287, 19</value>
+  </data>
+  <data name="BtnNuevaCategoria.Size" type="System.Drawing.Size, System.Drawing">
+    <value>95, 23</value>
+  </data>
+  <data name="BtnNuevaCategoria.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="BtnNuevaCategoria.Text" xml:space="preserve">
+    <value>Nueva Categoria</value>
+  </data>
+  <data name="&gt;&gt;BtnNuevaCategoria.Name" xml:space="preserve">
+    <value>BtnNuevaCategoria</value>
+  </data>
+  <data name="&gt;&gt;BtnNuevaCategoria.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;BtnNuevaCategoria.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;BtnNuevaCategoria.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="BtnExportar.Location" type="System.Drawing.Point, System.Drawing">
+    <value>106, 19</value>
+  </data>
+  <data name="BtnExportar.Size" type="System.Drawing.Size, System.Drawing">
+    <value>57, 23</value>
+  </data>
+  <data name="BtnExportar.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="BtnExportar.Text" xml:space="preserve">
+    <value>Exportar</value>
+  </data>
+  <data name="&gt;&gt;BtnExportar.Name" xml:space="preserve">
+    <value>BtnExportar</value>
+  </data>
+  <data name="&gt;&gt;BtnExportar.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;BtnExportar.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;BtnExportar.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="BtnEliminarArticulo.Location" type="System.Drawing.Point, System.Drawing">
+    <value>476, 19</value>
+  </data>
+  <data name="BtnEliminarArticulo.Size" type="System.Drawing.Size, System.Drawing">
+    <value>91, 23</value>
+  </data>
+  <data name="BtnEliminarArticulo.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="BtnEliminarArticulo.Text" xml:space="preserve">
+    <value>EliminarArticulo</value>
+  </data>
+  <data name="&gt;&gt;BtnEliminarArticulo.Name" xml:space="preserve">
+    <value>BtnEliminarArticulo</value>
+  </data>
+  <data name="&gt;&gt;BtnEliminarArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;BtnEliminarArticulo.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;BtnEliminarArticulo.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="BtnEditarArticulo.Location" type="System.Drawing.Point, System.Drawing">
+    <value>573, 19</value>
+  </data>
+  <data name="BtnEditarArticulo.Size" type="System.Drawing.Size, System.Drawing">
+    <value>91, 23</value>
+  </data>
+  <data name="BtnEditarArticulo.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="BtnEditarArticulo.Text" xml:space="preserve">
+    <value>Editar Articulo</value>
+  </data>
+  <data name="&gt;&gt;BtnEditarArticulo.Name" xml:space="preserve">
+    <value>BtnEditarArticulo</value>
+  </data>
+  <data name="&gt;&gt;BtnEditarArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;BtnEditarArticulo.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;BtnEditarArticulo.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="BtnAgregarArticulo.Location" type="System.Drawing.Point, System.Drawing">
+    <value>670, 19</value>
+  </data>
+  <data name="BtnAgregarArticulo.Size" type="System.Drawing.Size, System.Drawing">
+    <value>91, 23</value>
+  </data>
+  <data name="BtnAgregarArticulo.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="BtnAgregarArticulo.Text" xml:space="preserve">
+    <value>Agregar Articulo</value>
+  </data>
+  <data name="&gt;&gt;BtnAgregarArticulo.Name" xml:space="preserve">
+    <value>BtnAgregarArticulo</value>
+  </data>
+  <data name="&gt;&gt;BtnAgregarArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;BtnAgregarArticulo.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;BtnAgregarArticulo.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>17, 444</value>
+  </data>
+  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>771, 56</value>
+  </data>
+  <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>Acciones</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <metadata name="$this.Language" type="System.Globalization.CultureInfo, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>en-US</value>
+  </metadata>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>6, 13</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>800, 508</value>
+  </data>
+  <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
+    <value>CenterScreen</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Inventario</value>
+  </data>
+  <data name="&gt;&gt;Id.Name" xml:space="preserve">
+    <value>Id</value>
+  </data>
+  <data name="&gt;&gt;Id.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CodigoArticulo.Name" xml:space="preserve">
+    <value>CodigoArticulo</value>
+  </data>
+  <data name="&gt;&gt;CodigoArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ModeloArticulo.Name" xml:space="preserve">
+    <value>ModeloArticulo</value>
+  </data>
+  <data name="&gt;&gt;ModeloArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SerieArticulo.Name" xml:space="preserve">
+    <value>SerieArticulo</value>
+  </data>
+  <data name="&gt;&gt;SerieArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;MarcaArticulo.Name" xml:space="preserve">
+    <value>MarcaArticulo</value>
+  </data>
+  <data name="&gt;&gt;MarcaArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;FechaAdquisicionArticulo.Name" xml:space="preserve">
+    <value>FechaAdquisicionArticulo</value>
+  </data>
+  <data name="&gt;&gt;FechaAdquisicionArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;FechaBajaArticulo.Name" xml:space="preserve">
+    <value>FechaBajaArticulo</value>
+  </data>
+  <data name="&gt;&gt;FechaBajaArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;FechaFinGarantiaArticulo.Name" xml:space="preserve">
+    <value>FechaFinGarantiaArticulo</value>
+  </data>
+  <data name="&gt;&gt;FechaFinGarantiaArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;DniUsuarioActualArticulo.Name" xml:space="preserve">
+    <value>DniUsuarioActualArticulo</value>
+  </data>
+  <data name="&gt;&gt;DniUsuarioActualArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NombreUsuarioActualArticulo.Name" xml:space="preserve">
+    <value>NombreUsuarioActualArticulo</value>
+  </data>
+  <data name="&gt;&gt;NombreUsuarioActualArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;AreaUsuarioActualArticulo.Name" xml:space="preserve">
+    <value>AreaUsuarioActualArticulo</value>
+  </data>
+  <data name="&gt;&gt;AreaUsuarioActualArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CargoUsuarioActualArticulo.Name" xml:space="preserve">
+    <value>CargoUsuarioActualArticulo</value>
+  </data>
+  <data name="&gt;&gt;CargoUsuarioActualArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;DniUsuarioAnteriorArticulo.Name" xml:space="preserve">
+    <value>DniUsuarioAnteriorArticulo</value>
+  </data>
+  <data name="&gt;&gt;DniUsuarioAnteriorArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NombreUsuarioAnteriorArticulo.Name" xml:space="preserve">
+    <value>NombreUsuarioAnteriorArticulo</value>
+  </data>
+  <data name="&gt;&gt;NombreUsuarioAnteriorArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;AreaUsuarioAnteriorArticulo.Name" xml:space="preserve">
+    <value>AreaUsuarioAnteriorArticulo</value>
+  </data>
+  <data name="&gt;&gt;AreaUsuarioAnteriorArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CargoUsuarioAnteriorArticulo.Name" xml:space="preserve">
+    <value>CargoUsuarioAnteriorArticulo</value>
+  </data>
+  <data name="&gt;&gt;CargoUsuarioAnteriorArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;EstadoArticulo.Name" xml:space="preserve">
+    <value>EstadoArticulo</value>
+  </data>
+  <data name="&gt;&gt;EstadoArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;UbicacionArticulo.Name" xml:space="preserve">
+    <value>UbicacionArticulo</value>
+  </data>
+  <data name="&gt;&gt;UbicacionArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CondicionArticulo.Name" xml:space="preserve">
+    <value>CondicionArticulo</value>
+  </data>
+  <data name="&gt;&gt;CondicionArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RucArticulo.Name" xml:space="preserve">
+    <value>RucArticulo</value>
+  </data>
+  <data name="&gt;&gt;RucArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ProveedorArticulo.Name" xml:space="preserve">
+    <value>ProveedorArticulo</value>
+  </data>
+  <data name="&gt;&gt;ProveedorArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;PrecioArticulo.Name" xml:space="preserve">
+    <value>PrecioArticulo</value>
+  </data>
+  <data name="&gt;&gt;PrecioArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ActivoFijoArticulo.Name" xml:space="preserve">
+    <value>ActivoFijoArticulo</value>
+  </data>
+  <data name="&gt;&gt;ActivoFijoArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ObservacionArticulo.Name" xml:space="preserve">
+    <value>ObservacionArticulo</value>
+  </data>
+  <data name="&gt;&gt;ObservacionArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ImagenArticulo.Name" xml:space="preserve">
+    <value>ImagenArticulo</value>
+  </data>
+  <data name="&gt;&gt;ImagenArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ComprobanteArticulo.Name" xml:space="preserve">
+    <value>ComprobanteArticulo</value>
+  </data>
+  <data name="&gt;&gt;ComprobanteArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>VistaInventario</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

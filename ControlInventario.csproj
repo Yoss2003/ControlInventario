@@ -151,6 +151,11 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Idiomas.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Idiomas.resx</DependentUpon>
+    </Compile>
     <Compile Include="Modelo\API\RequestSunat.cs" />
     <Compile Include="Modelo\EdicionArticulo.cs" />
     <Compile Include="Modelo\Empleados.cs" />
@@ -288,6 +293,11 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Idiomas.en-US.resx" />
+    <EmbeddedResource Include="Idiomas.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Idiomas.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -300,6 +310,9 @@
     </Compile>
     <EmbeddedResource Include="Vistas\Aplicacion\VistaArticulos.resx">
       <DependentUpon>VistaArticulos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Vistas\Aplicacion\VistaInventario.en-US.resx">
+      <DependentUpon>VistaInventario.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Vistas\Aplicacion\VistaRegistros.resx">
       <DependentUpon>VistaRegistros.cs</DependentUpon>

@@ -131,13 +131,12 @@ namespace ControlInventario.Servicios
 
         public static void NormalizarTexto(ComboBox combo)
         {
-            if (string.IsNullOrWhiteSpace(combo.Text) || combo.Text != "SELECCIONE")
+            if (string.IsNullOrWhiteSpace(combo.Text) || combo.Text != Idiomas.OpcionSeleccione)
             {
-                combo.Text = "SELECCIONE";
+                combo.Text = Idiomas.OpcionSeleccione;
             }
         }
 
-        // Método genérico que sirve para CUALQUIER tabla
         public static bool ExisteComponenteDuplicado(string nombreTabla, string valorIngresado, int idActual = 0, string nombreColumna = "Nombre")
         {
             using (var con = ConexionGlobal.ObtenerConexion())
@@ -263,17 +262,19 @@ namespace ControlInventario.Servicios
 
             string codigoCultura = "es-ES";
 
-            if (idiomaSeleccionado.Contains("Inglés") || idiomaSeleccionado.Contains("English"))
+            switch (idiomaSeleccionado)
             {
-                codigoCultura = "en-US";
-            }
-            else if (idiomaSeleccionado.Contains("Portugués"))
-            {
-                codigoCultura = "pt-BR";
+                case "Inglés":
+                    codigoCultura = "en-US";
+                    break;
+                case "Portugués":
+                    codigoCultura = "pt-BR";
+                    break;
             }
 
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo(codigoCultura);
-            Thread.CurrentThread.CurrentCulture = new CultureInfo(codigoCultura);
+            CultureInfo culturaSeleccionada = new CultureInfo(codigoCultura);
+            Thread.CurrentThread.CurrentCulture = culturaSeleccionada;
+            Thread.CurrentThread.CurrentUICulture = culturaSeleccionada;
         }
 
         public static void AplicarFormatoFecha(DateTimePicker dtp)

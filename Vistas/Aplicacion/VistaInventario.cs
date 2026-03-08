@@ -43,9 +43,11 @@ namespace ControlInventario.Vistas
             ChkUsarFechas.Enabled = false;
             LstArticulos.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
             LblAccionDecription.Text = "EXCEL";
-            CargarArticulos();
+            CargarCategorias();
 
             ClassHelper.AplicarTema(this);
+            ClassHelper.AplicarFormatoFecha(DtBuscarFechaFin);
+            ClassHelper.AplicarFormatoFecha(DtBuscarFechaInicio);
         }
 
         private void BtnNuevaCategoria_Click(object sender, EventArgs e)
@@ -93,7 +95,7 @@ namespace ControlInventario.Vistas
             LstArticulos.Focus();
         }
 
-        public void CargarArticulos()
+        public void CargarCategorias()
         {
             // 1. Guardar memoria de lo que estaba seleccionado
             int idSeleccionadoPreviamente = this.categoriaSeleccionadaId;
@@ -697,7 +699,7 @@ namespace ControlInventario.Vistas
             ChkUsarFechas.Checked = false;
 
             TxtBuscarCodArticulo.Focus();
-            CargarArticulos();
+            CargarCategorias();
         }
 
         private void TxtBuscarCodArticulo_TextChanged(object sender, EventArgs e)

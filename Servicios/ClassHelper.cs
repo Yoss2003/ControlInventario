@@ -1,8 +1,5 @@
-﻿
-using ControlInventario.Database;
-using ControlInventario.Modelo;
+﻿using ControlInventario.Database;
 using ControlInventario.Modelos;
-using ControlInventario.Repositorio;
 using ControlInventario.Vistas;
 using System;
 using System.Collections.Generic;
@@ -10,7 +7,11 @@ using System.Data;
 using System.Data.SQLite;
 using System.Drawing;
 using System.Globalization;
+using System.Net.Http;
+using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ControlInventario.Servicios
@@ -19,6 +20,7 @@ namespace ControlInventario.Servicios
     public class ClassHelper
     {
         private VistaInventario inventario;
+        public static Dictionary<string, decimal> TasasDeCambioCache = new Dictionary<string, decimal>();
 
         public ClassHelper(VistaInventario vista)
         {
@@ -93,9 +95,9 @@ namespace ControlInventario.Servicios
                 item.SubItems.Add(art.Modelo ?? "");
                 item.SubItems.Add(art.Serie ?? "");
                 item.SubItems.Add(art.Marca ?? "");
-                item.SubItems.Add(art.FechaAdquisicion.ToString("dd/MM/yyyy") ?? "");
-                item.SubItems.Add(art.FechaBaja?.ToString("dd/MM/yyyy") ?? "");
-                item.SubItems.Add(art.FechaFinGarantia?.ToString("dd/MM/yyyy") ?? "");
+                item.SubItems.Add(ClassHelper.FormatearFecha(art.FechaAdquisicion));
+                item.SubItems.Add(ClassHelper.FormatearFecha(art.FechaBaja));
+                item.SubItems.Add(ClassHelper.FormatearFecha(art.FechaFinGarantia));
                 item.SubItems.Add(art.DniUsuarioActual ?? "");
                 item.SubItems.Add(art.NombreUsuarioActual ?? "");
                 item.SubItems.Add(art.AreaUsuarioActual ?? "");
@@ -109,7 +111,7 @@ namespace ControlInventario.Servicios
                 item.SubItems.Add(art.Condicion ?? "");
                 item.SubItems.Add(art.RucProveedor ?? "");
                 item.SubItems.Add(art.Proveedor ?? "");
-                item.SubItems.Add(art.PrecioAdquisicion?.ToString("C2") ?? "");
+                item.SubItems.Add(ClassHelper.FormatearMoneda(art.PrecioAdquisicion));
                 item.SubItems.Add(art.ActivoFijo ?? "");
                 item.SubItems.Add(art.Observacion ?? "");
                 item.SubItems.Add(art.FotoPrincipal ?? "");
@@ -117,6 +119,7 @@ namespace ControlInventario.Servicios
 
                 listView.Items.Add(item);
             }
+
         }
 
         public static string NormalizarCombo(ComboBox combo)
@@ -272,5 +275,163 @@ namespace ControlInventario.Servicios
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(codigoCultura);
             Thread.CurrentThread.CurrentCulture = new CultureInfo(codigoCultura);
         }
+
+        public static void AplicarFormatoFecha(DateTimePicker dtp)
+        {
+            string formato = UsuarioSesion.Configuracion?.FormatoFecha ?? "dd/MM/yyyy";
+
+            dtp.Format = DateTimePickerFormat.Custom;
+            dtp.CustomFormat = formato;
+        }
+
+        public static string FormatearFecha(DateTime? fecha)
+        {
+            if (!fecha.HasValue)
+                return "";
+
+            string formato = UsuarioSesion.Configuracion?.FormatoFecha ?? "dd/MM/yyyy";
+            return fecha.Value.ToString(formato);
+        }
+
+        public static string FormatearMoneda(decimal? monto)
+        {
+            if (!monto.HasValue) return "";
+
+            string monedaCompleta = UsuarioSesion.Configuracion?.Moneda ?? "USD";
+            string isoCode = (!string.IsNullOrEmpty(monedaCompleta) && monedaCompleta.Length >= 3)
+                     ? monedaCompleta.Substring(0, 3)
+                     : "PEN";
+
+            decimal tasaPEN = TasasDeCambioCache.ContainsKey("PEN") ? TasasDeCambioCache["PEN"] : 3.75m;
+            decimal tasaDestino = TasasDeCambioCache.ContainsKey(isoCode) ? TasasDeCambioCache[isoCode] : 1.00m;
+
+            decimal montoEnUSD = monto.Value / tasaPEN;
+            decimal montoConvertido = montoEnUSD * tasaDestino;
+
+            string simboloVisual;
+            switch (isoCode)
+            {
+                case "PEN": simboloVisual = "S/"; break;
+                case "USD": simboloVisual = "$"; break;
+                case "EUR": simboloVisual = "€"; break;
+                case "MXN": simboloVisual = "$"; break;
+                default: simboloVisual = isoCode; break;
+            }
+
+            return $"{simboloVisual} {montoConvertido.ToString("N2")}";
+        }
+
+        public static decimal? ConvertirTextoAMoneda(string textoMoneda)
+        {
+            if (string.IsNullOrWhiteSpace(textoMoneda)) return null;
+
+            string textoLimpio = Regex.Replace(textoMoneda, @"[^\d.,-]", "").Trim();
+            if (string.IsNullOrWhiteSpace(textoLimpio)) return null;
+
+            decimal? montoPantalla = null;
+
+            if (decimal.TryParse(textoLimpio, NumberStyles.Any, CultureInfo.CurrentCulture, out decimal resultadoA))
+                montoPantalla = resultadoA;
+            else if (decimal.TryParse(textoLimpio, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal resultadoB))
+                montoPantalla = resultadoB;
+
+            if (montoPantalla.HasValue)
+            {
+                string monedaCompleta = UsuarioSesion.Configuracion?.Moneda ?? "PEN";
+                string isoCode = (!string.IsNullOrEmpty(monedaCompleta) && monedaCompleta.Length >= 3) ? monedaCompleta.Substring(0, 3) : "PEN";
+
+                decimal tasaPEN = TasasDeCambioCache.ContainsKey("PEN") ? TasasDeCambioCache["PEN"] : 3.75m;
+                decimal tasaOrigen = TasasDeCambioCache.ContainsKey(isoCode) ? TasasDeCambioCache[isoCode] : 1.00m;
+
+                decimal montoEnUSD = montoPantalla.Value / tasaOrigen;
+
+                decimal montoParaBD = montoEnUSD * tasaPEN;
+
+                return montoParaBD;
+            }
+
+            return null;
+        }
+
+        public static decimal ObtenerTipoCambio(string codigoISODestino)
+        {
+            if (TasasDeCambioCache == null || TasasDeCambioCache.Count == 0)
+                return 1.00m;
+
+            decimal valorSolEnUSD = TasasDeCambioCache.ContainsKey("PEN") ? TasasDeCambioCache["PEN"] : 3.75m;
+            decimal valorDestinoEnUSD = TasasDeCambioCache.ContainsKey(codigoISODestino) ? TasasDeCambioCache[codigoISODestino] : 1.00m;
+
+            return valorDestinoEnUSD / valorSolEnUSD;
+        }
+
+        public static async Task CargarTasasDeCambioDesdeAPI()
+        {
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    string url = "https://open.er-api.com/v6/latest/USD";
+
+                    HttpResponseMessage response = await client.GetAsync(url);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string jsonString = await response.Content.ReadAsStringAsync();
+
+                        using (JsonDocument doc = JsonDocument.Parse(jsonString))
+                        {
+                            JsonElement rates = doc.RootElement.GetProperty("rates");
+                            TasasDeCambioCache.Clear();
+
+                            foreach (JsonProperty moneda in rates.EnumerateObject())
+                            {
+                                TasasDeCambioCache[moneda.Name] = moneda.Value.GetDecimal();
+                            }
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                TasasDeCambioCache["USD"] = 1.00m;
+                TasasDeCambioCache["PEN"] = 3.75m;
+                TasasDeCambioCache["EUR"] = 0.92m;
+            }
+        }
+
+        public static decimal? LimpiarTextoParaEdicion(string textoMoneda)
+        {
+            if (string.IsNullOrWhiteSpace(textoMoneda)) return null;
+
+            string textoLimpio = Regex.Replace(textoMoneda, @"[^\d.,-]", "").Trim();
+            if (string.IsNullOrWhiteSpace(textoLimpio)) return null;
+
+            if (decimal.TryParse(textoLimpio, NumberStyles.Any, CultureInfo.CurrentCulture, out decimal resultadoA))
+                return resultadoA;
+            if (decimal.TryParse(textoLimpio, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal resultadoB))
+                return resultadoB;
+
+            return null;
+        }
+
+        public static string AgregarSimboloVisual(decimal? montoEnPantalla)
+        {
+            if (!montoEnPantalla.HasValue) return "";
+
+            string monedaCompleta = UsuarioSesion.Configuracion?.Moneda ?? "PEN";
+            string isoCode = (!string.IsNullOrEmpty(monedaCompleta) && monedaCompleta.Length >= 3)
+                             ? monedaCompleta.Substring(0, 3) : "PEN";
+
+            string simboloVisual;
+            switch (isoCode)
+            {
+                case "PEN": simboloVisual = "S/."; break;
+                case "USD": simboloVisual = "$"; break;
+                case "EUR": simboloVisual = "€"; break;
+                default: simboloVisual = isoCode; break;
+            }
+
+            return $"{simboloVisual} {montoEnPantalla.Value.ToString("0.00")}";
+        }
+
     }
 }

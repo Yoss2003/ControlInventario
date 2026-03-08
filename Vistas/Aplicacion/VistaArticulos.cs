@@ -277,7 +277,7 @@ namespace ControlInventario.Vistas
 
                 string codigoActivoFijo = TxtActivoFijo.Text.Trim();
                 string precioTexto = TxtPrecio.Text.Trim().Replace(".", ",");
-                decimal? precioFinal = null;
+                decimal? precioFinal = ClassHelper.ConvertirTextoAMoneda(precioTexto);
 
                 // Verificar ActivoFijo
                 if (!string.IsNullOrEmpty(codigoActivoFijo))
@@ -289,12 +289,6 @@ namespace ControlInventario.Vistas
                         TxtActivoFijo.Focus();
                         return;
                     }
-                }
-
-                // Verificar Precio
-                if (decimal.TryParse(precioTexto, out decimal resultadoDecimal))
-                {
-                    precioFinal = resultadoDecimal;
                 }
 
                 // Mapear Codigo automatico
@@ -788,6 +782,9 @@ namespace ControlInventario.Vistas
                 }
             }
             ClassHelper.AplicarTema(this);
+            ClassHelper.AplicarFormatoFecha(DtpFechaFinGarantia);
+            ClassHelper.AplicarFormatoFecha(DtpFechaBaja);
+            ClassHelper.AplicarFormatoFecha(DtpFechaAdquisicion);
         }
 
         private void BtnAgregarMarca_Click(object sender, EventArgs e)
@@ -975,20 +972,14 @@ namespace ControlInventario.Vistas
 
         private void TxtPrecio_Enter(object sender, EventArgs e)
         {
-            string valorLimpio = TxtPrecio.Text.Replace("S/", "").Replace(",", "").Trim();
-
-            if (decimal.TryParse(valorLimpio, out decimal numero))
-            {
-                TxtPrecio.Text = numero.ToString("0.00");
-            }
+            decimal? numeroPuro = ClassHelper.LimpiarTextoParaEdicion(TxtPrecio.Text);
+            TxtPrecio.Text = numeroPuro.HasValue ? numeroPuro.Value.ToString("0.00") : "";
         }
 
         private void TxtPrecio_Leave(object sender, EventArgs e)
         {
-            if (decimal.TryParse(TxtPrecio.Text, out decimal numero))
-            {
-                TxtPrecio.Text = numero.ToString("C2");
-            }
+            decimal? numeroPuro = ClassHelper.LimpiarTextoParaEdicion(TxtPrecio.Text);
+            TxtPrecio.Text = ClassHelper.AgregarSimboloVisual(numeroPuro);
         }
 
         private void Fondo_Click(object sender, EventArgs e)

@@ -97,8 +97,22 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.TabGeneral = new System.Windows.Forms.TabPage();
             this.DgHistorial = new System.Windows.Forms.DataGridView();
+            this.IdArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CodigoArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CategoriaArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AccionArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.UsuarioArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FechaArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ObservacionArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TabEmpleados = new System.Windows.Forms.TabPage();
             this.DgEmpleados = new System.Windows.Forms.DataGridView();
+            this.IdEmpleado = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.NombreEmpleado = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ApellidoEmpleado = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DniEmpleado = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CargoEmpleado = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AreaEmpleado = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.EstadoEmpleado = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label17 = new System.Windows.Forms.Label();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.BtnLimpiar = new System.Windows.Forms.Button();
@@ -111,20 +125,6 @@
             this.EmpleadoCargo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.EmpleadoArea = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.EmpleadoEstado = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.IdArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CodigoArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CategoriaArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AccionArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.UsuarioArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FechaArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ObservacionArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.IdEmpleado = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.NombreEmpleado = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ApellidoEmpleado = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DniEmpleado = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CargoEmpleado = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AreaEmpleado = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.EstadoEmpleado = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox2.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -670,6 +670,56 @@
             this.DgHistorial.RowsDefaultCellStyle = dataGridViewCellStyle2;
             this.DgHistorial.Size = new System.Drawing.Size(435, 184);
             this.DgHistorial.TabIndex = 15;
+            this.DgHistorial.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.DgHistorial_CellFormatting);
+            // 
+            // IdArticulo
+            // 
+            this.IdArticulo.HeaderText = "Id";
+            this.IdArticulo.Name = "IdArticulo";
+            this.IdArticulo.ReadOnly = true;
+            this.IdArticulo.Width = 41;
+            // 
+            // CodigoArticulo
+            // 
+            this.CodigoArticulo.HeaderText = "Articulo";
+            this.CodigoArticulo.Name = "CodigoArticulo";
+            this.CodigoArticulo.ReadOnly = true;
+            this.CodigoArticulo.Width = 67;
+            // 
+            // CategoriaArticulo
+            // 
+            this.CategoriaArticulo.HeaderText = "Categoría";
+            this.CategoriaArticulo.Name = "CategoriaArticulo";
+            this.CategoriaArticulo.ReadOnly = true;
+            this.CategoriaArticulo.Width = 79;
+            // 
+            // AccionArticulo
+            // 
+            this.AccionArticulo.HeaderText = "Acción";
+            this.AccionArticulo.Name = "AccionArticulo";
+            this.AccionArticulo.ReadOnly = true;
+            this.AccionArticulo.Width = 65;
+            // 
+            // UsuarioArticulo
+            // 
+            this.UsuarioArticulo.HeaderText = "Usuario";
+            this.UsuarioArticulo.Name = "UsuarioArticulo";
+            this.UsuarioArticulo.ReadOnly = true;
+            this.UsuarioArticulo.Width = 68;
+            // 
+            // FechaArticulo
+            // 
+            this.FechaArticulo.HeaderText = "Fecha";
+            this.FechaArticulo.Name = "FechaArticulo";
+            this.FechaArticulo.ReadOnly = true;
+            this.FechaArticulo.Width = 62;
+            // 
+            // ObservacionArticulo
+            // 
+            this.ObservacionArticulo.HeaderText = "Observaciones";
+            this.ObservacionArticulo.Name = "ObservacionArticulo";
+            this.ObservacionArticulo.ReadOnly = true;
+            this.ObservacionArticulo.Width = 103;
             // 
             // TabEmpleados
             // 
@@ -718,6 +768,55 @@
             this.DgEmpleados.RowsDefaultCellStyle = dataGridViewCellStyle5;
             this.DgEmpleados.Size = new System.Drawing.Size(435, 184);
             this.DgEmpleados.TabIndex = 15;
+            // 
+            // IdEmpleado
+            // 
+            this.IdEmpleado.HeaderText = "Id";
+            this.IdEmpleado.Name = "IdEmpleado";
+            this.IdEmpleado.ReadOnly = true;
+            this.IdEmpleado.Width = 41;
+            // 
+            // NombreEmpleado
+            // 
+            this.NombreEmpleado.HeaderText = "Nombres";
+            this.NombreEmpleado.Name = "NombreEmpleado";
+            this.NombreEmpleado.ReadOnly = true;
+            this.NombreEmpleado.Width = 74;
+            // 
+            // ApellidoEmpleado
+            // 
+            this.ApellidoEmpleado.HeaderText = "Apellidos";
+            this.ApellidoEmpleado.Name = "ApellidoEmpleado";
+            this.ApellidoEmpleado.ReadOnly = true;
+            this.ApellidoEmpleado.Width = 74;
+            // 
+            // DniEmpleado
+            // 
+            this.DniEmpleado.HeaderText = "DNI";
+            this.DniEmpleado.Name = "DniEmpleado";
+            this.DniEmpleado.ReadOnly = true;
+            this.DniEmpleado.Width = 51;
+            // 
+            // CargoEmpleado
+            // 
+            this.CargoEmpleado.HeaderText = "Cargo";
+            this.CargoEmpleado.Name = "CargoEmpleado";
+            this.CargoEmpleado.ReadOnly = true;
+            this.CargoEmpleado.Width = 60;
+            // 
+            // AreaEmpleado
+            // 
+            this.AreaEmpleado.HeaderText = "Área";
+            this.AreaEmpleado.Name = "AreaEmpleado";
+            this.AreaEmpleado.ReadOnly = true;
+            this.AreaEmpleado.Width = 54;
+            // 
+            // EstadoEmpleado
+            // 
+            this.EstadoEmpleado.HeaderText = "Estado";
+            this.EstadoEmpleado.Name = "EstadoEmpleado";
+            this.EstadoEmpleado.ReadOnly = true;
+            this.EstadoEmpleado.Width = 65;
             // 
             // label17
             // 
@@ -806,104 +905,6 @@
             // EmpleadoEstado
             // 
             this.EmpleadoEstado.Text = "Estado";
-            // 
-            // IdArticulo
-            // 
-            this.IdArticulo.HeaderText = "Id";
-            this.IdArticulo.Name = "IdArticulo";
-            this.IdArticulo.ReadOnly = true;
-            this.IdArticulo.Width = 41;
-            // 
-            // CodigoArticulo
-            // 
-            this.CodigoArticulo.HeaderText = "Articulo";
-            this.CodigoArticulo.Name = "CodigoArticulo";
-            this.CodigoArticulo.ReadOnly = true;
-            this.CodigoArticulo.Width = 67;
-            // 
-            // CategoriaArticulo
-            // 
-            this.CategoriaArticulo.HeaderText = "Categoría";
-            this.CategoriaArticulo.Name = "CategoriaArticulo";
-            this.CategoriaArticulo.ReadOnly = true;
-            this.CategoriaArticulo.Width = 79;
-            // 
-            // AccionArticulo
-            // 
-            this.AccionArticulo.HeaderText = "Acción";
-            this.AccionArticulo.Name = "AccionArticulo";
-            this.AccionArticulo.ReadOnly = true;
-            this.AccionArticulo.Width = 65;
-            // 
-            // UsuarioArticulo
-            // 
-            this.UsuarioArticulo.HeaderText = "Usuario";
-            this.UsuarioArticulo.Name = "UsuarioArticulo";
-            this.UsuarioArticulo.ReadOnly = true;
-            this.UsuarioArticulo.Width = 68;
-            // 
-            // FechaArticulo
-            // 
-            this.FechaArticulo.HeaderText = "Fecha";
-            this.FechaArticulo.Name = "FechaArticulo";
-            this.FechaArticulo.ReadOnly = true;
-            this.FechaArticulo.Width = 62;
-            // 
-            // ObservacionArticulo
-            // 
-            this.ObservacionArticulo.HeaderText = "Observaciones";
-            this.ObservacionArticulo.Name = "ObservacionArticulo";
-            this.ObservacionArticulo.ReadOnly = true;
-            this.ObservacionArticulo.Width = 103;
-            // 
-            // IdEmpleado
-            // 
-            this.IdEmpleado.HeaderText = "Id";
-            this.IdEmpleado.Name = "IdEmpleado";
-            this.IdEmpleado.ReadOnly = true;
-            this.IdEmpleado.Width = 41;
-            // 
-            // NombreEmpleado
-            // 
-            this.NombreEmpleado.HeaderText = "Nombres";
-            this.NombreEmpleado.Name = "NombreEmpleado";
-            this.NombreEmpleado.ReadOnly = true;
-            this.NombreEmpleado.Width = 74;
-            // 
-            // ApellidoEmpleado
-            // 
-            this.ApellidoEmpleado.HeaderText = "Apellidos";
-            this.ApellidoEmpleado.Name = "ApellidoEmpleado";
-            this.ApellidoEmpleado.ReadOnly = true;
-            this.ApellidoEmpleado.Width = 74;
-            // 
-            // DniEmpleado
-            // 
-            this.DniEmpleado.HeaderText = "DNI";
-            this.DniEmpleado.Name = "DniEmpleado";
-            this.DniEmpleado.ReadOnly = true;
-            this.DniEmpleado.Width = 51;
-            // 
-            // CargoEmpleado
-            // 
-            this.CargoEmpleado.HeaderText = "Cargo";
-            this.CargoEmpleado.Name = "CargoEmpleado";
-            this.CargoEmpleado.ReadOnly = true;
-            this.CargoEmpleado.Width = 60;
-            // 
-            // AreaEmpleado
-            // 
-            this.AreaEmpleado.HeaderText = "Área";
-            this.AreaEmpleado.Name = "AreaEmpleado";
-            this.AreaEmpleado.ReadOnly = true;
-            this.AreaEmpleado.Width = 54;
-            // 
-            // EstadoEmpleado
-            // 
-            this.EstadoEmpleado.HeaderText = "Estado";
-            this.EstadoEmpleado.Name = "EstadoEmpleado";
-            this.EstadoEmpleado.ReadOnly = true;
-            this.EstadoEmpleado.Width = 65;
             // 
             // VistaRegistros
             // 

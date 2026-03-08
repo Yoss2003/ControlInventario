@@ -6,6 +6,7 @@ using System;
 using System.Data.SQLite;
 using System.Drawing;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace ControlInventario.Vistas
 {
@@ -77,6 +78,7 @@ namespace ControlInventario.Vistas
             // Insertar el panel en el GroupBox
             groupInicio.Controls.Add(panelInfo);
             ClassHelper.AplicarTema(this);
+            lblFecha.Text = ClassHelper.FormatearFecha(DateTime.Now);
         }
 
         private void btnRegistros_Click(object sender, EventArgs e)

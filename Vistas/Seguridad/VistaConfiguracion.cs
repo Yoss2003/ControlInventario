@@ -173,6 +173,7 @@ namespace ControlInventario.Vistas
                     PerfilRepository.GuardarPerfilUsuario(perf, con);
                     UsuarioSesion.Configuracion = perf;
                     ClassHelper.ActualizarTemaGlobal();
+
                     MessageBox.Show("Configuración para " + nombreUsuario + " guardada correctamente.", "Éxito", 
                         MessageBoxButtons.OK, 
                         MessageBoxIcon.Information);

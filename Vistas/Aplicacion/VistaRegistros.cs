@@ -86,6 +86,8 @@ namespace ControlInventario.Vistas.Aplicacion
             }
 
             ClassHelper.AplicarTema(this);
+            ClassHelper.AplicarFormatoFecha(DtFechaFin);
+            ClassHelper.AplicarFormatoFecha(DtFechaInicio);
         }
 
         private void BtnNewCargo_Click(object sender, EventArgs e)
@@ -248,6 +250,18 @@ namespace ControlInventario.Vistas.Aplicacion
         private void BtnLimpiar_Click(object sender, EventArgs e)
         {
             LimpiarVista(TipoAccion.Limpiar);
+        }
+
+        private void DgHistorial_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (DgHistorial.Columns[e.ColumnIndex].Name == "FechaArticulo" && e.Value != null)
+            {
+                if(DateTime.TryParse(e.Value.ToString(), out DateTime fechaReal))
+                {
+                    e.Value = ClassHelper.FormatearFecha(fechaReal);
+                    e.FormattingApplied = true;
+                }
+            }
         }
     }
 }

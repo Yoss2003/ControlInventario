@@ -244,6 +244,7 @@ namespace ControlInventario.Vistas.Extras
             }
             CargarDatos();
             ClassHelper.AplicarTema(this);
+            LblFecha.Text = ClassHelper.FormatearFecha(DateTime.Now);
         }
 
         private async void BtnGuardar_Click(object sender, EventArgs e)
@@ -641,7 +642,7 @@ namespace ControlInventario.Vistas.Extras
 
                 if (_vistaPrincipal is VistaInventario inventarioVista)
                 {
-                    inventarioVista.CargarArticulos();
+                    inventarioVista.CargarCategorias();
                 }
                 CargarDatos();
             }

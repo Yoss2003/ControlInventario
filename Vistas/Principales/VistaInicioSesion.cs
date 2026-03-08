@@ -95,7 +95,7 @@ namespace ControlInventario
             ClassHelper.AplicarIdiomaGlobal();
         }
 
-        private void btnIngresar_Click(object sender, EventArgs e)
+        private async void btnIngresar_Click(object sender, EventArgs e)
         {
             // Obtener y limpiar entradas
             string usuario = txtUsuario.Text.Trim();
@@ -180,7 +180,8 @@ namespace ControlInventario
             catch { }
 
             var repo = new InventarioRepository();
-            var inventario = repo.ObtenerOCrearInventarioPorUsuario(user.NombreUsuario);
+            var inventario = repo.ObtenerOCrearInventarioPorUsuario(user.NombreUsuario); 
+            await ClassHelper.CargarTasasDeCambioDesdeAPI();
 
             UsuarioSesion.InventarioId = inventario.Id;
 

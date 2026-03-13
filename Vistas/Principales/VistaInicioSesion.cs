@@ -3,10 +3,10 @@ using ControlInventario.Modelos;
 using ControlInventario.Repositorio;
 using ControlInventario.Servicios;
 using ControlInventario.Vistas;
+using Microsoft.SqlServer.Server;
 using System;
 using System.Data.SQLite;
 using System.Drawing;
-using System.Globalization;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
@@ -81,13 +81,14 @@ namespace ControlInventario
                     con.Open();
 
                     lblConexion.Visible = true;
-                    lblConexion.Text = "Conexión exitosa";
+                    lblConexion.Text = Idiomas.MensajeConexionBdExitosa;
                     lblConexion.ForeColor = Color.Green;
                 }
                 catch (Exception ex)
                 {
+                    string mensajeError = string.Format(Idiomas.MensajeConexionBdError, ex.Message);
                     lblConexion.Visible = true;
-                    lblConexion.Text = "Error de conexión: " + ex.Message;
+                    lblConexion.Text = mensajeError;
                     lblConexion.ForeColor = Color.Red;
                 }
             }
@@ -109,9 +110,9 @@ namespace ControlInventario
             if (string.IsNullOrWhiteSpace(usuario) || string.IsNullOrWhiteSpace(contraseña)) 
             { 
                 if (string.IsNullOrWhiteSpace(usuario)) 
-                    lblErrorUsuario.Text = "Ingrese el usuario."; 
+                    lblErrorUsuario.Text = Idiomas.MensajeAdvertenciaIniciarSesionUsuario; 
                 if (string.IsNullOrWhiteSpace(contraseña)) 
-                    lblErrorContraseña.Text = "Ingrese la contraseña."; 
+                    lblErrorContraseña.Text = Idiomas.MensajeAdvertenciaIniciarSesionContraseña; 
 
                 lblErrorUsuario.Visible = string.IsNullOrWhiteSpace(usuario); 
                 lblErrorContraseña.Visible = string.IsNullOrWhiteSpace(contraseña); 
@@ -136,7 +137,7 @@ namespace ControlInventario
             // Validar si el usuario existe
             if (user == null)
             {
-                lblErrorUsuario.Text = "Usuario no encontrado."; 
+                lblErrorUsuario.Text = Idiomas.MensajeErrorIniciarSesionUsuario; 
                 lblErrorUsuario.Visible = true; 
                 return;
             }
@@ -144,7 +145,7 @@ namespace ControlInventario
             // Validar contraseña
             if (user.Contraseña != contraseña)
             {
-                lblErrorContraseña.Text = "Contraseña incorrecta."; 
+                lblErrorContraseña.Text = Idiomas.MensajeErrorIniciarSesionContraseña; 
                 lblErrorContraseña.Visible = true; 
                 return;
             }
@@ -198,7 +199,7 @@ namespace ControlInventario
             // Mostrar advertencia si se activa la casilla "Recuérdame"
             if (chkRecuerdame.Checked == true)
             {
-                MessageBox.Show("Si el equipo es compartido no recomendamos activar esta casilla", "Information",
+                MessageBox.Show(Idiomas.MensajeAdvertenciaIniciarSesionRecuerdame, Idiomas.TituloInformacion,
                     MessageBoxButtons.OK);
             }
         }
@@ -218,7 +219,7 @@ namespace ControlInventario
                 // Validar que el usuario no esté vacío
                 if (string.IsNullOrEmpty(usuarioIngresado))
                 {
-                    MessageBox.Show("Ingresa tu usuario antes de recuperar la contraseña.");
+                    MessageBox.Show(Idiomas.MensajeAdvertenciaRecuperarUsuario);
                     return;
                 }
 
@@ -236,7 +237,7 @@ namespace ControlInventario
                         // Validar si se encontró el usuario y su correo
                         if (result == null)
                         {
-                            MessageBox.Show("Usuario no encontrado.");
+                            MessageBox.Show(Idiomas.MensajeErrorUsuario);
                             return;
                         }
                         correoUsuario = result.ToString();
@@ -252,19 +253,10 @@ namespace ControlInventario
                 {
                     MailMessage message = new MailMessage();
                     message.To.Add(correoUsuario);
-                    message.Subject = "Código de recuperación de contraseña";
-                    message.From = new MailAddress("soporte@controlinventario.com", "Soporte ControlInventario");
+                    message.Subject = Idiomas.AsuntoCorreoRecuperacion;
+                    message.From = new MailAddress("soporte@controlinventario.com", Idiomas.NombreRemitenteCorreo);
                     message.IsBodyHtml = true;
-                    message.Body = $@"
-                    <div style='font-family:Segoe UI; padding:20px; background-color:#f9f9f9; border:1px solid #ddd;'>
-                        <h2 style='color:#2c3e50;'>Recuperación de contraseña</h2>
-                        <p>Hola <strong>{usuarioIngresado}</strong>,</p>
-                        <p>Has solicitado recuperar tu contraseña. Tu código de seguridad es:</p>
-                        <div style='font-size:24px; font-weight:bold; color:#2980b9; margin:20px 0;'>{Recuperacion.CodigoGenerado}</div>
-                        <p>Este código es válido por 10 minutos. Si no solicitaste este correo, puedes ignorarlo.</p>
-                        <hr />
-                        <p style='font-size:12px; color:#888;'>© 2026 ControlInventario. Todos los derechos reservados.</p>
-                    </div>";
+                    message.Body = string.Format(Idiomas.PlantillaCorreoRecuperacion, usuarioIngresado, Recuperacion.CodigoGenerado);
 
                     SmtpClient smtp = new SmtpClient("smtp.gmail.com");
                     smtp.Port = 587;
@@ -276,8 +268,8 @@ namespace ControlInventario
                     {
                         overlay.Ocultar();
                         MessageBox.Show(
-                            "Código enviado\n\nHemos enviado un código de seguridad a tu correo electrónico.",
-                            "Verificación de seguridad",
+                            Idiomas.MensajeExitoEnvioCorreo,
+                            Idiomas.TituloValidacion,
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Information
                         );
@@ -286,7 +278,8 @@ namespace ControlInventario
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error al enviar el correo: " + ex.Message);
+                    string mensajeError = string.Format(Idiomas.MensajeErrorEnviarCorreo, ex.Message);
+                    MessageBox.Show(mensajeError);
                 }
             });
 

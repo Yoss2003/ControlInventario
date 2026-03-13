@@ -51,58 +51,58 @@ namespace ControlInventario.Vistas
             bool valido = true;
             if (string.IsNullOrWhiteSpace(TxtCodigo.Text))
             {
-                ErrorArticulos.SetError(TxtCodigo, Idiomas.MensajeErrorCodigoAgregarArticulo);
+                ErrorArticulos.SetError(TxtCodigo, Idiomas.MensajeErrorAgregarCodigoArticulo);
                 valido = false;
             }
 
             if (string.IsNullOrWhiteSpace(TxtModelo.Text))
             {
-                ErrorArticulos.SetError(TxtModelo, Idiomas.MensajeErrorModeloAgregarArticulo);
+                ErrorArticulos.SetError(TxtModelo, Idiomas.MensajeErrorAgregarModeloArticulo);
                 valido = false;
             }
 
             if (string.IsNullOrWhiteSpace(TxtSerie.Text))
             {
-                ErrorArticulos.SetError(TxtSerie, Idiomas.MensajeErrorSerieAgregarArticulo);
+                ErrorArticulos.SetError(TxtSerie, Idiomas.MensajeErrorAgregarSerieArticulo);
             }
 
             if (CbMarcas.Text == Idiomas.OpcionSeleccione || CbMarcas.SelectedIndex == 0)
             {
-                ErrorArticulos.SetError(CbMarcas, Idiomas.MensajeErrorMarcaAgregarArticulo);
+                ErrorArticulos.SetError(CbMarcas, Idiomas.MensajeErrorAgregarMarcaArticulo);
             }
 
             if (ChkFechaBaja.Checked || ChkFechaGarantia.Checked)
             {
                 if (DtpFechaBaja.Value < DtpFechaAdquisicion.Value)
-                    ErrorArticulos.SetError(DtpFechaBaja, Idiomas.MensajeErrorFechaBajaAgregarArticulo);
+                    ErrorArticulos.SetError(DtpFechaBaja, Idiomas.MensajeErrorAgregarFechaBajaArticulo);
 
                 if (DtpFechaFinGarantia.Value < DtpFechaAdquisicion.Value)
-                    ErrorArticulos.SetError(DtpFechaFinGarantia, Idiomas.MensajeErrorFechaGarantiaAgregarArticulo);
+                    ErrorArticulos.SetError(DtpFechaFinGarantia, Idiomas.MensajeErrorAgregarFechaGarantiaArticulo);
             }
 
             if (string.IsNullOrWhiteSpace(TxtDniUsuarioActual.Text))
             {
-                ErrorArticulos.SetError(TxtDniUsuarioActual, Idiomas.MensajeErrorDniAgregarArticulo);
+                ErrorArticulos.SetError(TxtDniUsuarioActual, Idiomas.MensajeErrorAgregarDniArticulo);
             }
 
             if (CbEstadoArticulo.Text == Idiomas.OpcionSeleccione || CbEstadoArticulo.SelectedIndex == 0)
             {
-                ErrorArticulos.SetError(CbEstadoArticulo, Idiomas.MensajeErrorEstadoAgregarArticulo);
+                ErrorArticulos.SetError(CbEstadoArticulo, Idiomas.MensajeErrorAgregarEstadoArticulo);
             }
 
             if (CbUbicacion.Text == Idiomas.OpcionSeleccione || CbUbicacion.SelectedIndex == 0)
             {
-                ErrorArticulos.SetError(CbUbicacion, Idiomas.MensajeErrorUbicacionAgregarArticulo);
+                ErrorArticulos.SetError(CbUbicacion, Idiomas.MensajeErrorAgregarUbicacionArticulo);
             }
 
             if (CbCondicion.Text == Idiomas.OpcionSeleccione || CbCondicion.SelectedIndex == 0)
             {
-                ErrorArticulos.SetError(CbCondicion, Idiomas.MensajeErrorCondicionAgregarArticulo);
+                ErrorArticulos.SetError(CbCondicion, Idiomas.MensajeErrorAgregarCondicionArticulo);
             }
 
             if (string.IsNullOrWhiteSpace(TxtDireccionImagen.Text))
             {
-                ErrorArticulos.SetError(TxtDireccionImagen, Idiomas.MensajeErrorFotoAgregarArticulo);
+                ErrorArticulos.SetError(TxtDireccionImagen, Idiomas.MensajeErrorAgregarFotoArticulo);
             }
 
             return valido;
@@ -377,7 +377,7 @@ namespace ControlInventario.Vistas
                             // verificar fecha garantía y fecha baja
                             if ((ChkFechaGarantia.Checked && DtpFechaFinGarantia.Value < DateTime.Now) || (ChkFechaBaja.Checked && DtpFechaBaja.Value < DateTime.Now))
                             {
-                                var result = MessageBox.Show(Idiomas.VerificarFechasAgregarArticulo, Idiomas.MensajeAdvertencia, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                                var result = MessageBox.Show(Idiomas.MensajeAdvertenciaAgregarFechasArticulo, Idiomas.TituloAdvertencia, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                                 if (result == DialogResult.No)
                                     return;
                             }
@@ -385,7 +385,7 @@ namespace ControlInventario.Vistas
                             ArticuloRepository.InsertarArticulo(art, con);
                             LogsRepository.InsertarLogs("Artículos", "Crear", $"Se registró un nuevo artículo con el código: {art.Codigo}");
 
-                            MessageBox.Show(Idiomas.MensajeAgregarArticulo, Idiomas.MensajeExito, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show(Idiomas.MensajeAgregarArticulo, Idiomas.TituloExito, MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                             this.DialogResult = DialogResult.OK;
                             this.Close();
@@ -477,7 +477,7 @@ namespace ControlInventario.Vistas
                             // verificar fecha garantía y fecha baja
                             if ((ChkFechaGarantia.Checked && DtpFechaFinGarantia.Value < DateTime.Now) || (ChkFechaBaja.Checked && DtpFechaBaja.Value < DateTime.Now))
                             {
-                                var result = MessageBox.Show(Idiomas.VerificarFechasAgregarArticulo, Idiomas.MensajeAdvertencia, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                                var result = MessageBox.Show(Idiomas.MensajeAdvertenciaAgregarFechasArticulo, Idiomas.TituloAdvertencia, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                                 if (result == DialogResult.No)
                                     return;
                             }
@@ -608,7 +608,7 @@ namespace ControlInventario.Vistas
                         // verificar fecha garantía y fecha baja
                         if ((ChkFechaGarantia.Checked && DtpFechaFinGarantia.Value < DateTime.Now) || (ChkFechaBaja.Checked && DtpFechaBaja.Value < DateTime.Now))
                         {
-                            var result = MessageBox.Show(Idiomas.VerificarFechasAgregarArticulo, Idiomas.MensajeAdvertencia, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                            var result = MessageBox.Show(Idiomas.MensajeAdvertenciaAgregarFechasArticulo, Idiomas.TituloAdvertencia, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                             if (result == DialogResult.No)
                                 return;
                         }
@@ -616,7 +616,7 @@ namespace ControlInventario.Vistas
                         ArticuloRepository.InsertarArticulo(art, con);
                         LogsRepository.InsertarLogs("Artículos", "Crear", $"Se registró un nuevo artículo con el código: {art.Codigo}");
 
-                        MessageBox.Show(Idiomas.MensajeAgregarArticulo, Idiomas.MensajeExito, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show(Idiomas.MensajeAgregarArticulo, Idiomas.TituloExito, MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                         LimpiarCampos();
                     }
@@ -651,7 +651,7 @@ namespace ControlInventario.Vistas
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(Idiomas.MensajeErrorComprobante + ex.Message, "Error",
+                        MessageBox.Show(Idiomas.MensajeErrorCargarComprobante + ex.Message, "Error",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Error
                         );
@@ -675,7 +675,7 @@ namespace ControlInventario.Vistas
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(Idiomas.MensajeErrorImagen + ex.Message, "Error",
+                        MessageBox.Show(Idiomas.MensajeErrorCargarImagen + ex.Message, "Error",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Error
                         );
@@ -997,7 +997,7 @@ namespace ControlInventario.Vistas
             {
                 if (string.IsNullOrWhiteSpace(nombreCategoriaActual))
                 {
-                    TxtCodigo.Text = Idiomas.MensajeSinCodigoAutomatico;
+                    TxtCodigo.Text = Idiomas.MensajeCodigoNoAutomatico;
                     return;
                 }
 

@@ -61,11 +61,11 @@ namespace ControlInventario {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Advertencia.
+        ///   Busca una cadena traducida similar a Código de recuperación de contraseña.
         /// </summary>
-        internal static string MensajeAdvertencia {
+        internal static string AsuntoCorreoRecuperacion {
             get {
-                return ResourceManager.GetString("MensajeAdvertencia", resourceCulture);
+                return ResourceManager.GetString("AsuntoCorreoRecuperacion", resourceCulture);
             }
         }
         
@@ -75,6 +75,51 @@ namespace ControlInventario {
         internal static string MensajeAdvertenciaActivoFijo {
             get {
                 return ResourceManager.GetString("MensajeAdvertenciaActivoFijo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a La fecha de garantía o fecha de baja es anterior a la fecha actual. ¿Desea continuar?.
+        /// </summary>
+        internal static string MensajeAdvertenciaAgregarFechasArticulo {
+            get {
+                return ResourceManager.GetString("MensajeAdvertenciaAgregarFechasArticulo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ingrese la contraseña..
+        /// </summary>
+        internal static string MensajeAdvertenciaIniciarSesionContraseña {
+            get {
+                return ResourceManager.GetString("MensajeAdvertenciaIniciarSesionContraseña", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Si el equipo es compartido no recomendamos activar esta casilla.
+        /// </summary>
+        internal static string MensajeAdvertenciaIniciarSesionRecuerdame {
+            get {
+                return ResourceManager.GetString("MensajeAdvertenciaIniciarSesionRecuerdame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ingrese el usuario..
+        /// </summary>
+        internal static string MensajeAdvertenciaIniciarSesionUsuario {
+            get {
+                return ResourceManager.GetString("MensajeAdvertenciaIniciarSesionUsuario", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ingresa tu usuario antes de recuperar la contraseña..
+        /// </summary>
+        internal static string MensajeAdvertenciaRecuperarUsuario {
+            get {
+                return ResourceManager.GetString("MensajeAdvertenciaRecuperarUsuario", resourceCulture);
             }
         }
         
@@ -115,6 +160,78 @@ namespace ControlInventario {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a [Sin Categoría].
+        /// </summary>
+        internal static string MensajeCodigoNoAutomatico {
+            get {
+                return ResourceManager.GetString("MensajeCodigoNoAutomatico", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El código ingresado es correcto, ahora puedes establecer una nueva contraseña..
+        /// </summary>
+        internal static string MensajeCodigoRecuperacionCorrecto {
+            get {
+                return ResourceManager.GetString("MensajeCodigoRecuperacionCorrecto", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El código ha expirado, solicita uno nuevo..
+        /// </summary>
+        internal static string MensajeCodigoRecuperacionExpirado {
+            get {
+                return ResourceManager.GetString("MensajeCodigoRecuperacionExpirado", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El código ingresado no es válido, por favor, verifica e intenta nuevamente..
+        /// </summary>
+        internal static string MensajeCodigoRecuperacionIncorrecto {
+            get {
+                return ResourceManager.GetString("MensajeCodigoRecuperacionIncorrecto", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Error de conexión: {0}.
+        /// </summary>
+        internal static string MensajeConexionBdError {
+            get {
+                return ResourceManager.GetString("MensajeConexionBdError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Conexión exitosa.
+        /// </summary>
+        internal static string MensajeConexionBdExitosa {
+            get {
+                return ResourceManager.GetString("MensajeConexionBdExitosa", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Tu contraseña ha sido modificada correctamente..
+        /// </summary>
+        internal static string MensajeContraseñaNuevaExito {
+            get {
+                return ResourceManager.GetString("MensajeContraseñaNuevaExito", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a La contraseña no puede estar vacía, por favor, ingresa una nueva contraseña..
+        /// </summary>
+        internal static string MensajeContraseñaNuevaVacía {
+            get {
+                return ResourceManager.GetString("MensajeContraseñaNuevaVacía", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Error al actualizar el artículo: .
         /// </summary>
         internal static string MensajeErrorActualizarArticulo {
@@ -129,6 +246,114 @@ namespace ControlInventario {
         internal static string MensajeErrorAgregarArticulo {
             get {
                 return ResourceManager.GetString("MensajeErrorAgregarArticulo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El campo código no puede quedar vacío..
+        /// </summary>
+        internal static string MensajeErrorAgregarCodigoArticulo {
+            get {
+                return ResourceManager.GetString("MensajeErrorAgregarCodigoArticulo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Debe seleccionar una condición válida..
+        /// </summary>
+        internal static string MensajeErrorAgregarCondicionArticulo {
+            get {
+                return ResourceManager.GetString("MensajeErrorAgregarCondicionArticulo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Debe seleccionar una foto para el articulo..
+        /// </summary>
+        internal static string MensajeErrorAgregarDireccionArticulo {
+            get {
+                return ResourceManager.GetString("MensajeErrorAgregarDireccionArticulo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El campo DNI no puede quedar vacío..
+        /// </summary>
+        internal static string MensajeErrorAgregarDniArticulo {
+            get {
+                return ResourceManager.GetString("MensajeErrorAgregarDniArticulo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Debe seleccionar un estado válido..
+        /// </summary>
+        internal static string MensajeErrorAgregarEstadoArticulo {
+            get {
+                return ResourceManager.GetString("MensajeErrorAgregarEstadoArticulo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a La fecha de baja no puede ser menor a la fecha de adquisición..
+        /// </summary>
+        internal static string MensajeErrorAgregarFechaBajaArticulo {
+            get {
+                return ResourceManager.GetString("MensajeErrorAgregarFechaBajaArticulo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a La fecha del fin de garantía no puede ser menor a la fecha de adquisición..
+        /// </summary>
+        internal static string MensajeErrorAgregarFechaGarantiaArticulo {
+            get {
+                return ResourceManager.GetString("MensajeErrorAgregarFechaGarantiaArticulo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Debe seleccionar una foto para el articulo..
+        /// </summary>
+        internal static string MensajeErrorAgregarFotoArticulo {
+            get {
+                return ResourceManager.GetString("MensajeErrorAgregarFotoArticulo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Debe seleccionar una marca válida..
+        /// </summary>
+        internal static string MensajeErrorAgregarMarcaArticulo {
+            get {
+                return ResourceManager.GetString("MensajeErrorAgregarMarcaArticulo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El campo modelo no puede quedar vacío..
+        /// </summary>
+        internal static string MensajeErrorAgregarModeloArticulo {
+            get {
+                return ResourceManager.GetString("MensajeErrorAgregarModeloArticulo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El campo serie no puede quedar vacío..
+        /// </summary>
+        internal static string MensajeErrorAgregarSerieArticulo {
+            get {
+                return ResourceManager.GetString("MensajeErrorAgregarSerieArticulo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Debe seleccionar una ubicación válida..
+        /// </summary>
+        internal static string MensajeErrorAgregarUbicacionArticulo {
+            get {
+                return ResourceManager.GetString("MensajeErrorAgregarUbicacionArticulo", resourceCulture);
             }
         }
         
@@ -151,146 +376,335 @@ namespace ControlInventario {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a El campo código no puede quedar vacío..
-        /// </summary>
-        internal static string MensajeErrorCodigoAgregarArticulo {
-            get {
-                return ResourceManager.GetString("MensajeErrorCodigoAgregarArticulo", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Busca una cadena traducida similar a No se pudo cargar el comprobante: .
         /// </summary>
-        internal static string MensajeErrorComprobante {
+        internal static string MensajeErrorCargarComprobante {
             get {
-                return ResourceManager.GetString("MensajeErrorComprobante", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a Debe seleccionar una condición válida..
-        /// </summary>
-        internal static string MensajeErrorCondicionAgregarArticulo {
-            get {
-                return ResourceManager.GetString("MensajeErrorCondicionAgregarArticulo", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a Debe seleccionar una foto para el articulo..
-        /// </summary>
-        internal static string MensajeErrorDireccionAgregarArticulo {
-            get {
-                return ResourceManager.GetString("MensajeErrorDireccionAgregarArticulo", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a El campo DNI no puede quedar vacío..
-        /// </summary>
-        internal static string MensajeErrorDniAgregarArticulo {
-            get {
-                return ResourceManager.GetString("MensajeErrorDniAgregarArticulo", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a Debe seleccionar un estado válido..
-        /// </summary>
-        internal static string MensajeErrorEstadoAgregarArticulo {
-            get {
-                return ResourceManager.GetString("MensajeErrorEstadoAgregarArticulo", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a La fecha de baja no puede ser menor a la fecha de adquisición..
-        /// </summary>
-        internal static string MensajeErrorFechaBajaAgregarArticulo {
-            get {
-                return ResourceManager.GetString("MensajeErrorFechaBajaAgregarArticulo", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a La fecha del fin de garantía no puede ser menor a la fecha de adquisición..
-        /// </summary>
-        internal static string MensajeErrorFechaGarantiaAgregarArticulo {
-            get {
-                return ResourceManager.GetString("MensajeErrorFechaGarantiaAgregarArticulo", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a Debe seleccionar una foto para el articulo..
-        /// </summary>
-        internal static string MensajeErrorFotoAgregarArticulo {
-            get {
-                return ResourceManager.GetString("MensajeErrorFotoAgregarArticulo", resourceCulture);
+                return ResourceManager.GetString("MensajeErrorCargarComprobante", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Busca una cadena traducida similar a No se pudo cargar la imagen: .
         /// </summary>
-        internal static string MensajeErrorImagen {
+        internal static string MensajeErrorCargarImagen {
             get {
-                return ResourceManager.GetString("MensajeErrorImagen", resourceCulture);
+                return ResourceManager.GetString("MensajeErrorCargarImagen", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Debe seleccionar una marca válida..
+        ///   Busca una cadena traducida similar a Error al guardar la configuración para {0}..
         /// </summary>
-        internal static string MensajeErrorMarcaAgregarArticulo {
+        internal static string MensajeErrorConfiguracionGuardar {
             get {
-                return ResourceManager.GetString("MensajeErrorMarcaAgregarArticulo", resourceCulture);
+                return ResourceManager.GetString("MensajeErrorConfiguracionGuardar", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a El campo modelo no puede quedar vacío..
+        ///   Busca una cadena traducida similar a Error al crear la tabla Perfil en la base de datos..
         /// </summary>
-        internal static string MensajeErrorModeloAgregarArticulo {
+        internal static string MensajeErrorConfiguracionPerfil {
             get {
-                return ResourceManager.GetString("MensajeErrorModeloAgregarArticulo", resourceCulture);
+                return ResourceManager.GetString("MensajeErrorConfiguracionPerfil", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a El campo serie no puede quedar vacío..
+        ///   Busca una cadena traducida similar a Error al enviar el correo electrónico: {0}.
         /// </summary>
-        internal static string MensajeErrorSerieAgregarArticulo {
+        internal static string MensajeErrorEnviarCorreo {
             get {
-                return ResourceManager.GetString("MensajeErrorSerieAgregarArticulo", resourceCulture);
+                return ResourceManager.GetString("MensajeErrorEnviarCorreo", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Debe seleccionar una ubicación válida..
+        ///   Busca una cadena traducida similar a Contraseña incorrecta..
         /// </summary>
-        internal static string MensajeErrorUbicacionAgregarArticulo {
+        internal static string MensajeErrorIniciarSesionContraseña {
             get {
-                return ResourceManager.GetString("MensajeErrorUbicacionAgregarArticulo", resourceCulture);
+                return ResourceManager.GetString("MensajeErrorIniciarSesionContraseña", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Éxito.
+        ///   Busca una cadena traducida similar a Usuario no encontrado..
         /// </summary>
-        internal static string MensajeExito {
+        internal static string MensajeErrorIniciarSesionUsuario {
             get {
-                return ResourceManager.GetString("MensajeExito", resourceCulture);
+                return ResourceManager.GetString("MensajeErrorIniciarSesionUsuario", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a [Sin Categoría].
+        ///   Busca una cadena traducida similar a La respuesta 1 es obligatoria..
         /// </summary>
-        internal static string MensajeSinCodigoAutomatico {
+        internal static string MensajeErrorPregunta1 {
             get {
-                return ResourceManager.GetString("MensajeSinCodigoAutomatico", resourceCulture);
+                return ResourceManager.GetString("MensajeErrorPregunta1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a La respuesta 2 es obligatoria..
+        /// </summary>
+        internal static string MensajeErrorPregunta2 {
+            get {
+                return ResourceManager.GetString("MensajeErrorPregunta2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a La respuesta 3 es obligatoria..
+        /// </summary>
+        internal static string MensajeErrorPregunta3 {
+            get {
+                return ResourceManager.GetString("MensajeErrorPregunta3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Las preguntas seleccionadas deben ser diferentes..
+        /// </summary>
+        internal static string MensajeErrorPreguntaRepetida {
+            get {
+                return ResourceManager.GetString("MensajeErrorPreguntaRepetida", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El usuario no se pudo registrar por que se canceló la operación..
+        /// </summary>
+        internal static string MensajeErrorPreguntasSeguridad {
+            get {
+                return ResourceManager.GetString("MensajeErrorPreguntasSeguridad", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Error en la base de datos: {0}.
+        /// </summary>
+        internal static string MensajeErrorPreguntasSeguridadBD {
+            get {
+                return ResourceManager.GetString("MensajeErrorPreguntasSeguridadBD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Error al guardar preguntas de seguridad: {0}.
+        /// </summary>
+        internal static string MensajeErrorPreguntasSeguridadGuardar {
+            get {
+                return ResourceManager.GetString("MensajeErrorPreguntasSeguridadGuardar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Seleccione una pregunta válida..
+        /// </summary>
+        internal static string MensajeErrorPreguntaValida {
+            get {
+                return ResourceManager.GetString("MensajeErrorPreguntaValida", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a La respuesta 1 es muy corta o inválida..
+        /// </summary>
+        internal static string MensajeErrorRespuesta1 {
+            get {
+                return ResourceManager.GetString("MensajeErrorRespuesta1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a La respuesta 2 es muy corta o inválida..
+        /// </summary>
+        internal static string MensajeErrorRespuesta2 {
+            get {
+                return ResourceManager.GetString("MensajeErrorRespuesta2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a La respuesta 3 es muy corta o inválida..
+        /// </summary>
+        internal static string MensajeErrorRespuesta3 {
+            get {
+                return ResourceManager.GetString("MensajeErrorRespuesta3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Las respuestas deben ser diferentes entre sí..
+        /// </summary>
+        internal static string MensajeErrorRespuestaRepetida {
+            get {
+                return ResourceManager.GetString("MensajeErrorRespuestaRepetida", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Usuario no encontrado..
+        /// </summary>
+        internal static string MensajeErrorUsuario {
+            get {
+                return ResourceManager.GetString("MensajeErrorUsuario", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a La configuración se guardó para el usuario {0}..
+        /// </summary>
+        internal static string MensajeExitoConfiguracionGuardar {
+            get {
+                return ResourceManager.GetString("MensajeExitoConfiguracionGuardar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Hemos enviado un código de seguridad a tu correo electrónico..
+        /// </summary>
+        internal static string MensajeExitoEnvioCorreo {
+            get {
+                return ResourceManager.GetString("MensajeExitoEnvioCorreo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Espero que no hayas perdido nada..
+        /// </summary>
+        internal static string MensajeMenuPrincipal1 {
+            get {
+                return ResourceManager.GetString("MensajeMenuPrincipal1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a ¿El inventario está al día?.
+        /// </summary>
+        internal static string MensajeMenuPrincipal2 {
+            get {
+                return ResourceManager.GetString("MensajeMenuPrincipal2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Recuerda que debes tener tu reporte actualizado..
+        /// </summary>
+        internal static string MensajeMenuPrincipal3 {
+            get {
+                return ResourceManager.GetString("MensajeMenuPrincipal3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Tu jefe confía en tí, no robes..
+        /// </summary>
+        internal static string MensajeMenuPrincipal4 {
+            get {
+                return ResourceManager.GetString("MensajeMenuPrincipal4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Recuerda por quién trabajas..
+        /// </summary>
+        internal static string MensajeMenuPrincipal5 {
+            get {
+                return ResourceManager.GetString("MensajeMenuPrincipal5", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a ¿Cuando fue la última vez que estuviste por acá?.
+        /// </summary>
+        internal static string MensajeMenuPrincipal6 {
+            get {
+                return ResourceManager.GetString("MensajeMenuPrincipal6", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Bienvenido: {0}.
+        /// </summary>
+        internal static string MensajeMenuPrincipalBienvenida {
+            get {
+                return ResourceManager.GetString("MensajeMenuPrincipalBienvenida", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Fecha: {0}.
+        /// </summary>
+        internal static string MensajeMenuPrincipalFecha {
+            get {
+                return ResourceManager.GetString("MensajeMenuPrincipalFecha", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Rol: {0}.
+        /// </summary>
+        internal static string MensajeMenuPrincipalRol {
+            get {
+                return ResourceManager.GetString("MensajeMenuPrincipalRol", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Usuario: {0}.
+        /// </summary>
+        internal static string MensajeMenuPrincipalUsuario {
+            get {
+                return ResourceManager.GetString("MensajeMenuPrincipalUsuario", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a ¿Estás seguro de salir de la operación?.
+        /// </summary>
+        internal static string MnesajeAdvertenciaPreguntasSeguridad {
+            get {
+                return ResourceManager.GetString("MnesajeAdvertenciaPreguntasSeguridad", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Soporte ControlInventario.
+        /// </summary>
+        internal static string NombreRemitenteCorreo {
+            get {
+                return ResourceManager.GetString("NombreRemitenteCorreo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Inventario.
+        /// </summary>
+        internal static string OpcionInventario {
+            get {
+                return ResourceManager.GetString("OpcionInventario", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Seleccione una pregunta....
+        /// </summary>
+        internal static string OpcionPreguntasSeguridad {
+            get {
+                return ResourceManager.GetString("OpcionPreguntasSeguridad", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Seguridad.
+        /// </summary>
+        internal static string OpcionSeguridad {
+            get {
+                return ResourceManager.GetString("OpcionSeguridad", resourceCulture);
             }
         }
         
@@ -304,11 +718,63 @@ namespace ControlInventario {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a La fecha de garantía o fecha de baja es anterior a la fecha actual. ¿Desea continuar?.
+        ///   Busca una cadena traducida similar a &lt;div style=&apos;font-family:Segoe UI; padding:20px; background-color:#f9f9f9; border:1px solid #ddd;&apos;&gt;
+        ///&lt;h2 style=&apos;color:#2c3e50;&apos;&gt;Recuperación de contraseña&lt;/h2&gt;
+        ///&lt;p&gt;Hola &lt;strong&gt;{0}&lt;/strong&gt;,&lt;/p&gt;
+        ///&lt;p&gt;Has solicitado recuperar tu contraseña. Tu código de seguridad es:&lt;/p&gt;
+        ///&lt;div style=&apos;font-size:24px; font-weight:bold; color:#2980b9; margin:20px 0;&apos;&gt;{1}&lt;/div&gt;
+        ///&lt;p&gt;Este código es válido por 10 minutos. Si no solicitaste este correo, puedes ignorarlo.&lt;/p&gt;
+        ///&lt;hr /&gt;
+        ///&lt;p style=&apos;font-size:12px; color:#888;&apos;&gt;© 2026 ControlInven [resto de la cadena truncado]&quot;;.
         /// </summary>
-        internal static string VerificarFechasAgregarArticulo {
+        internal static string PlantillaCorreoRecuperacion {
             get {
-                return ResourceManager.GetString("VerificarFechasAgregarArticulo", resourceCulture);
+                return ResourceManager.GetString("PlantillaCorreoRecuperacion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Advertencia.
+        /// </summary>
+        internal static string TituloAdvertencia {
+            get {
+                return ResourceManager.GetString("TituloAdvertencia", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Confirmación.
+        /// </summary>
+        internal static string TituloConfirmacion {
+            get {
+                return ResourceManager.GetString("TituloConfirmacion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Éxito.
+        /// </summary>
+        internal static string TituloExito {
+            get {
+                return ResourceManager.GetString("TituloExito", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Información.
+        /// </summary>
+        internal static string TituloInformacion {
+            get {
+                return ResourceManager.GetString("TituloInformacion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Validación.
+        /// </summary>
+        internal static string TituloValidacion {
+            get {
+                return ResourceManager.GetString("TituloValidacion", resourceCulture);
             }
         }
     }

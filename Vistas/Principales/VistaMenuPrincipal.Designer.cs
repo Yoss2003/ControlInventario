@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VistaMenuPrincipal));
             this.groupInicio = new System.Windows.Forms.GroupBox();
             this.lblUsuario = new System.Windows.Forms.Label();
             this.lblFecha = new System.Windows.Forms.Label();
@@ -46,144 +47,90 @@
             // 
             // groupInicio
             // 
+            resources.ApplyResources(this.groupInicio, "groupInicio");
             this.groupInicio.Controls.Add(this.lblUsuario);
             this.groupInicio.Controls.Add(this.lblFecha);
             this.groupInicio.Controls.Add(this.lblRol);
             this.groupInicio.Controls.Add(this.lblBienvenida);
-            this.groupInicio.Location = new System.Drawing.Point(12, 12);
             this.groupInicio.Name = "groupInicio";
-            this.groupInicio.Size = new System.Drawing.Size(369, 72);
-            this.groupInicio.TabIndex = 4;
             this.groupInicio.TabStop = false;
             // 
             // lblUsuario
             // 
-            this.lblUsuario.AutoSize = true;
-            this.lblUsuario.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblUsuario.Location = new System.Drawing.Point(257, 42);
+            resources.ApplyResources(this.lblUsuario, "lblUsuario");
             this.lblUsuario.Name = "lblUsuario";
-            this.lblUsuario.Size = new System.Drawing.Size(106, 20);
-            this.lblUsuario.TabIndex = 4;
-            this.lblUsuario.Text = "Usuario: User";
-            this.lblUsuario.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lblFecha
             // 
-            this.lblFecha.AutoSize = true;
-            this.lblFecha.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFecha.Location = new System.Drawing.Point(257, 16);
+            resources.ApplyResources(this.lblFecha, "lblFecha");
             this.lblFecha.Name = "lblFecha";
-            this.lblFecha.Size = new System.Drawing.Size(102, 20);
-            this.lblFecha.TabIndex = 4;
-            this.lblFecha.Text = "Fecha: fecha";
-            this.lblFecha.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lblRol
             // 
-            this.lblRol.AutoSize = true;
-            this.lblRol.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRol.Location = new System.Drawing.Point(6, 42);
+            resources.ApplyResources(this.lblRol, "lblRol");
             this.lblRol.Name = "lblRol";
-            this.lblRol.Size = new System.Drawing.Size(86, 20);
-            this.lblRol.TabIndex = 4;
-            this.lblRol.Text = "Rol: \"Role\"";
-            this.lblRol.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lblBienvenida
             // 
-            this.lblBienvenida.AutoSize = true;
-            this.lblBienvenida.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblBienvenida.Location = new System.Drawing.Point(6, 16);
+            resources.ApplyResources(this.lblBienvenida, "lblBienvenida");
             this.lblBienvenida.Name = "lblBienvenida";
-            this.lblBienvenida.Size = new System.Drawing.Size(147, 20);
-            this.lblBienvenida.TabIndex = 4;
-            this.lblBienvenida.Text = "Bienvenido, \"name\"";
-            this.lblBienvenida.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // groupAcciones
             // 
+            resources.ApplyResources(this.groupAcciones, "groupAcciones");
             this.groupAcciones.Controls.Add(this.lblTextoRandom);
             this.groupAcciones.Controls.Add(this.btnConfiguracion);
             this.groupAcciones.Controls.Add(this.btnRegistros);
             this.groupAcciones.Controls.Add(this.btnCerrarSesion);
             this.groupAcciones.Controls.Add(this.btnReportes);
             this.groupAcciones.Controls.Add(this.btnInventario);
-            this.groupAcciones.Location = new System.Drawing.Point(12, 90);
             this.groupAcciones.Name = "groupAcciones";
-            this.groupAcciones.Size = new System.Drawing.Size(369, 214);
-            this.groupAcciones.TabIndex = 8;
             this.groupAcciones.TabStop = false;
             // 
             // lblTextoRandom
             // 
-            this.lblTextoRandom.AutoSize = true;
-            this.lblTextoRandom.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTextoRandom.Location = new System.Drawing.Point(117, 16);
+            resources.ApplyResources(this.lblTextoRandom, "lblTextoRandom");
             this.lblTextoRandom.Name = "lblTextoRandom";
-            this.lblTextoRandom.Size = new System.Drawing.Size(132, 18);
-            this.lblTextoRandom.TabIndex = 11;
-            this.lblTextoRandom.Text = "Texto Motivacional";
             // 
             // btnConfiguracion
             // 
-            this.btnConfiguracion.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnConfiguracion.Location = new System.Drawing.Point(237, 119);
+            resources.ApplyResources(this.btnConfiguracion, "btnConfiguracion");
             this.btnConfiguracion.Name = "btnConfiguracion";
-            this.btnConfiguracion.Size = new System.Drawing.Size(122, 31);
-            this.btnConfiguracion.TabIndex = 10;
-            this.btnConfiguracion.Text = "Configuración";
             this.btnConfiguracion.UseVisualStyleBackColor = true;
             this.btnConfiguracion.Click += new System.EventHandler(this.btnConfiguracion_Click);
             // 
             // btnRegistros
             // 
-            this.btnRegistros.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRegistros.Location = new System.Drawing.Point(10, 55);
+            resources.ApplyResources(this.btnRegistros, "btnRegistros");
             this.btnRegistros.Name = "btnRegistros";
-            this.btnRegistros.Size = new System.Drawing.Size(122, 31);
-            this.btnRegistros.TabIndex = 9;
-            this.btnRegistros.Text = "Registros";
             this.btnRegistros.UseVisualStyleBackColor = true;
             this.btnRegistros.Click += new System.EventHandler(this.btnRegistros_Click);
             // 
             // btnCerrarSesion
             // 
-            this.btnCerrarSesion.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCerrarSesion.Location = new System.Drawing.Point(120, 169);
+            resources.ApplyResources(this.btnCerrarSesion, "btnCerrarSesion");
             this.btnCerrarSesion.Name = "btnCerrarSesion";
-            this.btnCerrarSesion.Size = new System.Drawing.Size(122, 31);
-            this.btnCerrarSesion.TabIndex = 9;
-            this.btnCerrarSesion.Text = "Cerrar Sesión";
             this.btnCerrarSesion.UseVisualStyleBackColor = true;
             this.btnCerrarSesion.Click += new System.EventHandler(this.btnCerrarSesion_Click);
             // 
             // btnReportes
             // 
-            this.btnReportes.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnReportes.Location = new System.Drawing.Point(10, 119);
+            resources.ApplyResources(this.btnReportes, "btnReportes");
             this.btnReportes.Name = "btnReportes";
-            this.btnReportes.Size = new System.Drawing.Size(122, 31);
-            this.btnReportes.TabIndex = 9;
-            this.btnReportes.Text = "Reportes";
             this.btnReportes.UseVisualStyleBackColor = true;
             this.btnReportes.Click += new System.EventHandler(this.btnReportes_Click);
             // 
             // btnInventario
             // 
-            this.btnInventario.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnInventario.Location = new System.Drawing.Point(237, 55);
+            resources.ApplyResources(this.btnInventario, "btnInventario");
             this.btnInventario.Name = "btnInventario";
-            this.btnInventario.Size = new System.Drawing.Size(122, 31);
-            this.btnInventario.TabIndex = 8;
-            this.btnInventario.Text = "Inventario";
             this.btnInventario.UseVisualStyleBackColor = true;
             this.btnInventario.Click += new System.EventHandler(this.btnInventario_Click);
             // 
             // VistaMenuPrincipal
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(393, 316);
             this.Controls.Add(this.groupAcciones);
             this.Controls.Add(this.groupInicio);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -191,8 +138,6 @@
             this.MinimizeBox = false;
             this.Name = "VistaMenuPrincipal";
             this.ShowIcon = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Inicio";
             this.Load += new System.EventHandler(this.VistaInicio_Load);
             this.groupInicio.ResumeLayout(false);
             this.groupInicio.PerformLayout();

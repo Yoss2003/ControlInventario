@@ -117,4 +117,370 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="lblTextoRandom.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="btnRegistros.Text" xml:space="preserve">
+    <value>Registros</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="btnCerrarSesion.Location" type="System.Drawing.Point, System.Drawing">
+    <value>120, 169</value>
+  </data>
+  <data name="&gt;&gt;btnConfiguracion.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lblFecha.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblBienvenida.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 12pt</value>
+  </data>
+  <data name="&gt;&gt;lblTextoRandom.Name" xml:space="preserve">
+    <value>lblTextoRandom</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnRegistros.Parent" xml:space="preserve">
+    <value>groupAcciones</value>
+  </data>
+  <data name="btnCerrarSesion.Size" type="System.Drawing.Size, System.Drawing">
+    <value>122, 31</value>
+  </data>
+  <data name="&gt;&gt;btnInventario.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="lblRol.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="lblBienvenida.Size" type="System.Drawing.Size, System.Drawing">
+    <value>147, 20</value>
+  </data>
+  <data name="btnInventario.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 12pt</value>
+  </data>
+  <data name="lblBienvenida.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;lblUsuario.Parent" xml:space="preserve">
+    <value>groupInicio</value>
+  </data>
+  <data name="&gt;&gt;groupAcciones.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;lblUsuario.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnCerrarSesion.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="btnInventario.Size" type="System.Drawing.Size, System.Drawing">
+    <value>122, 31</value>
+  </data>
+  <data name="lblBienvenida.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="btnConfiguracion.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 12pt</value>
+  </data>
+  <data name="btnConfiguracion.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="btnReportes.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 119</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
+    <value>CenterScreen</value>
+  </data>
+  <data name="lblTextoRandom.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblRol.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="btnConfiguracion.Text" xml:space="preserve">
+    <value>Configuración</value>
+  </data>
+  <data name="lblFecha.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="lblUsuario.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="&gt;&gt;groupInicio.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="lblTextoRandom.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 11.25pt</value>
+  </data>
+  <data name="groupInicio.Size" type="System.Drawing.Size, System.Drawing">
+    <value>369, 72</value>
+  </data>
+  <data name="&gt;&gt;lblTextoRandom.Parent" xml:space="preserve">
+    <value>groupAcciones</value>
+  </data>
+  <data name="lblRol.Size" type="System.Drawing.Size, System.Drawing">
+    <value>86, 20</value>
+  </data>
+  <data name="lblFecha.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 12pt</value>
+  </data>
+  <data name="groupInicio.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 12</value>
+  </data>
+  <data name="&gt;&gt;lblTextoRandom.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="lblUsuario.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;btnRegistros.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblTextoRandom.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupAcciones.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;lblUsuario.Name" xml:space="preserve">
+    <value>lblUsuario</value>
+  </data>
+  <data name="&gt;&gt;lblBienvenida.Name" xml:space="preserve">
+    <value>lblBienvenida</value>
+  </data>
+  <data name="&gt;&gt;btnConfiguracion.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;lblRol.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;btnCerrarSesion.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="lblFecha.Location" type="System.Drawing.Point, System.Drawing">
+    <value>257, 16</value>
+  </data>
+  <data name="&gt;&gt;lblRol.Parent" xml:space="preserve">
+    <value>groupInicio</value>
+  </data>
+  <data name="&gt;&gt;btnConfiguracion.Name" xml:space="preserve">
+    <value>btnConfiguracion</value>
+  </data>
+  <data name="lblRol.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblBienvenida.Text" xml:space="preserve">
+    <value>Bienvenido, "name"</value>
+  </data>
+  <data name="groupInicio.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;lblUsuario.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Inicio</value>
+  </data>
+  <data name="&gt;&gt;lblBienvenida.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="btnReportes.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 12pt</value>
+  </data>
+  <data name="&gt;&gt;btnRegistros.Name" xml:space="preserve">
+    <value>btnRegistros</value>
+  </data>
+  <data name="btnReportes.Text" xml:space="preserve">
+    <value>Reportes</value>
+  </data>
+  <data name="&gt;&gt;lblFecha.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnRegistros.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="lblRol.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 42</value>
+  </data>
+  <data name="btnCerrarSesion.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="btnReportes.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="btnCerrarSesion.Text" xml:space="preserve">
+    <value>Cerrar Sesión</value>
+  </data>
+  <data name="lblBienvenida.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="lblUsuario.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 12pt</value>
+  </data>
+  <data name="&gt;&gt;lblBienvenida.Parent" xml:space="preserve">
+    <value>groupInicio</value>
+  </data>
+  <data name="&gt;&gt;lblFecha.Name" xml:space="preserve">
+    <value>lblFecha</value>
+  </data>
+  <data name="&gt;&gt;groupAcciones.Name" xml:space="preserve">
+    <value>groupAcciones</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>393, 316</value>
+  </data>
+  <data name="lblTextoRandom.Size" type="System.Drawing.Size, System.Drawing">
+    <value>132, 18</value>
+  </data>
+  <data name="btnInventario.Location" type="System.Drawing.Point, System.Drawing">
+    <value>237, 55</value>
+  </data>
+  <data name="btnInventario.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;btnInventario.Parent" xml:space="preserve">
+    <value>groupAcciones</value>
+  </data>
+  <data name="lblFecha.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="btnReportes.Size" type="System.Drawing.Size, System.Drawing">
+    <value>122, 31</value>
+  </data>
+  <data name="&gt;&gt;groupInicio.Name" xml:space="preserve">
+    <value>groupInicio</value>
+  </data>
+  <data name="groupAcciones.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 90</value>
+  </data>
+  <data name="btnRegistros.Size" type="System.Drawing.Size, System.Drawing">
+    <value>122, 31</value>
+  </data>
+  <data name="lblFecha.Text" xml:space="preserve">
+    <value>Fecha: fecha</value>
+  </data>
+  <data name="&gt;&gt;btnCerrarSesion.Parent" xml:space="preserve">
+    <value>groupAcciones</value>
+  </data>
+  <data name="lblTextoRandom.Location" type="System.Drawing.Point, System.Drawing">
+    <value>117, 16</value>
+  </data>
+  <data name="&gt;&gt;btnReportes.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;lblRol.Name" xml:space="preserve">
+    <value>lblRol</value>
+  </data>
+  <data name="&gt;&gt;groupInicio.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;btnReportes.Name" xml:space="preserve">
+    <value>btnReportes</value>
+  </data>
+  <data name="btnRegistros.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="btnRegistros.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 55</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>VistaMenuPrincipal</value>
+  </data>
+  <data name="btnConfiguracion.Location" type="System.Drawing.Point, System.Drawing">
+    <value>237, 119</value>
+  </data>
+  <data name="groupAcciones.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="btnCerrarSesion.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 12pt</value>
+  </data>
+  <data name="lblRol.Text" xml:space="preserve">
+    <value>Rol: "Role"</value>
+  </data>
+  <data name="&gt;&gt;groupAcciones.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lblTextoRandom.Text" xml:space="preserve">
+    <value>Texto Motivacional</value>
+  </data>
+  <data name="lblRol.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 12pt</value>
+  </data>
+  <data name="lblUsuario.Size" type="System.Drawing.Size, System.Drawing">
+    <value>106, 20</value>
+  </data>
+  <data name="btnInventario.Text" xml:space="preserve">
+    <value>Inventario</value>
+  </data>
+  <data name="lblBienvenida.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 16</value>
+  </data>
+  <data name="lblUsuario.Text" xml:space="preserve">
+    <value>Usuario: User</value>
+  </data>
+  <data name="&gt;&gt;lblFecha.Parent" xml:space="preserve">
+    <value>groupInicio</value>
+  </data>
+  <data name="btnConfiguracion.Size" type="System.Drawing.Size, System.Drawing">
+    <value>122, 31</value>
+  </data>
+  <data name="&gt;&gt;btnReportes.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lblUsuario.Location" type="System.Drawing.Point, System.Drawing">
+    <value>257, 42</value>
+  </data>
+  <data name="&gt;&gt;lblBienvenida.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>6, 13</value>
+  </data>
+  <data name="&gt;&gt;btnInventario.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblFecha.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;btnInventario.Name" xml:space="preserve">
+    <value>btnInventario</value>
+  </data>
+  <data name="&gt;&gt;groupInicio.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnConfiguracion.Parent" xml:space="preserve">
+    <value>groupAcciones</value>
+  </data>
+  <data name="&gt;&gt;btnCerrarSesion.Name" xml:space="preserve">
+    <value>btnCerrarSesion</value>
+  </data>
+  <data name="btnRegistros.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 12pt</value>
+  </data>
+  <data name="&gt;&gt;btnReportes.Parent" xml:space="preserve">
+    <value>groupAcciones</value>
+  </data>
+  <data name="&gt;&gt;lblRol.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lblFecha.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 20</value>
+  </data>
+  <data name="groupAcciones.Size" type="System.Drawing.Size, System.Drawing">
+    <value>369, 214</value>
+  </data>
+  <data name="lblUsuario.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="$this.Language" type="System.Globalization.CultureInfo, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>en-US</value>
+  </metadata>
 </root>

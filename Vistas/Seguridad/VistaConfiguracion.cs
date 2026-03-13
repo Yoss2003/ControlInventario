@@ -18,58 +18,37 @@ namespace ControlInventario.Vistas
 
         private void CbIdioma_TextChanged(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(CbIdioma.Text))
-            {
-                CbIdioma.Text = "SELECCIONE";
-            }
+            ClassHelper.NormalizarTexto(CbIdioma);
         }
 
         private void CbTema_TextChanged(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(CbTema.Text))
-            {
-                CbTema.Text = "SELECCIONE";
-            }
+            ClassHelper.NormalizarTexto(CbTema);
         }
 
         private void CbNotificaciones_TextChanged(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(CbNotificaciones.Text))
-            {
-                CbNotificaciones.Text = "SELECCIONE";
-            }
+            ClassHelper.NormalizarTexto(CbNotificaciones);
         }
 
         private void CbFormatoFecha_TextChanged(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(CbFormatoFecha.Text))
-            {
-                CbFormatoFecha.Text = "SELECCIONE";
-            }
+            ClassHelper.NormalizarTexto(CbFormatoFecha);
         }
 
         private void CbMoneda_TextChanged(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(CbMoneda.Text))
-            {
-                CbMoneda.Text = "SELECCIONE";
-            }
+            ClassHelper.NormalizarTexto(CbMoneda);
         }
 
         private void CbUniMedida_TextChanged(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(CbUniMedida.Text))
-            {
-                CbUniMedida.Text = "SELECCIONE";
-            }
+            ClassHelper.NormalizarTexto(CbUniMedida);
         }
 
         private void CbZonaHoraria_TextChanged(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(CbZonaHoraria.Text))
-            {
-                CbZonaHoraria.Text = "SELECCIONE";
-            }
+            ClassHelper.NormalizarTexto(CbZonaHoraria);
         }
 
         private void VistaConfiguracion_Load(object sender, EventArgs e)
@@ -114,8 +93,7 @@ namespace ControlInventario.Vistas
 
                         ChkAutenticacion2FA.Checked = perfil.Autenticacion; 
                         ChkCompartirActividad.Checked = perfil.ActividadCompartida; 
-                        ChkCodigoBarras.Checked = perfil.CodigoBarras; 
-                        ChkCategoriaPersonalizada.Checked = perfil.CategoriaPersonalizada; 
+                        ChkCodigoBarras.Checked = perfil.CodigoBarras;
                         ChkCalcularDevaluacion.Checked = perfil.CalcularDevaluacion; 
                         ChkGeneracionCodigo.Checked = perfil.GeneracionCodigos;
                     };
@@ -123,7 +101,7 @@ namespace ControlInventario.Vistas
             }
             catch
             {
-                MessageBox.Show("Error al crear la tabla Perfil en la base de datos.", "Error", 
+                MessageBox.Show(Idiomas.MensajeErrorConfiguracionPerfil, "Error", 
                     MessageBoxButtons.OK, 
                     MessageBoxIcon.Error);
             }
@@ -172,18 +150,23 @@ namespace ControlInventario.Vistas
                     LogsRepository.InsertarLogs("Perfil", "Modificar", $"Se modificó el perfil del usuario: {nombreUsuario}");
                     PerfilRepository.GuardarPerfilUsuario(perf, con);
                     UsuarioSesion.Configuracion = perf;
+
                     ClassHelper.ActualizarTemaGlobal();
                     ClassHelper.AplicarIdiomaGlobal();
-
-                    MessageBox.Show("Configuración para " + nombreUsuario + " guardada correctamente.", "Éxito", 
-                        MessageBoxButtons.OK, 
+                    
+                    string mensajeExito = string.Format(Idiomas.MensajeExitoConfiguracionGuardar, nombreUsuario);
+                    MessageBox.Show(
+                        mensajeExito,
+                        Idiomas.TituloExito,
+                        MessageBoxButtons.OK,
                         MessageBoxIcon.Information);
                     this.Close();
                 }
             }
             catch
             {
-                MessageBox.Show("Error al guardar la configuración para "+ nombreUsuario + ".", "Error",
+                string mensajeError = string.Format(Idiomas.MensajeErrorConfiguracionGuardar, nombreUsuario);
+                MessageBox.Show(mensajeError, "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
@@ -192,23 +175,23 @@ namespace ControlInventario.Vistas
         private void TreeMenu_AfterSelect(object sender, TreeViewEventArgs e)
         {
             TreeNode nodo = e.Node;
-            switch (nodo.Text)
+            switch (nodo.Name)
             {
-                case "General":
+                case "NodeGeneral":
                     GrpGeneral.BringToFront();
                     GrpGeneral.Visible = true;
                     GrpInventario.Visible = false;
                     GrpSeguridad.Visible = false;
                     GrpDefault.Visible = false;
                     break;
-                case "Inventario":
+                case "NodeInventario":
                     GrpGeneral.BringToFront();
                     GrpInventario.Visible = true;
                     GrpSeguridad.Visible = false;
                     GrpGeneral.Visible = false;
                     GrpDefault.Visible = false;
                     break;
-                case "Seguridad":
+                case "NodeSeguridad":
                     GrpGeneral.BringToFront();
                     GrpSeguridad.Visible = true;
                     GrpInventario.Visible = false;

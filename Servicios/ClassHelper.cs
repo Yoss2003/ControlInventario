@@ -2,6 +2,7 @@
 using ControlInventario.Modelos;
 using ControlInventario.Vistas;
 using System;
+using System.ComponentModel;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
@@ -273,8 +274,49 @@ namespace ControlInventario.Servicios
             }
 
             CultureInfo culturaSeleccionada = new CultureInfo(codigoCultura);
+
             Thread.CurrentThread.CurrentCulture = culturaSeleccionada;
             Thread.CurrentThread.CurrentUICulture = culturaSeleccionada;
+            CultureInfo.DefaultThreadCurrentCulture = culturaSeleccionada;
+            CultureInfo.DefaultThreadCurrentUICulture = culturaSeleccionada;
+        }
+
+        public static void ActualizarIdiomaGlobal()
+        {
+            AplicarIdiomaGlobal();
+
+            foreach (Form form in Application.OpenForms)
+            {
+                AplicarIdiomaAControles(form, form);
+            }
+        }
+
+        private static void AplicarIdiomaAControles(Control controlPrincipal, Form formOriginal)
+        {
+            ComponentResourceManager resManager = new ComponentResourceManager(formOriginal.GetType());
+
+            if (controlPrincipal is Form)
+            {
+                resManager.ApplyResources(controlPrincipal, "$this");
+            }
+
+            foreach (Control hijo in controlPrincipal.Controls)
+            {
+                resManager.ApplyResources(hijo, hijo.Name);
+
+                if (hijo is DataGridView dgv)
+                {
+                    foreach (DataGridViewColumn col in dgv.Columns)
+                    {
+                        resManager.ApplyResources(col, col.Name);
+                    }
+                }
+
+                if (hijo.Controls.Count > 0)
+                {
+                    AplicarIdiomaAControles(hijo, formOriginal);
+                }
+            }
         }
 
         public static void AplicarFormatoFecha(DateTimePicker dtp)

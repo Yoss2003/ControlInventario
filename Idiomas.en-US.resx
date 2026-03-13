@@ -120,9 +120,6 @@
   <data name="MensajeAdvertenciaActivoFijo" xml:space="preserve">
     <value>The Fixed Asset code {0} is already assigned to another item in the system.</value>
   </data>
-  <data name="MensajeAdvertencia" xml:space="preserve">
-    <value>Warning.</value>
-  </data>
   <data name="MensajeAgregarArticulo" xml:space="preserve">
     <value>Article saved successfully.</value>
   </data>
@@ -138,55 +135,49 @@
   <data name="MensajeErrorAgregarArticulo" xml:space="preserve">
     <value>Error saving article: </value>
   </data>
-  <data name="MensajeErrorCodigoAgregarArticulo" xml:space="preserve">
+  <data name="MensajeErrorAgregarCodigoArticulo" xml:space="preserve">
     <value>The code field cannot be empty.</value>
   </data>
-  <data name="MensajeErrorCondicionAgregarArticulo" xml:space="preserve">
+  <data name="MensajeErrorAgregarCondicionArticulo" xml:space="preserve">
     <value>You must select a valid condition.</value>
   </data>
-  <data name="MensajeErrorDireccionAgregarArticulo" xml:space="preserve">
-    <value>You must selected a photo for the item.</value>
-  </data>
-  <data name="MensajeErrorDniAgregarArticulo" xml:space="preserve">
-    <value>The Id field cannot be empty.</value>
-  </data>
-  <data name="MensajeErrorEstadoAgregarArticulo" xml:space="preserve">
-    <value>You must select a valid status.</value>
-  </data>
-  <data name="MensajeErrorFechaBajaAgregarArticulo" xml:space="preserve">
-    <value>The deregistration date cannot be earlier than the acquisition date.</value>
-  </data>
-  <data name="MensajeErrorFechaGarantiaAgregarArticulo" xml:space="preserve">
-    <value>The warranty expiration date cannot be earlier than the purchase date.</value>
-  </data>
-  <data name="MensajeErrorFotoAgregarArticulo" xml:space="preserve">
+  <data name="MensajeErrorAgregarDireccionArticulo" xml:space="preserve">
     <value>You must select a photo for the article.</value>
   </data>
-  <data name="MensajeErrorMarcaAgregarArticulo" xml:space="preserve">
+  <data name="MensajeErrorAgregarDniArticulo" xml:space="preserve">
+    <value>The Id field cannot be empty.</value>
+  </data>
+  <data name="MensajeErrorAgregarEstadoArticulo" xml:space="preserve">
+    <value>You must select a valid status.</value>
+  </data>
+  <data name="MensajeErrorAgregarFechaBajaArticulo" xml:space="preserve">
+    <value>The deregistration date cannot be earlier than the acquisition date.</value>
+  </data>
+  <data name="MensajeErrorAgregarFechaGarantiaArticulo" xml:space="preserve">
+    <value>The warranty expiration date cannot be earlier than the purchase date.</value>
+  </data>
+  <data name="MensajeErrorAgregarFotoArticulo" xml:space="preserve">
+    <value>You must select a photo for the article.</value>
+  </data>
+  <data name="MensajeErrorAgregarMarcaArticulo" xml:space="preserve">
     <value>You must select a valid brand.</value>
   </data>
-  <data name="MensajeErrorModeloAgregarArticulo" xml:space="preserve">
+  <data name="MensajeErrorAgregarModeloArticulo" xml:space="preserve">
     <value>The model field cannot be left empty.</value>
   </data>
-  <data name="MensajeErrorSerieAgregarArticulo" xml:space="preserve">
-    <value>The series field cannot be left empty.</value>
-  </data>
-  <data name="MensajeErrorUbicacionAgregarArticulo" xml:space="preserve">
+  <data name="MensajeErrorAgregarUbicacionArticulo" xml:space="preserve">
     <value>You must select a valid location.</value>
-  </data>
-  <data name="MensajeExito" xml:space="preserve">
-    <value>Success.</value>
   </data>
   <data name="OpcionSeleccione" xml:space="preserve">
     <value>SELECT</value>
   </data>
-  <data name="VerificarFechasAgregarArticulo" xml:space="preserve">
+  <data name="MensajeAdvertenciaAgregarFechasArticulo" xml:space="preserve">
     <value>The warranty or cancellation date is earlier than the current date. Do you wish to continue?</value>
   </data>
-  <data name="MensajeErrorComprobante" xml:space="preserve">
+  <data name="MensajeErrorCargarComprobante" xml:space="preserve">
     <value>The receipt could not be uploaded: </value>
   </data>
-  <data name="MensajeErrorImagen" xml:space="preserve">
+  <data name="MensajeErrorCargarImagen" xml:space="preserve">
     <value>The image could not be loaded: </value>
   </data>
   <data name="MensajeErrorBuscarEmpleado" xml:space="preserve">
@@ -198,7 +189,177 @@
   <data name="MensajeErrorBuscarRuc" xml:space="preserve">
     <value>No company name was found with the entered RUC number. Please verify the number.</value>
   </data>
-  <data name="MensajeSinCodigoAutomatico" xml:space="preserve">
+  <data name="MensajeCodigoNoAutomatico" xml:space="preserve">
     <value>[Uncategorized]</value>
+  </data>
+  <data name="MensajeErrorConfiguracionPerfil" xml:space="preserve">
+    <value>Error creating the Profile table in the database.</value>
+  </data>
+  <data name="MensajeErrorConfiguracionGuardar" xml:space="preserve">
+    <value>Error saving the configuration for {0}.</value>
+  </data>
+  <data name="MensajeExitoConfiguracionGuardar" xml:space="preserve">
+    <value>The configuration was saved for user {0}.</value>
+  </data>
+  <data name="OpcionInventario" xml:space="preserve">
+    <value>Inventory</value>
+  </data>
+  <data name="OpcionSeguridad" xml:space="preserve">
+    <value>Security</value>
+  </data>
+  <data name="TituloAdvertencia" xml:space="preserve">
+    <value>Warning</value>
+  </data>
+  <data name="TituloExito" xml:space="preserve">
+    <value>Success</value>
+  </data>
+  <data name="TituloInformacion" xml:space="preserve">
+    <value>Information</value>
+  </data>
+  <data name="MensajeErrorAgregarSerieArticulo" xml:space="preserve">
+    <value>The series field cannot be left empty.</value>
+  </data>
+  <data name="MensajeErrorPreguntaValida" xml:space="preserve">
+    <value>Select a valid question.</value>
+  </data>
+  <data name="MensajeErrorPreguntaRepetida" xml:space="preserve">
+    <value>The selected questions must be different.</value>
+  </data>
+  <data name="TituloValidacion" xml:space="preserve">
+    <value>Validation</value>
+  </data>
+  <data name="MensajeErrorPregunta1" xml:space="preserve">
+    <value>Answer 1 is mandatory.</value>
+  </data>
+  <data name="MensajeErrorPregunta2" xml:space="preserve">
+    <value>Answer 2 is mandatory.</value>
+  </data>
+  <data name="MensajeErrorPregunta3" xml:space="preserve">
+    <value>Answer 3 is mandatory.</value>
+  </data>
+  <data name="MensajeErrorRespuestaRepetida" xml:space="preserve">
+    <value>The answers must be different from each other.</value>
+  </data>
+  <data name="MensajeErrorRespuesta1" xml:space="preserve">
+    <value>Answer 1 is too short or invalid.</value>
+  </data>
+  <data name="MensajeErrorRespuesta2" xml:space="preserve">
+    <value>Answer 2 is too short or invalid.</value>
+  </data>
+  <data name="MensajeErrorRespuesta3" xml:space="preserve">
+    <value>Answer 3 is too short or invalid.</value>
+  </data>
+  <data name="MnesajeAdvertenciaPreguntasSeguridad" xml:space="preserve">
+    <value>Are you sure you want to go through with the operation?</value>
+  </data>
+  <data name="TituloConfirmacion" xml:space="preserve">
+    <value>Confirmation</value>
+  </data>
+  <data name="MensajeErrorPreguntasSeguridad" xml:space="preserve">
+    <value>The user could not register because the operation was cancelled.</value>
+  </data>
+  <data name="OpcionPreguntasSeguridad" xml:space="preserve">
+    <value>Select a question...</value>
+  </data>
+  <data name="MensajeErrorPreguntasSeguridadBD" xml:space="preserve">
+    <value>Database error: {0}</value>
+  </data>
+  <data name="MensajeErrorPreguntasSeguridadGuardar" xml:space="preserve">
+    <value>Error saving security questions: {0}</value>
+  </data>
+  <data name="MensajeContraseñaNuevaVacía" xml:space="preserve">
+    <value>The password field cannot be empty, please enter a new password.</value>
+  </data>
+  <data name="MensajeContraseñaNuevaExito" xml:space="preserve">
+    <value>Your password has been successfully changed.</value>
+  </data>
+  <data name="MensajeCodigoRecuperacionCorrecto" xml:space="preserve">
+    <value>The code entered is correct, you can now set a new password.</value>
+  </data>
+  <data name="MensajeCodigoRecuperacionExpirado" xml:space="preserve">
+    <value>The code has expired, please request a new one.</value>
+  </data>
+  <data name="MensajeCodigoRecuperacionIncorrecto" xml:space="preserve">
+    <value>The code entered is not valid, please check and try again.</value>
+  </data>
+  <data name="MensajeConexionBdExitosa" xml:space="preserve">
+    <value>Successful Connection</value>
+  </data>
+  <data name="MensajeConexionBdError" xml:space="preserve">
+    <value>Connection error: {0}</value>
+  </data>
+  <data name="MensajeAdvertenciaIniciarSesionUsuario" xml:space="preserve">
+    <value>Enter the username.</value>
+  </data>
+  <data name="MensajeAdvertenciaIniciarSesionContraseña" xml:space="preserve">
+    <value>Enter the password.</value>
+  </data>
+  <data name="MensajeErrorIniciarSesionContraseña" xml:space="preserve">
+    <value>Incorrect password.</value>
+  </data>
+  <data name="MensajeErrorIniciarSesionUsuario" xml:space="preserve">
+    <value>User not found.</value>
+  </data>
+  <data name="MensajeAdvertenciaIniciarSesionRecuerdame" xml:space="preserve">
+    <value>If the computer is shared, we do not recommend checking this box.</value>
+  </data>
+  <data name="MensajeAdvertenciaRecuperarUsuario" xml:space="preserve">
+    <value>Enter your username before recovering your password.</value>
+  </data>
+  <data name="MensajeErrorUsuario" xml:space="preserve">
+    <value>User not found.</value>
+  </data>
+  <data name="MensajeExitoEnvioCorreo" xml:space="preserve">
+    <value>We have sent a security code to your email address.</value>
+  </data>
+  <data name="MensajeErrorEnviarCorreo" xml:space="preserve">
+    <value>Error sending email: {0}</value>
+  </data>
+  <data name="AsuntoCorreoRecuperacion" xml:space="preserve">
+    <value>Password recovery code</value>
+  </data>
+  <data name="NombreRemitenteCorreo" xml:space="preserve">
+    <value>ControlInventario Support</value>
+  </data>
+  <data name="PlantillaCorreoRecuperacion" xml:space="preserve">
+    <value>&lt;div style='font-family:Segoe UI; padding:20px; background-color:#f9f9f9; border:1px solid #ddd;'&gt;
+&lt;h2 style='color:#2c3e50;'&gt;Password Recovery&lt;/h2&gt;
+&lt;p&gt;Hello&lt;strong&gt;{0}&lt;/strong&gt;,&lt;/p&gt;
+&lt;p&gt;You have requested to recover your password. Your security code is:&lt;/p&gt;
+&lt;div style='font-size:24px; font-weight:bold; color:#2980b9; margin:20px 0;'&gt;{1}&lt;/div&gt;
+&lt;p&gt;This code is valid for 10 minutes. If you didn't request this email, you can ignore it.&lt;/p&gt;
+&lt;hr /&gt;
+&lt;p style='font-size:12px; color:#888;'&gt;© 2026 ControlInventario. All rights reserved.&lt;/p&gt;
+&lt;/div&gt;</value>
+  </data>
+  <data name="MensajeMenuPrincipalBienvenida" xml:space="preserve">
+    <value>Welcome: {0}</value>
+  </data>
+  <data name="MensajeMenuPrincipalFecha" xml:space="preserve">
+    <value>Date: {0}</value>
+  </data>
+  <data name="MensajeMenuPrincipalUsuario" xml:space="preserve">
+    <value>User: {0}</value>
+  </data>
+  <data name="MensajeMenuPrincipalRol" xml:space="preserve">
+    <value>Role: {0}</value>
+  </data>
+  <data name="MensajeMenuPrincipal1" xml:space="preserve">
+    <value>I hope you haven't lost anything.</value>
+  </data>
+  <data name="MensajeMenuPrincipal2" xml:space="preserve">
+    <value>Is the inventory up to date?</value>
+  </data>
+  <data name="MensajeMenuPrincipal3" xml:space="preserve">
+    <value>Remember that you must have your report updated.</value>
+  </data>
+  <data name="MensajeMenuPrincipal4" xml:space="preserve">
+    <value>Your boss trusts you, don't steal.</value>
+  </data>
+  <data name="MensajeMenuPrincipal5" xml:space="preserve">
+    <value>Remember who you work for.</value>
+  </data>
+  <data name="MensajeMenuPrincipal6" xml:space="preserve">
+    <value>When was the last time you were here?</value>
   </data>
 </root>

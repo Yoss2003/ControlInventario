@@ -27,17 +27,17 @@ namespace ControlInventario.Vistas
             // Validar selección de preguntas
             if (CmbPregunta1.SelectedIndex <= 0)
             {
-                errorProvider1.SetError(CmbPregunta1, "Seleccione una pregunta válida");
+                errorProvider1.SetError(CmbPregunta1, Idiomas.MensajeErrorPreguntaValida);
                 valido = false;
             }
             if (CmbPregunta2.SelectedIndex <= 0)
             {
-                errorProvider1.SetError(CmbPregunta2, "Seleccione una pregunta válida");
+                errorProvider1.SetError(CmbPregunta2, Idiomas.MensajeErrorPreguntaValida);
                 valido = false;
             }
             if (CmbPregunta3.SelectedIndex <= 0)
             {
-                errorProvider1.SetError(CmbPregunta3, "Seleccione una pregunta válida");
+                errorProvider1.SetError(CmbPregunta3, Idiomas.MensajeErrorPreguntaValida);
                 valido = false;
             }
 
@@ -46,7 +46,9 @@ namespace ControlInventario.Vistas
                 CmbPregunta1.SelectedIndex == CmbPregunta3.SelectedIndex ||
                 CmbPregunta2.SelectedIndex == CmbPregunta3.SelectedIndex)
             {
-                MessageBox.Show("Las preguntas seleccionadas deben ser diferentes.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(Idiomas.MensajeErrorPreguntaRepetida, Idiomas.TituloValidacion, 
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Warning);
                 valido = false;
             }
 
@@ -58,17 +60,17 @@ namespace ControlInventario.Vistas
             // Validar respuestas no vacías
             if (string.IsNullOrWhiteSpace(r1))
             {
-                errorProvider1.SetError(TxtRespuesta1, "La respuesta 1 es obligatoria");
+                errorProvider1.SetError(TxtRespuesta1, Idiomas.MensajeErrorPregunta1);
                 valido = false;
             }
             if (string.IsNullOrWhiteSpace(r2))
             {
-                errorProvider1.SetError(TxtRespuesta2, "La respuesta 2 es obligatoria");
+                errorProvider1.SetError(TxtRespuesta2, Idiomas.MensajeErrorPregunta2);
                 valido = false;
             }
             if (string.IsNullOrWhiteSpace(r3))
             {
-                errorProvider1.SetError(TxtRespuesta3, "La respuesta 3 es obligatoria");
+                errorProvider1.SetError(TxtRespuesta3, Idiomas.MensajeErrorPregunta3);
                 valido = false;
             }
 
@@ -77,7 +79,8 @@ namespace ControlInventario.Vistas
                 r1.Equals(r3, StringComparison.OrdinalIgnoreCase) ||
                 r2.Equals(r3, StringComparison.OrdinalIgnoreCase))
             {
-                MessageBox.Show("Las respuestas deben ser diferentes entre sí.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(Idiomas.MensajeErrorRespuestaRepetida, Idiomas.TituloValidacion, 
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 valido = false;
             }
 
@@ -85,17 +88,17 @@ namespace ControlInventario.Vistas
             Regex trivial = new Regex(@"^(abc|123|qwerty|asdf|hola|respuesta)$", RegexOptions.IgnoreCase);
             if (trivial.IsMatch(r1) || r1.Length < 3)
             {
-                errorProvider1.SetError(TxtRespuesta1, "La respuesta 1 es muy corta o inválida");
+                errorProvider1.SetError(TxtRespuesta1, Idiomas.MensajeErrorRespuesta1);
                 valido = false;
             }
             if (trivial.IsMatch(r2) || r2.Length < 3)
             {
-                errorProvider1.SetError(TxtRespuesta2, "La respuesta 2 es muy corta o inválida");
+                errorProvider1.SetError(TxtRespuesta2, Idiomas.MensajeErrorRespuesta2);
                 valido = false;
             }
             if (trivial.IsMatch(r3) || r3.Length < 3)
             {
-                errorProvider1.SetError(TxtRespuesta3, "La respuesta 3 es muy corta o inválida");
+                errorProvider1.SetError(TxtRespuesta3, Idiomas.MensajeErrorRespuesta3);
                 valido = false;
             }
 
@@ -109,15 +112,15 @@ namespace ControlInventario.Vistas
                 string.IsNullOrWhiteSpace(CmbPregunta2.Text) || string.IsNullOrWhiteSpace(TxtRespuesta2.Text) || 
                 string.IsNullOrWhiteSpace(CmbPregunta3.Text) || string.IsNullOrWhiteSpace(TxtRespuesta3.Text))
             {
-                DialogResult result = MessageBox.Show("¿Estás seguro de salir de la operación?", "Confirmación",
+                DialogResult result = MessageBox.Show(Idiomas.MnesajeAdvertenciaPreguntasSeguridad, Idiomas.TituloConfirmacion,
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question);
 
                 // Si el usuario confirma que desea salir, se elimina el usuario recién creado
                 if (result == DialogResult.Yes)
                 {
-                    MessageBox.Show("El usuario no se pudo registrar por que se canceló la operación.",
-                    "Advertencia",
+                    MessageBox.Show(Idiomas.MensajeErrorPreguntasSeguridad,
+                    Idiomas.TituloAdvertencia,
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
 
@@ -146,9 +149,9 @@ namespace ControlInventario.Vistas
         private void VistaPreguntasSeguridad_Load(object sender, EventArgs e)
         {
             // Agregar opciones de preguntas al ComboBox
-            CmbPregunta1.Items.Insert(0, "Seleccione una pregunta..."); 
-            CmbPregunta2.Items.Insert(0, "Seleccione una pregunta..."); 
-            CmbPregunta3.Items.Insert(0, "Seleccione una pregunta...");
+            CmbPregunta1.Items.Insert(0, Idiomas.OpcionPreguntasSeguridad); 
+            CmbPregunta2.Items.Insert(0, Idiomas.OpcionPreguntasSeguridad); 
+            CmbPregunta3.Items.Insert(0, Idiomas.OpcionPreguntasSeguridad);
 
             // Agregar preguntas de seguridad al ComboBox
             lblIdusuario.Text = idUsuario.ToString();
@@ -170,7 +173,8 @@ namespace ControlInventario.Vistas
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error en la base de datos: " + ex.Message, "Error",
+                string mensajeError = string.Format(Idiomas.MensajeErrorPreguntasSeguridadBD, ex.Message);
+                MessageBox.Show(mensajeError, "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
@@ -179,11 +183,9 @@ namespace ControlInventario.Vistas
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            // Validar que se hayan seleccionado preguntas y proporcionado respuestas antes de guardar
             if (!ValidarPreguntas())
                 return;
 
-            // Guardar preguntas de seguridad en la base de datos
             try
             {
                 using (var con = ConexionGlobal.ObtenerConexion())
@@ -234,7 +236,8 @@ namespace ControlInventario.Vistas
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al guardar preguntas de seguridad: " + ex.Message,
+                string mensajeError = string.Format(Idiomas.MensajeErrorPreguntasSeguridadGuardar, ex.Message);
+                MessageBox.Show(mensajeError,
                                 "Error",
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Error);
@@ -247,26 +250,17 @@ namespace ControlInventario.Vistas
 
         private void CmbPregunta1_TextChanged(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(CmbPregunta1.Text))
-            {
-                CmbPregunta1.Text = "SELECCIONE";
-            }
+            ClassHelper.NormalizarTexto(CmbPregunta1);
         }
 
         private void CmbPregunta2_TextChanged(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(CmbPregunta2.Text))
-            {
-                CmbPregunta2.Text = "SELECCIONE";
-            }
+            ClassHelper.NormalizarTexto(CmbPregunta2);
         }
 
         private void CmbPregunta3_TextChanged(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(CmbPregunta3.Text))
-            {
-                CmbPregunta3.Text = "SELECCIONE";
-            }
+            ClassHelper.NormalizarTexto(CmbPregunta3);
         }
 
         private void BtnCancelar_Click(object sender, EventArgs e)

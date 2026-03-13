@@ -1,18 +1,15 @@
 ﻿using ControlInventario.Database;
-using ControlInventario.Modelos;
 using ControlInventario.Servicios;
 using ControlInventario.Vistas.Aplicacion;
 using System;
-using System.Data.SQLite;
 using System.Drawing;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace ControlInventario.Vistas
 {
     public partial class VistaMenuPrincipal : Form
     {
-        string nombreUusario = UsuarioSesion.NombreUsuario;
+        string nombreUsusario = UsuarioSesion.NombreUsuario;
         string rol = UsuarioSesion.Rol;
 
         public VistaMenuPrincipal()
@@ -30,19 +27,23 @@ namespace ControlInventario.Vistas
 
         private void VistaInicio_Load(object sender, EventArgs e)
         {
-            lblBienvenida.Text = $"Bienvenido {nombreUusario}";
-            lblRol.Text = $"Rol: {rol}";
-            lblFecha.Text = $"Fecha: {DateTime.Now.ToString("dd/MM/yyyy")}";
-            lblUsuario.Text = $"Usuario: {nombreUusario}";
+            string mensajeBienvenida = string.Format(Idiomas.MensajeMenuPrincipalBienvenida, nombreUsusario);
+            string mensajeRol = string.Format(Idiomas.MensajeMenuPrincipalRol, rol);
+            string mensajeFecha = string.Format(Idiomas.MensajeMenuPrincipalFecha, DateTime.Now.ToString("dd/MM/yyyy"));
+            string mensajeUsuario = string.Format(Idiomas.MensajeMenuPrincipalUsuario, nombreUsusario);
+
+            lblBienvenida.Text = mensajeBienvenida;
+            lblRol.Text = mensajeRol;
+            lblFecha.Text = mensajeFecha;
+            lblUsuario.Text = mensajeUsuario;
 
             string[] frases = {
-                "Espero no hayas perdido nada",
-                "¿El inventario está al día?",
-                "Recuerda tener tu reporte actualizado",
-                "Tu jefe confía en tí, no robes.",
-                "Error",
-                "Recuerda por quién trabajas.",
-                "¿Cuando fue la ultima vez que ingresaste acá?"
+                Idiomas.MensajeMenuPrincipal1,
+                Idiomas.MensajeMenuPrincipal2,
+                Idiomas.MensajeMenuPrincipal3,
+                Idiomas.MensajeMenuPrincipal4,
+                Idiomas.MensajeMenuPrincipal5,
+                Idiomas.MensajeMenuPrincipal6
             };
             lblTextoRandom.Text = frases[new Random().Next(frases.Length)];
 

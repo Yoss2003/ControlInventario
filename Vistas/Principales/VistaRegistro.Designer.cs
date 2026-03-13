@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VistaRegistro));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.txtEdad = new System.Windows.Forms.NumericUpDown();
             this.dtFechaNac = new System.Windows.Forms.DateTimePicker();
@@ -41,15 +42,15 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.cbmTipoContrato = new System.Windows.Forms.ComboBox();
+            this.CbTipoContrato = new System.Windows.Forms.ComboBox();
             this.dtFechaIngre = new System.Windows.Forms.DateTimePicker();
-            this.txtArea = new System.Windows.Forms.TextBox();
-            this.txtCargo = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.Btn_VerContraseña2 = new System.Windows.Forms.Button();
+            this.Btn_VerContraseña1 = new System.Windows.Forms.Button();
             this.txtConfirmContraseña = new System.Windows.Forms.TextBox();
             this.txtContraseña = new System.Windows.Forms.TextBox();
             this.txtUsuario = new System.Windows.Forms.TextBox();
@@ -62,6 +63,11 @@
             this.btnGuardar = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.CbCargo = new System.Windows.Forms.ComboBox();
+            this.CbArea = new System.Windows.Forms.ComboBox();
+            this.BtnAgregarCargo = new System.Windows.Forms.Button();
+            this.BtnAgregarArea = new System.Windows.Forms.Button();
+            this.BtnAgregarTipoContrato = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtEdad)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -82,304 +88,213 @@
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(316, 189);
-            this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Datos personales";
             // 
             // txtEdad
             // 
-            this.txtEdad.Location = new System.Drawing.Point(69, 151);
+            resources.ApplyResources(this.txtEdad, "txtEdad");
             this.txtEdad.Maximum = new decimal(new int[] {
             65,
             0,
             0,
             0});
             this.txtEdad.Name = "txtEdad";
-            this.txtEdad.Size = new System.Drawing.Size(52, 20);
-            this.txtEdad.TabIndex = 8;
             // 
             // dtFechaNac
             // 
             this.dtFechaNac.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtFechaNac.Location = new System.Drawing.Point(201, 151);
+            resources.ApplyResources(this.dtFechaNac, "dtFechaNac");
             this.dtFechaNac.Name = "dtFechaNac";
-            this.dtFechaNac.Size = new System.Drawing.Size(82, 20);
-            this.dtFechaNac.TabIndex = 9;
             // 
             // txtCorreo
             // 
-            this.txtCorreo.Location = new System.Drawing.Point(69, 111);
+            resources.ApplyResources(this.txtCorreo, "txtCorreo");
             this.txtCorreo.Name = "txtCorreo";
-            this.txtCorreo.Size = new System.Drawing.Size(214, 20);
-            this.txtCorreo.TabIndex = 5;
             // 
             // txtApellido
             // 
-            this.txtApellido.Location = new System.Drawing.Point(69, 71);
+            resources.ApplyResources(this.txtApellido, "txtApellido");
             this.txtApellido.Name = "txtApellido";
-            this.txtApellido.Size = new System.Drawing.Size(214, 20);
-            this.txtApellido.TabIndex = 6;
             this.txtApellido.TextChanged += new System.EventHandler(this.txtApellido_TextChanged);
             // 
             // txtNombre
             // 
-            this.txtNombre.Location = new System.Drawing.Point(69, 31);
+            resources.ApplyResources(this.txtNombre, "txtNombre");
             this.txtNombre.Name = "txtNombre";
-            this.txtNombre.Size = new System.Drawing.Size(214, 20);
-            this.txtNombre.TabIndex = 7;
             this.txtNombre.TextChanged += new System.EventHandler(this.txtNombre_TextChanged);
             // 
             // label10
             // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(132, 155);
+            resources.ApplyResources(this.label10, "label10");
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(63, 13);
-            this.label10.TabIndex = 2;
-            this.label10.Text = "Fecha Nac.";
             // 
             // label5
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(23, 155);
+            resources.ApplyResources(this.label5, "label5");
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(35, 13);
-            this.label5.TabIndex = 2;
-            this.label5.Text = "Edad:";
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(17, 114);
+            resources.ApplyResources(this.label3, "label3");
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(41, 13);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "Correo:";
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 74);
+            resources.ApplyResources(this.label2, "label2");
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(52, 13);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Apellidos:";
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 34);
+            resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(52, 13);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "Nombres:";
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.cbmTipoContrato);
+            this.groupBox2.Controls.Add(this.BtnAgregarTipoContrato);
+            this.groupBox2.Controls.Add(this.BtnAgregarArea);
+            this.groupBox2.Controls.Add(this.BtnAgregarCargo);
+            this.groupBox2.Controls.Add(this.CbArea);
+            this.groupBox2.Controls.Add(this.CbCargo);
+            this.groupBox2.Controls.Add(this.CbTipoContrato);
             this.groupBox2.Controls.Add(this.dtFechaIngre);
-            this.groupBox2.Controls.Add(this.txtArea);
-            this.groupBox2.Controls.Add(this.txtCargo);
             this.groupBox2.Controls.Add(this.label6);
             this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Controls.Add(this.label8);
             this.groupBox2.Controls.Add(this.label9);
-            this.groupBox2.Location = new System.Drawing.Point(12, 207);
+            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(316, 184);
-            this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Datos empresariales";
             // 
-            // cbmTipoContrato
+            // CbTipoContrato
             // 
-            this.cbmTipoContrato.FormattingEnabled = true;
-            this.cbmTipoContrato.Items.AddRange(new object[] {
-            "Indefinido",
-            "aumento de actividades",
-            "temporal"});
-            this.cbmTipoContrato.Location = new System.Drawing.Point(110, 150);
-            this.cbmTipoContrato.Name = "cbmTipoContrato";
-            this.cbmTipoContrato.Size = new System.Drawing.Size(121, 21);
-            this.cbmTipoContrato.TabIndex = 10;
-            this.cbmTipoContrato.Text = "SELECCIONE";
+            this.CbTipoContrato.FormattingEnabled = true;
+            resources.ApplyResources(this.CbTipoContrato, "CbTipoContrato");
+            this.CbTipoContrato.Name = "CbTipoContrato";
             // 
             // dtFechaIngre
             // 
             this.dtFechaIngre.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtFechaIngre.Location = new System.Drawing.Point(110, 110);
+            resources.ApplyResources(this.dtFechaIngre, "dtFechaIngre");
             this.dtFechaIngre.Name = "dtFechaIngre";
-            this.dtFechaIngre.Size = new System.Drawing.Size(82, 20);
-            this.dtFechaIngre.TabIndex = 9;
-            // 
-            // txtArea
-            // 
-            this.txtArea.Location = new System.Drawing.Point(110, 70);
-            this.txtArea.Name = "txtArea";
-            this.txtArea.Size = new System.Drawing.Size(173, 20);
-            this.txtArea.TabIndex = 6;
-            // 
-            // txtCargo
-            // 
-            this.txtCargo.Location = new System.Drawing.Point(110, 30);
-            this.txtCargo.Name = "txtCargo";
-            this.txtCargo.Size = new System.Drawing.Size(173, 20);
-            this.txtCargo.TabIndex = 7;
             // 
             // label6
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(16, 153);
+            resources.ApplyResources(this.label6, "label6");
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(88, 13);
-            this.label6.TabIndex = 2;
-            this.label6.Text = "Tipo de contrato:";
             // 
             // label7
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(12, 114);
+            resources.ApplyResources(this.label7, "label7");
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(92, 13);
-            this.label7.TabIndex = 2;
-            this.label7.Text = "Fecha de ingreso:";
             // 
             // label8
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(72, 73);
+            resources.ApplyResources(this.label8, "label8");
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(32, 13);
-            this.label8.TabIndex = 3;
-            this.label8.Text = "Área:";
             // 
             // label9
             // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(66, 33);
+            resources.ApplyResources(this.label9, "label9");
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(38, 13);
-            this.label9.TabIndex = 4;
-            this.label9.Text = "Cargo:";
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.Btn_VerContraseña2);
+            this.groupBox3.Controls.Add(this.Btn_VerContraseña1);
             this.groupBox3.Controls.Add(this.txtConfirmContraseña);
             this.groupBox3.Controls.Add(this.txtContraseña);
             this.groupBox3.Controls.Add(this.txtUsuario);
             this.groupBox3.Controls.Add(this.label4);
             this.groupBox3.Controls.Add(this.label11);
             this.groupBox3.Controls.Add(this.label12);
-            this.groupBox3.Location = new System.Drawing.Point(334, 12);
+            resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(317, 189);
-            this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Datos del aplicativo";
+            // 
+            // Btn_VerContraseña2
+            // 
+            resources.ApplyResources(this.Btn_VerContraseña2, "Btn_VerContraseña2");
+            this.Btn_VerContraseña2.Name = "Btn_VerContraseña2";
+            this.Btn_VerContraseña2.UseVisualStyleBackColor = true;
+            this.Btn_VerContraseña2.Click += new System.EventHandler(this.Btn_VerContraseña2_Click);
+            // 
+            // Btn_VerContraseña1
+            // 
+            resources.ApplyResources(this.Btn_VerContraseña1, "Btn_VerContraseña1");
+            this.Btn_VerContraseña1.Name = "Btn_VerContraseña1";
+            this.Btn_VerContraseña1.UseVisualStyleBackColor = true;
+            this.Btn_VerContraseña1.Click += new System.EventHandler(this.Btn_VerContraseña1_Click);
             // 
             // txtConfirmContraseña
             // 
-            this.txtConfirmContraseña.Location = new System.Drawing.Point(28, 150);
+            resources.ApplyResources(this.txtConfirmContraseña, "txtConfirmContraseña");
             this.txtConfirmContraseña.Name = "txtConfirmContraseña";
-            this.txtConfirmContraseña.Size = new System.Drawing.Size(256, 20);
-            this.txtConfirmContraseña.TabIndex = 6;
+            this.txtConfirmContraseña.UseSystemPasswordChar = true;
             // 
             // txtContraseña
             // 
-            this.txtContraseña.Location = new System.Drawing.Point(28, 96);
+            resources.ApplyResources(this.txtContraseña, "txtContraseña");
             this.txtContraseña.Name = "txtContraseña";
-            this.txtContraseña.Size = new System.Drawing.Size(256, 20);
-            this.txtContraseña.TabIndex = 6;
+            this.txtContraseña.UseSystemPasswordChar = true;
             // 
             // txtUsuario
             // 
-            this.txtUsuario.Location = new System.Drawing.Point(28, 42);
+            resources.ApplyResources(this.txtUsuario, "txtUsuario");
             this.txtUsuario.Name = "txtUsuario";
-            this.txtUsuario.Size = new System.Drawing.Size(256, 20);
-            this.txtUsuario.TabIndex = 7;
             // 
             // label4
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(25, 132);
+            resources.ApplyResources(this.label4, "label4");
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(107, 13);
-            this.label4.TabIndex = 3;
-            this.label4.Text = "Confirme contraseña:";
             // 
             // label11
             // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(25, 78);
+            resources.ApplyResources(this.label11, "label11");
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(64, 13);
-            this.label11.TabIndex = 3;
-            this.label11.Text = "Contraseña:";
             // 
             // label12
             // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(25, 24);
+            resources.ApplyResources(this.label12, "label12");
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(46, 13);
-            this.label12.TabIndex = 4;
-            this.label12.Text = "Usuario:";
             // 
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.checkedListRol);
             this.groupBox4.Controls.Add(this.label13);
-            this.groupBox4.Location = new System.Drawing.Point(334, 207);
+            resources.ApplyResources(this.groupBox4, "groupBox4");
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(317, 184);
-            this.groupBox4.TabIndex = 2;
             this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Roles";
             // 
             // checkedListRol
             // 
-            this.checkedListRol.Enabled = false;
+            resources.ApplyResources(this.checkedListRol, "checkedListRol");
             this.checkedListRol.FormattingEnabled = true;
             this.checkedListRol.Items.AddRange(new object[] {
-            "Developer",
-            "Administrador",
-            "Usuario",
-            "Invitado",
-            "Bloqueado"});
-            this.checkedListRol.Location = new System.Drawing.Point(150, 45);
+            resources.GetString("checkedListRol.Items"),
+            resources.GetString("checkedListRol.Items1"),
+            resources.GetString("checkedListRol.Items2"),
+            resources.GetString("checkedListRol.Items3"),
+            resources.GetString("checkedListRol.Items4")});
             this.checkedListRol.Name = "checkedListRol";
-            this.checkedListRol.Size = new System.Drawing.Size(120, 79);
-            this.checkedListRol.TabIndex = 2;
             // 
             // label13
             // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(55, 45);
+            resources.ApplyResources(this.label13, "label13");
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(89, 13);
-            this.label13.TabIndex = 1;
-            this.label13.Text = "Roles de usuario:";
             // 
             // btnGuardar
             // 
-            this.btnGuardar.Location = new System.Drawing.Point(253, 402);
+            resources.ApplyResources(this.btnGuardar, "btnGuardar");
             this.btnGuardar.Name = "btnGuardar";
-            this.btnGuardar.Size = new System.Drawing.Size(75, 23);
-            this.btnGuardar.TabIndex = 3;
-            this.btnGuardar.Text = "Guardar";
             this.btnGuardar.UseVisualStyleBackColor = true;
             this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
             // 
             // btnCancelar
             // 
-            this.btnCancelar.Location = new System.Drawing.Point(334, 402);
+            resources.ApplyResources(this.btnCancelar, "btnCancelar");
             this.btnCancelar.Name = "btnCancelar";
-            this.btnCancelar.Size = new System.Drawing.Size(75, 23);
-            this.btnCancelar.TabIndex = 4;
-            this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.UseVisualStyleBackColor = true;
             this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
             // 
@@ -387,11 +302,40 @@
             // 
             this.errorProvider1.ContainerControl = this;
             // 
+            // CbCargo
+            // 
+            this.CbCargo.FormattingEnabled = true;
+            resources.ApplyResources(this.CbCargo, "CbCargo");
+            this.CbCargo.Name = "CbCargo";
+            // 
+            // CbArea
+            // 
+            this.CbArea.FormattingEnabled = true;
+            resources.ApplyResources(this.CbArea, "CbArea");
+            this.CbArea.Name = "CbArea";
+            // 
+            // BtnAgregarCargo
+            // 
+            resources.ApplyResources(this.BtnAgregarCargo, "BtnAgregarCargo");
+            this.BtnAgregarCargo.Name = "BtnAgregarCargo";
+            this.BtnAgregarCargo.UseVisualStyleBackColor = true;
+            // 
+            // BtnAgregarArea
+            // 
+            resources.ApplyResources(this.BtnAgregarArea, "BtnAgregarArea");
+            this.BtnAgregarArea.Name = "BtnAgregarArea";
+            this.BtnAgregarArea.UseVisualStyleBackColor = true;
+            // 
+            // BtnAgregarTipoContrato
+            // 
+            resources.ApplyResources(this.BtnAgregarTipoContrato, "BtnAgregarTipoContrato");
+            this.BtnAgregarTipoContrato.Name = "BtnAgregarTipoContrato";
+            this.BtnAgregarTipoContrato.UseVisualStyleBackColor = true;
+            // 
             // VistaRegistro
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(663, 437);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.btnGuardar);
             this.Controls.Add(this.groupBox2);
@@ -403,8 +347,6 @@
             this.MaximizeBox = false;
             this.Name = "VistaRegistro";
             this.ShowIcon = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Registrar usuario";
             this.Load += new System.EventHandler(this.VistaRegistro_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -432,12 +374,10 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.DateTimePicker dtFechaIngre;
-        private System.Windows.Forms.TextBox txtArea;
-        private System.Windows.Forms.TextBox txtCargo;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.ComboBox cbmTipoContrato;
+        private System.Windows.Forms.ComboBox CbTipoContrato;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.TextBox txtConfirmContraseña;
@@ -454,5 +394,12 @@
         private System.Windows.Forms.Button btnCancelar;
         private System.Windows.Forms.ErrorProvider errorProvider1;
         private System.Windows.Forms.CheckedListBox checkedListRol;
+        private System.Windows.Forms.Button Btn_VerContraseña2;
+        private System.Windows.Forms.Button Btn_VerContraseña1;
+        private System.Windows.Forms.ComboBox CbArea;
+        private System.Windows.Forms.ComboBox CbCargo;
+        private System.Windows.Forms.Button BtnAgregarTipoContrato;
+        private System.Windows.Forms.Button BtnAgregarArea;
+        private System.Windows.Forms.Button BtnAgregarCargo;
     }
 }

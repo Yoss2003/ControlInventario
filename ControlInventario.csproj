@@ -332,6 +332,18 @@
     <EmbeddedResource Include="Vistas\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Vistas\Principales\VistaInicioSesion.en-US.resx">
+      <DependentUpon>VistaInicioSesion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Vistas\Principales\VistaMenuPrincipal.en-US.resx">
+      <DependentUpon>VistaMenuPrincipal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Vistas\Principales\VistaRegistro.en-US.resx">
+      <DependentUpon>VistaRegistro.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Vistas\Seguridad\VistaConfiguracion.en-US.resx">
+      <DependentUpon>VistaConfiguracion.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Vistas\Seguridad\VistaConfiguracion.resx">
       <DependentUpon>VistaConfiguracion.cs</DependentUpon>
     </EmbeddedResource>
@@ -343,6 +355,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Vistas\Seguridad\VistaPreguntasSeguridad.resx">
       <DependentUpon>VistaPreguntasSeguridad.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Vistas\Seguridad\VistaRecuperacion.en-US.resx">
+      <DependentUpon>VistaRecuperacion.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Vistas\Seguridad\VistaRecuperacion.resx">
       <DependentUpon>VistaRecuperacion.cs</DependentUpon>

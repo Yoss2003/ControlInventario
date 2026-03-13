@@ -27,15 +27,15 @@ namespace ControlInventario.Vistas
 
             if (diferencia.TotalMinutes > 3)
             {
-                MessageBox.Show("El código ha expirado. Solicita uno nuevo.");
+                MessageBox.Show(Idiomas.MensajeCodigoRecuperacionExpirado);
                 return;
             }
 
             if (codigoIngresado == Recuperacion.CodigoGenerado)
             {
                 MessageBox.Show(
-                    "Verificación exitosa\n\nEl código ingresado es correcto. Ahora puedes establecer una nueva contraseña.",
-                    "Restablecer contraseña",
+                    Idiomas.MensajeCodigoRecuperacionCorrecto,
+                    Idiomas.TituloExito,
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information
                 );
@@ -44,9 +44,10 @@ namespace ControlInventario.Vistas
             }
             else
             {
+                EfectoTemblorCasillas();
                 MessageBox.Show(
-                    "Verificación fallida\n\nEl código ingresado no es válido. Por favor, verifica e intenta nuevamente.",
-                    "Error de seguridad",
+                    Idiomas.MensajeCodigoRecuperacionIncorrecto,
+                    "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error
                 );
@@ -60,8 +61,8 @@ namespace ControlInventario.Vistas
             if (string.IsNullOrEmpty(nuevaContraseña))
             {
                 MessageBox.Show(
-                    "Campo vacío\n\nLa contraseña no puede estar vacía. Por favor, ingresa una nueva contraseña.",
-                    "Error de validación",
+                    Idiomas.MensajeContraseñaNuevaVacía,
+                    "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error
                 );
@@ -71,7 +72,7 @@ namespace ControlInventario.Vistas
             using (var con = ConexionGlobal.ObtenerConexion())
             {
                 con.Open();
-                string query = "UPDATE Empleados SET Contraseña = @Contraseña WHERE Usuario = @Usuario";
+                string query = "UPDATE Usuario SET Contraseña = @Contraseña WHERE Usuario = @Usuario";
                 using (var cmd = new SQLiteCommand(query, con))
                 {
                     cmd.Parameters.AddWithValue("@Contraseña", nuevaContraseña);
@@ -80,8 +81,8 @@ namespace ControlInventario.Vistas
                 }
             }
             MessageBox.Show(
-                "Actualización exitosa\n\nTu contraseña ha sido modificada correctamente.",
-                "Confirmación",
+                Idiomas.MensajeContraseñaNuevaExito,
+                Idiomas.TituloConfirmacion,
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information
             );
@@ -132,6 +133,171 @@ namespace ControlInventario.Vistas
                 txt.TextAlign = HorizontalAlignment.Center;
             }
             ClassHelper.AplicarTema(this);
+        }
+
+        private async void EfectoTemblorCasillas()
+        {
+            // Reemplaza txt1, txt2, etc., por los nombres reales de tus 8 casillas
+            TextBox[] casillas = { txtDig1, txtDig2, txtDig3, txtDig4, txtDig5, txtDig6, txtDig7, txtDig8 };
+            int[] posicionesX = new int[8];
+
+            // Guardamos la posición original de cada casilla
+            for (int i = 0; i < 8; i++) posicionesX[i] = casillas[i].Location.X;
+
+            // Las hacemos temblar juntas
+            for (int i = 0; i < 5; i++)
+            {
+                for (int j = 0; j < 8; j++) casillas[j].Left = posicionesX[j] + 5;
+                await System.Threading.Tasks.Task.Delay(30);
+
+                for (int j = 0; j < 8; j++) casillas[j].Left = posicionesX[j] - 5;
+                await System.Threading.Tasks.Task.Delay(30);
+            }
+
+            // Las regresamos a su lugar exacto
+            for (int j = 0; j < 8; j++) casillas[j].Left = posicionesX[j];
+        }
+
+        private void VerificarCasillasCompletas()
+        {
+            btnValidarCodigo.Enabled =
+                txtDig1.Text.Length > 0 && txtDig2.Text.Length > 0 &&
+                txtDig3.Text.Length > 0 && txtDig4.Text.Length > 0 &&
+                txtDig5.Text.Length > 0 && txtDig6.Text.Length > 0 &&
+                txtDig7.Text.Length > 0 && txtDig8.Text.Length > 0;
+        }
+
+        private void txtDig1_Enter(object sender, EventArgs e)
+        {
+            TextBox cajaActual = (TextBox)sender;
+            cajaActual.BackColor = System.Drawing.Color.LightCyan;
+        }
+
+        private void txtDig1_Leave(object sender, EventArgs e)
+        {
+            TextBox cajaActual = (TextBox)sender;
+            cajaActual.BackColor = System.Drawing.Color.White;
+        }
+
+        private void txtDig2_Leave(object sender, EventArgs e)
+        {
+            TextBox cajaActual = (TextBox)sender;
+            cajaActual.BackColor = System.Drawing.Color.White;
+        }
+
+        private void txtDig2_Enter(object sender, EventArgs e)
+        {
+            TextBox cajaActual = (TextBox)sender;
+            cajaActual.BackColor = System.Drawing.Color.LightCyan;
+        }
+
+        private void txtDig3_Enter(object sender, EventArgs e)
+        {
+            TextBox cajaActual = (TextBox)sender;
+            cajaActual.BackColor = System.Drawing.Color.LightCyan;
+        }
+        
+        private void txtDig3_Leave(object sender, EventArgs e)
+        {
+            TextBox cajaActual = (TextBox)sender;
+            cajaActual.BackColor = System.Drawing.Color.White;
+        }
+
+        private void txtDig4_Enter(object sender, EventArgs e)
+        {
+            TextBox cajaActual = (TextBox)sender;
+            cajaActual.BackColor = System.Drawing.Color.LightCyan;
+        }
+
+        private void txtDig4_Leave(object sender, EventArgs e)
+        {
+            TextBox cajaActual = (TextBox)sender;
+            cajaActual.BackColor = System.Drawing.Color.White;
+        }
+
+        private void txtDig5_Enter(object sender, EventArgs e)
+        {
+            TextBox cajaActual = (TextBox)sender;
+            cajaActual.BackColor = System.Drawing.Color.LightCyan;
+        }
+
+        private void txtDig5_Leave(object sender, EventArgs e)
+        {
+            TextBox cajaActual = (TextBox)sender;
+            cajaActual.BackColor = System.Drawing.Color.White;
+        }
+
+        private void txtDig6_Enter(object sender, EventArgs e)
+        {
+            TextBox cajaActual = (TextBox)sender;
+            cajaActual.BackColor = System.Drawing.Color.LightCyan;
+        }
+
+        private void txtDig6_Leave(object sender, EventArgs e)
+        {
+            TextBox cajaActual = (TextBox)sender;
+            cajaActual.BackColor = System.Drawing.Color.White;
+        }
+
+        private void txtDig7_Enter(object sender, EventArgs e)
+        {
+            TextBox cajaActual = (TextBox)sender;
+            cajaActual.BackColor = System.Drawing.Color.LightCyan;
+        }
+
+        private void txtDig7_Leave(object sender, EventArgs e)
+        {
+            TextBox cajaActual = (TextBox)sender;
+            cajaActual.BackColor = System.Drawing.Color.White;
+        }
+
+        private void txtDig8_Enter(object sender, EventArgs e)
+        {
+            TextBox cajaActual = (TextBox)sender;
+            cajaActual.BackColor = System.Drawing.Color.LightCyan;
+        }
+
+        private void txtDig8_Leave(object sender, EventArgs e)
+        {
+            TextBox cajaActual = (TextBox)sender;
+            cajaActual.BackColor = System.Drawing.Color.White;
+        }
+
+        private void Txt_TextChanged(object sender, EventArgs e)
+        {
+            VerificarCasillasCompletas();
+        }
+
+        private void Casillas_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.V)
+            {
+                string textoPegado = Clipboard.GetText().Trim();
+
+                if (!string.IsNullOrEmpty(textoPegado))
+                {
+                    TextBox[] casillas = { txtDig1, txtDig2, txtDig3, txtDig4, txtDig5, txtDig6, txtDig7, txtDig8 };
+
+                    for (int i = 0; i < casillas.Length && i < textoPegado.Length; i++)
+                    {
+                        casillas[i].Text = textoPegado[i].ToString();
+                    }
+
+                    int indiceUltima = Math.Min(textoPegado.Length - 1, 7);
+                    casillas[indiceUltima].Focus();
+
+                    e.Handled = true;
+                    e.SuppressKeyPress = true;
+                }
+            }
+        }
+
+        private void txtNuevaContraseña_TextChanged(object sender, EventArgs e)
+        {
+            if(txtNuevaContraseña.TextLength >= 8)
+            {
+                btnGuardarContraseña.Enabled = true;
+            }
         }
     }
 }

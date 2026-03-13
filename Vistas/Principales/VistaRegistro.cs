@@ -244,10 +244,10 @@ namespace ControlInventario.Vistas
                         FechaNacimiento = dtFechaNac.Value,
                         NombreUsuario = txtUsuario.Text,
                         Contraseña = txtContraseña.Text,
-                        Cargo = txtCargo.Text,
-                        Area = txtArea.Text,
+                        Cargo = CbCargo.SelectedText,
+                        Area = CbArea.SelectedText,
                         FechaIngreso = dtFechaIngre.Value,
-                        TipoContrato = cbmTipoContrato.SelectedItem?.ToString(),
+                        TipoContrato = CbTipoContrato.SelectedItem?.ToString(),
                         IdRol = rolSeleccionado,
                         Rol = checkedListRol.Enabled ? checkedListRol.CheckedItems[0].ToString().Split('-')[1].Trim() : "Usuario"
                     };
@@ -290,6 +290,22 @@ namespace ControlInventario.Vistas
         private void txtApellido_TextChanged(object sender, EventArgs e)
         {
             GenerarUsuario();
+        }
+
+        private void Btn_VerContraseña1_Click(object sender, EventArgs e)
+        {
+            if(txtContraseña.UseSystemPasswordChar == true)
+                txtContraseña.UseSystemPasswordChar = false;
+            else
+                txtContraseña.UseSystemPasswordChar = true;
+        }
+
+        private void Btn_VerContraseña2_Click(object sender, EventArgs e)
+        {
+            if (txtConfirmContraseña.UseSystemPasswordChar == true)
+                txtConfirmContraseña.UseSystemPasswordChar = false;
+            else
+                txtConfirmContraseña.UseSystemPasswordChar = true;
         }
     }
 }

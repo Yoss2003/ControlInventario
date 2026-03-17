@@ -58,6 +58,7 @@
             this.label8 = new System.Windows.Forms.Label();
             this.BtnGuardar = new System.Windows.Forms.Button();
             this.GrpPreview = new System.Windows.Forms.GroupBox();
+            this.label9 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.TreeMenu = new System.Windows.Forms.TreeView();
             this.GrpDefault = new System.Windows.Forms.GroupBox();
@@ -260,9 +261,15 @@
             // GrpPreview
             // 
             resources.ApplyResources(this.GrpPreview, "GrpPreview");
+            this.GrpPreview.Controls.Add(this.label9);
             this.GrpPreview.Controls.Add(this.pictureBox1);
             this.GrpPreview.Name = "GrpPreview";
             this.GrpPreview.TabStop = false;
+            // 
+            // label9
+            // 
+            resources.ApplyResources(this.label9, "label9");
+            this.label9.Name = "label9";
             // 
             // pictureBox1
             // 
@@ -309,6 +316,7 @@
             this.GrpInventario.ResumeLayout(false);
             this.GrpInventario.PerformLayout();
             this.GrpPreview.ResumeLayout(false);
+            this.GrpPreview.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
@@ -347,5 +355,6 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.TreeView TreeMenu;
         private System.Windows.Forms.GroupBox GrpDefault;
+        private System.Windows.Forms.Label label9;
     }
 }

@@ -19,9 +19,12 @@ namespace ControlInventario.Database
                 FechaNacimiento TEXT NOT NULL,
                 Usuario TEXT NOT NULL UNIQUE,
                 Contraseña TEXT NOT NULL,
+                IdCargo INT NOT NULL,
                 Cargo TEXT NOT NULL,
+                IdArea INT NOT NULL,
                 Area TEXT NOT NULL,
                 FechaIngreso TEXT,
+                IdTipoContrato INT,
                 TipoContrato TEXT,
                 IdRol INTEGER NOT NULL,
                 Rol TEXT NOT NULL
@@ -44,9 +47,12 @@ namespace ControlInventario.Database
                 FechaNacimiento,
                 Usuario, 
                 Contraseña, 
+                IdCargo, 
                 Cargo, 
+                IdArea,  
                 Area, 
                 FechaIngreso, 
+                IdTipoContrato,
                 TipoContrato,
                 IdRol,
                 Rol
@@ -58,9 +64,12 @@ namespace ControlInventario.Database
                 @FechaNacimiento,
                 @Usuario, 
                 @Contraseña, 
+                @IdCargo, 
                 @Cargo, 
+                @IdArea, 
                 @Area, 
                 @FechaIngreso, 
+                @IdTipoContrato,
                 @TipoContrato,
                 @IdRol,
                 @Rol
@@ -75,9 +84,12 @@ namespace ControlInventario.Database
                 cmd.Parameters.AddWithValue("@FechaNacimiento", emp.FechaNacimiento);
                 cmd.Parameters.AddWithValue("@Usuario", emp.NombreUsuario);
                 cmd.Parameters.AddWithValue("@Contraseña", emp.Contraseña);
+                cmd.Parameters.AddWithValue("@IdCargo", emp.IdCargo);
                 cmd.Parameters.AddWithValue("@Cargo", emp.Cargo);
+                cmd.Parameters.AddWithValue("@IdArea", emp.IdArea);
                 cmd.Parameters.AddWithValue("@Area", emp.Area);
                 cmd.Parameters.AddWithValue("@FechaIngreso", emp.FechaIngreso);
+                cmd.Parameters.AddWithValue("@IdTipoContrato", emp.IdTipoContrato);
                 cmd.Parameters.AddWithValue("@TipoContrato", emp.TipoContrato);
                 cmd.Parameters.AddWithValue("@IdRol", emp.IdRol);
                 cmd.Parameters.AddWithValue("@Rol", emp.Rol);
@@ -215,7 +227,6 @@ namespace ControlInventario.Database
                     {
                         if (reader.Read())
                         {
-                            // Reuse the mapping helper to populate all fields (including Rol and IdRol)
                             return MapearUsuario(reader);
                         }
                     }

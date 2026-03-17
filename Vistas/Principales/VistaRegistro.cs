@@ -1,6 +1,8 @@
 ﻿using ControlInventario.Database;
+using ControlInventario.Modelo.Interface;
 using ControlInventario.Modelos;
 using ControlInventario.Servicios;
+using ControlInventario.Vistas.Extras;
 using System;
 using System.Data.SQLite;
 using System.Text.RegularExpressions;
@@ -8,8 +10,11 @@ using System.Windows.Forms;
 
 namespace ControlInventario.Vistas
 {
-    public partial class VistaRegistro : Form
+    public partial class VistaRegistro : Form, ICargosRefrescable, IAreasRefrescable, ITipoContratoRefrescable
     {
+        public ComboBox CbCargoPublic => CbCargo;
+        public ComboBox CbAreaPublic => CbArea;
+        public ComboBox CbTipoContratoPublic => CbTipoContrato;
         public VistaRegistro()
         {
             InitializeComponent();
@@ -24,40 +29,40 @@ namespace ControlInventario.Vistas
             // Datos Personales
             if (string.IsNullOrWhiteSpace(txtNombre.Text))
             {
-                errorProvider1.SetError(txtNombre, "El nombre es obligatorio");
+                errorProvider1.SetError(txtNombre, Idiomas.MensajeErrorRegistrarNombre);
                 valido = false;
             }
             else if (txtNombre.Text.Length < 3 || Regex.IsMatch(txtNombre.Text, @"(.)\1{2,}"))
             {
-                errorProvider1.SetError(txtNombre, "El nombre no puede ser demasiado corto ni tener letras repetidas sucesivas");
+                errorProvider1.SetError(txtNombre, Idiomas.MensajeErrorRegistrarNombreExtra);
                 valido = false;
             }
 
             if (string.IsNullOrWhiteSpace(txtApellido.Text))
             {
-                errorProvider1.SetError(txtApellido, "El apellido es obligatorio");
+                errorProvider1.SetError(txtApellido, Idiomas.MensajeErrorRegistrarApellido);
                 valido = false;
             }
             else if (txtApellido.Text.Length < 3 || Regex.IsMatch(txtApellido.Text, @"(.)\1{2,}"))
             {
-                errorProvider1.SetError(txtApellido, "El apellido no puede ser demasiado corto ni tener letras repetidas sucesivas");
+                errorProvider1.SetError(txtApellido, Idiomas.MensajeErrorRegistrarApellidoExtra);
                 valido = false;
             }
 
             if (string.IsNullOrWhiteSpace(txtCorreo.Text))
             {
-                errorProvider1.SetError(txtCorreo, "El correo es obligatorio");
+                errorProvider1.SetError(txtCorreo, Idiomas.MensajeErrorRegistrarCorreo);
                 valido = false;
             }
             else if (!Regex.IsMatch(txtCorreo.Text, @"^[^@\s]{2,}@[^@\s]+\.(com|net|org|edu|pe)$"))
             {
-                errorProvider1.SetError(txtCorreo, "El formato del correo no es válido");
+                errorProvider1.SetError(txtCorreo, Idiomas.MensajeErrorRegistrarCorreoExtra);
                 valido = false;
             }
 
             if (string.IsNullOrWhiteSpace(txtEdad.Text))
             {
-                errorProvider1.SetError(txtEdad, "La edad es obligatoria");
+                errorProvider1.SetError(txtEdad, Idiomas.MensajeErrorRegistrarEdad);
                 valido = false;
             }
             else
@@ -67,53 +72,53 @@ namespace ControlInventario.Vistas
                     int edadCalculada = DateTime.Now.Year - dtFechaNac.Value.Year;
                     if (dtFechaNac.Value > DateTime.Now || edadCalculada != edad)
                     {
-                        errorProvider1.SetError(dtFechaNac, "La fecha de nacimiento no coincide con la edad ingresada");
+                        errorProvider1.SetError(dtFechaNac, Idiomas.MensajeErrorRegistrarFechaNacimiento);
                         valido = false;
                     }
 
                     if (edad < 18 || edad > 65)
                     {
-                        errorProvider1.SetError(txtEdad, "La edad debe estar entre 18 y 65 años");
+                        errorProvider1.SetError(txtEdad, Idiomas.MensajeErrorRegistrarEdadExtra1);
                         valido = false;
                     }
                 }
                 else
                 {
-                    errorProvider1.SetError(txtEdad, "La edad debe ser un número válido");
+                    errorProvider1.SetError(txtEdad, Idiomas.MensajeErrorRegistrarEdadExtra2);
                     valido = false;
                 }
             }
 
             // Datos Empresariales
-            if (string.IsNullOrWhiteSpace(txtCargo.Text))
+            if (CbCargo.Text == Idiomas.OpcionSeleccione || CbCargo.SelectedIndex == 0)
             {
-                errorProvider1.SetError(txtCargo, "El cargo es obligatorio");
+                errorProvider1.SetError(CbCargo, Idiomas.MensajeErrorRegistrarCargo);
                 valido = false;
             }
 
-            if (string.IsNullOrWhiteSpace(txtArea.Text))
+            if (CbArea.Text == Idiomas.OpcionSeleccione || CbArea.SelectedIndex == 0)
             {
-                errorProvider1.SetError(txtArea, "El área es obligatoria");
+                errorProvider1.SetError(CbArea, Idiomas.MensajeErrorRegistrarArea);
                 valido = false;
             }
 
             // Datos del aplicativo
             if (string.IsNullOrWhiteSpace(txtContraseña.Text))
             {
-                errorProvider1.SetError(txtContraseña, "La contraseña es obligatoria");
+                errorProvider1.SetError(txtContraseña, Idiomas.MensajeErrorRegistrarContraseña);
                 valido = false;
             }
             else
             {
                 if (txtContraseña.Text.Length < 8 || !Regex.IsMatch(txtContraseña.Text, @"[!@#$%^&*(),.?""{}|<>]"))
                 {
-                    errorProvider1.SetError(txtContraseña, "La contraseña debe tener al menos 8 caracteres y un carácter especial");
+                    errorProvider1.SetError(txtContraseña, Idiomas.MensajeErrorRegistrarContraseñaExtra1);
                     valido = false;
                 }
 
                 if (txtContraseña.Text != txtConfirmContraseña.Text)
                 {
-                    errorProvider1.SetError(txtConfirmContraseña, "Las contraseñas no coinciden");
+                    errorProvider1.SetError(txtConfirmContraseña, Idiomas.MensajeErrorRegistrarContraseñaExtra2);
                     valido = false;
                 }
             }
@@ -129,7 +134,7 @@ namespace ControlInventario.Vistas
                     long count = (long)cmd.ExecuteScalar();
                     if (count > 0)
                     {
-                        errorProvider1.SetError(txtUsuario, "El nombre de usuario ya está registrado");
+                        errorProvider1.SetError(txtUsuario, Idiomas.MensajeErrorRegistrarNombreUsuario);
                         valido = false;
                     }
                 }
@@ -230,8 +235,26 @@ namespace ControlInventario.Vistas
                     // Validar que se haya seleccionado un rol si el checkedList está habilitado
                     if (checkedListRol.Enabled && checkedListRol.CheckedItems.Count == 0)
                     {
-                        MessageBox.Show("Debes seleccionar un rol para el empleado.");
+                        MessageBox.Show(Idiomas.MensajeErrorRegistrarRol);
                         return;
+                    }
+
+                    string rolCalculado = "Usuario";
+
+                    if (checkedListRol.Enabled && checkedListRol.CheckedIndices.Count > 0)
+                    {
+                        switch (checkedListRol.CheckedIndices[0])
+                        {
+                            case 0:
+                                rolCalculado = "Administrador";
+                                break;
+                            case 1:
+                                rolCalculado = "Supervisor";
+                                break;
+                            case 2:
+                                rolCalculado = "Usuario";
+                                break;
+                        }
                     }
 
                     //Crear objeto
@@ -244,12 +267,15 @@ namespace ControlInventario.Vistas
                         FechaNacimiento = dtFechaNac.Value,
                         NombreUsuario = txtUsuario.Text,
                         Contraseña = txtContraseña.Text,
-                        Cargo = CbCargo.SelectedText,
-                        Area = CbArea.SelectedText,
+                        IdCargo = Convert.ToInt32(CbCargo.SelectedValue),
+                        Cargo = ClassHelper.NormalizarCombo(CbCargo),
+                        IdArea = Convert.ToInt32(CbArea.SelectedValue),
+                        Area = ClassHelper.NormalizarCombo(CbArea),
                         FechaIngreso = dtFechaIngre.Value,
-                        TipoContrato = CbTipoContrato.SelectedItem?.ToString(),
+                        IdTipoContrato = Convert.ToInt32(CbTipoContrato.SelectedValue),
+                        TipoContrato = ClassHelper.NormalizarCombo(CbTipoContrato),
                         IdRol = rolSeleccionado,
-                        Rol = checkedListRol.Enabled ? checkedListRol.CheckedItems[0].ToString().Split('-')[1].Trim() : "Usuario"
+                        Rol = rolCalculado
                     };
 
                     //Guardar en BD
@@ -261,8 +287,8 @@ namespace ControlInventario.Vistas
                     UsuarioSesion.NombrePersonal = emp.Nombres;
 
                     //Abrir vista de preguntas de seguridad
-                    MessageBox.Show("Usuario registrado correctamente.",
-                                    "Éxito",
+                    MessageBox.Show(Idiomas.MensajeExitoRegistrarGuardar,
+                                    Idiomas.TituloExito,
                                     MessageBoxButtons.OK,
                                     MessageBoxIcon.Information);
 
@@ -275,7 +301,8 @@ namespace ControlInventario.Vistas
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al registrar empleado: " + ex.Message,
+                string mensajeError = string.Format(Idiomas.MensajeErrorRegistrarGuardar, ex.Message);
+                MessageBox.Show(mensajeError,
                                 "Error",
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Error);
@@ -306,6 +333,12 @@ namespace ControlInventario.Vistas
                 txtConfirmContraseña.UseSystemPasswordChar = false;
             else
                 txtConfirmContraseña.UseSystemPasswordChar = true;
+        }
+
+        private void BtnAgregarTipoContrato_Click(object sender, EventArgs e)
+        {
+            VistaAgregarComponentes vistaAgregar = new VistaAgregarComponentes("Contrato", this);
+            vistaAgregar.ShowDialog();
         }
     }
 }

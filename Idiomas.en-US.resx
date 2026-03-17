@@ -362,4 +362,64 @@
   <data name="MensajeMenuPrincipal6" xml:space="preserve">
     <value>When was the last time you were here?</value>
   </data>
+  <data name="MensajeErrorConfiguracion" xml:space="preserve">
+    <value>Error loading configuration: {0}</value>
+  </data>
+  <data name="MensajeErrorRegistrarNombre" xml:space="preserve">
+    <value>Name is mandatory.</value>
+  </data>
+  <data name="MensajeErrorRegistrarNombreExtra" xml:space="preserve">
+    <value>The name cannot be too short or have successive repeated letters.</value>
+  </data>
+  <data name="MensajeErrorRegistrarApellido" xml:space="preserve">
+    <value>The surname is mandatory.</value>
+  </data>
+  <data name="MensajeErrorRegistrarApellidoExtra" xml:space="preserve">
+    <value>The surname cannot be too short or have successive repeated letters.</value>
+  </data>
+  <data name="MensajeErrorRegistrarCorreo" xml:space="preserve">
+    <value>Email is mandatory.</value>
+  </data>
+  <data name="MensajeErrorRegistrarCorreoExtra" xml:space="preserve">
+    <value>The email format is not valid.</value>
+  </data>
+  <data name="MensajeErrorRegistrarEdad" xml:space="preserve">
+    <value>Age is mandatory.</value>
+  </data>
+  <data name="MensajeErrorRegistrarFechaNacimiento" xml:space="preserve">
+    <value>The date of birth does not match the age entered.</value>
+  </data>
+  <data name="MensajeErrorRegistrarEdadExtra1" xml:space="preserve">
+    <value>The age must be between 18 and 65 years</value>
+  </data>
+  <data name="MensajeErrorRegistrarCargo" xml:space="preserve">
+    <value>The position is mandatory.</value>
+  </data>
+  <data name="MensajeErrorRegistrarArea" xml:space="preserve">
+    <value>The area is mandatory.</value>
+  </data>
+  <data name="MensajeErrorRegistrarContraseña" xml:space="preserve">
+    <value>A password is mandatory.</value>
+  </data>
+  <data name="MensajeErrorRegistrarContraseñaExtra1" xml:space="preserve">
+    <value>The password must have at least 8 characters and one special character.</value>
+  </data>
+  <data name="MensajeErrorRegistrarContraseñaExtra2" xml:space="preserve">
+    <value>The passwords do not match.</value>
+  </data>
+  <data name="MensajeErrorRegistrarEdadExtra2" xml:space="preserve">
+    <value>The age must be a valid number.</value>
+  </data>
+  <data name="MensajeErrorRegistrarNombreUsuario" xml:space="preserve">
+    <value>The username is already registered.</value>
+  </data>
+  <data name="MensajeErrorRegistrarRol" xml:space="preserve">
+    <value>You must select a role for the employee.</value>
+  </data>
+  <data name="MensajeExitoRegistrarGuardar" xml:space="preserve">
+    <value>User successfully registered.</value>
+  </data>
+  <data name="MensajeErrorRegistrarGuardar" xml:space="preserve">
+    <value>Error registering employee: {0}</value>
+  </data>
 </root>

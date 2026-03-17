@@ -633,5 +633,33 @@ namespace ControlInventario.Database
             return $"{prefijoCompleto}{siguienteNumero.ToString("D4")}";
         }
 
+        public static DateTime ObtenerUltimaFechaRegistro(int inventarioId, string nombreUsuarioActual, SQLiteConnection con)
+        {
+            DateTime fechaUltimoRegistro = DateTime.MinValue;
+
+            string query = @"
+                SELECT MAX(FechaRegistro) 
+                FROM Articulos 
+                WHERE InventarioId = @InventarioId 
+                AND NombreUsuarioActual = @NombreUsuarioActual";
+
+            using (var cmd = new SQLiteCommand(query, con))
+            {
+                cmd.Parameters.AddWithValue("@InventarioId", inventarioId);
+                cmd.Parameters.AddWithValue("@NombreUsuarioActual", nombreUsuarioActual);
+
+                object resultado = cmd.ExecuteScalar();
+
+                if (resultado != DBNull.Value && resultado != null)
+                {
+                    if (DateTime.TryParse(resultado.ToString(), out DateTime fechaParseada))
+                    {
+                        fechaUltimoRegistro = fechaParseada;
+                    }
+                }
+            }
+
+            return fechaUltimoRegistro;
+        }
     }
 }

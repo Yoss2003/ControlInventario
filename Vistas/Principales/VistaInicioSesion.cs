@@ -157,7 +157,8 @@ namespace ControlInventario
                 UsuarioSesion.UsuarioId = user.Id;
                 UsuarioSesion.NombreUsuario = user.NombreUsuario;
                 UsuarioSesion.Rol = user.Rol;
-                UsuarioSesion.NombrePersonal = $"{user.Nombres}";
+                UsuarioSesion.NombrePersonal = $"{user.Nombres}"; 
+                UsuarioSesion.FechaIngreso = user.FechaIngreso;
 
                 using (var con = ConexionGlobal.ObtenerConexion())
                 {

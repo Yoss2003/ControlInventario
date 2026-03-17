@@ -43,4 +43,8 @@ namespace ControlInventario.Modelo.Interface
     {
         ComboBox CbProveedorPublic { get; }
     }
+    public interface ITipoContratoRefrescable
+    {
+        ComboBox CbTipoContratoPublic { get; }
+    }
 }

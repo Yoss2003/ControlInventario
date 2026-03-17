@@ -394,6 +394,15 @@ namespace ControlInventario {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Error al cargar configuración: {0}.
+        /// </summary>
+        internal static string MensajeErrorConfiguracion {
+            get {
+                return ResourceManager.GetString("MensajeErrorConfiguracion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Error al guardar la configuración para {0}..
         /// </summary>
         internal static string MensajeErrorConfiguracionGuardar {
@@ -511,6 +520,168 @@ namespace ControlInventario {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a El apellido es obligatorio..
+        /// </summary>
+        internal static string MensajeErrorRegistrarApellido {
+            get {
+                return ResourceManager.GetString("MensajeErrorRegistrarApellido", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El apellido no puede ser demasiado corto ni tener letras repetidas sucesivas..
+        /// </summary>
+        internal static string MensajeErrorRegistrarApellidoExtra {
+            get {
+                return ResourceManager.GetString("MensajeErrorRegistrarApellidoExtra", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El área es obligatoria..
+        /// </summary>
+        internal static string MensajeErrorRegistrarArea {
+            get {
+                return ResourceManager.GetString("MensajeErrorRegistrarArea", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El cargo es obligatorio..
+        /// </summary>
+        internal static string MensajeErrorRegistrarCargo {
+            get {
+                return ResourceManager.GetString("MensajeErrorRegistrarCargo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a La contraseña es obligatoria..
+        /// </summary>
+        internal static string MensajeErrorRegistrarContraseña {
+            get {
+                return ResourceManager.GetString("MensajeErrorRegistrarContraseña", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a La contraseña debe tener al menos 8 caracteres y un carácter especial..
+        /// </summary>
+        internal static string MensajeErrorRegistrarContraseñaExtra1 {
+            get {
+                return ResourceManager.GetString("MensajeErrorRegistrarContraseñaExtra1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Las contraseñas no coinciden..
+        /// </summary>
+        internal static string MensajeErrorRegistrarContraseñaExtra2 {
+            get {
+                return ResourceManager.GetString("MensajeErrorRegistrarContraseñaExtra2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El correo es obligatorio..
+        /// </summary>
+        internal static string MensajeErrorRegistrarCorreo {
+            get {
+                return ResourceManager.GetString("MensajeErrorRegistrarCorreo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El formato del correo no es válido..
+        /// </summary>
+        internal static string MensajeErrorRegistrarCorreoExtra {
+            get {
+                return ResourceManager.GetString("MensajeErrorRegistrarCorreoExtra", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a La edad es obligatoria..
+        /// </summary>
+        internal static string MensajeErrorRegistrarEdad {
+            get {
+                return ResourceManager.GetString("MensajeErrorRegistrarEdad", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a La edad debe estar entre 18 y 65 años.
+        /// </summary>
+        internal static string MensajeErrorRegistrarEdadExtra1 {
+            get {
+                return ResourceManager.GetString("MensajeErrorRegistrarEdadExtra1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a La edad debe ser un número válido..
+        /// </summary>
+        internal static string MensajeErrorRegistrarEdadExtra2 {
+            get {
+                return ResourceManager.GetString("MensajeErrorRegistrarEdadExtra2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a La fecha de nacimiento no coincide con la edad ingresada..
+        /// </summary>
+        internal static string MensajeErrorRegistrarFechaNacimiento {
+            get {
+                return ResourceManager.GetString("MensajeErrorRegistrarFechaNacimiento", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Error al registrar empleado: {0}.
+        /// </summary>
+        internal static string MensajeErrorRegistrarGuardar {
+            get {
+                return ResourceManager.GetString("MensajeErrorRegistrarGuardar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El nombre es obligatorio..
+        /// </summary>
+        internal static string MensajeErrorRegistrarNombre {
+            get {
+                return ResourceManager.GetString("MensajeErrorRegistrarNombre", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El nombre no puede ser demasiado corto ni tener letras repetidas sucesivas..
+        /// </summary>
+        internal static string MensajeErrorRegistrarNombreExtra {
+            get {
+                return ResourceManager.GetString("MensajeErrorRegistrarNombreExtra", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El nombre de usuario ya está registrado..
+        /// </summary>
+        internal static string MensajeErrorRegistrarNombreUsuario {
+            get {
+                return ResourceManager.GetString("MensajeErrorRegistrarNombreUsuario", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Debes seleccionar un rol para el empleado..
+        /// </summary>
+        internal static string MensajeErrorRegistrarRol {
+            get {
+                return ResourceManager.GetString("MensajeErrorRegistrarRol", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a La respuesta 1 es muy corta o inválida..
         /// </summary>
         internal static string MensajeErrorRespuesta1 {
@@ -570,6 +741,15 @@ namespace ControlInventario {
         internal static string MensajeExitoEnvioCorreo {
             get {
                 return ResourceManager.GetString("MensajeExitoEnvioCorreo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Usuario registrado correctamente..
+        /// </summary>
+        internal static string MensajeExitoRegistrarGuardar {
+            get {
+                return ResourceManager.GetString("MensajeExitoRegistrarGuardar", resourceCulture);
             }
         }
         

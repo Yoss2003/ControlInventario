@@ -161,6 +161,7 @@
     <Compile Include="Modelo\Empleados.cs" />
     <Compile Include="Modelo\Interface\IRefrescable.cs" />
     <Compile Include="Modelo\Proveedor.cs" />
+    <Compile Include="Modelo\TipoContrato.cs" />
     <Compile Include="Repositorio\AreaRepository.cs" />
     <Compile Include="Repositorio\ArticuloRepository.cs" />
     <Compile Include="Repositorio\CaracteristicaRepository.cs" />
@@ -173,6 +174,7 @@
     <Compile Include="Repositorio\LogsRepository.cs" />
     <Compile Include="Repositorio\PerfilRepository.cs" />
     <Compile Include="Repositorio\ProveedorRepository.cs" />
+    <Compile Include="Repositorio\TipoContratoRepository.cs" />
     <Compile Include="Repositorio\UsuarioRepository.cs" />
     <Compile Include="Repositorio\EstadoRepository.cs" />
     <Compile Include="Repositorio\InventarioRepository.cs" />
@@ -197,6 +199,7 @@
     <Compile Include="Servicios\ClassHelper.cs" />
     <Compile Include="Servicios\CreateTables.cs" />
     <Compile Include="Modelo\InventarioUsuario.cs" />
+    <Compile Include="Servicios\GestorNotificaciones.cs" />
     <Compile Include="Servicios\OverlayCarga.cs" />
     <Compile Include="Modelo\Recuperacion.cs" />
     <Compile Include="Servicios\RefreshService.cs" />

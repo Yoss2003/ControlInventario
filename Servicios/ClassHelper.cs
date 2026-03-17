@@ -99,14 +99,14 @@ namespace ControlInventario.Servicios
                 item.SubItems.Add(ClassHelper.FormatearFecha(art.FechaAdquisicion));
                 item.SubItems.Add(ClassHelper.FormatearFecha(art.FechaBaja));
                 item.SubItems.Add(ClassHelper.FormatearFecha(art.FechaFinGarantia));
-                item.SubItems.Add(art.DniUsuarioActual ?? "");
-                item.SubItems.Add(art.NombreUsuarioActual ?? "");
-                item.SubItems.Add(art.AreaUsuarioActual ?? "");
-                item.SubItems.Add(art.CargoUsuarioActual ?? "");
-                item.SubItems.Add(art.DniUsuarioAnterior ?? "");
-                item.SubItems.Add(art.NombreUsuarioAnterior ?? "");
-                item.SubItems.Add(art.AreaUsuarioAnterior ?? "");
-                item.SubItems.Add(art.CargoUsuarioAnterior ?? "");
+                item.SubItems.Add("");
+                item.SubItems.Add(art.EmpleadoActualTexto ?? "");
+                item.SubItems.Add("");
+                item.SubItems.Add("");
+                item.SubItems.Add("");
+                item.SubItems.Add(art.EmpleadoAnteriorTexto ?? "");
+                item.SubItems.Add("");
+                item.SubItems.Add("");
                 item.SubItems.Add(art.Estado ?? "");
                 item.SubItems.Add(art.Ubicacion ?? "");
                 item.SubItems.Add(art.Condicion ?? "");
@@ -138,13 +138,35 @@ namespace ControlInventario.Servicios
             }
         }
 
+        public static bool ExisteParametroDuplicado(string tipoParametro, string valorIngresado, int idActual = 0)
+        {
+            using (var con = ConexionGlobal.ObtenerConexion())
+            {
+                con.Open();
+                string query = @"
+                SELECT COUNT(*) 
+                FROM Parametros 
+                WHERE TipoParametro = @TipoParametro 
+                AND TRIM(Nombre) = TRIM(@ValorIngresado) COLLATE NOCASE 
+                AND Id != @Id;";
+
+                using (var cmd = new SQLiteCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@TipoParametro", tipoParametro);
+                    cmd.Parameters.AddWithValue("@ValorIngresado", valorIngresado);
+                    cmd.Parameters.AddWithValue("@Id", idActual);
+
+                    long cantidad = (long)cmd.ExecuteScalar();
+                    return cantidad > 0;
+                }
+            }
+        }
+        
         public static bool ExisteComponenteDuplicado(string nombreTabla, string valorIngresado, int idActual = 0, string nombreColumna = "Nombre")
         {
             using (var con = ConexionGlobal.ObtenerConexion())
             {
                 con.Open();
-
-                // Ahora inyectamos {nombreColumna} en lugar de escribirlo a mano
                 string query = $@"
                 SELECT COUNT(*) 
                 FROM {nombreTabla} 
@@ -153,7 +175,6 @@ namespace ControlInventario.Servicios
 
                 using (var cmd = new SQLiteCommand(query, con))
                 {
-                    // Cambié @Nombre por @ValorIngresado para que tenga más sentido lógico
                     cmd.Parameters.AddWithValue("@ValorIngresado", valorIngresado);
                     cmd.Parameters.AddWithValue("@Id", idActual);
 

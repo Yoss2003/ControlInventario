@@ -179,12 +179,14 @@
             resources.ApplyResources(this.BtnAgregarArea, "BtnAgregarArea");
             this.BtnAgregarArea.Name = "BtnAgregarArea";
             this.BtnAgregarArea.UseVisualStyleBackColor = true;
+            this.BtnAgregarArea.Click += new System.EventHandler(this.BtnAgregarArea_Click);
             // 
             // BtnAgregarCargo
             // 
             resources.ApplyResources(this.BtnAgregarCargo, "BtnAgregarCargo");
             this.BtnAgregarCargo.Name = "BtnAgregarCargo";
             this.BtnAgregarCargo.UseVisualStyleBackColor = true;
+            this.BtnAgregarCargo.Click += new System.EventHandler(this.BtnAgregarCargo_Click);
             // 
             // CbArea
             // 

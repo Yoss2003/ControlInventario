@@ -11,11 +11,10 @@ namespace ControlInventario.Database
             string sql = @"
             CREATE TABLE IF NOT EXISTS Marcas (
                 Id INTEGER PRIMARY KEY AUTOINCREMENT,
-                InventarioId INTEGER,
-                CategoriaId INTEGER NOT NULL,
-                Categoria TEXT NOT NULL,
+                InventarioId INTEGER NOT NULL,
+                CategoriasId INTEGER NOT NULL,
                 Nombre TEXT NOT NULL,
-                FOREIGN KEY (CategoriaId) REFERENCES Categorias(Id)
+                FOREIGN KEY (CategoriasId) REFERENCES Categorias(Id)
             );";
             using (var cmd = new SQLiteCommand(sql, con))
             {
@@ -29,14 +28,13 @@ namespace ControlInventario.Database
             {
                 con.Open();
                 string sql = @"
-                    INSERT INTO Marcas (InventarioId, Nombre, CategoriaId, Categoria)
-                    VALUES (@InventarioId, @Nombre, @CategoriaId, @Categoria);";
+                    INSERT INTO Marcas (InventarioId, Nombre, CategoriaId)
+                    VALUES (@InventarioId, @Nombre, @CategoriaId);";
                 using (var cmd = new SQLiteCommand(sql, con))
                 {
                     cmd.Parameters.AddWithValue("@InventarioId", mar.InventarioId);
                     cmd.Parameters.AddWithValue("@Nombre", mar.Nombre);
                     cmd.Parameters.AddWithValue("@CategoriaId", mar.CategoriasId);
-                    cmd.Parameters.AddWithValue("@Categoria", mar.Categoria);
                     cmd.ExecuteNonQuery();
                 }
                 con.Close();
@@ -51,14 +49,12 @@ namespace ControlInventario.Database
                 string sql = @"
                     UPDATE Marcas SET 
                         Nombre = @Nombre, 
-                        CategoriaId = @CategoriaId, 
-                        Categoria = @Categoria 
+                        CategoriaId = @CategoriaId
                     WHERE Id = @Id;";
                 using (var cmd = new SQLiteCommand(sql, con))
                 {
                     cmd.Parameters.AddWithValue("@Nombre", mar.Nombre);
                     cmd.Parameters.AddWithValue("@CategoriaId", mar.CategoriasId);
-                    cmd.Parameters.AddWithValue("@Categoria", mar.Categoria);
                     cmd.Parameters.AddWithValue("@Id", mar.Id);
                     cmd.ExecuteNonQuery();
                 }

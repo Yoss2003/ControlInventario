@@ -15,6 +15,8 @@ namespace ControlInventario.Vistas
         public ComboBox CbCargoPublic => CbCargo;
         public ComboBox CbAreaPublic => CbArea;
         public ComboBox CbTipoContratoPublic => CbTipoContrato;
+
+        private string rolCalculado = "Usuario";
         public VistaRegistro()
         {
             InitializeComponent();
@@ -69,7 +71,14 @@ namespace ControlInventario.Vistas
             {
                 if (int.TryParse(txtEdad.Text, out int edad))
                 {
-                    int edadCalculada = DateTime.Now.Year - dtFechaNac.Value.Year;
+                    DateTime hoy = DateTime.Today;
+                    int edadCalculada = hoy.Year - dtFechaNac.Value.Year;
+
+                    if (hoy.Month < dtFechaNac.Value.Month || (hoy.Month == dtFechaNac.Value.Month && hoy.Day < dtFechaNac.Value.Day))
+                    {
+                        edadCalculada--;
+                    }
+
                     if (dtFechaNac.Value > DateTime.Now || edadCalculada != edad)
                     {
                         errorProvider1.SetError(dtFechaNac, Idiomas.MensajeErrorRegistrarFechaNacimiento);
@@ -239,8 +248,6 @@ namespace ControlInventario.Vistas
                         return;
                     }
 
-                    string rolCalculado = "Usuario";
-
                     if (checkedListRol.Enabled && checkedListRol.CheckedIndices.Count > 0)
                     {
                         switch (checkedListRol.CheckedIndices[0])
@@ -268,23 +275,19 @@ namespace ControlInventario.Vistas
                         NombreUsuario = txtUsuario.Text,
                         Contraseña = txtContraseña.Text,
                         IdCargo = Convert.ToInt32(CbCargo.SelectedValue),
-                        Cargo = ClassHelper.NormalizarCombo(CbCargo),
                         IdArea = Convert.ToInt32(CbArea.SelectedValue),
-                        Area = ClassHelper.NormalizarCombo(CbArea),
                         FechaIngreso = dtFechaIngre.Value,
                         IdTipoContrato = Convert.ToInt32(CbTipoContrato.SelectedValue),
-                        TipoContrato = ClassHelper.NormalizarCombo(CbTipoContrato),
-                        IdRol = rolSeleccionado,
-                        Rol = rolCalculado
+                        IdRol = rolSeleccionado
                     };
 
                     //Guardar en BD
                     long nuevoId = UsuarioRepository.InsertarUsuario(emp, con);
 
-                    UsuarioSesion.UsuarioId = (int)nuevoId; // Asegúrate de castear a int si UsuarioId lo requiere
+                    UsuarioSesion.UsuarioId = (int)nuevoId; 
                     UsuarioSesion.NombreUsuario = emp.NombreUsuario;
-                    UsuarioSesion.Rol = emp.Rol;
                     UsuarioSesion.NombrePersonal = emp.Nombres;
+                    UsuarioSesion.Rol = rolCalculado;
 
                     //Abrir vista de preguntas de seguridad
                     MessageBox.Show(Idiomas.MensajeExitoRegistrarGuardar,
@@ -321,23 +324,47 @@ namespace ControlInventario.Vistas
 
         private void Btn_VerContraseña1_Click(object sender, EventArgs e)
         {
-            if(txtContraseña.UseSystemPasswordChar == true)
+            if (txtContraseña.UseSystemPasswordChar == true)
+            {
+                Btn_VerContraseña1.Text = "Off";
                 txtContraseña.UseSystemPasswordChar = false;
+            }
             else
+            {
+                Btn_VerContraseña1.Text = "Ver";
                 txtContraseña.UseSystemPasswordChar = true;
+            }
         }
 
         private void Btn_VerContraseña2_Click(object sender, EventArgs e)
         {
             if (txtConfirmContraseña.UseSystemPasswordChar == true)
+            {
+                Btn_VerContraseña2.Text = "Off";
                 txtConfirmContraseña.UseSystemPasswordChar = false;
+            }
             else
+            {
+                Btn_VerContraseña2.Text = "Ver";
                 txtConfirmContraseña.UseSystemPasswordChar = true;
+            }
         }
 
         private void BtnAgregarTipoContrato_Click(object sender, EventArgs e)
         {
             VistaAgregarComponentes vistaAgregar = new VistaAgregarComponentes("Contrato", this);
+            vistaAgregar.ShowDialog();
+        }
+
+        private void BtnAgregarCargo_Click(object sender, EventArgs e)
+        {
+            VistaAgregarComponentes vistaAgregar = new VistaAgregarComponentes("Cargo", this);
+            vistaAgregar.ShowDialog();
+        }
+
+        private void BtnAgregarArea_Click(object sender, EventArgs e)
+        {
+            VistaAgregarComponentes vistaAgregar = new VistaAgregarComponentes("Area", this);
             vistaAgregar.ShowDialog();
         }
     }

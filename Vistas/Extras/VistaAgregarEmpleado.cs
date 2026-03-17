@@ -1,11 +1,8 @@
 ﻿using ControlInventario.Database;
 using ControlInventario.Modelo;
 using ControlInventario.Modelo.Interface;
-using ControlInventario.Modelos;
 using ControlInventario.Repositorio;
 using ControlInventario.Servicios;
-using DocumentFormat.OpenXml.Office2010.Excel;
-using DocumentFormat.OpenXml.Wordprocessing;
 using System;
 using System.Windows.Forms;
 
@@ -77,11 +74,8 @@ namespace ControlInventario.Vistas.Extras
                             Apellidos = TxtApellidos.Text,
                             DNI = TxtDNI.Text,
                             IdCargo = Convert.ToInt32(CbCargo.SelectedIndex),
-                            Cargo = CbCargo.Text,
                             IdArea = Convert.ToInt32(CbArea.SelectedIndex),
-                            Area = CbArea.Text,
-                            IdEstado = Convert.ToInt32(CbEstadoEmpleados.SelectedIndex),
-                            Estado = CbEstadoEmpleados.Text
+                            IdEstado = Convert.ToInt32(CbEstadoEmpleados.SelectedIndex)
                         };
 
                         EmpleadoRepository.AgregarEmpleados(emp, con);
@@ -116,11 +110,8 @@ namespace ControlInventario.Vistas.Extras
                             Apellidos = TxtApellidos.Text,
                             DNI = TxtDNI.Text,
                             IdCargo = Convert.ToInt32(CbCargo.SelectedIndex),
-                            Cargo = CbCargo.Text,
                             IdArea = Convert.ToInt32(CbArea.SelectedIndex),
-                            Area = CbArea.Text,
-                            IdEstado = Convert.ToInt32(CbEstadoEmpleados.SelectedIndex),
-                            Estado = CbEstadoEmpleados.Text
+                            IdEstado = Convert.ToInt32(CbEstadoEmpleados.SelectedIndex)
                         };
 
                         EmpleadoRepository.ActualizarEmpleados(emp);
@@ -146,13 +137,13 @@ namespace ControlInventario.Vistas.Extras
             {
                 con.Open();
 
-                var dtCargo = CargoRepository.ListarCargos(con);
+                var dtCargo = ParametrosRepository.ListarParametros(con, "Cargo");
                 RefreshService.RefrescarComboDT(CbCargo, dtCargo, "Nombre", "Id", "SELECCIONE");
 
-                var dtArea = AreaRepository.ListarAreas(con);
+                var dtArea = ParametrosRepository.ListarParametros(con, "Area");
                 RefreshService.RefrescarComboDT(CbArea, dtArea, "Nombre", "Id", "SELECCIONE");
 
-                var dtEstado = EstadoRepository.ListarEstadosEmpleados(con);
+                var dtEstado = ParametrosRepository.ListarParametros(con, "EstadoEmpleados");
                 RefreshService.RefrescarComboDT(CbEstadoEmpleados, dtEstado, "Nombre", "Id", "SELECCIONE");
 
                 // Cargar datos empleado

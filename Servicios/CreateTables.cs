@@ -9,61 +9,26 @@ namespace ControlInventario.Servicios
     {
         public static void CreateTables(SQLiteConnection con)
         {
-            // Crear tabla de Artículos
-            ArticuloRepository.CrearTablaArticulos(con);
-
-            // Crear tabla de Categorías
+            // 1. PADRES: Tablas independientes (No dependen de otras)
+            ParametrosRepository.CrearTablaParametros(con);
             CategoriaRepository.CrearTablaCategorias(con);
-
-            // Crear tabla de Características
-            CaracteristicaRepository.CrearTablaCaracteristicas(con);
-
-            // Crear tabla de  Inventarios
-            InventarioRepository.CrearTablaInventarios(con);
-
-            // Crear tabla de Rutas
-            RutasRepository.CrearTablaRutas(con);
-
-            // Crear tabla de Estados Empleados
-            EstadoRepository.CrearTablaEstadoEmpleados(con);
-
-            // Crear tabla de Estados Articulos
-            EstadoRepository.CrearTablaEstadoArticulos(con);
-
-            // Crear tabla de Ubicaciones
-            UbicacionRepository.CrearTablaUbicaciones(con);
-
-            // Crear tabla de Condiciones
-            CondicionRepository.CrearTablaCondicion(con);
-
-            // Crear tabla de Cargos
-            CargoRepository.CrearTablaCargos(con);
-
-            // Crear tabla de Áreas
-            AreaRepository.CrearTablaAreas(con);
-
-            // Crear tabla de Marcas
-            MarcasRepository.CrearTablaMarcas(con);
-
-            // Crear tabla de Perfiles
-            PerfilRepository.CrearTablaPerfiles(con);
-
-            // Crear tabla de Preguntas de Seguridad
-            RecuperacionRepository.CrearTablaPreguntasSeguridad(con);
-
-            // Crear tabla de Empleados
             EmpleadoRepository.CrearTablaEmpleado(con);
-
-            // Crear tabla Usuarios
             UsuarioRepository.CrearTablaUsuario(con);
-
-            // Crear tabla Proveedores
             ProveedorRepository.CrearTablaProveedor(con);
 
-            // Crear tabla Logs
-            LogsRepository.CrearTablaLogs(con);
+            // 2. INTERMEDIAS: Dependen de los padres
+            MarcasRepository.CrearTablaMarcas(con); // Depende de Categorias
 
-            // Crear tabla configuracion
+            // 3. HIJOS: Dependen de muchos padres
+            ArticuloRepository.CrearTablaArticulos(con); // Depende de Categorias, Marcas y Empleados
+            CaracteristicaRepository.CrearTablaCaracteristicas(con); // Depende de Articulos
+
+            // 4. SISTEMA: Tablas operativas
+            InventarioRepository.CrearTablaInventarios(con);
+            RutasRepository.CrearTablaRutas(con);
+            PerfilRepository.CrearTablaPerfiles(con);
+            RecuperacionRepository.CrearTablaPreguntasSeguridad(con);
+            LogsRepository.CrearTablaLogs(con);
             ConfiguracionRepository.CrearTablaConfiguracion(con);
 
             // Agregar más tablas según sea necesario

@@ -117,8 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="&gt;&gt;CbIdioma.ZOrder" xml:space="preserve">
-    <value>5</value>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>823, 411</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="label2.TabIndex" type="System.Int32, mscorlib">
@@ -130,24 +131,26 @@
   <data name="&gt;&gt;label3.Parent" xml:space="preserve">
     <value>GrpGeneral</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="CbFormatoFecha.Size" type="System.Drawing.Size, System.Drawing">
     <value>152, 21</value>
   </data>
-  <data name="&gt;&gt;BtnGuardar.Name" xml:space="preserve">
-    <value>BtnGuardar</value>
+  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="label10.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
   </data>
   <data name="label12.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
   </data>
+  <data name="&gt;&gt;CbUniMedida.Parent" xml:space="preserve">
+    <value>GrpGeneral</value>
+  </data>
   <data name="&gt;&gt;label13.Name" xml:space="preserve">
     <value>label13</value>
   </data>
-  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>66, 22</value>
-  </data>
-  <data name="CbZonaHoraria.Location" type="System.Drawing.Point, System.Drawing">
-    <value>113, 235</value>
+  <data name="GrpSeguridad.Location" type="System.Drawing.Point, System.Drawing">
+    <value>204, 12</value>
   </data>
   <data name="&gt;&gt;CbMoneda.Parent" xml:space="preserve">
     <value>GrpGeneral</value>
@@ -158,8 +161,14 @@
   <data name="&gt;&gt;ChkCodigoBarras.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="&gt;&gt;CbMoneda.ZOrder" xml:space="preserve">
-    <value>3</value>
+  <data name="&gt;&gt;CbIdioma.Parent" xml:space="preserve">
+    <value>GrpGeneral</value>
+  </data>
+  <data name="GrpInventario.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="BtnGuardar.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
   </data>
   <data name="&gt;&gt;CbTema.Parent" xml:space="preserve">
     <value>GrpGeneral</value>
@@ -173,6 +182,9 @@
   <data name="CbMoneda.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
   </data>
+  <data name="&gt;&gt;CbNotificaciones.Name" xml:space="preserve">
+    <value>CbNotificaciones</value>
+  </data>
   <data name="CbNotificaciones.Text" xml:space="preserve">
     <value>SELECCIONE</value>
   </data>
@@ -182,8 +194,8 @@
   <data name="label10.Text" xml:space="preserve">
     <value>Calcular devaluación</value>
   </data>
-  <data name="&gt;&gt;GrpSeguridad.Name" xml:space="preserve">
-    <value>GrpSeguridad</value>
+  <data name="CbMoneda.Location" type="System.Drawing.Point, System.Drawing">
+    <value>113, 163</value>
   </data>
   <data name="&gt;&gt;GrpInventario.ZOrder" xml:space="preserve">
     <value>2</value>
@@ -203,8 +215,8 @@
   <data name="&gt;&gt;ChkCodigoBarras.Parent" xml:space="preserve">
     <value>GrpInventario</value>
   </data>
-  <data name="GrpPreview.TabIndex" type="System.Int32, mscorlib">
-    <value>16</value>
+  <data name="&gt;&gt;label6.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;ChkGeneracionCodigo.Name" xml:space="preserve">
     <value>ChkGeneracionCodigo</value>
@@ -218,8 +230,8 @@
   <data name="&gt;&gt;CbZonaHoraria.Parent" xml:space="preserve">
     <value>GrpGeneral</value>
   </data>
-  <data name="GrpInventario.Size" type="System.Drawing.Size, System.Drawing">
-    <value>288, 356</value>
+  <data name="&gt;&gt;TreeMenu.Name" xml:space="preserve">
+    <value>TreeMenu</value>
   </data>
   <data name="CbTema.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -227,14 +239,11 @@
   <data name="label10.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="&gt;&gt;ChkCompartirActividad.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;GrpPreview.Name" xml:space="preserve">
+    <value>GrpPreview</value>
   </data>
-  <data name="&gt;&gt;label10.Parent" xml:space="preserve">
-    <value>GrpInventario</value>
-  </data>
-  <data name="&gt;&gt;ChkGeneracionCodigo.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="pictureBox1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
   </data>
   <data name="label8.Text" xml:space="preserve">
     <value>Habilitar código de barras</value>
@@ -242,30 +251,17 @@
   <data name="label11.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
   </data>
-  <data name="TreeMenu.Nodes2" mimetype="application/x-microsoft.net.object.binary.base64">
-    <value>
-        AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
-        LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAAB1TeXN0
-        ZW0uV2luZG93cy5Gb3Jtcy5UcmVlTm9kZQkAAAAEVGV4dAtUb29sVGlwVGV4dAROYW1lCUlzQ2hlY2tl
-        ZApJbWFnZUluZGV4CEltYWdlS2V5ElNlbGVjdGVkSW1hZ2VJbmRleBBTZWxlY3RlZEltYWdlS2V5CkNo
-        aWxkQ291bnQBAQEAAAEAAQABCAgIAgAAAAYDAAAACVNlZ3VyaWRhZAYEAAAAAAYFAAAADU5vZGVTZWd1
-        cmlkYWQA/////wkEAAAA/////wkEAAAAAAAAAAs=
-</value>
-  </data>
   <data name="&gt;&gt;label1.Name" xml:space="preserve">
     <value>label1</value>
   </data>
-  <data name="&gt;&gt;GrpGeneral.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="label9.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
   </data>
   <data name="label11.Location" type="System.Drawing.Point, System.Drawing">
     <value>67, 129</value>
   </data>
   <data name="CbZonaHoraria.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
-  </data>
-  <data name="GrpPreview.Size" type="System.Drawing.Size, System.Drawing">
-    <value>314, 356</value>
   </data>
   <data name="CbIdioma.Text" xml:space="preserve">
     <value>SELECCIONE</value>
@@ -294,8 +290,8 @@
   <data name="GrpDefault.TabIndex" type="System.Int32, mscorlib">
     <value>18</value>
   </data>
-  <data name="ChkGeneracionCodigo.TabIndex" type="System.Int32, mscorlib">
-    <value>13</value>
+  <data name="label8.Location" type="System.Drawing.Point, System.Drawing">
+    <value>52, 45</value>
   </data>
   <data name="&gt;&gt;CbTema.Type" xml:space="preserve">
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -306,8 +302,8 @@
   <data name="CbIdioma.Location" type="System.Drawing.Point, System.Drawing">
     <value>113, 19</value>
   </data>
-  <data name="BtnGuardar.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;GrpInventario.Type" xml:space="preserve">
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -324,17 +320,29 @@
   <data name="label1.Text" xml:space="preserve">
     <value>Idioma:</value>
   </data>
-  <data name="label8.Location" type="System.Drawing.Point, System.Drawing">
-    <value>52, 45</value>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>VistaConfiguracion</value>
   </data>
   <data name="&gt;&gt;CbFormatoFecha.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>En desarrollo</value>
+  </data>
   <data name="ChkCalcularDevaluacion.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
   </data>
+  <data name="ChkCompartirActividad.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="CbNotificaciones.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
   <data name="&gt;&gt;ChkCodigoBarras.Name" xml:space="preserve">
     <value>ChkCodigoBarras</value>
+  </data>
+  <data name="label7.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
   </data>
   <data name="label13.Text" xml:space="preserve">
     <value>Compartir actividad</value>
@@ -345,32 +353,32 @@
   <data name="label10.Location" type="System.Drawing.Point, System.Drawing">
     <value>73, 101</value>
   </data>
-  <data name="CbNotificaciones.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
+  <data name="&gt;&gt;label10.Parent" xml:space="preserve">
+    <value>GrpInventario</value>
   </data>
-  <data name="GrpInventario.Location" type="System.Drawing.Point, System.Drawing">
-    <value>204, 12</value>
+  <data name="label3.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="&gt;&gt;label12.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="GrpDefault.Size" type="System.Drawing.Size, System.Drawing">
-    <value>288, 356</value>
+  <data name="label9.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="&gt;&gt;CbNotificaciones.Parent" xml:space="preserve">
     <value>GrpGeneral</value>
   </data>
-  <data name="&gt;&gt;GrpDefault.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="ChkCodigoBarras.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
     <value>11, 202</value>
   </data>
+  <data name="&gt;&gt;CbUniMedida.Name" xml:space="preserve">
+    <value>CbUniMedida</value>
+  </data>
   <data name="&gt;&gt;CbNotificaciones.Type" xml:space="preserve">
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="label12.Text" xml:space="preserve">
-    <value>Habilitar autenticación 2FA</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
@@ -382,17 +390,14 @@
   <data name="ChkCodigoBarras.Size" type="System.Drawing.Size, System.Drawing">
     <value>15, 14</value>
   </data>
-  <data name="label6.Text" xml:space="preserve">
-    <value>Modena:</value>
-  </data>
-  <data name="&gt;&gt;label6.Parent" xml:space="preserve">
-    <value>GrpGeneral</value>
+  <data name="&gt;&gt;CbTema.ZOrder" xml:space="preserve">
+    <value>6</value>
   </data>
   <data name="ChkAutenticacion2FA.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
   </data>
-  <data name="CbMoneda.Location" type="System.Drawing.Point, System.Drawing">
-    <value>113, 163</value>
+  <data name="&gt;&gt;label4.Parent" xml:space="preserve">
+    <value>GrpGeneral</value>
   </data>
   <data name="label4.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -403,11 +408,11 @@
   <data name="&gt;&gt;ChkCompartirActividad.Parent" xml:space="preserve">
     <value>GrpSeguridad</value>
   </data>
-  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>823, 411</value>
+  <data name="&gt;&gt;CbIdioma.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="label4.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
+  <data name="ChkGeneracionCodigo.Location" type="System.Drawing.Point, System.Drawing">
+    <value>212, 128</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
     <value>41, 13</value>
@@ -421,8 +426,8 @@
   <data name="label8.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="GrpInventario.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
+  <data name="GrpPreview.Size" type="System.Drawing.Size, System.Drawing">
+    <value>314, 356</value>
   </data>
   <data name="CbNotificaciones.Location" type="System.Drawing.Point, System.Drawing">
     <value>113, 91</value>
@@ -436,14 +441,8 @@
   <data name="ChkAutenticacion2FA.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="&gt;&gt;label8.Name" xml:space="preserve">
-    <value>label8</value>
-  </data>
-  <data name="&gt;&gt;TreeMenu.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="ChkCodigoBarras.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="CbTema.Text" xml:space="preserve">
+    <value>SELECCIONE</value>
   </data>
   <data name="label7.Text" xml:space="preserve">
     <value>Zona horaria:</value>
@@ -457,17 +456,14 @@
   <data name="label6.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
   </data>
-  <data name="&gt;&gt;label5.Parent" xml:space="preserve">
-    <value>GrpGeneral</value>
+  <data name="CbNotificaciones.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
-  <data name="label3.AutoSize" type="System.Boolean, mscorlib">
+  <data name="ChkCodigoBarras.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="CbUniMedida.Text" xml:space="preserve">
+  <data name="CbFormatoFecha.Text" xml:space="preserve">
     <value>SELECCIONE</value>
-  </data>
-  <data name="&gt;&gt;CbMoneda.Name" xml:space="preserve">
-    <value>CbMoneda</value>
   </data>
   <data name="label3.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -475,32 +471,23 @@
   <data name="&gt;&gt;label13.Parent" xml:space="preserve">
     <value>GrpSeguridad</value>
   </data>
-  <data name="label13.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="&gt;&gt;label8.Name" xml:space="preserve">
+    <value>label8</value>
   </data>
   <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
     <value>8</value>
   </data>
-  <data name="CbIdioma.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 21</value>
+  <data name="GrpPreview.TabIndex" type="System.Int32, mscorlib">
+    <value>16</value>
   </data>
-  <data name="GrpDefault.Location" type="System.Drawing.Point, System.Drawing">
-    <value>204, 12</value>
-  </data>
-  <data name="ChkCompartirActividad.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
-  </data>
-  <data name="&gt;&gt;label4.Parent" xml:space="preserve">
-    <value>GrpGeneral</value>
+  <data name="&gt;&gt;ChkGeneracionCodigo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;CbMoneda.Type" xml:space="preserve">
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="GrpSeguridad.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
-  </data>
-  <data name="ChkGeneracionCodigo.Location" type="System.Drawing.Point, System.Drawing">
-    <value>212, 128</value>
   </data>
   <data name="&gt;&gt;ChkAutenticacion2FA.ZOrder" xml:space="preserve">
     <value>3</value>
@@ -519,6 +506,9 @@
   </data>
   <data name="label12.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
+  </data>
+  <data name="&gt;&gt;label9.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="TreeMenu.Nodes" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
@@ -540,26 +530,32 @@
   <data name="&gt;&gt;CbUniMedida.Type" xml:space="preserve">
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="CbIdioma.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 21</value>
+  </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Configuración</value>
   </data>
   <data name="ChkCalcularDevaluacion.Location" type="System.Drawing.Point, System.Drawing">
     <value>212, 100</value>
   </data>
-  <data name="&gt;&gt;ChkAutenticacion2FA.Name" xml:space="preserve">
-    <value>ChkAutenticacion2FA</value>
+  <data name="label9.Size" type="System.Drawing.Size, System.Drawing">
+    <value>68, 13</value>
+  </data>
+  <data name="label1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="&gt;&gt;CbZonaHoraria.Type" xml:space="preserve">
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;label11.Parent" xml:space="preserve">
+    <value>GrpInventario</value>
+  </data>
   <data name="&gt;&gt;GrpPreview.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
-  <data name="&gt;&gt;ChkCalcularDevaluacion.Name" xml:space="preserve">
-    <value>ChkCalcularDevaluacion</value>
-  </data>
-  <data name="&gt;&gt;GrpDefault.Name" xml:space="preserve">
-    <value>GrpDefault</value>
+  <data name="GrpInventario.Location" type="System.Drawing.Point, System.Drawing">
+    <value>204, 12</value>
   </data>
   <data name="GrpSeguridad.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -567,17 +563,11 @@
   <data name="&gt;&gt;BtnGuardar.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="CbUniMedida.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 21</value>
+  <data name="ChkGeneracionCodigo.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
   </data>
-  <data name="pictureBox1.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="CbZonaHoraria.Text" xml:space="preserve">
-    <value>SELECCIONE</value>
-  </data>
-  <data name="&gt;&gt;ChkCompartirActividad.ZOrder" xml:space="preserve">
-    <value>1</value>
+  <data name="&gt;&gt;ChkCompartirActividad.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="label7.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -615,8 +605,8 @@
   <data name="GrpGeneral.Location" type="System.Drawing.Point, System.Drawing">
     <value>204, 12</value>
   </data>
-  <data name="&gt;&gt;label5.Name" xml:space="preserve">
-    <value>label5</value>
+  <data name="&gt;&gt;ChkCalcularDevaluacion.Name" xml:space="preserve">
+    <value>ChkCalcularDevaluacion</value>
   </data>
   <data name="&gt;&gt;ChkCalcularDevaluacion.Parent" xml:space="preserve">
     <value>GrpInventario</value>
@@ -624,17 +614,20 @@
   <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
     <value>127, 13</value>
   </data>
-  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>12</value>
+  <data name="&gt;&gt;label9.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label11.Name" xml:space="preserve">
     <value>label11</value>
   </data>
+  <data name="&gt;&gt;ChkAutenticacion2FA.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="GrpPreview.Text" xml:space="preserve">
     <value>Preview</value>
   </data>
-  <data name="CbUniMedida.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
+  <data name="ChkAutenticacion2FA.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="&gt;&gt;pictureBox1.Name" xml:space="preserve">
     <value>pictureBox1</value>
@@ -645,23 +638,23 @@
   <data name="&gt;&gt;GrpInventario.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>VistaConfiguracion</value>
-  </data>
   <data name="&gt;&gt;CbFormatoFecha.Parent" xml:space="preserve">
     <value>GrpGeneral</value>
   </data>
   <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
     <value>30, 94</value>
   </data>
-  <data name="GrpGeneral.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
+  <data name="CbZonaHoraria.Text" xml:space="preserve">
+    <value>SELECCIONE</value>
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>78, 13</value>
   </data>
   <data name="TreeMenu.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 12</value>
   </data>
-  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>77, 13</value>
+  <data name="&gt;&gt;label6.Parent" xml:space="preserve">
+    <value>GrpGeneral</value>
   </data>
   <data name="label8.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -669,8 +662,8 @@
   <data name="ChkAutenticacion2FA.Size" type="System.Drawing.Size, System.Drawing">
     <value>15, 14</value>
   </data>
-  <data name="&gt;&gt;GrpPreview.Name" xml:space="preserve">
-    <value>GrpPreview</value>
+  <data name="&gt;&gt;label5.Parent" xml:space="preserve">
+    <value>GrpGeneral</value>
   </data>
   <data name="TreeMenu.Nodes1" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
@@ -682,14 +675,24 @@
         ZW50YXJpbwD/////CQQAAAD/////CQQAAAAAAAAACw==
 </value>
   </data>
-  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 13</value>
+  <data name="TreeMenu.Nodes2" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
+        LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAAB1TeXN0
+        ZW0uV2luZG93cy5Gb3Jtcy5UcmVlTm9kZQkAAAAEVGV4dAtUb29sVGlwVGV4dAROYW1lCUlzQ2hlY2tl
+        ZApJbWFnZUluZGV4CEltYWdlS2V5ElNlbGVjdGVkSW1hZ2VJbmRleBBTZWxlY3RlZEltYWdlS2V5CkNo
+        aWxkQ291bnQBAQEAAAEAAQABCAgIAgAAAAYDAAAACVNlZ3VyaWRhZAYEAAAAAAYFAAAADU5vZGVTZWd1
+        cmlkYWQA/////wkEAAAA/////wkEAAAAAAAAAAs=
+</value>
   </data>
   <data name="&gt;&gt;ChkCompartirActividad.Name" xml:space="preserve">
     <value>ChkCompartirActividad</value>
   </data>
-  <data name="&gt;&gt;TreeMenu.Name" xml:space="preserve">
-    <value>TreeMenu</value>
+  <data name="label7.Location" type="System.Drawing.Point, System.Drawing">
+    <value>37, 238</value>
+  </data>
+  <data name="label13.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="label10.Size" type="System.Drawing.Size, System.Drawing">
     <value>106, 13</value>
@@ -697,8 +700,11 @@
   <data name="GrpGeneral.Size" type="System.Drawing.Size, System.Drawing">
     <value>288, 356</value>
   </data>
-  <data name="&gt;&gt;CbZonaHoraria.Name" xml:space="preserve">
-    <value>CbZonaHoraria</value>
+  <data name="&gt;&gt;label7.Name" xml:space="preserve">
+    <value>label7</value>
+  </data>
+  <data name="label4.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
   </data>
   <data name="&gt;&gt;pictureBox1.Type" xml:space="preserve">
     <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -709,14 +715,14 @@
   <data name="CbZonaHoraria.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
   </data>
-  <data name="label7.Location" type="System.Drawing.Point, System.Drawing">
-    <value>37, 238</value>
+  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>66, 22</value>
   </data>
   <data name="&gt;&gt;label12.Parent" xml:space="preserve">
     <value>GrpSeguridad</value>
   </data>
-  <data name="&gt;&gt;label7.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="GrpDefault.Size" type="System.Drawing.Size, System.Drawing">
+    <value>288, 356</value>
   </data>
   <data name="GrpSeguridad.Size" type="System.Drawing.Size, System.Drawing">
     <value>288, 356</value>
@@ -724,14 +730,17 @@
   <data name="ChkCalcularDevaluacion.Size" type="System.Drawing.Size, System.Drawing">
     <value>15, 14</value>
   </data>
+  <data name="CbUniMedida.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
   <data name="&gt;&gt;label1.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="GrpGeneral.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
   </data>
-  <data name="label1.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="&gt;&gt;TreeMenu.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
   <data name="label2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -745,13 +754,16 @@
   <data name="&gt;&gt;ChkCalcularDevaluacion.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <data name="BtnGuardar.Location" type="System.Drawing.Point, System.Drawing">
+    <value>367, 374</value>
+  </data>
   <data name="&gt;&gt;CbZonaHoraria.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
   <data name="&gt;&gt;CbIdioma.Name" xml:space="preserve">
     <value>CbIdioma</value>
   </data>
-  <data name="&gt;&gt;label6.Type" xml:space="preserve">
+  <data name="&gt;&gt;label7.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
@@ -772,14 +784,17 @@
   <data name="CbZonaHoraria.Size" type="System.Drawing.Size, System.Drawing">
     <value>152, 21</value>
   </data>
-  <data name="&gt;&gt;label7.Name" xml:space="preserve">
-    <value>label7</value>
+  <data name="GrpInventario.Size" type="System.Drawing.Size, System.Drawing">
+    <value>288, 356</value>
   </data>
   <data name="&gt;&gt;label8.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
-  <data name="&gt;&gt;GrpDefault.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="&gt;&gt;label9.Parent" xml:space="preserve">
+    <value>GrpPreview</value>
+  </data>
+  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>29, 130</value>
   </data>
   <data name="&gt;&gt;label6.Name" xml:space="preserve">
     <value>label6</value>
@@ -787,8 +802,11 @@
   <data name="&gt;&gt;label12.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="&gt;&gt;TreeMenu.ZOrder" xml:space="preserve">
-    <value>3</value>
+  <data name="&gt;&gt;label9.Name" xml:space="preserve">
+    <value>label9</value>
+  </data>
+  <data name="&gt;&gt;label5.Name" xml:space="preserve">
+    <value>label5</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
     <value>Formato fecha:</value>
@@ -799,14 +817,14 @@
   <data name="&gt;&gt;pictureBox1.Parent" xml:space="preserve">
     <value>GrpPreview</value>
   </data>
-  <data name="label7.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
+  <data name="CbUniMedida.Text" xml:space="preserve">
+    <value>SELECCIONE</value>
   </data>
   <data name="CbMoneda.Text" xml:space="preserve">
     <value>SELECCIONE</value>
   </data>
-  <data name="BtnGuardar.Location" type="System.Drawing.Point, System.Drawing">
-    <value>367, 374</value>
+  <data name="&gt;&gt;BtnGuardar.Name" xml:space="preserve">
+    <value>BtnGuardar</value>
   </data>
   <data name="&gt;&gt;label11.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -814,14 +832,17 @@
   <data name="&gt;&gt;BtnGuardar.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="label10.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
+  <data name="&gt;&gt;CbMoneda.ZOrder" xml:space="preserve">
+    <value>3</value>
   </data>
-  <data name="&gt;&gt;CbIdioma.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="label6.Text" xml:space="preserve">
+    <value>Modena:</value>
   </data>
   <data name="&gt;&gt;label7.ZOrder" xml:space="preserve">
     <value>9</value>
+  </data>
+  <data name="ChkCodigoBarras.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
   </data>
   <data name="&gt;&gt;GrpGeneral.Type" xml:space="preserve">
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -829,20 +850,20 @@
   <data name="label4.Text" xml:space="preserve">
     <value>Notificaciones:</value>
   </data>
-  <data name="&gt;&gt;CbFormatoFecha.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>77, 13</value>
   </data>
   <data name="pictureBox1.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 19</value>
   </data>
-  <data name="&gt;&gt;CbUniMedida.Parent" xml:space="preserve">
-    <value>GrpGeneral</value>
+  <data name="GrpDefault.Location" type="System.Drawing.Point, System.Drawing">
+    <value>204, 12</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
     <value>96, 13</value>
   </data>
-  <data name="GrpSeguridad.Location" type="System.Drawing.Point, System.Drawing">
-    <value>204, 12</value>
+  <data name="&gt;&gt;GrpDefault.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label10.ZOrder" xml:space="preserve">
     <value>4</value>
@@ -850,23 +871,32 @@
   <data name="GrpInventario.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="CbFormatoFecha.Text" xml:space="preserve">
-    <value>SELECCIONE</value>
+  <data name="GrpGeneral.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;CbMoneda.Name" xml:space="preserve">
+    <value>CbMoneda</value>
+  </data>
+  <data name="label5.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
   </data>
   <data name="TreeMenu.TabIndex" type="System.Int32, mscorlib">
     <value>17</value>
   </data>
-  <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="CbUniMedida.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 21</value>
   </data>
-  <data name="ChkCodigoBarras.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
+  <data name="label9.Location" type="System.Drawing.Point, System.Drawing">
+    <value>122, 166</value>
   </data>
   <data name="GrpPreview.Location" type="System.Drawing.Point, System.Drawing">
     <value>497, 12</value>
   </data>
   <data name="ChkCodigoBarras.Location" type="System.Drawing.Point, System.Drawing">
     <value>212, 45</value>
+  </data>
+  <data name="TreeMenu.Size" type="System.Drawing.Size, System.Drawing">
+    <value>185, 356</value>
   </data>
   <data name="&gt;&gt;CbFormatoFecha.Name" xml:space="preserve">
     <value>CbFormatoFecha</value>
@@ -877,11 +907,11 @@
   <data name="&gt;&gt;GrpSeguridad.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="CbTema.Text" xml:space="preserve">
-    <value>SELECCIONE</value>
+  <data name="&gt;&gt;GrpSeguridad.Name" xml:space="preserve">
+    <value>GrpSeguridad</value>
   </data>
   <data name="&gt;&gt;pictureBox1.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="&gt;&gt;GrpPreview.Parent" xml:space="preserve">
     <value>$this</value>
@@ -895,11 +925,11 @@
   <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
     <value>70, 13</value>
   </data>
-  <data name="&gt;&gt;CbTema.ZOrder" xml:space="preserve">
-    <value>6</value>
+  <data name="&gt;&gt;ChkCompartirActividad.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
-  <data name="&gt;&gt;CbNotificaciones.Name" xml:space="preserve">
-    <value>CbNotificaciones</value>
+  <data name="CbZonaHoraria.Location" type="System.Drawing.Point, System.Drawing">
+    <value>113, 235</value>
   </data>
   <data name="CbFormatoFecha.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -907,20 +937,29 @@
   <data name="label5.Text" xml:space="preserve">
     <value>Tema:</value>
   </data>
-  <data name="label5.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
+  <data name="&gt;&gt;TreeMenu.ZOrder" xml:space="preserve">
+    <value>3</value>
   </data>
   <data name="&gt;&gt;GrpInventario.Name" xml:space="preserve">
     <value>GrpInventario</value>
   </data>
-  <data name="&gt;&gt;ChkAutenticacion2FA.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="label12.Text" xml:space="preserve">
+    <value>Habilitar autenticación 2FA</value>
+  </data>
+  <data name="&gt;&gt;ChkAutenticacion2FA.Name" xml:space="preserve">
+    <value>ChkAutenticacion2FA</value>
   </data>
   <data name="CbUniMedida.Location" type="System.Drawing.Point, System.Drawing">
     <value>113, 199</value>
   </data>
+  <data name="&gt;&gt;CbFormatoFecha.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;GrpSeguridad.Type" xml:space="preserve">
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GrpGeneral.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
   <data name="ChkCalcularDevaluacion.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -934,11 +973,14 @@
   <data name="ChkCompartirActividad.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>29, 130</value>
+  <data name="ChkCompartirActividad.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
-  <data name="TreeMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>185, 356</value>
+  <data name="&gt;&gt;GrpDefault.Name" xml:space="preserve">
+    <value>GrpDefault</value>
+  </data>
+  <data name="&gt;&gt;GrpDefault.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
   <data name="CbFormatoFecha.Location" type="System.Drawing.Point, System.Drawing">
     <value>113, 127</value>
@@ -946,8 +988,8 @@
   <data name="&gt;&gt;CbTema.Name" xml:space="preserve">
     <value>CbTema</value>
   </data>
-  <data name="&gt;&gt;CbUniMedida.Name" xml:space="preserve">
-    <value>CbUniMedida</value>
+  <data name="ChkCalcularDevaluacion.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="&gt;&gt;TreeMenu.Type" xml:space="preserve">
     <value>System.Windows.Forms.TreeView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -955,14 +997,14 @@
   <data name="label11.Size" type="System.Drawing.Size, System.Drawing">
     <value>112, 13</value>
   </data>
-  <data name="&gt;&gt;CbIdioma.Parent" xml:space="preserve">
-    <value>GrpGeneral</value>
+  <data name="&gt;&gt;CbIdioma.ZOrder" xml:space="preserve">
+    <value>5</value>
   </data>
   <data name="BtnGuardar.Text" xml:space="preserve">
     <value>Guardar</value>
   </data>
-  <data name="&gt;&gt;label11.Parent" xml:space="preserve">
-    <value>GrpInventario</value>
+  <data name="&gt;&gt;CbZonaHoraria.Name" xml:space="preserve">
+    <value>CbZonaHoraria</value>
   </data>
   <data name="&gt;&gt;ChkCalcularDevaluacion.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

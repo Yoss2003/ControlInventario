@@ -18,9 +18,12 @@ namespace ControlInventario.Modelos
         public string Contraseña { get; set; }
 
         // Datos empresariales
+        public int IdCargo { get; set; }
         public string Cargo { get; set; }
+        public int IdArea { get; set; }
         public string Area { get; set; }
         public DateTime FechaIngreso { get; set; }
+        public int IdTipoContrato { get; set; }
         public string TipoContrato { get; set; }
 
         // Roles

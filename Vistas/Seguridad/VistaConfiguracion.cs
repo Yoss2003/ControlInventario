@@ -10,7 +10,6 @@ namespace ControlInventario.Vistas
     public partial class VistaConfiguracion : Form
     {
         string nombreUsuario = UsuarioSesion.NombreUsuario;
-        private bool generarCodigoAutomatico = false;
         public VistaConfiguracion()
         {
             InitializeComponent();

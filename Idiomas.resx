@@ -362,4 +362,64 @@
   <data name="MensajeMenuPrincipal6" xml:space="preserve">
     <value>¿Cuando fue la última vez que estuviste por acá?</value>
   </data>
+  <data name="MensajeErrorConfiguracion" xml:space="preserve">
+    <value>Error al cargar configuración: {0}</value>
+  </data>
+  <data name="MensajeErrorRegistrarNombre" xml:space="preserve">
+    <value>El nombre es obligatorio.</value>
+  </data>
+  <data name="MensajeErrorRegistrarNombreExtra" xml:space="preserve">
+    <value>El nombre no puede ser demasiado corto ni tener letras repetidas sucesivas.</value>
+  </data>
+  <data name="MensajeErrorRegistrarApellido" xml:space="preserve">
+    <value>El apellido es obligatorio.</value>
+  </data>
+  <data name="MensajeErrorRegistrarApellidoExtra" xml:space="preserve">
+    <value>El apellido no puede ser demasiado corto ni tener letras repetidas sucesivas.</value>
+  </data>
+  <data name="MensajeErrorRegistrarCorreo" xml:space="preserve">
+    <value>El correo es obligatorio.</value>
+  </data>
+  <data name="MensajeErrorRegistrarCorreoExtra" xml:space="preserve">
+    <value>El formato del correo no es válido.</value>
+  </data>
+  <data name="MensajeErrorRegistrarEdad" xml:space="preserve">
+    <value>La edad es obligatoria.</value>
+  </data>
+  <data name="MensajeErrorRegistrarFechaNacimiento" xml:space="preserve">
+    <value>La fecha de nacimiento no coincide con la edad ingresada.</value>
+  </data>
+  <data name="MensajeErrorRegistrarEdadExtra1" xml:space="preserve">
+    <value>La edad debe estar entre 18 y 65 años</value>
+  </data>
+  <data name="MensajeErrorRegistrarCargo" xml:space="preserve">
+    <value>El cargo es obligatorio.</value>
+  </data>
+  <data name="MensajeErrorRegistrarArea" xml:space="preserve">
+    <value>El área es obligatoria.</value>
+  </data>
+  <data name="MensajeErrorRegistrarContraseña" xml:space="preserve">
+    <value>La contraseña es obligatoria.</value>
+  </data>
+  <data name="MensajeErrorRegistrarContraseñaExtra1" xml:space="preserve">
+    <value>La contraseña debe tener al menos 8 caracteres y un carácter especial.</value>
+  </data>
+  <data name="MensajeErrorRegistrarContraseñaExtra2" xml:space="preserve">
+    <value>Las contraseñas no coinciden.</value>
+  </data>
+  <data name="MensajeErrorRegistrarEdadExtra2" xml:space="preserve">
+    <value>La edad debe ser un número válido.</value>
+  </data>
+  <data name="MensajeErrorRegistrarNombreUsuario" xml:space="preserve">
+    <value>El nombre de usuario ya está registrado.</value>
+  </data>
+  <data name="MensajeErrorRegistrarRol" xml:space="preserve">
+    <value>Debes seleccionar un rol para el empleado.</value>
+  </data>
+  <data name="MensajeExitoRegistrarGuardar" xml:space="preserve">
+    <value>Usuario registrado correctamente.</value>
+  </data>
+  <data name="MensajeErrorRegistrarGuardar" xml:space="preserve">
+    <value>Error al registrar empleado: {0}</value>
+  </data>
 </root>

@@ -42,6 +42,11 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.BtnAgregarTipoContrato = new System.Windows.Forms.Button();
+            this.BtnAgregarArea = new System.Windows.Forms.Button();
+            this.BtnAgregarCargo = new System.Windows.Forms.Button();
+            this.CbArea = new System.Windows.Forms.ComboBox();
+            this.CbCargo = new System.Windows.Forms.ComboBox();
             this.CbTipoContrato = new System.Windows.Forms.ComboBox();
             this.dtFechaIngre = new System.Windows.Forms.DateTimePicker();
             this.label6 = new System.Windows.Forms.Label();
@@ -63,11 +68,6 @@
             this.btnGuardar = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
-            this.CbCargo = new System.Windows.Forms.ComboBox();
-            this.CbArea = new System.Windows.Forms.ComboBox();
-            this.BtnAgregarCargo = new System.Windows.Forms.Button();
-            this.BtnAgregarArea = new System.Windows.Forms.Button();
-            this.BtnAgregarTipoContrato = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtEdad)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -166,6 +166,37 @@
             resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
+            // 
+            // BtnAgregarTipoContrato
+            // 
+            resources.ApplyResources(this.BtnAgregarTipoContrato, "BtnAgregarTipoContrato");
+            this.BtnAgregarTipoContrato.Name = "BtnAgregarTipoContrato";
+            this.BtnAgregarTipoContrato.UseVisualStyleBackColor = true;
+            this.BtnAgregarTipoContrato.Click += new System.EventHandler(this.BtnAgregarTipoContrato_Click);
+            // 
+            // BtnAgregarArea
+            // 
+            resources.ApplyResources(this.BtnAgregarArea, "BtnAgregarArea");
+            this.BtnAgregarArea.Name = "BtnAgregarArea";
+            this.BtnAgregarArea.UseVisualStyleBackColor = true;
+            // 
+            // BtnAgregarCargo
+            // 
+            resources.ApplyResources(this.BtnAgregarCargo, "BtnAgregarCargo");
+            this.BtnAgregarCargo.Name = "BtnAgregarCargo";
+            this.BtnAgregarCargo.UseVisualStyleBackColor = true;
+            // 
+            // CbArea
+            // 
+            this.CbArea.FormattingEnabled = true;
+            resources.ApplyResources(this.CbArea, "CbArea");
+            this.CbArea.Name = "CbArea";
+            // 
+            // CbCargo
+            // 
+            this.CbCargo.FormattingEnabled = true;
+            resources.ApplyResources(this.CbCargo, "CbCargo");
+            this.CbCargo.Name = "CbCargo";
             // 
             // CbTipoContrato
             // 
@@ -301,36 +332,6 @@
             // errorProvider1
             // 
             this.errorProvider1.ContainerControl = this;
-            // 
-            // CbCargo
-            // 
-            this.CbCargo.FormattingEnabled = true;
-            resources.ApplyResources(this.CbCargo, "CbCargo");
-            this.CbCargo.Name = "CbCargo";
-            // 
-            // CbArea
-            // 
-            this.CbArea.FormattingEnabled = true;
-            resources.ApplyResources(this.CbArea, "CbArea");
-            this.CbArea.Name = "CbArea";
-            // 
-            // BtnAgregarCargo
-            // 
-            resources.ApplyResources(this.BtnAgregarCargo, "BtnAgregarCargo");
-            this.BtnAgregarCargo.Name = "BtnAgregarCargo";
-            this.BtnAgregarCargo.UseVisualStyleBackColor = true;
-            // 
-            // BtnAgregarArea
-            // 
-            resources.ApplyResources(this.BtnAgregarArea, "BtnAgregarArea");
-            this.BtnAgregarArea.Name = "BtnAgregarArea";
-            this.BtnAgregarArea.UseVisualStyleBackColor = true;
-            // 
-            // BtnAgregarTipoContrato
-            // 
-            resources.ApplyResources(this.BtnAgregarTipoContrato, "BtnAgregarTipoContrato");
-            this.BtnAgregarTipoContrato.Name = "BtnAgregarTipoContrato";
-            this.BtnAgregarTipoContrato.UseVisualStyleBackColor = true;
             // 
             // VistaRegistro
             // 

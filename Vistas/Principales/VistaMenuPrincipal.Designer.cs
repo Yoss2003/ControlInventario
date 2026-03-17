@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VistaMenuPrincipal));
             this.groupInicio = new System.Windows.Forms.GroupBox();
             this.lblUsuario = new System.Windows.Forms.Label();
@@ -41,17 +42,18 @@
             this.btnCerrarSesion = new System.Windows.Forms.Button();
             this.btnReportes = new System.Windows.Forms.Button();
             this.btnInventario = new System.Windows.Forms.Button();
+            this.NotificacionesWindows = new System.Windows.Forms.NotifyIcon(this.components);
             this.groupInicio.SuspendLayout();
             this.groupAcciones.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupInicio
             // 
-            resources.ApplyResources(this.groupInicio, "groupInicio");
             this.groupInicio.Controls.Add(this.lblUsuario);
             this.groupInicio.Controls.Add(this.lblFecha);
             this.groupInicio.Controls.Add(this.lblRol);
             this.groupInicio.Controls.Add(this.lblBienvenida);
+            resources.ApplyResources(this.groupInicio, "groupInicio");
             this.groupInicio.Name = "groupInicio";
             this.groupInicio.TabStop = false;
             // 
@@ -77,13 +79,13 @@
             // 
             // groupAcciones
             // 
-            resources.ApplyResources(this.groupAcciones, "groupAcciones");
             this.groupAcciones.Controls.Add(this.lblTextoRandom);
             this.groupAcciones.Controls.Add(this.btnConfiguracion);
             this.groupAcciones.Controls.Add(this.btnRegistros);
             this.groupAcciones.Controls.Add(this.btnCerrarSesion);
             this.groupAcciones.Controls.Add(this.btnReportes);
             this.groupAcciones.Controls.Add(this.btnInventario);
+            resources.ApplyResources(this.groupAcciones, "groupAcciones");
             this.groupAcciones.Name = "groupAcciones";
             this.groupAcciones.TabStop = false;
             // 
@@ -127,6 +129,10 @@
             this.btnInventario.UseVisualStyleBackColor = true;
             this.btnInventario.Click += new System.EventHandler(this.btnInventario_Click);
             // 
+            // NotificacionesWindows
+            // 
+            resources.ApplyResources(this.NotificacionesWindows, "NotificacionesWindows");
+            // 
             // VistaMenuPrincipal
             // 
             resources.ApplyResources(this, "$this");
@@ -161,5 +167,6 @@
         private System.Windows.Forms.Label lblUsuario;
         private System.Windows.Forms.Button btnCerrarSesion;
         private System.Windows.Forms.Label lblTextoRandom;
+        private System.Windows.Forms.NotifyIcon NotificacionesWindows;
     }
 }

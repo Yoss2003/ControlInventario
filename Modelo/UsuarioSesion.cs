@@ -1,4 +1,6 @@
 ﻿using ControlInventario.Modelos;
+using DocumentFormat.OpenXml.Drawing.Charts;
+using System;
 
 namespace ControlInventario.Servicios
 {
@@ -41,5 +43,6 @@ namespace ControlInventario.Servicios
         public static string Rol { get; set; }
 
         public static Perfiles Configuracion { get; set; }
+        public static DateTime FechaIngreso { get; set; }
     }
 }

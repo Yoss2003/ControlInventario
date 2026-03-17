@@ -385,7 +385,9 @@ namespace ControlInventario.Vistas
                             ArticuloRepository.InsertarArticulo(art, con);
                             LogsRepository.InsertarLogs("Artículos", "Crear", $"Se registró un nuevo artículo con el código: {art.Codigo}");
 
-                            MessageBox.Show(Idiomas.MensajeAgregarArticulo, Idiomas.TituloExito, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show(Idiomas.MensajeAgregarArticulo, Idiomas.TituloExito, 
+                                MessageBoxButtons.OK, 
+                                MessageBoxIcon.Information);
 
                             this.DialogResult = DialogResult.OK;
                             this.Close();
@@ -485,10 +487,9 @@ namespace ControlInventario.Vistas
                             ArticuloRepository.ActualizarArticulo(art);
                             LogsRepository.InsertarLogs("Artículos", "Actualizar", $"Se actualizó un nuevo artículo con el código: {art.Codigo}");
 
-                            MessageBox.Show("Artículo actualizado correctamente.", "Éxito",
+                            MessageBox.Show(Idiomas.MensajeAgregarArticulo, Idiomas.TituloExito,
                                 MessageBoxButtons.OK,
-                                MessageBoxIcon.Information
-                            );
+                                MessageBoxIcon.Information);
 
                             this.DialogResult = DialogResult.OK;
                             this.Close();
@@ -702,7 +703,8 @@ namespace ControlInventario.Vistas
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar configuración: " + ex.Message);
+                string mensajeError = string.Format(Idiomas.MensajeErrorConfiguracion, ex.Message);
+                MessageBox.Show(mensajeError);
             }
 
             this.Click += Fondo_Click; 

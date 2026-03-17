@@ -70,6 +70,9 @@ namespace ControlInventario.Vistas.Extras
                 else if (tipoComponente == "Proveedor")
                     lista = ProveedorRepository.ListarProveedor(con);
 
+                else if (tipoComponente == "Contrato")
+                    lista = TipoContratoRepository.ListarContrato(con);
+
                 // Asignar la lista al DataGridView
                 DgComponentes.DataSource = lista;
 
@@ -242,6 +245,20 @@ namespace ControlInventario.Vistas.Extras
                     DgComponentes.DataSource = dt;
                 }
             }
+            else if (tipoComponente == "Contrato")
+            {
+                Text = "Agregar tipo contrato";
+                LblNuevoComponente.Text = "Nombre del contrato nueva:";
+                LblDescripcionComponente.Text = "Descripción del contrato nueva:";
+                using (var con = ConexionGlobal.ObtenerConexion())
+                {
+                    con.Open();
+                    TipoContratoRepository.ListarContrato(con);
+                    DataTable dt = new DataTable();
+                    DgComponentes.DataSource = dt;
+                }
+            }
+
             CargarDatos();
             ClassHelper.AplicarTema(this);
             LblFecha.Text = ClassHelper.FormatearFecha(DateTime.Now);
@@ -273,6 +290,7 @@ namespace ControlInventario.Vistas.Extras
                 nombreTablaBD = "Proveedores";
                 nombreColumnaBD = "RazonSocial";
             }
+            else if (tipoComponente == "Contrato") nombreTablaBD = "Contratos";
 
             if (!string.IsNullOrEmpty(nombreTablaBD))
             {
@@ -407,6 +425,16 @@ namespace ControlInventario.Vistas.Extras
                     };
                     ProveedorRepository.ActualizarProveedor(prov);
                     LogsRepository.InsertarLogs($"{tipoComponente}", "Actualizar", $"Se actualizó un {tipoComponente} con el código: {prov.Ruc}");
+                }
+                else if (tipoComponente == "Contrato")
+                {
+                    var cont = new TipoContrato
+                    {
+                        Nombre = TxtNombreComponente.Text,
+                        Descripcion = TxtDescripcionComponente.Text
+                    };
+                    TipoContratoRepository.ActualizarContrato(cont);
+                    LogsRepository.InsertarLogs($"{tipoComponente}", "Actualizar", $"Se actualizó un {tipoComponente} con el código: {cont.Nombre}");
                 }
             }
             // MODO INSERCIÓN
@@ -550,6 +578,16 @@ namespace ControlInventario.Vistas.Extras
                         MessageBox.Show("No se encontró información del RUC en SUNAT.", "Sin resultados", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
+                else if (tipoComponente == "Contrato")
+                {
+                    var cont = new TipoContrato
+                    {
+                        Nombre = TxtNombreComponente.Text,
+                        Descripcion = TxtDescripcionComponente.Text
+                    };
+                    TipoContratoRepository.InsertarContrato(cont);
+                    LogsRepository.InsertarLogs($"{tipoComponente}", "Crear", $"Se registró un {tipoComponente} con el código: {cont.Nombre}");
+                }
             }
             isEdit = false;
             CargarDatos();
@@ -579,6 +617,8 @@ namespace ControlInventario.Vistas.Extras
                 else if (tipoComponente == "Ubicacion")
                     Text = text;
                 else if (tipoComponente == "Proveedor")
+                    Text = text;
+                else if (tipoComponente == "Contrato")
                     Text = text;
             }
         }
@@ -639,6 +679,12 @@ namespace ControlInventario.Vistas.Extras
                     var dtProveedor = ProveedorRepository.ListarProveedor(con);
                     RefreshService.RefrescarComboDT(proveedorVista.CbProveedorPublic, dtProveedor, "Nombre", "Id", "SELECCIONE");
                 }
+                else if (tipoComponente == "Contrato" && _vistaPrincipal is ITipoContratoRefrescable ContratoVista)
+                {
+                    var dtContrato = ProveedorRepository.ListarProveedor(con);
+                    RefreshService.RefrescarComboDT(ContratoVista.CbTipoContratoPublic, dtContrato, "Nombre", "Id", "SELECCIONE");
+                }
+
 
                 if (_vistaPrincipal is VistaInventario inventarioVista)
                 {
@@ -719,7 +765,7 @@ namespace ControlInventario.Vistas.Extras
                         Id = Convert.ToInt32(DgComponentes.CurrentRow.Cells["IdComponente"].Value),
                         Nombre = DgComponentes.CurrentRow.Cells["NombreComponente"].Value?.ToString() ?? "Sin Nombre"
                     };
-                    LogsRepository.InsertarLogs($"{tipoComponente}", "Eliminar", $"Se registró una {tipoComponente} con el dato: {mar.Nombre}");
+                    LogsRepository.InsertarLogs($"{tipoComponente}", "Eliminar", $"Se eliminó una {tipoComponente} con el dato: {mar.Nombre}");
                     MarcasRepository.EliminarMarca(mar);
                 }
                 else if (tipoComponente == "Proveedor")
@@ -729,8 +775,18 @@ namespace ControlInventario.Vistas.Extras
                         Id = Convert.ToInt32(DgComponentes.CurrentRow.Cells["IdComponente"].Value),
                         Ruc = DgComponentes.CurrentRow.Cells["NombreComponente"].Value?.ToString() ?? "Sin Nombre"
                     };
-                    LogsRepository.InsertarLogs($"{tipoComponente}", "Eliminar", $"Se registró un {tipoComponente} con el dato: {prov.Ruc}");
+                    LogsRepository.InsertarLogs($"{tipoComponente}", "Eliminar", $"Se eliminó un {tipoComponente} con el dato: {prov.Ruc}");
                     ProveedorRepository.EliminarProveedor(prov);
+                }
+                else if (tipoComponente == "Contrato")
+                {
+                    var cont = new TipoContrato
+                    {
+                        Id = Convert.ToInt32(DgComponentes.CurrentRow.Cells["IdComponente"].Value),
+                        Nombre = DgComponentes.CurrentRow.Cells["NombreComponente"].Value?.ToString() ?? "Sin Nombre"
+                    };
+                    LogsRepository.InsertarLogs($"{tipoComponente}", "Eliminar", $"Se elimnió un {tipoComponente} con el dato: {cont.Nombre}");
+                    TipoContratoRepository.EliminarContrato(cont);
                 }
             }
             else

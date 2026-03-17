@@ -81,19 +81,7 @@ namespace ControlInventario.Vistas
             // Insertar el panel en el GroupBox
             groupInicio.Controls.Add(panelInfo);
             ClassHelper.AplicarTema(this);
-            lblFecha.Text = ClassHelper.FormatearFecha(DateTime.Now);
-
-            using (var con = ConexionGlobal.ObtenerConexion())
-            {
-                con.Open();
-
-                DateTime ultimoRegistro = ArticuloRepository.ObtenerUltimaFechaRegistro(UsuarioSesion.InventarioId, UsuarioSesion.NombreUsuario, con);
-                if (ultimoRegistro == DateTime.MinValue)
-                {
-                    ultimoRegistro = DateTime.Now;
-                }
-                EvaluarNotificaciones(UsuarioSesion.NombreUsuario, UsuarioSesion.FechaIngreso, ultimoRegistro);
-            }
+            lblFecha.Text = ClassHelper.FormatearFecha(DateTime.Now);            
         }
 
         private void btnRegistros_Click(object sender, EventArgs e)

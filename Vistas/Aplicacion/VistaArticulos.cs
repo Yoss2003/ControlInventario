@@ -21,6 +21,8 @@ namespace ControlInventario.Vistas
         private readonly string _categoria;
         private readonly int _articuloId;
         private string dniTemporal;
+        private int? idEmpleadoActualTemporal = null;
+        private int? idEmpleadoAnteriorTemporal = null;
         public ComboBox CbMarcasPublic => CbMarcas;
         public ComboBox CbEstadoArticulosPublic => CbEstadoArticulo;
         public ComboBox CbCondicionPublic => CbCondicion;
@@ -319,19 +321,8 @@ namespace ControlInventario.Vistas
                                 FechaBaja = ChkFechaBaja.Checked ? DtpFechaBaja.Value.Date : (DateTime?)null,
                                 FechaFinGarantia = ChkFechaGarantia.Checked ? DtpFechaFinGarantia.Value.Date : (DateTime?)null,
 
-                                DniUsuarioActual = string.IsNullOrWhiteSpace(TxtDniUsuarioActual.Text) ? null : TxtDniUsuarioActual.Text,
-                                NombreUsuarioActual = string.IsNullOrWhiteSpace(TxtNombreUsuarioActual.Text) ? null : TxtNombreUsuarioActual.Text,
-                                IdAreaUsuarioActual = Convert.ToInt32(CbAreaUsuarioActual.SelectedValue),
-                                AreaUsuarioActual = ClassHelper.NormalizarCombo(CbAreaUsuarioActual),
-                                IdCargoUsuarioActual = Convert.ToInt32(CbCargoUsuarioActual.SelectedValue),
-                                CargoUsuarioActual = ClassHelper.NormalizarCombo(CbCargoUsuarioActual),
-
-                                DniUsuarioAnterior = string.IsNullOrWhiteSpace(TxtDniUsuarioAnterior.Text) ? null : TxtDniUsuarioAnterior.Text,
-                                NombreUsuarioAnterior = string.IsNullOrWhiteSpace(TxtNombreUsuarioAnterior.Text) ? null : TxtNombreUsuarioAnterior.Text,
-                                IdAreaUsuarioAnterior = Convert.ToInt32(CbAreaUsuarioAnterior.SelectedValue),
-                                AreaUsuarioAnterior = ClassHelper.NormalizarCombo(CbAreaUsuarioAnterior),
-                                IdCargoUsuarioAnterior = Convert.ToInt32(CbCargoUsuarioAnterior.SelectedValue),
-                                CargoUsuarioAnterior = ClassHelper.NormalizarCombo(CbCargoUsuarioAnterior),
+                                EmpleadoActualId = idEmpleadoActualTemporal,
+                                EmpleadoAnteriorId = idEmpleadoAnteriorTemporal,
 
                                 IdEstado = Convert.ToInt32(CbEstadoArticulo.SelectedValue),
                                 Estado = string.IsNullOrWhiteSpace(CbEstadoArticulo.Text) ? null : CbEstadoArticulo.Text,
@@ -421,19 +412,8 @@ namespace ControlInventario.Vistas
                                 FechaBaja = ChkFechaBaja.Checked ? DtpFechaBaja.Value.Date : (DateTime?)null,
                                 FechaFinGarantia = ChkFechaGarantia.Checked ? DtpFechaFinGarantia.Value.Date : (DateTime?)null,
 
-                                DniUsuarioActual = string.IsNullOrWhiteSpace(TxtDniUsuarioActual.Text) ? null : TxtDniUsuarioActual.Text,
-                                NombreUsuarioActual = string.IsNullOrWhiteSpace(TxtNombreUsuarioActual.Text) ? null : TxtNombreUsuarioActual.Text,
-                                IdAreaUsuarioActual = Convert.ToInt32(CbAreaUsuarioActual.SelectedValue),
-                                AreaUsuarioActual = ClassHelper.NormalizarCombo(CbAreaUsuarioActual),
-                                IdCargoUsuarioActual = Convert.ToInt32(CbCargoUsuarioActual.SelectedValue),
-                                CargoUsuarioActual = ClassHelper.NormalizarCombo(CbCargoUsuarioActual),
-
-                                DniUsuarioAnterior = string.IsNullOrWhiteSpace(TxtDniUsuarioAnterior.Text) ? null : TxtDniUsuarioAnterior.Text,
-                                NombreUsuarioAnterior = string.IsNullOrWhiteSpace(TxtNombreUsuarioAnterior.Text) ? null : TxtNombreUsuarioAnterior.Text,
-                                IdAreaUsuarioAnterior = Convert.ToInt32(CbAreaUsuarioAnterior.SelectedValue),
-                                AreaUsuarioAnterior = ClassHelper.NormalizarCombo(CbAreaUsuarioAnterior),
-                                IdCargoUsuarioAnterior = Convert.ToInt32(CbCargoUsuarioAnterior.SelectedValue),
-                                CargoUsuarioAnterior = ClassHelper.NormalizarCombo(CbCargoUsuarioAnterior),
+                                EmpleadoActualId = idEmpleadoActualTemporal,
+                                EmpleadoAnteriorId = idEmpleadoAnteriorTemporal,
 
                                 IdEstado = Convert.ToInt32(CbEstadoArticulo.SelectedValue),
                                 Estado = string.IsNullOrWhiteSpace(CbEstadoArticulo.Text) ? null : CbEstadoArticulo.Text,
@@ -561,29 +541,19 @@ namespace ControlInventario.Vistas
                             Modelo = TxtModelo.Text,
                             Serie = TxtSerie.Text,
                             IdMarca = Convert.ToInt32(CbMarcas.SelectedValue),
-                            Marca = ClassHelper.NormalizarCombo(CbMarcas),
+
                             FechaAdquisicion = DtpFechaAdquisicion.Value,
                             FechaBaja = ChkFechaBaja.Checked ? DtpFechaBaja.Value.Date : (DateTime?)null,
                             FechaFinGarantia = ChkFechaGarantia.Checked ? DtpFechaFinGarantia.Value.Date : (DateTime?)null,
 
-                            DniUsuarioActual = string.IsNullOrWhiteSpace(TxtDniUsuarioActual.Text) ? null : TxtDniUsuarioActual.Text,
-                            NombreUsuarioActual = string.IsNullOrWhiteSpace(TxtNombreUsuarioActual.Text) ? null : TxtNombreUsuarioActual.Text,
-                            IdAreaUsuarioActual = Convert.ToInt32(CbAreaUsuarioActual.SelectedValue),
-                            AreaUsuarioActual = ClassHelper.NormalizarCombo(CbAreaUsuarioActual),
-                            CargoUsuarioActual = ClassHelper.NormalizarCombo(CbCargoUsuarioActual),
-
-                            DniUsuarioAnterior = string.IsNullOrWhiteSpace(TxtDniUsuarioAnterior.Text) ? null : TxtDniUsuarioAnterior.Text,
-                            NombreUsuarioAnterior = string.IsNullOrWhiteSpace(TxtNombreUsuarioAnterior.Text) ? null : TxtNombreUsuarioAnterior.Text,
-                            IdAreaUsuarioAnterior = Convert.ToInt32(CbAreaUsuarioAnterior.SelectedValue),
-                            AreaUsuarioAnterior = ClassHelper.NormalizarCombo(CbAreaUsuarioAnterior),
-                            CargoUsuarioAnterior = ClassHelper.NormalizarCombo(CbCargoUsuarioAnterior),
+                            // Aquí mandamos la información del custodio usando solo los IDs que guardamos temporalmente
+                            EmpleadoActualId = idEmpleadoActualTemporal,
+                            EmpleadoAnteriorId = idEmpleadoAnteriorTemporal,
 
                             IdEstado = Convert.ToInt32(CbEstadoArticulo.SelectedValue),
-                            Estado = ClassHelper.NormalizarCombo(CbEstadoArticulo),
                             IdUbicacion = Convert.ToInt32(CbUbicacion.SelectedValue),
-                            Ubicacion = ClassHelper.NormalizarCombo(CbUbicacion),
                             IdCondicion = Convert.ToInt32(CbCondicion.SelectedValue),
-                            Condicion = ClassHelper.NormalizarCombo(CbCondicion),
+
                             ActivoFijo = string.IsNullOrWhiteSpace(TxtActivoFijo.Text) ? null : TxtActivoFijo.Text,
                             Observacion = string.IsNullOrWhiteSpace(TxtObservaciones.Text) ? null : TxtObservaciones.Text,
 
@@ -591,8 +561,7 @@ namespace ControlInventario.Vistas
                             Proveedor = string.IsNullOrWhiteSpace(TxtRazonSocial.Text) ? null : TxtRazonSocial.Text,
                             PrecioAdquisicion = precioFinal,
 
-                            CategoriaId = _categoriaId,
-                            Categoria = _categoria
+                            CategoriaId = _categoriaId
                         };
 
                         // guardar comprobante
@@ -714,25 +683,25 @@ namespace ControlInventario.Vistas
             {
                 con.Open();
 
-                var dtAreaActual = AreaRepository.ListarAreas(con);
+                var dtAreaActual = ParametrosRepository.ListarParametros(con, "Area");
                 RefreshService.RefrescarComboDT(CbAreaUsuarioActual, dtAreaActual, "Nombre", "Id", Idiomas.OpcionSeleccione);
 
-                var dtAreaAnterior = AreaRepository.ListarAreas(con);
+                var dtAreaAnterior = ParametrosRepository.ListarParametros(con, "Area");
                 RefreshService.RefrescarComboDT(CbAreaUsuarioAnterior, dtAreaAnterior, "Nombre", "Id", Idiomas.OpcionSeleccione);
 
-                var dtCargoActual = CargoRepository.ListarCargos(con);
+                var dtCargoActual = ParametrosRepository.ListarParametros(con, "Cargo");
                 RefreshService.RefrescarComboDT(CbCargoUsuarioActual, dtCargoActual, "Nombre", "Id", Idiomas.OpcionSeleccione);
 
-                var dtCargoAnterior = CargoRepository.ListarCargos(con);
+                var dtCargoAnterior = ParametrosRepository.ListarParametros(con, "Cargo");
                 RefreshService.RefrescarComboDT(CbCargoUsuarioAnterior, dtCargoAnterior, "Nombre", "Id", Idiomas.OpcionSeleccione);
 
-                var dtEstadoArticulos = EstadoRepository.ListarEstadosArticulos(con);
+                var dtEstadoArticulos = ParametrosRepository.ListarParametros(con, "EstadoArticulos");
                 RefreshService.RefrescarComboDT(CbEstadoArticulo, dtEstadoArticulos, "Nombre", "Id", Idiomas.OpcionSeleccione);
 
-                var dtCondicion = CondicionRepository.ListarCondicion(con);
+                var dtCondicion = ParametrosRepository.ListarParametros(con, "Condicion");
                 RefreshService.RefrescarComboDT(CbCondicion, dtCondicion, "Nombre", "Id", Idiomas.OpcionSeleccione);
 
-                var dtUbicacion = UbicacionRepository.ListarUbicacion(con);
+                var dtUbicacion = ParametrosRepository.ListarParametros(con, "Ubicacion");
                 RefreshService.RefrescarComboDT(CbUbicacion, dtUbicacion, "Nombre", "Id", Idiomas.OpcionSeleccione);
 
                 var dtMarcas = MarcasRepository.ListarMarcas(con, _categoriaId);
@@ -873,8 +842,6 @@ namespace ControlInventario.Vistas
                         // Cargar usaurio actual
                         TxtNombreUsuarioActual.Text = emp.Nombres;
                         CbAreaUsuarioActual.SelectedValue = emp.IdArea;
-                        CbAreaUsuarioActual.Text = emp.Area;
-                        CbCargoUsuarioActual.Text = emp.Cargo;
                         CbCargoUsuarioActual.SelectedValue = emp.IdCargo;
 
                         // Cargar usuario anterior

@@ -156,7 +156,7 @@ namespace ControlInventario
             {
                 UsuarioSesion.UsuarioId = user.Id;
                 UsuarioSesion.NombreUsuario = user.NombreUsuario;
-                UsuarioSesion.Rol = user.Rol;
+                UsuarioSesion.Rol = "Usuario";
                 UsuarioSesion.NombrePersonal = $"{user.Nombres}"; 
                 UsuarioSesion.FechaIngreso = user.FechaIngreso;
 

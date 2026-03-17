@@ -13,47 +13,50 @@ namespace ControlInventario.Repositorio
         public static void CrearTablaEmpleado(SQLiteConnection con)
         {
             string query = @"
-            CREATE TABLE IF NOT EXISTS Empleado (
+            CREATE TABLE IF NOT EXISTS Empleados (
                 Id INTEGER PRIMARY KEY AUTOINCREMENT,
                 Nombres TEXT NOT NULL,
                 Apellidos TEXT NOT NULL,
-                DNI TEXT NOT NULL,
+                DNI TEXT NOT NULL UNIQUE,
                 IdCargo INTEGER NOT NULL,
-                Cargo TEXT NOT NULL,
-                IdArea INTEGER NOT NULL UNIQUE,
-                Area TEXT NOT NULL,
-                IdEstado INTEGER NOT NULL,
-                Estado TEXT NOT NULL
+                IdArea INTEGER NOT NULL,
+                IdEstado INTEGER NOT NULL
             );";
             using (var cmd = new SQLiteCommand(query, con))
             {
                 cmd.ExecuteNonQuery();
             }
+            string queryVista = @"
+            CREATE VIEW IF NOT EXISTS vw_Empleado AS
+            SELECT 
+                e.*,
+                c.Nombre AS Cargo,
+                a.Nombre AS Area,
+                s.Nombre AS Estado
+            FROM Empleados e
+            LEFT JOIN Parametros c ON e.IdCargo = c.Id
+            LEFT JOIN Parametros a ON e.IdArea = a.Id
+            LEFT JOIN Parametros s ON e.IdEstado = s.Id;";
+            using (var cmd = new SQLiteCommand(queryVista, con)) { cmd.ExecuteNonQuery(); }
         }
 
         public static void AgregarEmpleados(Empleados emp,SQLiteConnection con)
         {
             string query = @"
-            INSERT INTO Empleado(
+            INSERT INTO Empleados(
                 Nombres,
                 Apellidos,
                 DNI,
                 IdCargo,
-                Cargo,
                 IdArea,
-                Area,
                 IdEstado,
-                Estado
             )VALUES(
                 @Nombres,
                 @Apellidos,
                 @DNI,
                 @IdCargo,
-                @Cargo,
                 @IdArea,
-                @Area,
                 @IdEstado,
-                @Estado
             );";
 
             using (var cmd = new SQLiteCommand (query, con))
@@ -62,11 +65,8 @@ namespace ControlInventario.Repositorio
                 cmd.Parameters.AddWithValue("@Apellidos", emp.Apellidos);
                 cmd.Parameters.AddWithValue("@DNI", emp.DNI);
                 cmd.Parameters.AddWithValue("@IdCargo", emp.IdCargo);
-                cmd.Parameters.AddWithValue("@Cargo", emp.Cargo);
                 cmd.Parameters.AddWithValue("@IdArea", emp.IdArea);
-                cmd.Parameters.AddWithValue("@Area", emp.Area);
                 cmd.Parameters.AddWithValue("@IdEstado", emp.IdEstado);
-                cmd.Parameters.AddWithValue("@Estado", emp.Estado);
 
                 cmd.ExecuteNonQuery ();
             }
@@ -78,16 +78,13 @@ namespace ControlInventario.Repositorio
             {
                 con.Open();
                 string query = @"
-                UPDATE Empleado SET
+                UPDATE Empleados SET
                     Nombres = @Nombres,
                     Apellidos = @Apellidos,
                     DNI = @DNI,
                     IdCargo = @IdCargo,
-                    Cargo = @Cargo,
                     IdArea = @IdArea,
-                    Area = @Area,
                     IdEstado = @IdEstado,
-                    Estado = @Estado
                 WHERE Id = @Id;";
 
                 using (var cmd = new SQLiteCommand (query, con))
@@ -96,11 +93,8 @@ namespace ControlInventario.Repositorio
                     cmd.Parameters.AddWithValue("@Apellidos", emp.Apellidos);
                     cmd.Parameters.AddWithValue("@DNI", emp.DNI);
                     cmd.Parameters.AddWithValue("@IdCargo", emp.IdCargo);
-                    cmd.Parameters.AddWithValue("@Cargo", emp.Cargo);
                     cmd.Parameters.AddWithValue("@IdArea", emp.IdArea);
-                    cmd.Parameters.AddWithValue("@Area", emp.Area);
                     cmd.Parameters.AddWithValue("@IdEstado", emp.IdEstado);
-                    cmd.Parameters.AddWithValue("@Estado", emp.Estado);
                     cmd.Parameters.AddWithValue("@Id", emp.Id);
 
                     cmd.ExecuteNonQuery();
@@ -113,7 +107,7 @@ namespace ControlInventario.Repositorio
             using (var con = ConexionGlobal.ObtenerConexion())
             {
                 con.Open();
-                string query = $@"UPDATE Empleado SET 
+                string query = $@"UPDATE Empleados SET 
                           {columnaId} = 0, 
                           {columnaNombre} = 'SELECCIONE' 
                           WHERE Id = @Id;";
@@ -131,7 +125,7 @@ namespace ControlInventario.Repositorio
             using (var con = ConexionGlobal.ObtenerConexion())
             {
                 con.Open();
-                string query = "DELETE FROM Empleado WHERE Id = @Id;";
+                string query = "DELETE FROM Empleados WHERE Id = @Id;";
                 using (var cmd = new SQLiteCommand(query, con))
                 {
                     cmd.Parameters.AddWithValue("@Id", emp.Id);
@@ -149,7 +143,7 @@ namespace ControlInventario.Repositorio
             {
                 con.Open();
 
-                string query = "SELECT * FROM Empleado;";
+                string query = "SELECT * FROM Empleados;";
                 using (var cmd = new SQLiteCommand(query, con))
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -172,11 +166,8 @@ namespace ControlInventario.Repositorio
                 Apellidos = reader["Apellidos"].ToString(),
                 DNI = reader["DNI"].ToString(),
                 IdCargo = Convert.ToInt32(reader["IdCargo"]),
-                Cargo = reader["Cargo"].ToString(),
                 IdArea = Convert.ToInt32(reader["IdArea"]),
-                Area = reader["Area"].ToString(),
                 IdEstado = Convert.ToInt32(reader["IdEstado"]),
-                Estado = reader["Estado"].ToString()
             };
         }
 
@@ -185,7 +176,7 @@ namespace ControlInventario.Repositorio
             using (var con = ConexionGlobal.ObtenerConexion())
             {
                 con.Open();
-                string query = "SELECT * FROM Empleado WHERE DNI = @DNI LIMIT 1;";
+                string query = "SELECT * FROM Empleados WHERE DNI = @DNI LIMIT 1;";
                 using (var cmd = new SQLiteCommand(query, con))
                 {
                     cmd.Parameters.AddWithValue("@DNI", dni);

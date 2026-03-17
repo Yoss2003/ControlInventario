@@ -16,17 +16,16 @@ namespace ControlInventario.Repositorio
         public static void CrearTablaProveedor(SQLiteConnection con)
         {
             string sql = @"
-            CREATE TABLE IF NOT EXISTS Proveedores(
+            CREATE TABLE IF NOT EXISTS Proveedores (
                 Id INTEGER PRIMARY KEY AUTOINCREMENT,
-                InventarioId INTEGER,
-                Ruc TEXT,
-                RazonSocial TEXT,
+                InventarioId INTEGER NOT NULL,
+                Ruc TEXT NOT NULL,
+                RazonSocial TEXT NOT NULL,
                 NombreContacto TEXT,
                 Telefono TEXT,
                 Correo TEXT,
                 Direccion TEXT,
-                IdEstado INTEGER,
-                Estado TEXT
+                IdEstado INTEGER NOT NULL
             );";
             using (var cmd = new SQLiteCommand(sql, con))
             {
@@ -40,8 +39,8 @@ namespace ControlInventario.Repositorio
             {
                 con.Open();
                 string sql = @"
-                INSERT INTO Proveedores (InventarioId, Ruc, RazonSocial, NombreContacto, Telefono, Direccion, Correo, IdEstado, Estado)
-                VALUES (@InventarioId, @Ruc, @RazonSocial, @NombreContacto, @Telefono, @Direccion, @Correo, @IdEstado, @Estado);";
+                INSERT INTO Proveedores (InventarioId, Ruc, RazonSocial, NombreContacto, Telefono, Direccion, Correo, IdEstado)
+                VALUES (@InventarioId, @Ruc, @RazonSocial, @NombreContacto, @Telefono, @Direccion, @Correo, @IdEstado);";
                 using (var cmd = new SQLiteCommand(sql, con))
                 {
                     cmd.Parameters.AddWithValue("@InventarioId", prov.InventarioId);
@@ -52,7 +51,6 @@ namespace ControlInventario.Repositorio
                     cmd.Parameters.AddWithValue("@Correo", prov.Correo ?? (object)DBNull.Value);
                     cmd.Parameters.AddWithValue("@Direccion", prov.Direccion ?? (object)DBNull.Value);
                     cmd.Parameters.AddWithValue("@IdEstado", prov.IdEstado);
-                    cmd.Parameters.AddWithValue("@Estado", prov.Estado);
                     cmd.ExecuteNonQuery();
                 }
             }
@@ -70,8 +68,7 @@ namespace ControlInventario.Repositorio
                     NombreContacto = @NombreContacto,
                     Telefono = @Telefono,
                     Correo = @Correo,
-                    IdEstado = @IdEstado,
-                    Estado = @Estado                    
+                    IdEstado = @IdEstado               
                 WHERE Id = @Id;";
                 using (var cmd = new SQLiteCommand(sql, con))
                 {
@@ -82,7 +79,6 @@ namespace ControlInventario.Repositorio
                     cmd.Parameters.AddWithValue("@Telefono", prov.Telefono);
                     cmd.Parameters.AddWithValue("@Correo", prov.Correo);
                     cmd.Parameters.AddWithValue("@IdEstado", prov.IdEstado);
-                    cmd.Parameters.AddWithValue("@Estado", prov.Estado);
                     cmd.Parameters.AddWithValue("@Id", prov.Id);
                     cmd.ExecuteNonQuery();
                 }

@@ -18,20 +18,12 @@ namespace ControlInventario.Modelos
         public DateTime? FechaFinGarantia { get; set; } // opcional: fin de garantía
 
         // Información Usuario Actual
-        public string DniUsuarioActual { get; set; } // DNI del usuario actual
-        public string NombreUsuarioActual { get; set; } // Usuario quien lo posee
-        public int IdAreaUsuarioActual { get; set; } // Identificador del Area del usuario actual
-        public string AreaUsuarioActual { get; set; } // Area del usuario actual
-        public int IdCargoUsuarioActual { get; set; } // Identificador del cargo del usuario actual
-        public string CargoUsuarioActual { get; set; } // Cargo del usuario actual
+        public int? EmpleadoActualId { get; set; } // ID del empleado que lo tiene ahora
+        public string EmpleadoActualTexto { get; set; } // Nombre completo (Viene de la Vista SQL)
 
         // Información Usuario Anterior
-        public string DniUsuarioAnterior { get; set; } // DNI del usuario anterior
-        public string NombreUsuarioAnterior { get; set; } // Usuario quien lo poseyó
-        public int IdAreaUsuarioAnterior { get; set; } // Identificador del Area del usuario anterior
-        public string AreaUsuarioAnterior { get; set; } // Area del usuario anterior
-        public int IdCargoUsuarioAnterior { get; set; } // Identificador del cargo del usuario anterior
-        public string CargoUsuarioAnterior { get; set; } // Cargo del usuario anterior
+        public int? EmpleadoAnteriorId { get; set; } // ID del empleado que lo tuvo antes
+        public string EmpleadoAnteriorTexto { get; set; } // Nombre completo (Viene de la Vista SQL)
 
         // Información de articulo
         public int IdEstado { get; set; } // Identificador del estado

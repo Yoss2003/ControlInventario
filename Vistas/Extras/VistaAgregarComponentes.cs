@@ -7,6 +7,7 @@ using ControlInventario.Servicios;
 using SixLabors.Fonts;
 using System;
 using System.Data;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace ControlInventario.Vistas.Extras
@@ -20,6 +21,11 @@ namespace ControlInventario.Vistas.Extras
         private string direccionTemporal = "";
         private string estadoTemporalTexto = "";
         private int estadoTemporalId = 1;
+
+        private bool EsParametro => tipoComponente == "Cargo" || tipoComponente == "Area" ||
+                                    tipoComponente == "EstadoEmpleados" || tipoComponente == "EstadoArticulos" ||
+                                    tipoComponente == "Condicion" || tipoComponente == "Ubicacion" ||
+                                    tipoComponente == "Contrato";
 
         public VistaAgregarComponentes(string componente, object vistaPadre)
         {
@@ -36,44 +42,17 @@ namespace ControlInventario.Vistas.Extras
                 DgComponentes.AutoGenerateColumns = false;
                 var lista = new DataTable();
 
-                // Actualizar el texto del botón según el modo (editar o agregar)
-                if (isEdit == true)
-                    BtnGuardar.Text = "Actualizar";
-                else
-                    BtnGuardar.Text = "Guardar";
+                BtnGuardar.Text = isEdit ? "Actualizar" : "Guardar";
 
-                // Cargar datos según el tipo de componente
-                if (tipoComponente == "Cargo")
-                    lista = CargoRepository.ListarCargos(con);
-
-                else if (tipoComponente == "Area")
-                    lista = AreaRepository.ListarAreas(con);
-
-                else if (tipoComponente == "EstadoEmpleados")
-                    lista = EstadoRepository.ListarEstadosEmpleados(con);
-
-                else if (tipoComponente == "EstadoArticulos")
-                    lista = EstadoRepository.ListarEstadosArticulos(con);
-
-                else if (tipoComponente == "Condicion")
-                    lista = CondicionRepository.ListarCondicion(con);
-
-                else if (tipoComponente == "Ubicacion")
-                    lista = UbicacionRepository.ListarUbicacion(con);
-
+                if (EsParametro)
+                    lista = ParametrosRepository.ListarParametros(con, tipoComponente);
                 else if (tipoComponente == "Marca")
                     lista = MarcasRepository.ListarMarcas(con, CategoriaId);
-
                 else if (tipoComponente == "Categoria")
                     lista = CategoriaRepository.ListarCategorias(UsuarioSesion.InventarioId);
-
                 else if (tipoComponente == "Proveedor")
                     lista = ProveedorRepository.ListarProveedor(con);
 
-                else if (tipoComponente == "Contrato")
-                    lista = TipoContratoRepository.ListarContrato(con);
-
-                // Asignar la lista al DataGridView
                 DgComponentes.DataSource = lista;
 
                 if (tipoComponente == "Proveedor")
@@ -89,8 +68,7 @@ namespace ControlInventario.Vistas.Extras
                     DgComponentes.Columns["NombreComponente"].DataPropertyName = "Nombre";
                     DgComponentes.Columns["DescripcionComponente"].DataPropertyName = "Descripcion";
                 }
-                
-                // Mapear propiedades a columnas creadas manualmente
+
                 DgComponentes.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                 DgComponentes.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                 DgComponentes.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
@@ -103,115 +81,82 @@ namespace ControlInventario.Vistas.Extras
         {
             TxtNombreComponente.Text = "";
             TxtDescripcionComponente.Text = "";
-
             isEdit = false;
-
-            var text = $"Agregar {tipoComponente}";
-
-            if (tipoComponente == "Cargo")
-                Text = text;
-            else if (tipoComponente == "Area")
-                Text = text;
-            else if (tipoComponente == "EstadoEmpleados" || tipoComponente == "EstadoArticulos")
-                Text = text;
-            else if (tipoComponente == "Condición")
-                Text = text;
-            else if (tipoComponente == "Ubicación")
-                Text = text;
-            else if (tipoComponente == "Marca")
-                Text = text;
-            else if (tipoComponente == "Proveedor")
-                Text = text;
+            Text = $"Agregar {tipoComponente}";
         }
 
         private void VistaAgregarComponentes_Load(object sender, EventArgs e)
         {
-            BtnConsultarRUC.Visible = false;
+            BtnConsultarRUC.Visible = tipoComponente == "Proveedor";
             DgComponentes.AutoGenerateColumns = false;
             LblFecha.Text = DateTime.Now.ToString("dd/MM/yyyy");
+
+            Text = $"Agregar {tipoComponente}";
+            LblNuevoComponente.Text = $"Nombre del {tipoComponente} nuevo:";
+            LblDescripcionComponente.Text = $"Descripción del {tipoComponente} nuevo:";
+
             if (tipoComponente == "Cargo")
             {
-                Text = "Agregar Cargo";
-                LblNuevoComponente.Text = "Nombre del cargo nuevo:";
-                LblDescripcionComponente.Text = "Descripción del cargo nuevo:";
                 using (var con = ConexionGlobal.ObtenerConexion())
                 {
                     con.Open();
-                    CargoRepository.ListarCargos(con);
+                    ParametrosRepository.ListarParametros(con, tipoComponente);
                     DataTable dt = new DataTable();
                     DgComponentes.DataSource = dt;
                 }
             }
             else if (tipoComponente == "Area")
             {
-                Text = "Agregar Área";
-                LblNuevoComponente.Text = "Nombre del área nueva";
-                LblDescripcionComponente.Text = "Descripción del área nueva:";
                 using (var con = ConexionGlobal.ObtenerConexion())
                 {
                     con.Open();
-                    AreaRepository.ListarAreas(con);
+                    ParametrosRepository.ListarParametros(con, tipoComponente);
                     DataTable dt = new DataTable();
                     DgComponentes.DataSource = dt;
                 }
             }
             else if (tipoComponente == "EstadoEmpleados")
             {
-                Text = "Agregar Estado";
-                LblNuevoComponente.Text = "Nombre del estado nuevo:";
-                LblDescripcionComponente.Text = "Descripción del estado nuevo:";
                 using (var con = ConexionGlobal.ObtenerConexion())
                 {
                     con.Open();
-                    EstadoRepository.ListarEstadosEmpleados(con);
+                    ParametrosRepository.ListarParametros(con, tipoComponente);
                     DataTable dt = new DataTable();
                     DgComponentes.DataSource = dt;
                 }
             }
             else if (tipoComponente == "EstadoArticulos")
             {
-                Text = "Agregar Estado";
-                LblNuevoComponente.Text = "Nombre del estado nuevo:";
-                LblDescripcionComponente.Text = "Descripción del estado nuevo:";
                 using (var con = ConexionGlobal.ObtenerConexion())
                 {
                     con.Open();
-                    EstadoRepository.ListarEstadosArticulos(con);
+                    ParametrosRepository.ListarParametros(con, tipoComponente);
                     DataTable dt = new DataTable();
                     DgComponentes.DataSource = dt;
                 }
             }
             else if (tipoComponente == "Condicion")
             {
-                Text = "Agregar condicion";
-                LblNuevoComponente.Text = "Nombre de la condicion nueva:";
-                LblDescripcionComponente.Text = "Descripción de la condicion nueva:";
                 using (var con = ConexionGlobal.ObtenerConexion())
                 {
                     con.Open();
-                    CondicionRepository.ListarCondicion(con);
+                    ParametrosRepository.ListarParametros(con, tipoComponente);
                     DataTable dt = new DataTable();
                     DgComponentes.DataSource = dt;
                 }
             }
             else if (tipoComponente == "Ubicacion")
             {
-                Text = "Agregar Ubicacion";
-                LblNuevoComponente.Text = "Nombre de la Ubicacion nueva:";
-                LblDescripcionComponente.Text = "Descripción de la Ubicacion nueva:";
                 using (var con = ConexionGlobal.ObtenerConexion())
                 {
                     con.Open();
-                    UbicacionRepository.ListarUbicacion(con);
+                    ParametrosRepository.ListarParametros(con, tipoComponente);
                     DataTable dt = new DataTable();
                     DgComponentes.DataSource = dt;
                 }
             }
             else if (tipoComponente == "Categoria")
             {
-                Text = "Agregar categoria";
-                LblNuevoComponente.Text = "Nombre de la categoria nueva:";
-                LblDescripcionComponente.Text = "Descripción de la categoria nueva:";
                 using (var con = ConexionGlobal.ObtenerConexion())
                 {
                     con.Open();
@@ -234,9 +179,6 @@ namespace ControlInventario.Vistas.Extras
             }
             else if (tipoComponente == "Proveedor")
             {
-                BtnConsultarRUC.Visible = true;
-                Text = $"Agregar {tipoComponente}";
-                LblNuevoComponente.Text = $"Nombre del {tipoComponente} nuevo:";
                 using (var con = ConexionGlobal.ObtenerConexion())
                 {
                     con.Open();
@@ -247,13 +189,10 @@ namespace ControlInventario.Vistas.Extras
             }
             else if (tipoComponente == "Contrato")
             {
-                Text = "Agregar tipo contrato";
-                LblNuevoComponente.Text = "Nombre del contrato nueva:";
-                LblDescripcionComponente.Text = "Descripción del contrato nueva:";
                 using (var con = ConexionGlobal.ObtenerConexion())
                 {
                     con.Open();
-                    TipoContratoRepository.ListarContrato(con);
+                    ParametrosRepository.ListarParametros(con, tipoComponente);
                     DataTable dt = new DataTable();
                     DgComponentes.DataSource = dt;
                 }
@@ -266,7 +205,7 @@ namespace ControlInventario.Vistas.Extras
 
         private async void BtnGuardar_Click(object sender, EventArgs e)
         {
-            if (TxtNombreComponente == null)
+            if (string.IsNullOrWhiteSpace(TxtNombreComponente.Text))
             {
                 MessageBox.Show("El campo nombre no puede quedar vacío", "Información");
                 return;
@@ -274,127 +213,74 @@ namespace ControlInventario.Vistas.Extras
 
             string nombreIngresado = TxtNombreComponente.Text.Trim();
             int idActual = isEdit ? Convert.ToInt32(DgComponentes.CurrentRow.Cells["IdComponente"].Value) : 0;
-            string nombreTablaBD = "";
-            string nombreColumnaBD = "Nombre";
 
             // VERIFICAR DUPLICIDAD
-            if (tipoComponente == "Cargo") nombreTablaBD = "Cargos";
-            else if (tipoComponente == "Area") nombreTablaBD = "Areas";
-            else if (tipoComponente == "Categoria") nombreTablaBD = "Categorias";
-            else if (tipoComponente == "EstadoEmpleados") nombreTablaBD = "EstadoEmpleados";
-            else if (tipoComponente == "EstadoArticulos") nombreTablaBD = "EstadoArticulos";
-            else if (tipoComponente == "Ubicacion") nombreTablaBD = "Ubicaciones";
-            else if (tipoComponente == "Marca") nombreTablaBD = "Marcas";
-            else if (tipoComponente == "Proveedor")
+            if (EsParametro)
             {
-                nombreTablaBD = "Proveedores";
-                nombreColumnaBD = "RazonSocial";
-            }
-            else if (tipoComponente == "Contrato") nombreTablaBD = "Contratos";
-
-            if (!string.IsNullOrEmpty(nombreTablaBD))
-            {
-                if (ClassHelper.ExisteComponenteDuplicado(nombreTablaBD, nombreIngresado, idActual, nombreColumnaBD))
+                if (ClassHelper.ExisteParametroDuplicado(tipoComponente, nombreIngresado, idActual))
                 {
-                    MessageBox.Show($"El {tipoComponente} '{nombreIngresado}' ya está registrado.",
-                        "Duplicado detectado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show($"El {tipoComponente} '{nombreIngresado}' ya está registrado.", "Duplicado detectado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+            }
+            else
+            {
+                string nombreTablaBD = tipoComponente == "Categoria" ? "Categorias" : (tipoComponente == "Marca" ? "Marcas" : "Proveedores");
+                string nombreColumnaBD = tipoComponente == "Proveedor" ? "RazonSocial" : "Nombre";
+
+                if (tipoComponente != "Proveedor" && ClassHelper.ExisteComponenteDuplicado(nombreTablaBD, nombreIngresado, idActual, nombreColumnaBD))
+                {
+                    MessageBox.Show($"El {tipoComponente} '{nombreIngresado}' ya está registrado.", "Duplicado detectado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
                 if (tipoComponente == "Proveedor")
                 {
-                    string rucIngresado = TxtNombreComponente.Text.Trim();
                     string razonIngresada = TxtDescripcionComponente.Text.Trim();
-
-                    if (ClassHelper.ExisteComponenteDuplicado(nombreTablaBD, rucIngresado, idActual, "RUC"))
+                    if (ClassHelper.ExisteComponenteDuplicado("Proveedores", nombreIngresado, idActual, "RUC"))
                     {
-                        MessageBox.Show($"El RUC '{rucIngresado}' ya está registrado en otro proveedor.",
-                            "RUC Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show($"El RUC '{nombreIngresado}' ya está registrado.", "RUC Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
-
-                    if (ClassHelper.ExisteComponenteDuplicado("Proveedores", razonIngresada, 0, "RazonSocial"))
+                    if (ClassHelper.ExisteComponenteDuplicado("Proveedores", razonIngresada, idActual, "RazonSocial"))
                     {
                         MessageBox.Show($"La empresa '{razonIngresada}' ya se encuentra registrada.", "Razón Social Duplicada", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
                 }
             }
-            
-            // MODO EDICIÓN
-            if (isEdit == true)
+
+            using (var con = ConexionGlobal.ObtenerConexion())
             {
-                if (tipoComponente == "Cargo")
+                con.Open();
+
+                if (EsParametro)
                 {
-                    var car = new Cargo
+                    var param = new Parametros
                     {
-                        Id = Convert.ToInt32(DgComponentes.CurrentRow.Cells["IdComponente"].Value),
+                        Id = idActual,
+                        InventarioId = UsuarioSesion.InventarioId,
+                        TipoParametro = tipoComponente,
                         Nombre = TxtNombreComponente.Text,
                         Descripcion = TxtDescripcionComponente.Text
                     };
-                    CargoRepository.ActualizarCargo(car); 
-                    LogsRepository.InsertarLogs($"{tipoComponente}", "Actualizar", $"Se actualizó un {tipoComponente} con el código: {car.Nombre}");
-                }
-                else if (tipoComponente == "Area")
-                {
-                    var are = new Area
+
+                    if (isEdit)
                     {
-                        Id = Convert.ToInt32(DgComponentes.CurrentRow.Cells["IdComponente"].Value),
-                        Nombre = TxtNombreComponente.Text,
-                        Descripcion = TxtDescripcionComponente.Text
-                    };
-                    AreaRepository.ActualizarArea(are);
-                    LogsRepository.InsertarLogs($"{tipoComponente}", "Actualizar", $"Se actualizó un {tipoComponente} con el código: {are.Nombre}");
-                }
-                else if (tipoComponente == "EstadoEmpleados")
-                {
-                    var est = new Estado
+                        ParametrosRepository.ActualizarParametros(param);
+                        LogsRepository.InsertarLogs("Parámetros", "Actualizar", $"Se actualizó el {tipoComponente}: {param.Nombre}");
+                    }
+                    else
                     {
-                        Id = Convert.ToInt32(DgComponentes.CurrentRow.Cells["IdComponente"].Value),
-                        Nombre = TxtNombreComponente.Text,
-                        Descripcion = TxtDescripcionComponente.Text
-                    };
-                    EstadoRepository.ActualizarEstadoEmpleados(est);
-                    LogsRepository.InsertarLogs($"{tipoComponente}", "Actualizar", $"Se actualizó un {tipoComponente} con el código: {est.Nombre}");
-                }
-                else if (tipoComponente == "EstadoArticulos")
-                {
-                    var est = new Estado
-                    {
-                        Id = Convert.ToInt32(DgComponentes.CurrentRow.Cells["IdComponente"].Value),
-                        Nombre = TxtNombreComponente.Text,
-                        Descripcion = TxtDescripcionComponente.Text
-                    };
-                    EstadoRepository.ActualizarEstadoArticulos(est);
-                    LogsRepository.InsertarLogs($"{tipoComponente}", "Actualizar", $"Se actualizó un {tipoComponente} con el código: {est.Nombre}");
-                }
-                else if (tipoComponente == "Condicion")
-                {
-                    var cond = new Condicion
-                    {
-                        Id = Convert.ToInt32(DgComponentes.CurrentRow.Cells["IdComponente"].Value),
-                        Nombre = TxtNombreComponente.Text,
-                        Descripcion = TxtDescripcionComponente.Text
-                    };
-                    CondicionRepository.ActualizarCondicion(cond);
-                    LogsRepository.InsertarLogs($"{tipoComponente}", "Actualizar", $"Se actualizó una {tipoComponente} con el código: {cond.Nombre}");
-                }
-                else if (tipoComponente == "Ubicacion")
-                {
-                    var ubi = new Ubicacion
-                    {
-                        Id = Convert.ToInt32(DgComponentes.CurrentRow.Cells["IdComponente"].Value),
-                        Nombre = TxtNombreComponente.Text,
-                        Descripcion = TxtDescripcionComponente.Text
-                    };
-                    UbicacionRepository.ActualizarUbicacion(ubi);
-                    LogsRepository.InsertarLogs($"{tipoComponente}", "Actualizar", $"Se actualizó una {tipoComponente} con el código: {ubi.Nombre}");
+                        ParametrosRepository.InsertarParametros(param);
+                        LogsRepository.InsertarLogs("Parámetros", "Crear", $"Se registró un {tipoComponente}: {param.Nombre}");
+                    }
                 }
                 else if (tipoComponente == "Categoria")
                 {
                     var cat = new Categoria
                     {
-                        Id = Convert.ToInt32(DgComponentes.CurrentRow.Cells["IdComponente"].Value),
+                        Id = idActual,
                         InventarioId = UsuarioSesion.InventarioId,
                         Nombre = TxtNombreComponente.Text,
                         Descripcion = TxtDescripcionComponente.Text,
@@ -402,224 +288,80 @@ namespace ControlInventario.Vistas.Extras
                         UsuarioCreacion = UsuarioSesion.NombreUsuario
                     };
 
-                    CategoriaRepository.ActualizarCategoria(cat);
-                    LogsRepository.InsertarLogs($"{tipoComponente}", "Actualizar", $"Se actualizó una {tipoComponente} con el código: {cat.Nombre}");
-                }
-                else if (tipoComponente == "Marca")
-                {
-                    var marca = new Marcas
+                    if (isEdit) CategoriaRepository.ActualizarCategoria(cat);
+                    else
                     {
-                        Nombre = TxtNombreComponente.Text,
-                        CategoriasId = CategoriaId,
-                        Categoria = tipoComponente
-                    };
-                    MarcasRepository.ActualizarMarca(marca);
-                    LogsRepository.InsertarLogs($"{tipoComponente}", "Actualizar", $"Se actualizó una {tipoComponente} con el código: {marca.Nombre}");
-                }
-                else if (tipoComponente == "Proveedor")
-                {
-                    var prov = new Proveedor
-                    {
-                        Ruc = TxtNombreComponente.Text,
-                        RazonSocial = TxtNombreComponente.Text
-                    };
-                    ProveedorRepository.ActualizarProveedor(prov);
-                    LogsRepository.InsertarLogs($"{tipoComponente}", "Actualizar", $"Se actualizó un {tipoComponente} con el código: {prov.Ruc}");
-                }
-                else if (tipoComponente == "Contrato")
-                {
-                    var cont = new TipoContrato
-                    {
-                        Nombre = TxtNombreComponente.Text,
-                        Descripcion = TxtDescripcionComponente.Text
-                    };
-                    TipoContratoRepository.ActualizarContrato(cont);
-                    LogsRepository.InsertarLogs($"{tipoComponente}", "Actualizar", $"Se actualizó un {tipoComponente} con el código: {cont.Nombre}");
-                }
-            }
-            // MODO INSERCIÓN
-            else
-            {
-                if (tipoComponente == "Cargo")
-                {
-                    var car = new Cargo
-                    {
-                        InventarioId = UsuarioSesion.InventarioId,
-                        Nombre = TxtNombreComponente.Text,
-                        Descripcion = TxtDescripcionComponente.Text
-                    };
-                    CargoRepository.InsertarCargo(car);
-                    LogsRepository.InsertarLogs($"{tipoComponente}", "Crear", $"Se registró un {tipoComponente} con el código: {car.Nombre}");
-                }
-                else if (tipoComponente == "Area")
-                {
-                    var are = new Area
-                    {
-                        InventarioId = UsuarioSesion.InventarioId,
-                        Nombre = TxtNombreComponente.Text,
-                        Descripcion = TxtDescripcionComponente.Text
-                    };
-                    AreaRepository.InsertarArea(are);
-                    LogsRepository.InsertarLogs($"{tipoComponente}", "Crear", $"Se registró un {tipoComponente} con el código: {are.Nombre}");
-                }
-                else if (tipoComponente == "EstadoEmpleados")
-                {
-                    var est = new Estado
-                    {
-                        InventarioId = UsuarioSesion.InventarioId,
-                        Nombre = TxtNombreComponente.Text,
-                        Descripcion = TxtDescripcionComponente.Text
-                    };
-                    EstadoRepository.InsertarEstadoEmpleados(est);
-                    LogsRepository.InsertarLogs($"{tipoComponente}", "Crear", $"Se registró un {tipoComponente} con el código: {est.Nombre}");
-                }
-                else if (tipoComponente == "EstadoArticulos")
-                {
-                    var est = new Estado
-                    {
-                        InventarioId = UsuarioSesion.InventarioId,
-                        Nombre = TxtNombreComponente.Text,
-                        Descripcion = TxtDescripcionComponente.Text
-                    };
-                    EstadoRepository.InsertarEstadoArticulos(est);
-                    LogsRepository.InsertarLogs($"{tipoComponente}", "Crear", $"Se registró un {tipoComponente} con el código: {est.Nombre}");
-                }
-                else if (tipoComponente == "Condicion")
-                {
-                    var cond = new Condicion
-                    {
-                        InventarioId = UsuarioSesion.InventarioId,
-                        Nombre = TxtNombreComponente.Text,
-                        Descripcion = TxtDescripcionComponente.Text
-                    };
-                    CondicionRepository.InsertarCondicion(cond);
-                    LogsRepository.InsertarLogs($"{tipoComponente}", "Crear", $"Se registró una {tipoComponente} con el código: {cond.Nombre}");
-                }
-                else if (tipoComponente == "Ubicacion")
-                {
-                    var ubi = new Ubicacion
-                    {
-                        InventarioId = UsuarioSesion.InventarioId,
-                        Nombre = TxtNombreComponente.Text,
-                        Descripcion = TxtDescripcionComponente.Text
-                    };
-                    UbicacionRepository.InsertarUbicacion(ubi);
-                    LogsRepository.InsertarLogs($"{tipoComponente}", "Crear", $"Se registró una {tipoComponente} con el código: {ubi.Nombre}");
-                }
-                else if (tipoComponente == "Categoria")
-                {
-                    var cat = new Categoria
-                    {
-                        InventarioId = UsuarioSesion.InventarioId,
-                        Nombre = TxtNombreComponente.Text,
-                        Descripcion = TxtDescripcionComponente.Text,
-                        FechaCreacion = DateTime.Now.ToString("dd/MM/yyyy"),
-                        UsuarioCreacion = UsuarioSesion.NombreUsuario
-                    };
-
-                    long nuevoId = CategoriaRepository.AgregarCategoría(cat);
-                    LogsRepository.InsertarLogs($"{tipoComponente}", "Crear", $"Se registró una {tipoComponente} con el código: {cat.Nombre}");
-
-                    if (nuevoId != -1)
-                    {
-                        cat.Id = Convert.ToInt32(nuevoId);
-                        var helper = new ClassHelper((VistaInventario)_vistaPrincipal);
-                        helper.AgregarBotonCategoria(cat.Nombre, cat.Id);
+                        long nuevoId = CategoriaRepository.AgregarCategoría(cat);
+                        if (nuevoId != -1)
+                        {
+                            cat.Id = Convert.ToInt32(nuevoId);
+                            var helper = new ClassHelper((VistaInventario)_vistaPrincipal);
+                            helper.AgregarBotonCategoria(cat.Nombre, cat.Id);
+                        }
                     }
                 }
                 else if (tipoComponente == "Marca")
                 {
                     var marca = new Marcas
                     {
+                        Id = idActual,
                         InventarioId = UsuarioSesion.InventarioId,
                         Nombre = TxtNombreComponente.Text,
-                        CategoriasId = CategoriaId,
-                        Categoria = tipoComponente
+                        CategoriasId = CategoriaId
                     };
-                    MarcasRepository.InsertarMarca(marca);
-                    LogsRepository.InsertarLogs($"{tipoComponente}", "Crear", $"Se registró una {tipoComponente} con el código: {marca.Nombre}");
+                    if (isEdit) MarcasRepository.ActualizarMarca(marca);
+                    else MarcasRepository.InsertarMarca(marca);
                 }
                 else if (tipoComponente == "Proveedor")
                 {
-                    string rucIngresado = TxtNombreComponente.Text.Trim();
-
-                    if (rucIngresado.Length != 11)
+                    if (!isEdit && TxtNombreComponente.Text.Trim().Length != 11)
                     {
                         MessageBox.Show("Por favor ingrese un RUC válido de 11 dígitos.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
 
-                    var empresa = await ApiHelper.ConsultarRucAsync(rucIngresado);
-
-                    if (empresa != null)
+                    if (!isEdit)
                     {
-                        TxtDescripcionComponente.Text = empresa.nombre;
-
-                        int idEstado = ApiHelper.MapearEstadoSunat(empresa.estado);
-
-                        var prov = new Proveedor
+                        var empresa = await ApiHelper.ConsultarRucAsync(TxtNombreComponente.Text.Trim());
+                        if (empresa != null)
                         {
-                            InventarioId = UsuarioSesion.InventarioId,
-                            Ruc = empresa.numeroDocumento,
-                            RazonSocial = empresa.nombre,
-                            NombreContacto = "",
-                            Telefono = "",
-                            Correo = "",
-                            Direccion = $"{empresa.direccion} - {empresa.distrito}, {empresa.provincia}",
-                            IdEstado = idEstado,
-                            Estado = empresa.estado
-                        };
-
-                        ProveedorRepository.InsertarProveedor(prov);
-                        LogsRepository.InsertarLogs($"{tipoComponente}", "Crear", $"Se registró un {tipoComponente} con el código: {empresa.numeroDocumento}");
+                            var prov = new Proveedor
+                            {
+                                InventarioId = UsuarioSesion.InventarioId,
+                                Ruc = empresa.numeroDocumento,
+                                RazonSocial = empresa.nombre,
+                                NombreContacto = "",
+                                Telefono = "",
+                                Correo = "",
+                                Direccion = $"{empresa.direccion} - {empresa.distrito}, {empresa.provincia}",
+                                IdEstado = ApiHelper.MapearEstadoSunat(empresa.estado)
+                            };
+                            ProveedorRepository.InsertarProveedor(prov);
+                        }
                     }
                     else
                     {
-                        MessageBox.Show("No se encontró información del RUC en SUNAT.", "Sin resultados", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        var prov = new Proveedor { Id = idActual, Ruc = TxtNombreComponente.Text, RazonSocial = TxtDescripcionComponente.Text };
+                        ProveedorRepository.ActualizarProveedor(prov);
                     }
                 }
-                else if (tipoComponente == "Contrato")
-                {
-                    var cont = new TipoContrato
-                    {
-                        Nombre = TxtNombreComponente.Text,
-                        Descripcion = TxtDescripcionComponente.Text
-                    };
-                    TipoContratoRepository.InsertarContrato(cont);
-                    LogsRepository.InsertarLogs($"{tipoComponente}", "Crear", $"Se registró un {tipoComponente} con el código: {cont.Nombre}");
-                }
             }
+
             isEdit = false;
             CargarDatos();
         }
 
         private void DgComponentes_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            if(e.RowIndex >= 0)
+            if (e.RowIndex >= 0)
             {
                 DataGridViewRow fila = DgComponentes.Rows[e.RowIndex];
-                TxtNombreComponente.Text = fila.Cells["NombreComponente"].Value.ToString();
-                TxtDescripcionComponente.Text = fila.Cells["DescripcionComponente"].Value.ToString();
-                
+                TxtNombreComponente.Text = fila.Cells["NombreComponente"].Value?.ToString();
+                TxtDescripcionComponente.Text = fila.Cells["DescripcionComponente"].Value?.ToString();
+
                 isEdit = true;
                 BtnGuardar.Text = "Actualizar";
-
-                var text = $"Editar {tipoComponente}";
-
-                if (tipoComponente == "Cargo")
-                    Text = text;
-                else if (tipoComponente == "Area")
-                    Text = text;
-                else if (tipoComponente == "EstadoEmpleados" || tipoComponente == "EstadoArticulos")
-                    Text = text;
-                else if (tipoComponente == "Condicion")
-                    Text = text;
-                else if (tipoComponente == "Ubicacion")
-                    Text = text;
-                else if (tipoComponente == "Proveedor")
-                    Text = text;
-                else if (tipoComponente == "Contrato")
-                    Text = text;
+                Text = $"Editar {tipoComponente}";
             }
         }
 
@@ -635,181 +377,72 @@ namespace ControlInventario.Vistas.Extras
                 con.Open();
 
                 if (tipoComponente == "Cargo" && _vistaPrincipal is ICargosRefrescable cargosVista)
-                {
-                    var dtCargo = CargoRepository.ListarCargos(con);
-                    RefreshService.RefrescarComboDT(cargosVista.CbCargoPublic, dtCargo, "Nombre", "Id", "SELECCIONE");
-                }
-                else if (tipoComponente == "Area" && _vistaPrincipal is IAreasRefrescable areasVista)
-                {
-                    var dtArea = AreaRepository.ListarAreas(con);
-                    RefreshService.RefrescarComboDT(areasVista.CbAreaPublic, dtArea, "Nombre", "Id", "SELECCIONE");
-                }
-                else if (tipoComponente == "EstadoEmpleados" && _vistaPrincipal is IEstadoEmpleadosRefrescable estadosEmpleadosVista)
-                {
-                    var dtEstado = EstadoRepository.ListarEstadosEmpleados(con);
-                    RefreshService.RefrescarComboDT(estadosEmpleadosVista.CbEstadoEmpleadosPublic, dtEstado, "Nombre", "Id", "SELECCIONE");
-                }
-                else if (tipoComponente == "EstadoArticulos" && _vistaPrincipal is IEstadoArticulosRefrescable estadosArticulosVista)
-                {
-                    var dtEstado = EstadoRepository.ListarEstadosArticulos(con);
-                    RefreshService.RefrescarComboDT(estadosArticulosVista.CbEstadoArticulosPublic, dtEstado, "Nombre", "Id", "SELECCIONE");
-                }
-                else if (tipoComponente == "Categoria" && _vistaPrincipal is ICategoriasRefrescable categoriasVista)
-                {
-                    var dtCategoria = CategoriaRepository.ListarCategorias(UsuarioSesion.InventarioId);
-                    RefreshService.RefrescarComboDT(categoriasVista.CbCategoriasPublic, dtCategoria, "Nombre", "Id", "SELECCIONE");
-                }
-                else if (tipoComponente == "Ubicacion" && _vistaPrincipal is IUbicacionRefrescable ubicacionVista)
-                {
-                    var dtUbicacion = UbicacionRepository.ListarUbicacion(con);
-                    RefreshService.RefrescarComboDT(ubicacionVista.CbUbicacionPublic, dtUbicacion, "Nombre", "Id", "SELECCIONE");
-                }
-                else if (tipoComponente == "Condicion" && _vistaPrincipal is ICondicionRefrescable condicionVista)
-                {
-                    var dtCondicion = CondicionRepository.ListarCondicion(con);
-                    RefreshService.RefrescarComboDT(condicionVista.CbCondicionPublic, dtCondicion, "Nombre", "Id", "SELECCIONE");
-                }
-                else if (tipoComponente == "Marca" && _vistaPrincipal is IMarcasRefrescable marcasVista)
-                { 
-                    var dtMarca = MarcasRepository.ListarMarcas(con, CategoriaId); 
-                    RefreshService.RefrescarComboDT(marcasVista.CbMarcasPublic, dtMarca, "Nombre", "Id", "SELECCIONE"); 
-                }
-                else if (tipoComponente == "Proveedor" && _vistaPrincipal is IProveedoreRefrescable proveedorVista)
-                {
-                    var dtProveedor = ProveedorRepository.ListarProveedor(con);
-                    RefreshService.RefrescarComboDT(proveedorVista.CbProveedorPublic, dtProveedor, "Nombre", "Id", "SELECCIONE");
-                }
-                else if (tipoComponente == "Contrato" && _vistaPrincipal is ITipoContratoRefrescable ContratoVista)
-                {
-                    var dtContrato = ProveedorRepository.ListarProveedor(con);
-                    RefreshService.RefrescarComboDT(ContratoVista.CbTipoContratoPublic, dtContrato, "Nombre", "Id", "SELECCIONE");
-                }
+                    RefreshService.RefrescarComboDT(cargosVista.CbCargoPublic, ParametrosRepository.ListarParametros(con, "Cargo"), "Nombre", "Id", "SELECCIONE");
 
+                else if (tipoComponente == "Area" && _vistaPrincipal is IAreasRefrescable areasVista)
+                    RefreshService.RefrescarComboDT(areasVista.CbAreaPublic, ParametrosRepository.ListarParametros(con, "Area"), "Nombre", "Id", "SELECCIONE");
+
+                else if (tipoComponente == "EstadoEmpleados" && _vistaPrincipal is IEstadoEmpleadosRefrescable estEmpVista)
+                    RefreshService.RefrescarComboDT(estEmpVista.CbEstadoEmpleadosPublic, ParametrosRepository.ListarParametros(con, "EstadoEmpleados"), "Nombre", "Id", "SELECCIONE");
+
+                else if (tipoComponente == "EstadoArticulos" && _vistaPrincipal is IEstadoArticulosRefrescable estArtVista)
+                    RefreshService.RefrescarComboDT(estArtVista.CbEstadoArticulosPublic, ParametrosRepository.ListarParametros(con, "EstadoArticulos"), "Nombre", "Id", "SELECCIONE");
+
+                else if (tipoComponente == "Ubicacion" && _vistaPrincipal is IUbicacionRefrescable ubiVista)
+                    RefreshService.RefrescarComboDT(ubiVista.CbUbicacionPublic, ParametrosRepository.ListarParametros(con, "Ubicacion"), "Nombre", "Id", "SELECCIONE");
+
+                else if (tipoComponente == "Condicion" && _vistaPrincipal is ICondicionRefrescable condVista)
+                    RefreshService.RefrescarComboDT(condVista.CbCondicionPublic, ParametrosRepository.ListarParametros(con, "Condicion"), "Nombre", "Id", "SELECCIONE");
+
+                else if (tipoComponente == "Contrato" && _vistaPrincipal is ITipoContratoRefrescable contVista)
+                    RefreshService.RefrescarComboDT(contVista.CbTipoContratoPublic, ParametrosRepository.ListarParametros(con, "Contrato"), "Nombre", "Id", "SELECCIONE");
+
+                else if (tipoComponente == "Categoria" && _vistaPrincipal is ICategoriasRefrescable categoriasVista)
+                    RefreshService.RefrescarComboDT(categoriasVista.CbCategoriasPublic, CategoriaRepository.ListarCategorias(UsuarioSesion.InventarioId), "Nombre", "Id", "SELECCIONE");
+
+                else if (tipoComponente == "Marca" && _vistaPrincipal is IMarcasRefrescable marcasVista)
+                    RefreshService.RefrescarComboDT(marcasVista.CbMarcasPublic, MarcasRepository.ListarMarcas(con, CategoriaId), "Nombre", "Id", "SELECCIONE");
+
+                else if (tipoComponente == "Proveedor" && _vistaPrincipal is IProveedoreRefrescable provVista)
+                    RefreshService.RefrescarComboDT(provVista.CbProveedorPublic, ProveedorRepository.ListarProveedor(con), "Nombre", "Id", "SELECCIONE");
 
                 if (_vistaPrincipal is VistaInventario inventarioVista)
                 {
                     inventarioVista.CargarCategorias();
                 }
-                CargarDatos();
             }
         }
 
         private void BtnEliminar_Click(object sender, EventArgs e)
         {
-            var result = MessageBox.Show($"¿Desea eliminar el {tipoComponente} seleccionado?",
-                "Confirmación",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question
-            );
+            var result = MessageBox.Show($"¿Desea eliminar el {tipoComponente} seleccionado?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (result == DialogResult.Yes)
             {
-                if (tipoComponente == "Cargo")
+                int idEliminar = Convert.ToInt32(DgComponentes.CurrentRow.Cells["IdComponente"].Value);
+                string nombreEliminar = DgComponentes.CurrentRow.Cells["NombreComponente"].Value?.ToString();
+
+                if (EsParametro)
                 {
-                    var car = new Cargo
-                    {
-                        Id = Convert.ToInt32(DgComponentes.CurrentRow.Cells["IdComponente"].Value),
-                        Nombre = DgComponentes.CurrentRow.Cells["NombreComponente"].Value?.ToString() ?? "Sin Nombre"
-                    };
-                    LogsRepository.InsertarLogs($"{tipoComponente}", "Eliminar", $"Se eliminó un {tipoComponente} con el dato: {car.Nombre}");
-                    CargoRepository.EliminarCargo(car);
-                }
-                else if (tipoComponente == "Area")
-                {
-                    var are = new Area
-                    {
-                        Id = Convert.ToInt32(DgComponentes.CurrentRow.Cells["IdComponente"].Value),
-                        Nombre = DgComponentes.CurrentRow.Cells["NombreComponente"].Value?.ToString() ?? "Sin Nombre"
-                    };
-                    LogsRepository.InsertarLogs($"{tipoComponente}", "Eliminar", $"Se eliminó un {tipoComponente} con el dato: {are.Nombre}");
-                    AreaRepository.EliminarArea(are);
+                    ParametrosRepository.EliminarParametros(idEliminar);
                 }
                 else if (tipoComponente == "Categoria")
                 {
-                    var cat = new Categoria
-                    {
-                        Id = Convert.ToInt32(DgComponentes.CurrentRow.Cells["IdComponente"].Value),
-                        Nombre = DgComponentes.CurrentRow.Cells["NombreComponente"].Value?.ToString() ?? "Sin Nombre"
-                    };
-                    LogsRepository.InsertarLogs($"{tipoComponente}", "Eliminar", $"Se eliminó una {tipoComponente} con el dato: {cat.Nombre}");
-                    CategoriaRepository.EliminarCategoria(cat);
-
+                    CategoriaRepository.EliminarCategoria(new Categoria { Id = idEliminar });
                     var helper = new ClassHelper((VistaInventario)_vistaPrincipal);
-                    helper.EliminarBotonCategoria(cat.Id);
+                    helper.EliminarBotonCategoria(idEliminar);
+                }
+                else if (tipoComponente == "Marca") MarcasRepository.EliminarMarca(new Marcas { Id = idEliminar });
+                else if (tipoComponente == "Proveedor") ProveedorRepository.EliminarProveedor(new Proveedor { Id = idEliminar });
 
-                }
-                else if (tipoComponente == "Condicion")
-                {
-                    var cond = new Condicion
-                    {
-                        Id = Convert.ToInt32(DgComponentes.CurrentRow.Cells["IdComponente"].Value),
-                        Nombre = DgComponentes.CurrentRow.Cells["NombreComponente"].Value?.ToString() ?? "Sin Nombre"
-                    };
-                    LogsRepository.InsertarLogs($"{tipoComponente}", "Eliminar", $"Se eliminó una {tipoComponente} con el dato: {cond.Nombre}");
-                    CondicionRepository.EliminarCondicion(cond);
-                }
-                else if (tipoComponente == "Ubicacion")
-                {
-                    var ubi = new Ubicacion
-                    {
-                        Id = Convert.ToInt32(DgComponentes.CurrentRow.Cells["IdComponente"].Value),
-                        Nombre = DgComponentes.CurrentRow.Cells["NombreComponente"].Value?.ToString() ?? "Sin Nombre"
-                    };
-                    LogsRepository.InsertarLogs($"{tipoComponente}", "Eliminar", $"Se eliminó una {tipoComponente} con el dato: {ubi.Nombre}");
-                    UbicacionRepository.EliminarUbicacion(ubi);
-                }
-                else if (tipoComponente == "Marca")
-                {
-                    var mar = new Marcas
-                    {
-                        Id = Convert.ToInt32(DgComponentes.CurrentRow.Cells["IdComponente"].Value),
-                        Nombre = DgComponentes.CurrentRow.Cells["NombreComponente"].Value?.ToString() ?? "Sin Nombre"
-                    };
-                    LogsRepository.InsertarLogs($"{tipoComponente}", "Eliminar", $"Se eliminó una {tipoComponente} con el dato: {mar.Nombre}");
-                    MarcasRepository.EliminarMarca(mar);
-                }
-                else if (tipoComponente == "Proveedor")
-                {
-                    var prov = new Proveedor
-                    {
-                        Id = Convert.ToInt32(DgComponentes.CurrentRow.Cells["IdComponente"].Value),
-                        Ruc = DgComponentes.CurrentRow.Cells["NombreComponente"].Value?.ToString() ?? "Sin Nombre"
-                    };
-                    LogsRepository.InsertarLogs($"{tipoComponente}", "Eliminar", $"Se eliminó un {tipoComponente} con el dato: {prov.Ruc}");
-                    ProveedorRepository.EliminarProveedor(prov);
-                }
-                else if (tipoComponente == "Contrato")
-                {
-                    var cont = new TipoContrato
-                    {
-                        Id = Convert.ToInt32(DgComponentes.CurrentRow.Cells["IdComponente"].Value),
-                        Nombre = DgComponentes.CurrentRow.Cells["NombreComponente"].Value?.ToString() ?? "Sin Nombre"
-                    };
-                    LogsRepository.InsertarLogs($"{tipoComponente}", "Eliminar", $"Se elimnió un {tipoComponente} con el dato: {cont.Nombre}");
-                    TipoContratoRepository.EliminarContrato(cont);
-                }
+                LogsRepository.InsertarLogs(tipoComponente, "Eliminar", $"Se eliminó: {nombreEliminar}");
+                CargarDatos();
             }
-            else
-            {
-                MessageBox.Show($"{tipoComponente} no eliminado.", "Información", 
-                    MessageBoxButtons.OK, 
-                    MessageBoxIcon.Information
-                );
-            }
-
-            CargarDatos();
         }
 
         private void DgComponentes_CellStateChanged(object sender, DataGridViewCellStateChangedEventArgs e)
         {
-            if(DgComponentes.Focus())
-            {
-                BtnEliminar.Enabled = true;
-            }
-            else
-            {
-                BtnEliminar.Enabled = false;
-            }
+            BtnEliminar.Enabled = DgComponentes.Focus();
         }
 
         private async void BtnConsultarRUC_Click(object sender, EventArgs e)
@@ -820,7 +453,6 @@ namespace ControlInventario.Vistas.Extras
             if (empresa != null)
             {
                 TxtDescripcionComponente.Text = empresa.nombre;
-
                 direccionTemporal = $"{empresa.direccion} - {empresa.distrito}, {empresa.provincia}";
                 estadoTemporalTexto = empresa.estado;
                 estadoTemporalId = ApiHelper.MapearEstadoSunat(empresa.estado);

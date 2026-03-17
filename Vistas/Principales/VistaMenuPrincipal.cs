@@ -117,38 +117,5 @@ namespace ControlInventario.Vistas
             vistaSesion.ShowDialog();
             this.Close();
         }
-
-        private void EvaluarNotificaciones (string nombreEmpleado, DateTime fechaIngreso, DateTime ultimoRegistro)
-        {
-            if (fechaIngreso.Month == DateTime.Now.Month &&
-                fechaIngreso.Day == DateTime.Now.Day &&
-                fechaIngreso.Year < DateTime.Now.Year)
-            {
-                int anios = DateTime.Now.Year - fechaIngreso.Year;
-                MostrarNotificacionWindows("¡Feliz Aniversario laboral!",
-                $"Felicidades por cumplir {anios} año(s) en tu puesto, {nombreEmpleado}. ¡Sigue así!");
-                return;
-            }
-
-            TimeSpan tiempoSinRegistros = DateTime.Now - ultimoRegistro;
-            if (tiempoSinRegistros.TotalDays >= 2)
-            {
-                MostrarNotificacionWindows("Inventario desactualizado",
-                    "No descuides tu inventario, el trabajo de hoy puede ser tu martirio de mañana.");
-                return;
-            }
-
-            DateTime inicioJornada = DateTime.Today.AddHours(8);
-            if (DateTime.Now >= inicioJornada.AddHours(4))
-            {
-                MostrarNotificacionWindows("Te estábamos esperando",
-                    "El inventario está esperando una actualización tuya.");
-            }
-        }
-
-        private void MostrarNotificacionWindows (string titulo, string mensaje)
-        {
-            NotificacionesWindows.ShowBalloonTip(5000, titulo, mensaje, ToolTipIcon.Info);
-        }
     }
 }

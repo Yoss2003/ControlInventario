@@ -19,20 +19,30 @@ namespace ControlInventario.Database
                 FechaNacimiento TEXT NOT NULL,
                 Usuario TEXT NOT NULL UNIQUE,
                 Contraseña TEXT NOT NULL,
-                IdCargo INT NOT NULL,
-                Cargo TEXT NOT NULL,
-                IdArea INT NOT NULL,
-                Area TEXT NOT NULL,
-                FechaIngreso TEXT,
-                IdTipoContrato INT,
-                TipoContrato TEXT,
-                IdRol INTEGER NOT NULL,
-                Rol TEXT NOT NULL
+                IdCargo INTEGER NOT NULL,
+                IdArea INTEGER NOT NULL,
+                FechaIngreso TEXT NOT NULL,
+                IdTipoContrato INTEGER NOT NULL,
+                IdRol INTEGER NOT NULL
             );";
             using (var cmd = new SQLiteCommand(query, con))
             {
                 cmd.ExecuteNonQuery();
             }
+            string queryVista = @"
+            CREATE VIEW IF NOT EXISTS vw_Usuarios AS
+            SELECT 
+                u.*,
+                c.Nombre AS Cargo,
+                a.Nombre AS Area,
+                t.Nombre AS TipoContrato,
+                r.Nombre AS Rol
+            FROM Usuario u
+            LEFT JOIN Parametros c ON u.IdCargo = c.Id
+            LEFT JOIN Parametros a ON u.IdArea = a.Id
+            LEFT JOIN Parametros t ON u.IdTipoContrato = t.Id
+            LEFT JOIN Parametros r ON u.IdRol = r.Id;";
+            using (var cmd = new SQLiteCommand(queryVista, con)) { cmd.ExecuteNonQuery(); }
         }
 
         // Insertar nuevo empleado
@@ -48,14 +58,10 @@ namespace ControlInventario.Database
                 Usuario, 
                 Contraseña, 
                 IdCargo, 
-                Cargo, 
                 IdArea,  
-                Area, 
                 FechaIngreso, 
                 IdTipoContrato,
-                TipoContrato,
-                IdRol,
-                Rol
+                IdRol
             ) VALUES (
                 @Nombres, 
                 @Apellidos, 
@@ -65,14 +71,10 @@ namespace ControlInventario.Database
                 @Usuario, 
                 @Contraseña, 
                 @IdCargo, 
-                @Cargo, 
                 @IdArea, 
-                @Area, 
                 @FechaIngreso, 
                 @IdTipoContrato,
-                @TipoContrato,
-                @IdRol,
-                @Rol
+                @IdRol
             );";
 
             using (var cmd = new SQLiteCommand(query, con))
@@ -85,14 +87,10 @@ namespace ControlInventario.Database
                 cmd.Parameters.AddWithValue("@Usuario", emp.NombreUsuario);
                 cmd.Parameters.AddWithValue("@Contraseña", emp.Contraseña);
                 cmd.Parameters.AddWithValue("@IdCargo", emp.IdCargo);
-                cmd.Parameters.AddWithValue("@Cargo", emp.Cargo);
                 cmd.Parameters.AddWithValue("@IdArea", emp.IdArea);
-                cmd.Parameters.AddWithValue("@Area", emp.Area);
                 cmd.Parameters.AddWithValue("@FechaIngreso", emp.FechaIngreso);
                 cmd.Parameters.AddWithValue("@IdTipoContrato", emp.IdTipoContrato);
-                cmd.Parameters.AddWithValue("@TipoContrato", emp.TipoContrato);
                 cmd.Parameters.AddWithValue("@IdRol", emp.IdRol);
-                cmd.Parameters.AddWithValue("@Rol", emp.Rol);
 
                 cmd.ExecuteNonQuery();
             }
@@ -119,12 +117,11 @@ namespace ControlInventario.Database
                         FechaNacimiento=@FechaNacimiento, 
                         Usuario=@Usuario, 
                         Contraseña=@Contraseña,
-                        Cargo=@Cargo, 
-                        Area=@Area,
+                        IdCargo=@IdCargo, 
+                        IdArea=@IdArea,
                         FechaIngreso=@FechaIngreso, 
-                        TipoContrato=@TipoContrato,
-                        IdRol=@IdRol,
-                        Rol=@Rol
+                        IdTipoContrato=@IdTipoContrato,
+                        IdRol=@IdRol
                     WHERE Id=@Id;";
 
                 using (var cmd = new SQLiteCommand(query, con))
@@ -133,15 +130,14 @@ namespace ControlInventario.Database
                     cmd.Parameters.AddWithValue("@Apellidos", emp.Apellidos);
                     cmd.Parameters.AddWithValue("@Correo", emp.Correo);
                     cmd.Parameters.AddWithValue("@Edad", emp.Edad);
+                    cmd.Parameters.AddWithValue("@IdCargo", emp.IdCargo);
+                    cmd.Parameters.AddWithValue("@IdArea", emp.IdArea);
                     cmd.Parameters.AddWithValue("@FechaNacimiento", emp.FechaNacimiento);
                     cmd.Parameters.AddWithValue("@Usuario", emp.NombreUsuario);
                     cmd.Parameters.AddWithValue("@Contraseña", emp.Contraseña);
-                    cmd.Parameters.AddWithValue("@Cargo", emp.Cargo);
-                    cmd.Parameters.AddWithValue("@Area", emp.Area);
                     cmd.Parameters.AddWithValue("@FechaIngreso", emp.FechaIngreso);
-                    cmd.Parameters.AddWithValue("@TipoContrato", emp.TipoContrato);
+                    cmd.Parameters.AddWithValue("@IdTipoContrato", emp.@IdTipoContrato);
                     cmd.Parameters.AddWithValue("@IdRol", emp.IdRol);
-                    cmd.Parameters.AddWithValue("@Rol", emp.Rol);
                     cmd.Parameters.AddWithValue("@Id", emp.Id);
                     cmd.ExecuteNonQuery();
                 }
@@ -205,12 +201,8 @@ namespace ControlInventario.Database
                 FechaNacimiento = DateTime.Parse(reader["FechaNacimiento"].ToString()),
                 NombreUsuario = reader["Usuario"].ToString(),
                 Contraseña = reader["Contraseña"].ToString(),
-                Cargo = reader["Cargo"].ToString(),
-                Area = reader["Area"].ToString(),
                 FechaIngreso = DateTime.Parse(reader["FechaIngreso"].ToString()),
-                TipoContrato = reader["TipoContrato"].ToString(),
                 IdRol = Convert.ToInt32(reader["IdRol"]),
-                Rol = reader["Rol"].ToString()
             };
         }
 

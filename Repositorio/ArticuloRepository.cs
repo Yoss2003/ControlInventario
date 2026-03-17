@@ -1,12 +1,9 @@
 ﻿using ControlInventario.Modelos;
 using ControlInventario.Servicios;
-using ControlInventario.Vistas;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.Data.SQLite;
-using System.IO;
 
 namespace ControlInventario.Database
 {
@@ -14,7 +11,8 @@ namespace ControlInventario.Database
     {
         public static void CrearTablaArticulos(SQLiteConnection con)
         {
-            string query = @"
+            // 1. CREAMOS LA TABLA LIMPIA (Sin textos redundantes de catálogos)
+            string queryTabla = @"
             CREATE TABLE IF NOT EXISTS Articulos (
                 Id INTEGER PRIMARY KEY AUTOINCREMENT,
                 InventarioId INTEGER NOT NULL,
@@ -22,31 +20,16 @@ namespace ControlInventario.Database
                 Modelo TEXT NOT NULL,
                 Serie TEXT NOT NULL,
                 IdMarca INTEGER NOT NULL,
-                Marca TEXT NOT NULL,                
                 FechaAdquisicion TEXT NOT NULL,
                 FechaBaja TEXT,
                 FechaFinGarantia TEXT,
 
-                DniUsuarioActual TEXT NOT NULL,
-                NombreUsuarioActual TEXT,
-                IdAreaUsuarioActual INTEGER,
-                AreaUsuarioActual TEXT,                
-                IdCargoUsuarioActual INTEGER,
-                CargoUsuarioActual TEXT,
-
-                DniUsuarioAnterior TEXT,
-                NombreUsuarioAnterior TEXT,
-                IdAreaUsuarioAnterior INTEGER,
-                AreaUsuarioAnterior TEXT,                
-                IdCargoUsuarioAnterior INTEGER,
-                CargoUsuarioAnterior TEXT,
+                EmpleadoActualId INTEGER,
+                EmpleadoAnteriorId INTEGER,
 
                 IdEstado INTEGER NOT NULL,
-                Estado TEXT NOT NULL,
                 IdUbicacion INTEGER NOT NULL,
-                Ubicacion TEXT NOT NULL,
                 IdCondicion INTEGER NOT NULL,
-                Condicion TEXT NOT NULL,
                 ActivoFijo TEXT,
 
                 Observacion TEXT,
@@ -61,18 +44,46 @@ namespace ControlInventario.Database
                 VidaUtilMeses INTEGER,
 
                 CategoriaId INTEGER NOT NULL,
-                Categoria TEXT NOT NULL,
 
                 FechaRegistro TEXT,
                 FechaModificacion TEXT,
                 Accion TEXT,
 
                 Caracteristicas BOOL,
-                FOREIGN KEY (CategoriaId) REFERENCES Categorias(Id)
+                FOREIGN KEY (CategoriaId) REFERENCES Categorias(Id),
+                FOREIGN KEY (EmpleadoActualId) REFERENCES Empleados(Id),
+                FOREIGN KEY (EmpleadoAnteriorId) REFERENCES Empleados(Id)
             );";
-            using (var cmd = new SQLiteCommand(query, con))
+
+            using (var cmd = new SQLiteCommand(queryTabla, con))
             {
                 cmd.ExecuteNonQuery();
+            }
+
+            // 2. CREAMOS LA VISTA SQL (El traductor automático de IDs a Textos)
+            string queryVista = @"
+            CREATE VIEW IF NOT EXISTS vw_Articulos AS
+            SELECT 
+                a.*,
+                c.Nombre AS CategoriaTexto,
+                m.Nombre AS MarcaTexto,
+                e.Nombre AS EstadoTexto,
+                u.Nombre AS UbicacionTexto,
+                cond.Nombre AS CondicionTexto,
+                empAct.Nombres || ' ' || empAct.Apellidos AS EmpleadoActualTexto,
+                empAnt.Nombres || ' ' || empAnt.Apellidos AS EmpleadoAnteriorTexto
+            FROM Articulos a
+            LEFT JOIN Categorias c ON a.CategoriaId = c.Id
+            LEFT JOIN Marcas m ON a.IdMarca = m.Id
+            LEFT JOIN Parametros e ON a.IdEstado = e.Id
+            LEFT JOIN Parametros u ON a.IdUbicacion = u.Id
+            LEFT JOIN Parametros cond ON a.IdCondicion = cond.Id
+            LEFT JOIN Empleados empAct ON a.EmpleadoActualId = empAct.Id
+            LEFT JOIN Empleados empAnt ON a.EmpleadoAnteriorId = empAnt.Id;";
+
+            using (var cmdVista = new SQLiteCommand(queryVista, con))
+            {
+                cmdVista.ExecuteNonQuery();
             }
         }
 
@@ -92,108 +103,21 @@ namespace ControlInventario.Database
         {
             string query = @"
             INSERT INTO Articulos(
-                InventarioId,
-                Codigo,
-                Modelo,
-                Serie,
-                IdMarca,
-                Marca,
-                FechaAdquisicion,
-                FechaBaja,
-                FechaFinGarantia,
-
-                DniUsuarioActual,
-                NombreUsuarioActual,
-                IdAreaUsuarioActual,
-                AreaUsuarioActual,
-                IdCargoUsuarioActual,
-                CargoUsuarioActual,
-
-                DniUsuarioAnterior,
-                NombreUsuarioAnterior,
-                IdAreaUsuarioAnterior,
-                AreaUsuarioAnterior,
-                IdCargoUsuarioAnterior,
-                CargoUsuarioAnterior,
-
-                IdEstado,
-                Estado,
-                IdUbicacion,
-                Ubicacion,
-                IdCondicion,
-                Condicion,
-                ActivoFijo,
-
-                Observacion,
-                RutaFotoPrincipal,
-                RutaFotoSecundaria,
-                RutaComprobantePrincipal,
-                RutaComprobanteSecundaria,
-
-                RucProveedor,
-                Proveedor,
-                PrecioAdquisicion,
-                VidaUtilMeses,
-
-                CategoriaId,
-                Categoria,
-
-                FechaRegistro,
-                Accion
+                InventarioId, Codigo, Modelo, Serie, IdMarca, FechaAdquisicion, FechaBaja, FechaFinGarantia,
+                EmpleadoActualId, EmpleadoAnteriorId,
+                IdEstado, IdUbicacion, IdCondicion, ActivoFijo, Observacion, RutaFotoPrincipal, RutaFotoSecundaria, 
+                RutaComprobantePrincipal, RutaComprobanteSecundaria, RucProveedor, Proveedor, PrecioAdquisicion, VidaUtilMeses, 
+                CategoriaId, FechaRegistro, Accion
             ) VALUES (
-                @InventarioId,
-                @Codigo,
-                @Modelo,
-                @Serie,
-                @IdMarca,
-                @Marca,
-                @FechaAdquisicion,
-                @FechaBaja,
-                @FechaFinGarantia,
-
-                @DniUsuarioActual,
-                @NombreUsuarioActual,
-                @IdAreaUsuarioActual,
-                @AreaUsuarioActual,
-                @IdCargoUsuarioActual,
-                @CargoUsuarioActual,
-
-                @DniUsuarioAnterior,
-                @NombreUsuarioAnterior,
-                @IdAreaUsuarioAnterior,
-                @AreaUsuarioAnterior,
-                @IdCargoUsuarioAnterior,
-                @CargoUsuarioAnterior,
-
-                @IdEstado,
-                @Estado,
-                @IdUbicacion,
-                @Ubicacion,
-                @IdCondicion,
-                @Condicion,
-                @ActivoFijo,
-
-                @Observacion,
-                @RutaFotoPrincipal,
-                @RutaFotoSecundaria,
-                @RutaComprobantePrincipal,
-                @RutaComprobanteSecundaria,
-
-                @RucProveedor,
-                @Proveedor,
-                @PrecioAdquisicion,
-                @VidaUtilMeses,
-
-                @CategoriaId,
-                @Categoria,
-
-                @FechaRegistro,
-                @Accion
+                @InventarioId, @Codigo, @Modelo, @Serie, @IdMarca, @FechaAdquisicion, @FechaBaja, @FechaFinGarantia,
+                @EmpleadoActualId, @EmpleadoAnteriorId,
+                @IdEstado, @IdUbicacion, @IdCondicion, @ActivoFijo, @Observacion, @RutaFotoPrincipal, @RutaFotoSecundaria, 
+                @RutaComprobantePrincipal, @RutaComprobanteSecundaria, @RucProveedor, @Proveedor, @PrecioAdquisicion, @VidaUtilMeses, 
+                @CategoriaId, @FechaRegistro, @Accion
             );";
 
             using (var cmd = new SQLiteCommand(query, con))
             {
-
                 art.CategoriaId = ObtenerCategoriaId(art.Categoria, UsuarioSesion.InventarioId, con);
 
                 cmd.Parameters.AddWithValue("@InventarioId", art.InventarioId);
@@ -201,35 +125,19 @@ namespace ControlInventario.Database
                 cmd.Parameters.AddWithValue("@Modelo", art.Modelo);
                 cmd.Parameters.AddWithValue("@Serie", art.Serie);
                 cmd.Parameters.AddWithValue("@IdMarca", art.IdMarca);
-                cmd.Parameters.AddWithValue("@Marca", art.Marca);
                 cmd.Parameters.AddWithValue("@FechaAdquisicion", art.FechaAdquisicion.ToString("yyyy-MM-dd"));
                 cmd.Parameters.AddWithValue("@FechaBaja", art.FechaBaja.HasValue ? art.FechaBaja.Value.ToString("yyyy-MM-dd") : (object)DBNull.Value);
                 cmd.Parameters.AddWithValue("@FechaFinGarantia", art.FechaFinGarantia.HasValue ? art.FechaFinGarantia.Value.ToString("yyyy-MM-dd") : (object)DBNull.Value);
 
-                cmd.Parameters.AddWithValue("@DniUsuarioActual", art.DniUsuarioActual);
-                cmd.Parameters.AddWithValue("@NombreUsuarioActual", art.NombreUsuarioActual);
-                cmd.Parameters.AddWithValue("@IdAreaUsuarioActual", art.IdAreaUsuarioActual);
-                cmd.Parameters.AddWithValue("@AreaUsuarioActual", art.AreaUsuarioActual);
-                cmd.Parameters.AddWithValue("@IdCargoUsuarioActual", art.IdCargoUsuarioActual);
-                cmd.Parameters.AddWithValue("@CargoUsuarioActual", art.CargoUsuarioActual);
-
-                cmd.Parameters.AddWithValue("@DniUsuarioAnterior", art.DniUsuarioAnterior);
-                cmd.Parameters.AddWithValue("@NombreUsuarioAnterior", art.NombreUsuarioAnterior);
-                cmd.Parameters.AddWithValue("@IdAreaUsuarioAnterior", art.IdAreaUsuarioAnterior);
-                cmd.Parameters.AddWithValue("@AreaUsuarioAnterior", art.AreaUsuarioAnterior);
-                cmd.Parameters.AddWithValue("@IdCargoUsuarioAnterior", art.IdCargoUsuarioAnterior);
-                cmd.Parameters.AddWithValue("@CargoUsuarioAnterior", art.CargoUsuarioAnterior);
+                cmd.Parameters.AddWithValue("@EmpleadoActualId", art.EmpleadoActualId ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@EmpleadoAnteriorId", art.EmpleadoAnteriorId ?? (object)DBNull.Value);
 
                 cmd.Parameters.AddWithValue("@IdEstado", art.IdEstado);
-                cmd.Parameters.AddWithValue("@Estado", art.Estado);
                 cmd.Parameters.AddWithValue("@IdUbicacion", art.IdUbicacion);
-                cmd.Parameters.AddWithValue("@Ubicacion", art.Ubicacion);
                 cmd.Parameters.AddWithValue("@IdCondicion", art.IdCondicion);
-                cmd.Parameters.AddWithValue("@Condicion", art.Condicion);
                 cmd.Parameters.AddWithValue("@ActivoFijo", art.ActivoFijo);
 
                 cmd.Parameters.AddWithValue("@Observacion", art.Observacion);
-
                 cmd.Parameters.AddWithValue("@RutaFotoPrincipal", art.FotoPrincipal);
                 cmd.Parameters.AddWithValue("@RutaFotoSecundaria", art.FotoSecundaria);
                 cmd.Parameters.AddWithValue("@RutaComprobantePrincipal", art.ComprobantePrincipal);
@@ -241,24 +149,21 @@ namespace ControlInventario.Database
                 cmd.Parameters.AddWithValue("@VidaUtilMeses", art.VidaUtilMeses ?? (object)DBNull.Value);
 
                 cmd.Parameters.AddWithValue("@CategoriaId", art.CategoriaId);
-                cmd.Parameters.AddWithValue("@Categoria", art.Categoria);
-
                 cmd.Parameters.AddWithValue("@FechaRegistro", art.FechaRegistro.ToString("yyyy-MM-dd"));
-                cmd.Parameters.AddWithValue("@Accion", "Ingreso"); 
+                cmd.Parameters.AddWithValue("@Accion", "Ingreso");
                 cmd.ExecuteNonQuery();
             }
 
-            using (var cmd = new SQLiteCommand("SELECT last_insert_rowid();", con)) 
-            { 
-                art.Id = Convert.ToInt32(cmd.ExecuteScalar()); 
+            using (var cmd = new SQLiteCommand("SELECT last_insert_rowid();", con))
+            {
+                art.Id = Convert.ToInt32(cmd.ExecuteScalar());
             }
 
             if (art.Caracteristicas != null && art.Caracteristicas.Count > 0)
             {
-                var caracteristicasRepo = new CaracteristicaRepository();
                 foreach (var car in art.Caracteristicas)
                 {
-                    car.ArticuloId = art.Id; 
+                    car.ArticuloId = art.Id;
                     CaracteristicaRepository.InsertarCaracteristica(car, con);
                 }
             }
@@ -271,88 +176,35 @@ namespace ControlInventario.Database
                 con.Open();
                 string query = @"
                 UPDATE Articulos SET
-                    Codigo = @Codigo,
-                    Modelo = @Modelo,
-                    Serie = @Serie,
-                    IdMarca = @IdMarca,
-                    Marca = @Marca,                    
-                    FechaAdquisicion = @FechaAdquisicion,
-                    FechaBaja = @FechaBaja,
-                    FechaFinGarantia = @FechaFinGarantia,
-
-                    DniUsuarioActual = @DniUsuarioActual,
-                    NombreUsuarioActual = @NombreUsuarioActual,
-                    IdAreaUsuarioActual = @IdAreaUsuarioActual,
-                    AreaUsuarioActual = @AreaUsuarioActual,
-                    IdCargoUsuarioActual = @IdCargoUsuarioActual,
-                    CargoUsuarioActual = @CargoUsuarioActual,
-
-                    DniUsuarioAnterior = @DniUsuarioAnterior,
-                    NombreUsuarioAnterior = @NombreUsuarioAnterior,
-                    IdAreaUsuarioAnterior = @IdAreaUsuarioAnterior,
-                    AreaUsuarioAnterior = @AreaUsuarioAnterior,
-                    IdCargoUsuarioAnterior = @IdCargoUsuarioAnterior,
-                    CargoUsuarioAnterior = @CargoUsuarioAnterior,
-
-                    IdEstado = @IdEstado,
-                    Estado = @Estado,
-                    IdUbicacion = @IdUbicacion,
-                    Ubicacion = @Ubicacion,
-                    IdCondicion = @IdCondicion,
-                    Condicion = @Condicion,
-                    ActivoFijo = @ActivoFijo,
-
-                    Observacion = @Observacion,
-
-                    RutaFotoPrincipal = @RutaFotoPrincipal,
-                    RutaFotoSecundaria = @RutaFotoSecundaria,
-                    RutaComprobantePrincipal = @RutaComprobantePrincipal,
-                    RutaComprobanteSecundaria = @RutaComprobanteSecundaria,
-
-                    RucProveedor = @RucProveedor,
-                    Proveedor = @Proveedor,
-                    PrecioAdquisicion = @PrecioAdquisicion,
-                    VidaUtilMeses = @VidaUtilMeses,
-
-                    FechaModificacion = @FechaModificacion,
-                    Accion = @Accion
+                    Codigo = @Codigo, Modelo = @Modelo, Serie = @Serie, IdMarca = @IdMarca, 
+                    FechaAdquisicion = @FechaAdquisicion, FechaBaja = @FechaBaja, FechaFinGarantia = @FechaFinGarantia,
+                    EmpleadoActualId = @EmpleadoActualId, EmpleadoAnteriorId = @EmpleadoAnteriorId, 
+                    IdEstado = @IdEstado, IdUbicacion = @IdUbicacion, IdCondicion = @IdCondicion, ActivoFijo = @ActivoFijo,
+                    Observacion = @Observacion, RutaFotoPrincipal = @RutaFotoPrincipal, RutaFotoSecundaria = @RutaFotoSecundaria, 
+                    RutaComprobantePrincipal = @RutaComprobantePrincipal, RutaComprobanteSecundaria = @RutaComprobanteSecundaria,
+                    RucProveedor = @RucProveedor, Proveedor = @Proveedor, PrecioAdquisicion = @PrecioAdquisicion, 
+                    VidaUtilMeses = @VidaUtilMeses, FechaModificacion = @FechaModificacion, Accion = @Accion
                 WHERE Id = @Id;";
 
                 using (var cmd = new SQLiteCommand(query, con))
-                { 
+                {
                     cmd.Parameters.AddWithValue("@Codigo", art.Codigo);
                     cmd.Parameters.AddWithValue("@Modelo", art.Modelo);
                     cmd.Parameters.AddWithValue("@Serie", art.Serie);
                     cmd.Parameters.AddWithValue("@IdMarca", art.IdMarca);
-                    cmd.Parameters.AddWithValue("@Marca", art.Marca);
                     cmd.Parameters.AddWithValue("@FechaAdquisicion", art.FechaAdquisicion);
                     cmd.Parameters.AddWithValue("@FechaBaja", art.FechaBaja ?? (object)DBNull.Value);
                     cmd.Parameters.AddWithValue("@FechaFinGarantia", art.FechaFinGarantia ?? (object)DBNull.Value);
 
-                    cmd.Parameters.AddWithValue("@DniUsuarioActual", art.DniUsuarioActual);
-                    cmd.Parameters.AddWithValue("@NombreUsuarioActual", art.NombreUsuarioActual);
-                    cmd.Parameters.AddWithValue("@IdAreaUsuarioActual", art.IdAreaUsuarioActual);
-                    cmd.Parameters.AddWithValue("@AreaUsuarioActual", art.AreaUsuarioActual);
-                    cmd.Parameters.AddWithValue("@IdCargoUsuarioActual", art.IdCargoUsuarioActual);
-                    cmd.Parameters.AddWithValue("@CargoUsuarioActual", art.CargoUsuarioActual);
-
-                    cmd.Parameters.AddWithValue("@DniUsuarioAnterior", art.DniUsuarioAnterior);
-                    cmd.Parameters.AddWithValue("@NombreUsuarioAnterior", art.NombreUsuarioAnterior);
-                    cmd.Parameters.AddWithValue("@IdAreaUsuarioAnterior", art.IdAreaUsuarioAnterior);
-                    cmd.Parameters.AddWithValue("@AreaUsuarioAnterior", art.AreaUsuarioAnterior);
-                    cmd.Parameters.AddWithValue("@IdCargoUsuarioAnterior", art.IdCargoUsuarioAnterior);
-                    cmd.Parameters.AddWithValue("@CargoUsuarioAnterior", art.CargoUsuarioAnterior);
+                    cmd.Parameters.AddWithValue("@EmpleadoActualId", art.EmpleadoActualId ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@EmpleadoAnteriorId", art.EmpleadoAnteriorId ?? (object)DBNull.Value);
 
                     cmd.Parameters.AddWithValue("@IdEstado", art.IdEstado);
-                    cmd.Parameters.AddWithValue("@Estado", art.Estado);
                     cmd.Parameters.AddWithValue("@IdUbicacion", art.IdUbicacion);
-                    cmd.Parameters.AddWithValue("@Ubicacion", art.Ubicacion);
                     cmd.Parameters.AddWithValue("@IdCondicion", art.IdCondicion);
-                    cmd.Parameters.AddWithValue("@Condicion", art.Condicion);
                     cmd.Parameters.AddWithValue("@ActivoFijo", art.ActivoFijo);
 
                     cmd.Parameters.AddWithValue("@Observacion", art.Observacion);
-
                     cmd.Parameters.AddWithValue("@RutaFotoPrincipal", art.FotoPrincipal);
                     cmd.Parameters.AddWithValue("@RutaFotoSecundaria", art.FotoSecundaria);
                     cmd.Parameters.AddWithValue("@RutaComprobantePrincipal", art.ComprobantePrincipal);
@@ -367,14 +219,11 @@ namespace ControlInventario.Database
                     cmd.Parameters.AddWithValue("@FechaModificacion", art.FechaModificacion.ToString("yyyy-MM-dd"));
                     cmd.Parameters.AddWithValue("@Accion", "Modificado");
                     cmd.ExecuteNonQuery();
-
                 }
-
             }
 
             if (art.Caracteristicas != null && art.Caracteristicas.Count > 0)
             {
-                var caracteristicasRepo = new CaracteristicaRepository();
                 foreach (var car in art.Caracteristicas)
                 {
                     car.ArticuloId = art.Id;
@@ -383,22 +232,18 @@ namespace ControlInventario.Database
             }
         }
 
-        public static int EliminarArticulo(int id)  
+        public static int EliminarArticulo(int id)
         {
             using (var con = ConexionGlobal.ObtenerConexion())
             {
                 con.Open();
-
-                // Primero eliminar características asociadas
                 CaracteristicaRepository.EliminarCaracteristica(id);
 
-                // Luego eliminar el artículo
                 string query = @"DELETE FROM Articulos WHERE Id = @Id;";
                 using (var cmd = new SQLiteCommand(query, con))
                 {
                     cmd.Parameters.AddWithValue("@Id", id);
-                    int filas = cmd.ExecuteNonQuery();
-                    return filas;
+                    return cmd.ExecuteNonQuery();
                 }
             }
         }
@@ -406,22 +251,14 @@ namespace ControlInventario.Database
         public static List<Articulos> ListarArticulos(int categoriaId)
         {
             var lista = new List<Articulos>();
-
             using (var con = ConexionGlobal.ObtenerConexion())
             {
                 con.Open();
-
-                string query = @"
-                    SELECT art.*, cat.Nombre AS CategoriaNombre
-                    FROM Articulos art
-                    INNER JOIN Categorias cat ON art.CategoriaId = cat.Id
-                    WHERE art.CategoriaId = @CategoriaId;
-                ";
+                string query = "SELECT * FROM vw_Articulos WHERE CategoriaId = @CategoriaId;";
 
                 using (var cmd = new SQLiteCommand(query, con))
                 {
                     cmd.Parameters.AddWithValue("@CategoriaId", categoriaId);
-
                     using (var reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
@@ -433,28 +270,22 @@ namespace ControlInventario.Database
                     }
                 }
             }
-
             return lista;
         }
 
         public static List<Articulos> BuscarArticulos(DateTime? fechaInicio, DateTime? fechaFin, string categoria)
         {
             var lista = new List<Articulos>();
-
             using (var con = ConexionGlobal.ObtenerConexion())
             {
                 con.Open();
                 string query = @"
-                    SELECT art.*
-                    FROM Articulos art
-                    INNER JOIN Categorias cat ON art.CategoriaId = cat.Id
-                    WHERE (@Categoria IS NULL OR cat.Nombre = @Categoria)
-                      AND (@FechaInicio IS NULL OR art.FechaRegistro >= @FechaInicio)
-                      AND (@FechaFin IS NULL OR art.FechaRegistro <= @FechaFin);
-                ";
+                    SELECT * FROM vw_Articulos 
+                    WHERE (@Categoria IS NULL OR CategoriaTexto = @Categoria)
+                      AND (@FechaInicio IS NULL OR FechaRegistro >= @FechaInicio)
+                      AND (@FechaFin IS NULL OR FechaRegistro <= @FechaFin);";
                 using (var cmd = new SQLiteCommand(query, con))
                 {
-                    // Parámetros seguros
                     cmd.Parameters.AddWithValue("@Categoria", string.IsNullOrEmpty(categoria) ? (object)DBNull.Value : categoria);
                     cmd.Parameters.AddWithValue("@FechaInicio", fechaInicio.HasValue ? fechaInicio.Value : (object)DBNull.Value);
                     cmd.Parameters.AddWithValue("@FechaFin", fechaFin.HasValue ? fechaFin.Value : (object)DBNull.Value);
@@ -467,9 +298,9 @@ namespace ControlInventario.Database
                             {
                                 Id = reader.GetInt32(reader.GetOrdinal("Id")),
                                 Codigo = reader["Codigo"].ToString(),
-                                Categoria = reader["Categoria"].ToString(),
+                                Categoria = reader["CategoriaTexto"].ToString(),
                                 Accion = reader["Accion"].ToString(),
-                                AreaUsuarioActual = reader["AreaUsuarioActual"].ToString(),
+                                EmpleadoActualTexto = reader["EmpleadoActualTexto"]?.ToString(),
                                 FechaRegistro = Convert.ToDateTime(reader["FechaRegistro"]),
                                 Observacion = reader["Observacion"].ToString(),
                             });
@@ -486,10 +317,8 @@ namespace ControlInventario.Database
             using (var con = ConexionGlobal.ObtenerConexion())
             {
                 con.Open();
-
-                // 1. La base siempre filtra por el Inventario y la Categoría seleccionada
                 string query = @"
-                SELECT * FROM Articulos 
+                SELECT * FROM vw_Articulos 
                 WHERE InventarioId = @InventarioId 
                   AND CategoriaId = @CategoriaId
                   AND (@Codigo IS NULL OR Codigo LIKE @CodigoBusqueda)
@@ -501,12 +330,9 @@ namespace ControlInventario.Database
                 {
                     cmd.Parameters.AddWithValue("@InventarioId", inventarioId);
                     cmd.Parameters.AddWithValue("@CategoriaId", categoriaId);
-
                     cmd.Parameters.AddWithValue("@Codigo", string.IsNullOrWhiteSpace(codigo) ? (object)DBNull.Value : codigo);
                     cmd.Parameters.AddWithValue("@CodigoBusqueda", $"%{codigo}%");
-
                     cmd.Parameters.AddWithValue("@IdMarca", idMarca);
-
                     cmd.Parameters.AddWithValue("@FechaInicio", fechaInicio.HasValue ? fechaInicio.Value.ToString("yyyy-MM-dd") : (object)DBNull.Value);
                     cmd.Parameters.AddWithValue("@FechaFin", fechaFin.HasValue ? fechaFin.Value.ToString("yyyy-MM-dd") : (object)DBNull.Value);
 
@@ -516,6 +342,14 @@ namespace ControlInventario.Database
                     }
                 }
             }
+            // Renombrar columnas del DataTable para que hagan match con el DataGridView/ListView
+            if (dt.Columns.Contains("MarcaTexto")) dt.Columns["MarcaTexto"].ColumnName = "Marca";
+            if (dt.Columns.Contains("EstadoTexto")) dt.Columns["EstadoTexto"].ColumnName = "Estado";
+            if (dt.Columns.Contains("UbicacionTexto")) dt.Columns["UbicacionTexto"].ColumnName = "Ubicacion";
+            if (dt.Columns.Contains("CondicionTexto")) dt.Columns["CondicionTexto"].ColumnName = "Condicion";
+            if (dt.Columns.Contains("CategoriaTexto")) dt.Columns["CategoriaTexto"].ColumnName = "Categoria";
+            if (dt.Columns.Contains("EmpleadoActualTexto")) dt.Columns["EmpleadoActualTexto"].ColumnName = "Usuario Actual";
+
             return dt;
         }
 
@@ -527,33 +361,26 @@ namespace ControlInventario.Database
                 Codigo = reader["Codigo"]?.ToString(),
                 Modelo = reader["Modelo"]?.ToString(),
                 Serie = reader["Serie"]?.ToString(),
+
                 IdMarca = reader["IdMarca"] != DBNull.Value ? Convert.ToInt32(reader["IdMarca"]) : 0,
-                Marca = reader["Marca"]?.ToString(),
+                Marca = reader["MarcaTexto"]?.ToString(),
 
-                FechaAdquisicion = reader["FechaAdquisicion"] != DBNull.Value? DateTime.Parse(reader["FechaAdquisicion"].ToString()): DateTime.MinValue,
-                FechaBaja = reader["FechaBaja"] != DBNull.Value? DateTime.Parse(reader["FechaBaja"].ToString()): (DateTime?)null,
-                FechaFinGarantia = reader["FechaFinGarantia"] != DBNull.Value? DateTime.Parse(reader["FechaFinGarantia"].ToString()): (DateTime?)null,
+                FechaAdquisicion = reader["FechaAdquisicion"] != DBNull.Value ? DateTime.Parse(reader["FechaAdquisicion"].ToString()) : DateTime.MinValue,
+                FechaBaja = reader["FechaBaja"] != DBNull.Value ? DateTime.Parse(reader["FechaBaja"].ToString()) : (DateTime?)null,
+                FechaFinGarantia = reader["FechaFinGarantia"] != DBNull.Value ? DateTime.Parse(reader["FechaFinGarantia"].ToString()) : (DateTime?)null,
 
-                DniUsuarioActual = reader["DniUsuarioActual"]?.ToString(),
-                NombreUsuarioActual = reader["NombreUsuarioActual"]?.ToString(),
-                IdAreaUsuarioActual = reader["IdAreaUsuarioActual"] != DBNull.Value? Convert.ToInt32(reader["IdAreaUsuarioActual"]): 0,
-                AreaUsuarioActual = reader["AreaUsuarioActual"]?.ToString(),
-                IdCargoUsuarioActual = reader["IdCargoUsuarioActual"] != DBNull.Value ? Convert.ToInt32(reader["IdCargoUsuarioActual"]) : 0,
-                CargoUsuarioActual = reader["CargoUsuarioActual"]?.ToString(),
+                // --- MAPEO DE EMPLEADOS ---
+                EmpleadoActualId = reader["EmpleadoActualId"] != DBNull.Value ? Convert.ToInt32(reader["EmpleadoActualId"]) : (int?)null,
+                EmpleadoActualTexto = reader["EmpleadoActualTexto"]?.ToString(),
+                EmpleadoAnteriorId = reader["EmpleadoAnteriorId"] != DBNull.Value ? Convert.ToInt32(reader["EmpleadoAnteriorId"]) : (int?)null,
+                EmpleadoAnteriorTexto = reader["EmpleadoAnteriorTexto"]?.ToString(),
 
-                DniUsuarioAnterior = reader["DniUsuarioAnterior"]?.ToString(),
-                NombreUsuarioAnterior = reader["NombreUsuarioAnterior"]?.ToString(),
-                IdAreaUsuarioAnterior = reader["IdAreaUsuarioAnterior"] != DBNull.Value? Convert.ToInt32(reader["IdAreaUsuarioAnterior"]): 0,
-                AreaUsuarioAnterior = reader["AreaUsuarioAnterior"]?.ToString(),
-                IdCargoUsuarioAnterior = reader["IdCargoUsuarioAnterior"] != DBNull.Value ? Convert.ToInt32(reader["IdCargoUsuarioAnterior"]) : 0,
-                CargoUsuarioAnterior = reader["CargoUsuarioAnterior"]?.ToString(),
-
-                IdEstado = reader["IdEstado"] != DBNull.Value? Convert.ToInt32(reader["IdEstado"]): 0,
-                Estado = reader["Estado"]?.ToString(),
-                IdUbicacion = reader["IdUbicacion"] != DBNull.Value? Convert.ToInt32(reader["IdUbicacion"]): 0,
-                Ubicacion = reader["Ubicacion"]?.ToString(),
-                IdCondicion = reader["IdCondicion"] != DBNull.Value? Convert.ToInt32(reader["IdCondicion"]): 0,
-                Condicion = reader["Condicion"]?.ToString(),
+                IdEstado = reader["IdEstado"] != DBNull.Value ? Convert.ToInt32(reader["IdEstado"]) : 0,
+                Estado = reader["EstadoTexto"]?.ToString(),
+                IdUbicacion = reader["IdUbicacion"] != DBNull.Value ? Convert.ToInt32(reader["IdUbicacion"]) : 0,
+                Ubicacion = reader["UbicacionTexto"]?.ToString(),
+                IdCondicion = reader["IdCondicion"] != DBNull.Value ? Convert.ToInt32(reader["IdCondicion"]) : 0,
+                Condicion = reader["CondicionTexto"]?.ToString(),
                 ActivoFijo = reader["ActivoFijo"]?.ToString(),
 
                 Observacion = reader["Observacion"]?.ToString(),
@@ -564,11 +391,11 @@ namespace ControlInventario.Database
 
                 RucProveedor = reader["RucProveedor"]?.ToString(),
                 Proveedor = reader["Proveedor"]?.ToString(),
-                PrecioAdquisicion = reader["PrecioAdquisicion"] != DBNull.Value? Convert.ToDecimal(reader["PrecioAdquisicion"]): (decimal?)null,
-                VidaUtilMeses = reader["VidaUtilMeses"] != DBNull.Value? Convert.ToInt32(reader["VidaUtilMeses"]): (int?)null,
+                PrecioAdquisicion = reader["PrecioAdquisicion"] != DBNull.Value ? Convert.ToDecimal(reader["PrecioAdquisicion"]) : (decimal?)null,
+                VidaUtilMeses = reader["VidaUtilMeses"] != DBNull.Value ? Convert.ToInt32(reader["VidaUtilMeses"]) : (int?)null,
 
-                CategoriaId = reader["CategoriaId"] != DBNull.Value? Convert.ToInt32(reader["CategoriaId"]): 0,
-                Categoria = reader["Categoria"]?.ToString(),
+                CategoriaId = reader["CategoriaId"] != DBNull.Value ? Convert.ToInt32(reader["CategoriaId"]) : 0,
+                Categoria = reader["CategoriaTexto"]?.ToString(),
             };
         }
 
@@ -577,18 +404,14 @@ namespace ControlInventario.Database
             using (var con = ConexionGlobal.ObtenerConexion())
             {
                 con.Open();
-                string query = "SELECT * FROM Articulos WHERE Id = @Id";
+                string query = "SELECT * FROM vw_Articulos WHERE Id = @Id";
 
                 using (var cmd = new SQLiteCommand(query, con))
                 {
                     cmd.Parameters.AddWithValue("@Id", id);
-
                     using (var reader = cmd.ExecuteReader())
                     {
-                        if (reader.Read())
-                        {
-                            return MapearArticulos(reader);
-                        }
+                        if (reader.Read()) return MapearArticulos(reader);
                     }
                 }
             }
@@ -613,30 +436,23 @@ namespace ControlInventario.Database
                 {
                     cmd.Parameters.AddWithValue("@InventarioId", inventarioId);
                     cmd.Parameters.AddWithValue("@PrefijoBusqueda", prefijoCompleto + "%");
-
                     object resultado = cmd.ExecuteScalar();
 
                     if (resultado != DBNull.Value && resultado != null)
                     {
                         string codigoMaximo = resultado.ToString();
-
                         string soloNumeroStr = codigoMaximo.Replace(prefijoCompleto, "");
-
                         if (int.TryParse(soloNumeroStr, out int numeroActual))
-                        {
-                            siguienteNumero = numeroActual + 1; // Ahora es 46
-                        }
+                            siguienteNumero = numeroActual + 1;
                     }
                 }
             }
-
             return $"{prefijoCompleto}{siguienteNumero.ToString("D4")}";
         }
 
         public static DateTime ObtenerUltimaFechaRegistro(int inventarioId, string nombreUsuarioActual, SQLiteConnection con)
         {
             DateTime fechaUltimoRegistro = DateTime.MinValue;
-
             string query = @"
                 SELECT MAX(FechaRegistro) 
                 FROM Articulos 
@@ -647,18 +463,14 @@ namespace ControlInventario.Database
             {
                 cmd.Parameters.AddWithValue("@InventarioId", inventarioId);
                 cmd.Parameters.AddWithValue("@NombreUsuarioActual", nombreUsuarioActual);
-
                 object resultado = cmd.ExecuteScalar();
 
                 if (resultado != DBNull.Value && resultado != null)
                 {
                     if (DateTime.TryParse(resultado.ToString(), out DateTime fechaParseada))
-                    {
                         fechaUltimoRegistro = fechaParseada;
-                    }
                 }
             }
-
             return fechaUltimoRegistro;
         }
     }

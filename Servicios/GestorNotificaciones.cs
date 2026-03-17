@@ -29,10 +29,13 @@ namespace ControlInventario.Servicios
         // --- MOTOR CENTRAL QUE FILTRA ---
         public void LanzarNotificacion(string titulo, string mensaje, PrioridadNoti prioridad)
         {
-            string preferencia = UsuarioSesion.Configuracion?.Notificaciones ?? "Todas";
+            int preferenciaId = UsuarioSesion.Configuracion?.IdNotificaciones ?? 1;
 
-            if (preferencia == "Ninguna") return;
-            if (preferencia == "Solo importantes" && prioridad != PrioridadNoti.Alta) return;
+            if (preferenciaId == 3)
+                return;
+
+            if (preferenciaId == 2 && prioridad != PrioridadNoti.Alta)
+                return;
 
             ToolTipIcon icono = (prioridad == PrioridadNoti.Alta) ? ToolTipIcon.Warning : ToolTipIcon.Info;
 

@@ -161,6 +161,7 @@
     <Compile Include="Modelo\Empleados.cs" />
     <Compile Include="Modelo\Interface\IRefrescable.cs" />
     <Compile Include="Modelo\Proveedor.cs" />
+    <Compile Include="Modelo\SalidaArticulo.cs" />
     <Compile Include="Modelo\TipoContrato.cs" />
     <Compile Include="Repositorio\AreaRepository.cs" />
     <Compile Include="Repositorio\ArticuloRepository.cs" />
@@ -170,6 +171,7 @@
     <Compile Include="Repositorio\CondicionRepository.cs" />
     <Compile Include="Database\ConexionGlobal.cs" />
     <Compile Include="Repositorio\ConfiguracionRepository.cs" />
+    <Compile Include="Repositorio\ControlSalidasRepository.cs" />
     <Compile Include="Repositorio\EmpleadoRepository.cs" />
     <Compile Include="Repositorio\LogsRepository.cs" />
     <Compile Include="Repositorio\PerfilRepository.cs" />

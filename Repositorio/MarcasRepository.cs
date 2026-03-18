@@ -12,9 +12,9 @@ namespace ControlInventario.Database
             CREATE TABLE IF NOT EXISTS Marcas (
                 Id INTEGER PRIMARY KEY AUTOINCREMENT,
                 InventarioId INTEGER NOT NULL,
-                CategoriasId INTEGER NOT NULL,
+                CategoriaId INTEGER NOT NULL,
                 Nombre TEXT NOT NULL,
-                FOREIGN KEY (CategoriasId) REFERENCES Categorias(Id)
+                FOREIGN KEY (CategoriaId) REFERENCES Categorias(Id)
             );";
             using (var cmd = new SQLiteCommand(sql, con))
             {

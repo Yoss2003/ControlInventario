@@ -160,6 +160,7 @@
     <Compile Include="Modelo\EdicionArticulo.cs" />
     <Compile Include="Modelo\Empleados.cs" />
     <Compile Include="Modelo\Interface\IRefrescable.cs" />
+    <Compile Include="Modelo\Movimiento.cs" />
     <Compile Include="Modelo\Parametros.cs" />
     <Compile Include="Modelo\Proveedor.cs" />
     <Compile Include="Modelo\SalidaArticulo.cs" />
@@ -171,6 +172,7 @@
     <Compile Include="Repositorio\ControlSalidasRepository.cs" />
     <Compile Include="Repositorio\EmpleadoRepository.cs" />
     <Compile Include="Repositorio\LogsRepository.cs" />
+    <Compile Include="Repositorio\MovimientoRepository.cs" />
     <Compile Include="Repositorio\ParametrosRepository.cs" />
     <Compile Include="Repositorio\PerfilRepository.cs" />
     <Compile Include="Repositorio\ProveedorRepository.cs" />
@@ -201,6 +203,12 @@
     </Compile>
     <Compile Include="Vistas\Aplicacion\VistaArticulos.Designer.cs">
       <DependentUpon>VistaArticulos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Vistas\Aplicacion\VistaMovimiento.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Vistas\Aplicacion\VistaMovimiento.Designer.cs">
+      <DependentUpon>VistaMovimiento.cs</DependentUpon>
     </Compile>
     <Compile Include="Vistas\Aplicacion\VistaRegistros.cs">
       <SubType>Form</SubType>
@@ -308,6 +316,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Vistas\Aplicacion\VistaInventario.en-US.resx">
       <DependentUpon>VistaInventario.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Vistas\Aplicacion\VistaMovimiento.resx">
+      <DependentUpon>VistaMovimiento.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Vistas\Aplicacion\VistaRegistros.resx">
       <DependentUpon>VistaRegistros.cs</DependentUpon>

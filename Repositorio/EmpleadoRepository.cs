@@ -49,14 +49,14 @@ namespace ControlInventario.Repositorio
                 DNI,
                 IdCargo,
                 IdArea,
-                IdEstado,
+                IdEstado
             )VALUES(
                 @Nombres,
                 @Apellidos,
                 @DNI,
                 @IdCargo,
                 @IdArea,
-                @IdEstado,
+                @IdEstado
             );";
 
             using (var cmd = new SQLiteCommand (query, con))
@@ -84,7 +84,7 @@ namespace ControlInventario.Repositorio
                     DNI = @DNI,
                     IdCargo = @IdCargo,
                     IdArea = @IdArea,
-                    IdEstado = @IdEstado,
+                    IdEstado = @IdEstado
                 WHERE Id = @Id;";
 
                 using (var cmd = new SQLiteCommand (query, con))
@@ -143,7 +143,7 @@ namespace ControlInventario.Repositorio
             {
                 con.Open();
 
-                string query = "SELECT * FROM Empleados;";
+                string query = "SELECT * FROM vw_Empleado;";
                 using (var cmd = new SQLiteCommand(query, con))
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -168,6 +168,10 @@ namespace ControlInventario.Repositorio
                 IdCargo = Convert.ToInt32(reader["IdCargo"]),
                 IdArea = Convert.ToInt32(reader["IdArea"]),
                 IdEstado = Convert.ToInt32(reader["IdEstado"]),
+
+                Cargo = reader["Cargo"].ToString(),
+                Area = reader["Area"].ToString(),
+                Estado = reader["Estado"].ToString()
             };
         }
 
@@ -176,7 +180,7 @@ namespace ControlInventario.Repositorio
             using (var con = ConexionGlobal.ObtenerConexion())
             {
                 con.Open();
-                string query = "SELECT * FROM Empleados WHERE DNI = @DNI LIMIT 1;";
+                string query = "SELECT * FROM vw_Empleado WHERE DNI = @DNI LIMIT 1;";
                 using (var cmd = new SQLiteCommand(query, con))
                 {
                     cmd.Parameters.AddWithValue("@DNI", dni);

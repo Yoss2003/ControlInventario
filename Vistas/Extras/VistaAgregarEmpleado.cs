@@ -49,13 +49,9 @@ namespace ControlInventario.Vistas.Extras
 
         private void CargarDatos()
         {
-            using (var con = ConexionGlobal.ObtenerConexion())
-            {
-                con.Open();
-                var listaEmpleados = EmpleadoRepository.ListarEmpleado();
-                DgEmpleados.AutoGenerateColumns = false;
-                DgEmpleados.DataSource = listaEmpleados;
-            }
+            var listaEmpleados = EmpleadoRepository.ListarEmpleado();
+            DgEmpleados.AutoGenerateColumns = false;
+            DgEmpleados.DataSource = listaEmpleados;
         }
 
         private void BtnAgregarEmpleado_Click(object sender, EventArgs e)
@@ -73,10 +69,18 @@ namespace ControlInventario.Vistas.Extras
                             Nombres = TxtNombres.Text,
                             Apellidos = TxtApellidos.Text,
                             DNI = TxtDNI.Text,
-                            IdCargo = Convert.ToInt32(CbCargo.SelectedIndex),
-                            IdArea = Convert.ToInt32(CbArea.SelectedIndex),
-                            IdEstado = Convert.ToInt32(CbEstadoEmpleados.SelectedIndex)
+                            IdCargo = Convert.ToInt32(CbCargo.SelectedValue),
+                            IdArea = Convert.ToInt32(CbArea.SelectedValue),
+                            IdEstado = Convert.ToInt32(CbEstadoEmpleados.SelectedValue)
                         };
+
+                        if (Convert.ToInt32(CbCargo.SelectedValue) == 0 ||
+                            Convert.ToInt32(CbArea.SelectedValue) == 0 ||
+                            Convert.ToInt32(CbEstadoEmpleados.SelectedValue) == 0)
+                        {
+                            MessageBox.Show("Por favor, seleccione el Cargo, Área y Estado correctos.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
 
                         EmpleadoRepository.AgregarEmpleados(emp, con);
                     }
@@ -109,10 +113,18 @@ namespace ControlInventario.Vistas.Extras
                             Nombres = TxtNombres.Text,
                             Apellidos = TxtApellidos.Text,
                             DNI = TxtDNI.Text,
-                            IdCargo = Convert.ToInt32(CbCargo.SelectedIndex),
-                            IdArea = Convert.ToInt32(CbArea.SelectedIndex),
-                            IdEstado = Convert.ToInt32(CbEstadoEmpleados.SelectedIndex)
+                            IdCargo = Convert.ToInt32(CbCargo.SelectedValue),
+                            IdArea = Convert.ToInt32(CbArea.SelectedValue),
+                            IdEstado = Convert.ToInt32(CbEstadoEmpleados.SelectedValue)
                         };
+
+                        if (Convert.ToInt32(CbCargo.SelectedValue) == 0 ||
+                            Convert.ToInt32(CbArea.SelectedValue) == 0 ||
+                            Convert.ToInt32(CbEstadoEmpleados.SelectedValue) == 0)
+                        {
+                            MessageBox.Show("Por favor, seleccione el Cargo, Área y Estado correctos.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
 
                         EmpleadoRepository.ActualizarEmpleados(emp);
                     }
@@ -204,37 +216,31 @@ namespace ControlInventario.Vistas.Extras
                 BtnBorrar.Enabled = false;
             }
         }
-        
+
         private void DgEmpleados_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
             {
                 DataGridViewRow fila = DgEmpleados.Rows[e.RowIndex];
-                int idEmpleadoActual = Convert.ToInt32(DgEmpleados.CurrentRow.Cells["IdEmpleado"].Value);
-                TxtNombres.Text = fila.Cells["NombreEmpleado"].Value.ToString();
-                TxtApellidos.Text = fila.Cells["ApellidoEmpleado"].Value.ToString();
-                TxtDNI.Text = fila.Cells["DniEmpleado"].Value.ToString();
-                CbArea.Text = fila.Cells["AreaEmpleado"].Value.ToString();
-                CbCargo.Text = fila.Cells["CargoEmpleado"].Value.ToString();
-                CbEstadoEmpleados.Text = fila.Cells["EstadoEmpleado"].Value.ToString();
 
-                string valorvalorFilaArea = DgEmpleados.CurrentRow.Cells["IdEmpleado"].Value.ToString();
-                string valorFilaEstado = DgEmpleados.CurrentRow.Cells["IdEmpleado"].Value.ToString();
+                // Validamos el ID para que no explote
+                if (fila.Cells["IdEmpleado"].Value == null) return;
+                int idEmpleadoActual = Convert.ToInt32(fila.Cells["IdEmpleado"].Value);
 
-                if (!ClassHelper.ValidarComboObsoleto(CbEstadoEmpleados, valorFilaEstado, "Estado"))
-                {
-                    ClassHelper.LimpiarCampoObsoletoBD("Empleado", "IdEstado", "Estado", idEmpleadoActual);
-                }
+                // 1. Llenamos los TextBox de forma segura
+                TxtNombres.Text = fila.Cells["NombreEmpleado"].Value?.ToString() ?? "";
+                TxtApellidos.Text = fila.Cells["ApellidoEmpleado"].Value?.ToString() ?? "";
+                TxtDNI.Text = fila.Cells["DniEmpleado"].Value?.ToString() ?? "";
 
-                ValidarDatos(CbArea, fila.Cells["AreaEmpleado"].Value?.ToString(), "Area");
+                // 2. MAGIA PURA: Llenamos los ComboBoxes usando nuestro nuevo método unificado en 3 líneas
+                ClassHelper.ProcesarComboSeguro(CbEstadoEmpleados, fila.Cells["EstadoEmpleado"].Value?.ToString(), "Estado", "IdEstado", idEmpleadoActual);
+                ClassHelper.ProcesarComboSeguro(CbArea, fila.Cells["AreaEmpleado"].Value?.ToString(), "Area", "IdArea", idEmpleadoActual);
+                ClassHelper.ProcesarComboSeguro(CbCargo, fila.Cells["CargoEmpleado"].Value?.ToString(), "Cargo", "IdCargo", idEmpleadoActual);
 
-
-
-                ValidarDatos(CbCargo, fila.Cells["CargoEmpleado"].Value?.ToString(), "Cargo");
-
+                // 3. Preparamos el formulario para el modo Edición
                 isEdit = true;
                 BtnAgregarEmpleado.Text = "Actualizar";
-                Text = $"Editar empleado";
+                Text = "Editar empleado";
             }
         }
 

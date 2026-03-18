@@ -17,11 +17,12 @@ namespace ControlInventario.Servicios
             ProveedorRepository.CrearTablaProveedor(con);
 
             // 2. INTERMEDIAS: Dependen de los padres
-            MarcasRepository.CrearTablaMarcas(con); // Depende de Categorias
+            MarcasRepository.CrearTablaMarcas(con);
 
             // 3. HIJOS: Dependen de muchos padres
-            ArticuloRepository.CrearTablaArticulos(con); // Depende de Categorias, Marcas y Empleados
-            CaracteristicaRepository.CrearTablaCaracteristicas(con); // Depende de Articulos
+            ArticuloRepository.CrearTablaArticulos(con);
+            MovimientoRepository.CrearTablaMovimientos(con);
+            CaracteristicaRepository.CrearTablaCaracteristicas(con);
 
             // 4. SISTEMA: Tablas operativas
             InventarioRepository.CrearTablaInventarios(con);

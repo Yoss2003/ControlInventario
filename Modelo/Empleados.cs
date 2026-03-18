@@ -9,5 +9,8 @@
         public int IdCargo { get; set; }
         public int IdArea { get; set; }
         public int IdEstado { get; set; }
+        public string Cargo { get; set; }
+        public string Area { get; set; }
+        public string Estado { get; set; }
     }
 }

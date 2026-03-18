@@ -29,23 +29,23 @@ namespace ControlInventario.Servicios
         }
         public void EliminarBotonCategoria(int idCategoria)
         {
-            foreach (Control control in inventario.LstArticulos.Controls)
+            foreach (Control control in inventario.LstIngresos.Controls)
             {
                 if (control is Button btn && btn.Tag != null && Convert.ToInt32(btn.Tag) == idCategoria)
                 {
-                    inventario.LstArticulos.Controls.Remove(btn);
+                    inventario.LstIngresos.Controls.Remove(btn);
                     btn.Dispose();
                     break;
                 }
             }
 
-            if (inventario.LstArticulos.Controls.Count == 0)
+            if (inventario.LstIngresos.Controls.Count == 0)
             {
-                inventario.LstArticulos.Visible = false;
+                inventario.LstIngresos.Visible = false;
             }
             else
             {
-                Button primerBoton = (Button)inventario.LstArticulos.Controls[0];
+                Button primerBoton = (Button)inventario.LstIngresos.Controls[0];
                 primerBoton.PerformClick();
             }
         }
@@ -82,7 +82,7 @@ namespace ControlInventario.Servicios
             inventario.categoriaSeleccionadaNombre = nombreCategoria;
 
             var articulos = ArticuloRepository.ListarArticulos(idCategoria);
-            RefrescarListView(inventario.LstArticulos, articulos);
+            RefrescarListView(inventario.LstIngresos, articulos);
         }
 
         public static void RefrescarListView(ListView listView, IEnumerable<Articulos> articulos)
@@ -208,14 +208,35 @@ namespace ControlInventario.Servicios
             }
         }
 
+        public static void ProcesarComboSeguro(ComboBox combo, string textoCelda, string tipoValidacion, string columnaIdBD, int idEmpleadoActual)
+        {
+            string textoLimpio = textoCelda ?? "";
+
+            combo.DataBindings.Clear();
+
+            if (!ValidarComboObsoleto(combo, textoLimpio, tipoValidacion))
+            {
+                LimpiarCampoObsoletoBD("Empleados", columnaIdBD, tipoValidacion, idEmpleadoActual);
+                combo.SelectedIndex = -1;
+                combo.SelectedIndex = 0;
+            }
+            else 
+            {
+                int indiceEncontrado = combo.FindStringExact(textoLimpio);
+                combo.SelectedIndex = -1;
+                combo.SelectedIndex = indiceEncontrado != -1 ? indiceEncontrado : 0;
+            }
+
+            combo.Refresh();
+        }
+
         public static void LimpiarCampoObsoletoBD(string tablaDestino, string columnaId, string columnaNombre, int idRegistro)
         {
             using (var con = ConexionGlobal.ObtenerConexion())
             {
                 con.Open();
                 string query = $@"UPDATE {tablaDestino} SET
-                        {columnaId} = 0, 
-                        {columnaNombre} = 'SELECCIONE' 
+                        {columnaId} = 0
                         WHERE Id = @Id;";
 
                 using (var cmd = new SQLiteCommand(query, con))

@@ -32,6 +32,7 @@
             this.TxtCodigo = new System.Windows.Forms.TextBox();
             this.CbMarcas = new System.Windows.Forms.ComboBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.ChkAutoCodigo = new System.Windows.Forms.CheckBox();
             this.ChkFechaGarantia = new System.Windows.Forms.CheckBox();
             this.ChkFechaBaja = new System.Windows.Forms.CheckBox();
             this.BtnAgregarMarca = new System.Windows.Forms.Button();
@@ -110,7 +111,8 @@
             this.BtnGuardar = new System.Windows.Forms.Button();
             this.BtnEmpleados = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.ChkAuto = new System.Windows.Forms.CheckBox();
+            this.ChkAutoSerie = new System.Windows.Forms.CheckBox();
+            this.ChkAutoModelo = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.GpUsos.SuspendLayout();
@@ -144,7 +146,9 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.ChkAuto);
+            this.groupBox1.Controls.Add(this.ChkAutoModelo);
+            this.groupBox1.Controls.Add(this.ChkAutoSerie);
+            this.groupBox1.Controls.Add(this.ChkAutoCodigo);
             this.groupBox1.Controls.Add(this.ChkFechaGarantia);
             this.groupBox1.Controls.Add(this.ChkFechaBaja);
             this.groupBox1.Controls.Add(this.BtnAgregarMarca);
@@ -168,6 +172,16 @@
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Información";
+            // 
+            // ChkAutoCodigo
+            // 
+            this.ChkAutoCodigo.AutoSize = true;
+            this.ChkAutoCodigo.Location = new System.Drawing.Point(95, 31);
+            this.ChkAutoCodigo.Name = "ChkAutoCodigo";
+            this.ChkAutoCodigo.Size = new System.Drawing.Size(15, 14);
+            this.ChkAutoCodigo.TabIndex = 10;
+            this.ChkAutoCodigo.UseVisualStyleBackColor = true;
+            this.ChkAutoCodigo.CheckedChanged += new System.EventHandler(this.ChkAuto_CheckedChanged);
             // 
             // ChkFechaGarantia
             // 
@@ -301,6 +315,7 @@
             this.TxtModelo.Name = "TxtModelo";
             this.TxtModelo.Size = new System.Drawing.Size(100, 20);
             this.TxtModelo.TabIndex = 2;
+            this.TxtModelo.Leave += new System.EventHandler(this.TxtModelo_Leave);
             // 
             // groupBox2
             // 
@@ -940,15 +955,25 @@
             this.BtnEmpleados.UseVisualStyleBackColor = true;
             this.BtnEmpleados.Click += new System.EventHandler(this.BtnEmpleados_Click);
             // 
-            // ChkAuto
+            // ChkAutoSerie
             // 
-            this.ChkAuto.AutoSize = true;
-            this.ChkAuto.Location = new System.Drawing.Point(95, 29);
-            this.ChkAuto.Name = "ChkAuto";
-            this.ChkAuto.Size = new System.Drawing.Size(15, 14);
-            this.ChkAuto.TabIndex = 10;
-            this.ChkAuto.UseVisualStyleBackColor = true;
-            this.ChkAuto.CheckedChanged += new System.EventHandler(this.ChkAuto_CheckedChanged);
+            this.ChkAutoSerie.AutoSize = true;
+            this.ChkAutoSerie.Location = new System.Drawing.Point(329, 31);
+            this.ChkAutoSerie.Name = "ChkAutoSerie";
+            this.ChkAutoSerie.Size = new System.Drawing.Size(15, 14);
+            this.ChkAutoSerie.TabIndex = 11;
+            this.ChkAutoSerie.UseVisualStyleBackColor = true;
+            this.ChkAutoSerie.CheckedChanged += new System.EventHandler(this.ChkAutoSerie_CheckedChanged);
+            // 
+            // ChkAutoModelo
+            // 
+            this.ChkAutoModelo.AutoSize = true;
+            this.ChkAutoModelo.Location = new System.Drawing.Point(212, 31);
+            this.ChkAutoModelo.Name = "ChkAutoModelo";
+            this.ChkAutoModelo.Size = new System.Drawing.Size(15, 14);
+            this.ChkAutoModelo.TabIndex = 11;
+            this.ChkAutoModelo.UseVisualStyleBackColor = true;
+            this.ChkAutoModelo.CheckedChanged += new System.EventHandler(this.ChkAutoModelo_CheckedChanged);
             // 
             // VistaArticulos
             // 
@@ -1072,6 +1097,8 @@
         public System.Windows.Forms.Button BtnAgregarRUC;
         public System.Windows.Forms.Label LblPrecio;
         public System.Windows.Forms.TabControl TabMultipedia;
-        private System.Windows.Forms.CheckBox ChkAuto;
+        private System.Windows.Forms.CheckBox ChkAutoCodigo;
+        private System.Windows.Forms.CheckBox ChkAutoSerie;
+        private System.Windows.Forms.CheckBox ChkAutoModelo;
     }
 }

@@ -31,6 +31,11 @@ namespace ControlInventario.Vistas
         public EdicionArticulo DatosEdicion { get; set; }
         private bool generarCodigoAutomatico = false;
         private string nombreCategoriaActual = "";
+        private string serieAutomaticaGenerada = "";
+        private string modeloAutomaticoGenerado = "";
+        private string ultimoModeloGuardado = "";
+        private int ultimaCategoriaIdGuardada = 0;
+        private bool rechazoSugerenciaModelo = false;
 
         public VistaArticulos(int categoriaId, string categoria, int articuloId)
         {
@@ -263,6 +268,29 @@ namespace ControlInventario.Vistas
             PanelComprobante.Controls.Clear();
 
             FlCaracteristicas.Controls.Clear();
+            serieAutomaticaGenerada = "";
+
+            if (ChkAutoSerie != null && ChkAutoSerie.Checked) ActualizarSerie();
+
+            ultimoModeloGuardado = TxtModelo.Text.Trim();
+            ultimaCategoriaIdGuardada = _categoriaId;
+            modeloAutomaticoGenerado = "";
+            rechazoSugerenciaModelo = false;
+
+            if (ChkAutoModelo != null && ChkAutoModelo.Checked)
+            {
+                if (_categoriaId == ultimaCategoriaIdGuardada && !string.IsNullOrEmpty(ultimoModeloGuardado))
+                {
+                    var result = MessageBox.Show($"Se encontró un modelo previo: [{ultimoModeloGuardado}].\n\n¿Desea reutilizarlo para este nuevo artículo?",
+                        "Reutilizar Modelo", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                    if (result == DialogResult.Yes)
+                    {
+                        modeloAutomaticoGenerado = ultimoModeloGuardado; // Mantiene el de memoria
+                    }
+                }
+                ActualizarModelo();
+            }
         }
 
         private void BtnGuardar_Click(object sender, EventArgs e)
@@ -666,7 +694,7 @@ namespace ControlInventario.Vistas
 
                     if (perfil != null)
                     {
-                        ChkAuto.Checked = perfil.GeneracionCodigos;
+                        ChkAutoCodigo.Checked = perfil.GeneracionCodigos;
                     }
                 }
             }
@@ -945,7 +973,7 @@ namespace ControlInventario.Vistas
 
         private void ChkAuto_CheckedChanged(object sender, EventArgs e)
         {
-            if (ChkAuto.Checked)
+            if (ChkAutoCodigo.Checked)
             {
                 TxtCodigo.Enabled = false;
                 TxtCodigo.BackColor = Color.LightGray;
@@ -962,7 +990,7 @@ namespace ControlInventario.Vistas
 
         private void ActualizarCodigo()
         {
-            if (ChkAuto.Checked)
+            if (ChkAutoCodigo.Checked)
             {
                 if (string.IsNullOrWhiteSpace(nombreCategoriaActual))
                 {
@@ -977,6 +1005,114 @@ namespace ControlInventario.Vistas
                 string siguienteCodigo = ArticuloRepository.GenerarCodigoArticulo(prefijo, UsuarioSesion.InventarioId);
 
                 TxtCodigo.Text = siguienteCodigo;
+            }
+        }
+
+        private void ActualizarSerie()
+        {
+            if (ChkAutoSerie.Checked)
+            {
+                if (string.IsNullOrWhiteSpace(nombreCategoriaActual))
+                {
+                    TxtSerie.Text = Idiomas.MensajeCodigoNoAutomatico;
+                    return;
+                }
+
+                if (string.IsNullOrEmpty(serieAutomaticaGenerada))
+                {
+                    int idUsuarioActual = UsuarioSesion.UsuarioId;
+                    serieAutomaticaGenerada = ArticuloRepository.GenerarSerieAutomatica(nombreCategoriaActual, idUsuarioActual);
+                }
+
+                TxtSerie.Text = serieAutomaticaGenerada;
+            }
+        }
+
+        private void ChkAutoSerie_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ChkAutoSerie.Checked)
+            {
+                TxtSerie.Enabled = false;
+                TxtSerie.BackColor = Color.LightGray;
+                ActualizarSerie();
+            }
+            else
+            {
+                TxtSerie.Enabled = true;
+                TxtSerie.BackColor = Color.White;
+                TxtSerie.Clear();
+                TxtSerie.Focus();
+            }
+        }
+
+        private void ActualizarModelo()
+        {
+            if (ChkAutoModelo.Checked)
+            {
+                if (string.IsNullOrWhiteSpace(nombreCategoriaActual))
+                {
+                    TxtModelo.Text = "Esperando categoría...";
+                    return;
+                }
+
+                if (string.IsNullOrEmpty(modeloAutomaticoGenerado))
+                {
+                    modeloAutomaticoGenerado = ArticuloRepository.GenerarModeloAutomatico(nombreCategoriaActual);
+                }
+
+                TxtModelo.Text = modeloAutomaticoGenerado;
+            }
+        }
+
+        private void ChkAutoModelo_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ChkAutoModelo.Checked)
+            {
+                TxtModelo.Enabled = false;
+                TxtModelo.BackColor = Color.LightGray;
+                ActualizarModelo();
+            }
+            else
+            {
+                TxtModelo.Enabled = true;
+                TxtModelo.BackColor = Color.White;
+                TxtModelo.Clear();
+                TxtModelo.Focus();
+            }
+        }
+
+        private void TxtModelo_Leave(object sender, EventArgs e)
+        {
+            if (ChkAutoModelo.Checked || string.IsNullOrWhiteSpace(TxtModelo.Text) || string.IsNullOrWhiteSpace(ultimoModeloGuardado) || rechazoSugerenciaModelo)
+                return;
+
+            string tipeado = TxtModelo.Text.Trim().ToUpper();
+            string enMemoria = ultimoModeloGuardado.ToUpper();
+
+            if (tipeado == enMemoria) return;
+
+            int distancia = ClassHelper.CalcularDistancia(tipeado, enMemoria);
+
+            if (distancia > 0 && distancia <= 2)
+            {
+                var result = MessageBox.Show($"El modelo ingresado ('{TxtModelo.Text}') se parece mucho al modelo anterior ('{ultimoModeloGuardado}').\n\n¿Desea corregirlo y usar el modelo guardado en memoria?",
+                                             "Sugerencia de Modelo", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    TxtModelo.Text = ultimoModeloGuardado;
+                    rechazoSugerenciaModelo = false;
+                }
+                else
+                {
+                    ultimoModeloGuardado = TxtModelo.Text.Trim();
+                    rechazoSugerenciaModelo = true;
+                }
+            }
+            else
+            {
+                ultimoModeloGuardado = TxtModelo.Text.Trim();
+                rechazoSugerenciaModelo = false;
             }
         }
     }

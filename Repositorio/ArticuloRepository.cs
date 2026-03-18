@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
+using System.Linq;
 
 namespace ControlInventario.Database
 {
@@ -505,6 +506,76 @@ namespace ControlInventario.Database
             if (dt.Columns.Contains("CategoriaTexto")) dt.Columns["CategoriaTexto"].ColumnName = "Categoria";
 
             return dt;
+        }
+
+        public static string GenerarSerieAutomatica(string nombreCategoria, int idUsuario)
+        {
+            Random rnd = new Random();
+
+            string nombreLimpio = string.IsNullOrWhiteSpace(nombreCategoria) ? "ART" : nombreCategoria.ToUpper();
+            string consonantes = "";
+
+            foreach (char c in nombreLimpio)
+            {
+                if ("BCDFGHJKLMNPQRSTVWXYZ".Contains(c))
+                {
+                    consonantes += c;
+                }
+            }
+
+            string prefijo = consonantes.Length >= 3 ? consonantes.Substring(0, 3) : consonantes;
+            string letrasRelleno = "XZQW";
+            while (prefijo.Length < 3)
+            {
+                prefijo += letrasRelleno[rnd.Next(letrasRelleno.Length)];
+            }
+
+            DateTime hoy = DateTime.Now;
+
+            char[] inicialesMes = { 'E', 'F', 'M', 'A', 'Y', 'J', 'L', 'G', 'S', 'O', 'N', 'D' };
+            char mesLetra = inicialesMes[hoy.Month - 1];
+
+            char diaLetra = (char)('A' + ((hoy.Day - 1) % 26));
+
+            char letraVariable = (char)rnd.Next('A', 'Z' + 1);
+
+            string origen = $"{mesLetra}{diaLetra}{letraVariable}{idUsuario}";
+
+            string secuencial = rnd.Next(4096, 65536).ToString("X4");
+
+            char sufijo = (char)rnd.Next('A', 'Z' + 1);
+
+            return $"{prefijo}{origen}{secuencial}{sufijo}";
+        }
+
+        public static string GenerarModeloAutomatico(string nombreCategoria)
+        {
+            Random rnd = new Random();
+            string nombreLimpio = string.IsNullOrWhiteSpace(nombreCategoria) ? "ART" : nombreCategoria.ToUpper();
+            string consonantes = "";
+
+            foreach (char c in nombreLimpio)
+            {
+                if ("BCDFGHJKLMNPQRSTVWXYZ".Contains(c)) consonantes += c;
+            }
+
+            string prefijo;
+            if (consonantes.Length >= 3)
+            {
+                prefijo = consonantes.Substring(consonantes.Length - 3);
+            }
+            else
+            {
+                prefijo = consonantes;
+                string letrasRelleno = "XYZQ";
+                while (prefijo.Length < 3)
+                {
+                    prefijo += letrasRelleno[rnd.Next(letrasRelleno.Length)];
+                }
+            }
+
+            DateTime ahora = DateTime.Now;
+            return $"{prefijo}{ahora.ToString("MM")}-{ahora.ToString("mmss")}";
         }
     }
 }

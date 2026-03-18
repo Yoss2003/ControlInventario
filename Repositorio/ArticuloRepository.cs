@@ -473,5 +473,38 @@ namespace ControlInventario.Database
             }
             return fechaUltimoRegistro;
         }
+
+        public static DataTable ListarArticulosDisponibles(int inventarioId)
+        {
+            var dt = new DataTable();
+            using (var con = ConexionGlobal.ObtenerConexion())
+            {
+                con.Open();
+
+                string query = @"
+                    SELECT * FROM vw_Articulos 
+                    WHERE InventarioId = @InventarioId 
+                    AND EmpleadoActualId IS NULL;";
+
+                using (var cmd = new SQLiteCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@InventarioId", inventarioId);
+
+                    using (var adapter = new SQLiteDataAdapter(cmd))
+                    {
+                        adapter.Fill(dt);
+                    }
+                }
+            }
+
+            // Renombrar columnas del DataTable para que hagan match con tu diseño de grilla
+            if (dt.Columns.Contains("MarcaTexto")) dt.Columns["MarcaTexto"].ColumnName = "Marca";
+            if (dt.Columns.Contains("EstadoTexto")) dt.Columns["EstadoTexto"].ColumnName = "Estado";
+            if (dt.Columns.Contains("UbicacionTexto")) dt.Columns["UbicacionTexto"].ColumnName = "Ubicacion";
+            if (dt.Columns.Contains("CondicionTexto")) dt.Columns["CondicionTexto"].ColumnName = "Condicion";
+            if (dt.Columns.Contains("CategoriaTexto")) dt.Columns["CategoriaTexto"].ColumnName = "Categoria";
+
+            return dt;
+        }
     }
 }

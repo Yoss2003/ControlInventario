@@ -117,45 +117,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="TabInventario.Text" xml:space="preserve">
-    <value>Inventory</value>
+  <data name="TabIngresos.Text" xml:space="preserve">
+    <value>Stock In</value>
   </data>
-  <data name="TabAvanzado.Text" xml:space="preserve">
-    <value>Advanced</value>
-  </data>
-  <data name="groupBox2.Text" xml:space="preserve">
-    <value>Search article</value>
-  </data>
-  <data name="BtnLimpiar.Text" xml:space="preserve">
-    <value>Clean</value>
-  </data>
-  <data name="BtnBuscar.Text" xml:space="preserve">
-    <value>Search</value>
-  </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>23, 13</value>
-  </data>
-  <data name="label4.Text" xml:space="preserve">
-    <value>To:</value>
-  </data>
-  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>33, 13</value>
-  </data>
-  <data name="label3.Text" xml:space="preserve">
-    <value>From:</value>
-  </data>
-  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>38, 13</value>
-  </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>Brand:</value>
-  </data>
-  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>66, 13</value>
-  </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>Article code:</value>
+  <data name="TabSalidas.Text" xml:space="preserve">
+    <value>Stock Out</value>
   </data>
   <data name="CodigoArticulo.Text" xml:space="preserve">
     <value>Code</value>
@@ -232,8 +198,78 @@
   <data name="ComprobanteArticulo.Text" xml:space="preserve">
     <value>Voucher </value>
   </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>Search article</value>
+  </data>
+  <data name="BtnLimpiar.Text" xml:space="preserve">
+    <value>Clean</value>
+  </data>
+  <data name="BtnBuscar.Text" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>23, 13</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>To:</value>
+  </data>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>33, 13</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>From:</value>
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>38, 13</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Brand:</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>66, 13</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Article code:</value>
+  </data>
+  <data name="groupBox3.Text" xml:space="preserve">
+    <value>Search article</value>
+  </data>
+  <data name="button1.Text" xml:space="preserve">
+    <value>Clean</value>
+  </data>
+  <data name="button2.Text" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>23, 13</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>To:</value>
+  </data>
+  <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
+    <value>33, 13</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>From:</value>
+  </data>
+  <data name="label9.Size" type="System.Drawing.Size, System.Drawing">
+    <value>38, 13</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>Brand:</value>
+  </data>
+  <data name="label10.Size" type="System.Drawing.Size, System.Drawing">
+    <value>66, 13</value>
+  </data>
+  <data name="label10.Text" xml:space="preserve">
+    <value>Article code:</value>
+  </data>
   <data name="groupBox1.Text" xml:space="preserve">
     <value>Actions</value>
+  </data>
+  <data name="BtnDevolucion.Text" xml:space="preserve">
+    <value>Return article</value>
   </data>
   <data name="BtnNuevaCategoria.Text" xml:space="preserve">
     <value>New category</value>
@@ -241,11 +277,17 @@
   <data name="BtnExportar.Text" xml:space="preserve">
     <value>Export</value>
   </data>
+  <data name="BtnVenta.Text" xml:space="preserve">
+    <value>Sell ​​article</value>
+  </data>
   <data name="BtnEliminarArticulo.Text" xml:space="preserve">
     <value>Delete article</value>
   </data>
   <data name="BtnEditarArticulo.Text" xml:space="preserve">
     <value>Edit article</value>
+  </data>
+  <data name="BtnNuevaAsignacion.Text" xml:space="preserve">
+    <value>Assign article</value>
   </data>
   <data name="BtnAgregarArticulo.Text" xml:space="preserve">
     <value>Add article</value>

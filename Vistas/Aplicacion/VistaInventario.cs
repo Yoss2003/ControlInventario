@@ -2,6 +2,7 @@
 using ControlInventario.Modelo;
 using ControlInventario.Modelo.Interface;
 using ControlInventario.Servicios;
+using ControlInventario.Vistas.Aplicacion;
 using ControlInventario.Vistas.Extras;
 using System;
 using System.Data;
@@ -41,13 +42,14 @@ namespace ControlInventario.Vistas
             TxtBuscarCodArticulo.Enabled = false;
             CbBuscarMarcaArticulo.Enabled = false;
             ChkUsarFechas.Enabled = false;
-            LstArticulos.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+            LstIngresos.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
             LblAccionDecription.Text = "EXCEL";
             CargarCategorias();
 
             ClassHelper.AplicarTema(this);
             ClassHelper.AplicarFormatoFecha(DtBuscarFechaFin);
             ClassHelper.AplicarFormatoFecha(DtBuscarFechaInicio);
+            ActualizarVistaBotones();
         }
 
         private void BtnNuevaCategoria_Click(object sender, EventArgs e)
@@ -61,14 +63,14 @@ namespace ControlInventario.Vistas
             if (categoriaSeleccionadaId > 0)
             {
                 var articulosCategoria = ArticuloRepository.ListarArticulos(categoriaSeleccionadaId);
-                ClassHelper.RefrescarListView(LstArticulos, articulosCategoria);
-                LstArticulos.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+                ClassHelper.RefrescarListView(LstIngresos, articulosCategoria);
+                LstIngresos.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
             }
         }
 
         private void ActivarBotonCategoria(Button botonActivar, int idCat, string nombreCat)
         {
-            LstArticulos.Visible = true;
+            LstIngresos.Visible = true;
 
             this.categoriaSeleccionadaId = idCat;
             this.categoriaSeleccionadaNombre = nombreCat;
@@ -92,7 +94,7 @@ namespace ControlInventario.Vistas
             CbBuscarMarcaArticulo.Enabled = true;
             ChkUsarFechas.Enabled = true;
 
-            LstArticulos.Focus();
+            LstIngresos.Focus();
         }
 
         public void CargarCategorias()
@@ -258,7 +260,7 @@ namespace ControlInventario.Vistas
                 return;
             }
 
-            if (LstArticulos == null || LstArticulos.SelectedItems.Count == 0)
+            if (LstIngresos == null || LstIngresos.SelectedItems.Count == 0)
             {
                 MessageBox.Show("Seleccione un artículo para editar.", "Información",
                     MessageBoxButtons.OK,
@@ -267,7 +269,7 @@ namespace ControlInventario.Vistas
                 return;
             }
 
-            ListViewItem item = LstArticulos.SelectedItems[0];
+            ListViewItem item = LstIngresos.SelectedItems[0];
             _articuloId = Convert.ToInt32(item.SubItems[0].Text);
 
             using (var articulos = new VistaArticulos(categoriaId, categoria, _articuloId))
@@ -442,7 +444,7 @@ namespace ControlInventario.Vistas
                 return;
             }
 
-            if (LstArticulos == null || LstArticulos.SelectedItems.Count == 0)
+            if (LstIngresos == null || LstIngresos.SelectedItems.Count == 0)
             {
                 MessageBox.Show("Seleccione un artículo para eliminar.", "Información",
                     MessageBoxButtons.OK,
@@ -452,7 +454,7 @@ namespace ControlInventario.Vistas
             }
             else
             {
-                ListViewItem item = LstArticulos.SelectedItems[0];
+                ListViewItem item = LstIngresos.SelectedItems[0];
                 _articuloId = Convert.ToInt32(item.SubItems[0].Text);
 
                 DialogResult result = MessageBox.Show(
@@ -497,7 +499,7 @@ namespace ControlInventario.Vistas
                 return;
             }
 
-            if (LstArticulos.Items.Count == 0)
+            if (LstIngresos.Items.Count == 0)
             {
                 MessageBox.Show("No hay articulos para exportar.", "Advertencia",
                     MessageBoxButtons.OK,
@@ -517,13 +519,13 @@ namespace ControlInventario.Vistas
             var rutas = rutRepo.ObtenerRutas(usuarioId);
 
             // Crear UNA sola instancia de la vista
-            VistaRutaExportacion vistaRuta = new VistaRutaExportacion(nombreArchivo, LstArticulos, categoria);
+            VistaRutaExportacion vistaRuta = new VistaRutaExportacion(nombreArchivo, LstIngresos, categoria);
             if (rutas.EsPredeterminado1 == true)
             {
                 if (extension == ".xlsx")
                 {
                     filePath = rutas.RutaPredeterminada1;
-                    vistaRuta.ExportarAExcel(LstArticulos, categoria, filePath);
+                    vistaRuta.ExportarAExcel(LstIngresos, categoria, filePath);
                 }
 
                 MessageBox.Show($"Archivo exportado correctamente en: {filePath}", "Éxito",
@@ -537,7 +539,7 @@ namespace ControlInventario.Vistas
                 if (extension == ".csv")
                 {
                     filePath = rutas.RutaPredeterminada2;
-                    vistaRuta.ExportarACsv(LstArticulos, categoria, filePath);
+                    vistaRuta.ExportarACsv(LstIngresos, categoria, filePath);
                 }
 
                 MessageBox.Show($"Archivo exportado correctamente en: {filePath}", "Éxito",
@@ -580,7 +582,7 @@ namespace ControlInventario.Vistas
 
         private void BusquedaArticulos(DataTable dt)
         {
-            LstArticulos.Items.Clear();
+            LstIngresos.Items.Clear();
 
             foreach (DataRow row in dt.Rows)
             {
@@ -612,7 +614,7 @@ namespace ControlInventario.Vistas
                 item.SubItems.Add(row["Observacion"].ToString());
                 item.SubItems.Add(row["RutaFotoPrincipal"].ToString());
                 item.SubItems.Add(row["RutaComprobantePrincipal"].ToString());
-                LstArticulos.Items.Add(item);
+                LstIngresos.Items.Add(item);
             }
         }
 
@@ -731,6 +733,31 @@ namespace ControlInventario.Vistas
         private void CbBuscarMarcaArticulo_TextUpdate(object sender, EventArgs e)
         {
             ClassHelper.NormalizarTexto(CbBuscarMarcaArticulo);
+        }
+
+        private void TbPrincipal_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ActualizarVistaBotones();
+        }
+
+        private void ActualizarVistaBotones()
+        {
+            bool esTabIngresos = TbPrincipal.SelectedIndex == 0;
+
+            BtnAgregarArticulo.Visible = esTabIngresos;
+            BtnEditarArticulo.Visible = esTabIngresos;
+            BtnEliminarArticulo.Visible = esTabIngresos;
+            BtnNuevaCategoria.Visible = esTabIngresos;
+
+            BtnVenta.Visible = !esTabIngresos;
+            BtnNuevaAsignacion.Visible = !esTabIngresos;
+            BtnDevolucion.Visible = !esTabIngresos;
+        }
+
+        private void BtnNuevaAsignacion_Click(object sender, EventArgs e)
+        {
+            VistaMovimiento vistaMovimiento = new VistaMovimiento();
+            vistaMovimiento.ShowDialog();
         }
     }
 }

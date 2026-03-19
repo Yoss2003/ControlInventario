@@ -182,6 +182,11 @@ namespace ControlInventario.Vistas
                 // Configuración inicial
                 articulos.Text = "Crear Artículo " + "(" + $"{categoria}" + ")";
                 articulos.TxtCodigo.Enabled = true;
+                articulos.ChkAutoCodigo.Enabled = true;
+                articulos.TxtModelo.Enabled = true;
+                articulos.ChkAutoModelo.Enabled = true;
+                articulos.TxtSerie.Enabled = true;
+                articulos.ChkAutoSerie.Enabled = true;
                 articulos.CbMarcas.Visible = true;
                 articulos.GpCaracteristicas.Visible = true;
 
@@ -253,49 +258,56 @@ namespace ControlInventario.Vistas
 
             if (categoriaId == 0)
             {
-                MessageBox.Show("Seleccione una categoría para editar un artículo.", "Información",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information
-                );
+                MessageBox.Show("Seleccione una categoría para editar un artículo.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
             if (LstIngresos == null || LstIngresos.SelectedItems.Count == 0)
             {
-                MessageBox.Show("Seleccione un artículo para editar.", "Información",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information
-                );
+                MessageBox.Show("Seleccione un artículo para editar.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
             ListViewItem item = LstIngresos.SelectedItems[0];
             _articuloId = Convert.ToInt32(item.SubItems[0].Text);
 
+            // 1. OBTENEMOS EL ARTÍCULO DESDE EL INICIO
+            // Esto nos da acceso a todos los IDs reales sin depender de los textos del ListView
+            var art = ArticuloRepository.ObtenerArticuloPorId(_articuloId);
+
+            if (art == null)
+            {
+                MessageBox.Show("Error al cargar los datos del artículo desde la base de datos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             using (var articulos = new VistaArticulos(categoriaId, categoria, _articuloId))
             {
+                // 2. LLENAMOS EL MODELO USANDO LOS IDs DE LA BASE DE DATOS
                 var datos = new EdicionArticulo
                 {
                     Id = _articuloId,
-                    Marca = item.SubItems[4].Text,
-                    Area1 = item.SubItems[10].Text,
-                    Cargo1 = item.SubItems[11].Text,
-                    Area2 = item.SubItems[14].Text,
-                    Cargo2 = item.SubItems[15].Text,
-                    Estado = item.SubItems[16].Text,
-                    Ubicacion = item.SubItems[17].Text,
-                    Condicion = item.SubItems[18].Text,
+                    IdMarca = art.IdMarca,
+                    IdEstado = art.IdEstado,
+                    IdUbicacion = art.IdUbicacion,
+                    IdCondicion = art.IdCondicion,
+                    IdEmpleadoActual = art.EmpleadoActualId,   // Aquí evitamos que llegue null
+                    IdEmpleadoAnterior = art.EmpleadoAnteriorId // Aquí evitamos que llegue null
                 };
 
                 // Configuración inicial
                 articulos.Text = "Editar Artículo";
                 articulos.TxtCodigo.Enabled = false;
+                articulos.ChkAutoCodigo.Enabled = false;
+                articulos.TxtModelo.Enabled = false;
+                articulos.ChkAutoModelo.Enabled = false;
+                articulos.TxtSerie.Enabled = false;
+                articulos.ChkAutoSerie.Enabled = false;
                 articulos.GpCaracteristicas.Visible = true;
 
                 switch (categoriaSeleccionadaNombre)
                 {
                     case "Accesorios":
-                        //articulos.Size = new Size(828, 510);
                         articulos.GpCaracteristicas.Visible = false;
 
                         // Group Informacion
@@ -334,9 +346,7 @@ namespace ControlInventario.Vistas
                         articulos.BtnGuardarPlus.Location = new Point(190, 38);
                         articulos.BtnCancelar.Location = new Point(69, 79);
                         articulos.BtnEmpleados.Location = new Point(190, 79);
-
-
-                    break;
+                        break;
 
                     default:
                         // Caso genérico: cualquier categoría con marcas
@@ -346,18 +356,18 @@ namespace ControlInventario.Vistas
 
                 articulos.DatosEdicion = datos;
 
-                // Campos básicos
-                articulos.TxtCodigo.Text = item.SubItems[1]?.Text ?? string.Empty;
-                articulos.TxtModelo.Text = item.SubItems[2]?.Text ?? string.Empty;
-                articulos.TxtSerie.Text = item.SubItems[3]?.Text ?? string.Empty;
+                // 3. CARGAMOS LOS CAMPOS VISUALES USANDO EL OBJETO 'art'
+                // Esto evita errores de conversión y "TryParse" complejos de los SubItems
+                articulos.TxtCodigo.Text = art.Codigo ?? string.Empty;
+                articulos.TxtModelo.Text = art.Modelo ?? string.Empty;
+                articulos.TxtSerie.Text = art.Serie ?? string.Empty;
 
-                // Fechas con TryParse
-                if (item.SubItems.Count > 5 && DateTime.TryParse(item.SubItems[5]?.Text, out DateTime fechaAdquisicion))
-                    articulos.DtpFechaAdquisicion.Value = fechaAdquisicion;
+                // Fechas
+                articulos.DtpFechaAdquisicion.Value = art.FechaAdquisicion;
 
-                if (item.SubItems.Count > 6 && DateTime.TryParse(item.SubItems[6]?.Text, out DateTime fechaBaja))
+                if (art.FechaBaja.HasValue)
                 {
-                    articulos.DtpFechaBaja.Value = fechaBaja;
+                    articulos.DtpFechaBaja.Value = art.FechaBaja.Value;
                     articulos.ChkFechaBaja.Checked = true;
                 }
                 else
@@ -365,9 +375,9 @@ namespace ControlInventario.Vistas
                     articulos.ChkFechaBaja.Checked = false;
                 }
 
-                if (item.SubItems.Count > 7 && DateTime.TryParse(item.SubItems[7]?.Text, out DateTime fechaFinGarantia))
+                if (art.FechaFinGarantia.HasValue)
                 {
-                    articulos.DtpFechaFinGarantia.Value = fechaFinGarantia;
+                    articulos.DtpFechaFinGarantia.Value = art.FechaFinGarantia.Value;
                     articulos.ChkFechaGarantia.Checked = true;
                 }
                 else
@@ -375,45 +385,30 @@ namespace ControlInventario.Vistas
                     articulos.ChkFechaGarantia.Checked = false;
                 }
 
-                // Usuario actual
-                articulos.TxtDniUsuarioActual.Text = item.SubItems[8]?.Text ?? string.Empty;
-                articulos.TxtNombreUsuarioActual.Text = item.SubItems[9]?.Text ?? string.Empty;
+                // Datos contables / adicionales
+                articulos.TxtRuc.Text = art.RucProveedor ?? string.Empty;
+                articulos.TxtRazonSocial.Text = art.Proveedor ?? string.Empty;
+                articulos.TxtPrecio.Text = ClassHelper.AgregarSimboloVisual(art.PrecioAdquisicion);
+                articulos.TxtActivoFijo.Text = art.ActivoFijo ?? string.Empty;
+                articulos.TxtObservaciones.Text = art.Observacion ?? string.Empty;
 
-                // Usuario anterior
-                articulos.TxtDniUsuarioAnterior.Text = item.SubItems[12]?.Text ?? string.Empty;
-                articulos.TxtNombreUsuarioAnterior.Text = item.SubItems[13]?.Text ?? string.Empty;
-
-                // Datos adicionales
-                articulos.TxtRuc.Text = item.SubItems[19]?.Text ?? string.Empty;
-                articulos.TxtRazonSocial.Text = item.SubItems[20]?.Text ?? string.Empty;
-                articulos.TxtPrecio.Text = item.SubItems[21]?.Text ?? string.Empty;
-                articulos.TxtActivoFijo.Text = item.SubItems[22]?.Text ?? string.Empty;
-                articulos.TxtObservaciones.Text = item.SubItems[23]?.Text ?? string.Empty;
-                articulos.TxtDireccionImagen.Text = item.SubItems[24]?.Text ?? string.Empty;
-                articulos.TxtRutaComprobante.Text = item.SubItems[25]?.Text ?? string.Empty;
-
-                // Obtener el artículo completo de la BD
-                var art = ArticuloRepository.ObtenerArticuloPorId(_articuloId);
-
-                string rutaFoto = File.Exists(art.FotoPrincipal)
-                                ? art.FotoPrincipal
-                                : art.FotoSecundaria;
+                // Carga de imágenes
+                string rutaFoto = File.Exists(art.FotoPrincipal) ? art.FotoPrincipal : art.FotoSecundaria;
 
                 if (!string.IsNullOrEmpty(rutaFoto) && File.Exists(rutaFoto))
                 {
+                    articulos.TxtDireccionImagen.Text = rutaFoto;
                     articulos.PbFotoArticulo.Image = Image.FromFile(rutaFoto);
                 }
 
-                string rutaComprobante = File.Exists(art.ComprobantePrincipal)
-                                            ? art.ComprobantePrincipal
-                                            : art.ComprobanteSecundaria;
+                // Carga de PDF
+                string rutaComprobante = File.Exists(art.ComprobantePrincipal) ? art.ComprobantePrincipal : art.ComprobanteSecundaria;
 
                 if (!string.IsNullOrEmpty(rutaComprobante) && File.Exists(rutaComprobante))
                 {
                     using (var pdfDocument = PdfiumViewer.PdfDocument.Load(rutaComprobante))
                     {
                         articulos.TxtRutaComprobante.Text = rutaComprobante;
-
                         articulos.PdfViewerControl.Document?.Dispose();
                         articulos.PdfViewerControl.Document = PdfiumViewer.PdfDocument.Load(rutaComprobante);
                         articulos.PdfViewerControl.BringToFront();

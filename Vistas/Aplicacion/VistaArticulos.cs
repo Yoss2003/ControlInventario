@@ -441,6 +441,7 @@ namespace ControlInventario.Vistas
                             Articulos art = new Articulos
                             {
                                 InventarioId = UsuarioSesion.InventarioId,
+                                Id = _articuloId, 
                                 Codigo = codigoFinal,
                                 Modelo = TxtModelo.Text,
                                 Serie = TxtSerie.Text,
@@ -749,33 +750,44 @@ namespace ControlInventario.Vistas
 
                 if (DatosEdicion != null)
                 {
-                    CbMarcas.SelectedIndex = CbMarcas.FindStringExact(DatosEdicion.Marca);
-                    CbEstadoArticulo.SelectedIndex = CbEstadoArticulo.FindStringExact(DatosEdicion.Estado);
-                    CbUbicacion.SelectedIndex = CbUbicacion.FindStringExact(DatosEdicion.Ubicacion);
-                    CbCondicion.SelectedIndex = CbCondicion.FindStringExact(DatosEdicion.Condicion);
+                    // 1. Asignar características del artículo de forma segura usando los IDs
+                    // Al asignar directamente el SelectedValue, evitamos problemas de textos mal escritos o cambiados
+                    CbMarcas.SelectedValue = DatosEdicion.IdMarca;
+                    CbEstadoArticulo.SelectedValue = DatosEdicion.IdEstado;
+                    CbUbicacion.SelectedValue = DatosEdicion.IdUbicacion;
+                    CbCondicion.SelectedValue = DatosEdicion.IdCondicion;
 
-                    // NUEVO: Cargar los datos visuales del Empleado Actual usando su ID
-                    if (idEmpleadoActualTemporal != null)
+                    // 2. Recuperar los IDs de los empleados desde la memoria compartida
+                    idEmpleadoActualTemporal = DatosEdicion.IdEmpleadoActual;
+                    idEmpleadoAnteriorTemporal = DatosEdicion.IdEmpleadoAnterior;
+
+                    // 3. Consultar y llenar datos visuales del Empleado Actual (Si existe)
+                    if (idEmpleadoActualTemporal != null && idEmpleadoActualTemporal > 0)
                     {
                         var empActual = EmpleadoRepository.ObtenerEmpleadoPorId(idEmpleadoActualTemporal.Value);
                         if (empActual != null)
                         {
                             TxtDniUsuarioActual.Text = empActual.DNI;
                             TxtNombreUsuarioActual.Text = empActual.Nombres + " " + empActual.Apellidos;
+
+                            // Asignamos directamente usando los IDs del empleado obtenido de la BD
                             CbAreaUsuarioActual.SelectedValue = empActual.IdArea;
                             CbCargoUsuarioActual.SelectedValue = empActual.IdCargo;
+
                             dniTemporal = empActual.DNI; // Llenamos la memoria temporal
                         }
                     }
 
-                    // NUEVO: Cargar los datos visuales del Empleado Anterior usando su ID
-                    if (idEmpleadoAnteriorTemporal != null)
+                    // 4. Consultar y llenar datos visuales del Empleado Anterior (Si existe)
+                    if (idEmpleadoAnteriorTemporal != null && idEmpleadoAnteriorTemporal > 0)
                     {
                         var empAnterior = EmpleadoRepository.ObtenerEmpleadoPorId(idEmpleadoAnteriorTemporal.Value);
                         if (empAnterior != null)
                         {
                             TxtDniUsuarioAnterior.Text = empAnterior.DNI;
                             TxtNombreUsuarioAnterior.Text = empAnterior.Nombres + " " + empAnterior.Apellidos;
+
+                            // Asignamos directamente usando los IDs del empleado obtenido de la BD
                             CbAreaUsuarioAnterior.SelectedValue = empAnterior.IdArea;
                             CbCargoUsuarioAnterior.SelectedValue = empAnterior.IdCargo;
                         }

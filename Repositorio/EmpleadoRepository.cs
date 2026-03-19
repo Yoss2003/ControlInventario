@@ -196,5 +196,27 @@ namespace ControlInventario.Repositorio
             return null;
         }
 
+        public static Empleados ObtenerEmpleadoPorId(int id)
+        {
+            using (var con = ConexionGlobal.ObtenerConexion())
+            {
+                con.Open();
+                string query = "SELECT * FROM vw_Empleado WHERE Id = @Id LIMIT 1;";
+
+                using (var cmd = new SQLiteCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@Id", id);
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            return MapearEmpleado(reader);
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+
     }
 }

@@ -71,16 +71,35 @@ namespace ControlInventario.Database
                 e.Nombre AS EstadoTexto,
                 u.Nombre AS UbicacionTexto,
                 cond.Nombre AS CondicionTexto,
+    
                 empAct.Nombres || ' ' || empAct.Apellidos AS EmpleadoActualTexto,
-                empAnt.Nombres || ' ' || empAnt.Apellidos AS EmpleadoAnteriorTexto
+                empAct.DNI AS EmpleadoActualDNI,
+                empAct.IdArea AS EmpleadoActualIdArea,
+                areaAct.Nombre AS EmpleadoActualAreaTexto,
+                empAct.IdCargo AS EmpleadoActualIdCargo,
+                cargoAct.Nombre AS EmpleadoActualCargoTexto,
+    
+                empAnt.Nombres || ' ' || empAnt.Apellidos AS EmpleadoAnteriorTexto,
+                empAnt.DNI AS EmpleadoAnteriorDNI,
+                empAnt.IdArea AS EmpleadoAnteriorIdArea,
+                areaAnt.Nombre AS EmpleadoAnteriorAreaTexto,
+                empAnt.IdCargo AS EmpleadoAnteriorIdCargo,
+                cargoAnt.Nombre AS EmpleadoAnteriorCargoTexto
+
             FROM Articulos a
             LEFT JOIN Categorias c ON a.CategoriaId = c.Id
             LEFT JOIN Marcas m ON a.IdMarca = m.Id
             LEFT JOIN Parametros e ON a.IdEstado = e.Id
             LEFT JOIN Parametros u ON a.IdUbicacion = u.Id
             LEFT JOIN Parametros cond ON a.IdCondicion = cond.Id
+
             LEFT JOIN Empleados empAct ON a.EmpleadoActualId = empAct.Id
-            LEFT JOIN Empleados empAnt ON a.EmpleadoAnteriorId = empAnt.Id;";
+            LEFT JOIN Parametros areaAct ON empAct.IdArea = areaAct.Id
+            LEFT JOIN Parametros cargoAct ON empAct.IdCargo = cargoAct.Id
+
+            LEFT JOIN Empleados empAnt ON a.EmpleadoAnteriorId = empAnt.Id
+            LEFT JOIN Parametros areaAnt ON empAnt.IdArea = areaAnt.Id
+            LEFT JOIN Parametros cargoAnt ON empAnt.IdCargo = cargoAnt.Id;";
 
             using (var cmdVista = new SQLiteCommand(queryVista, con))
             {
@@ -146,7 +165,7 @@ namespace ControlInventario.Database
 
                 cmd.Parameters.AddWithValue("@RucProveedor", art.RucProveedor);
                 cmd.Parameters.AddWithValue("@Proveedor", art.Proveedor);
-                cmd.Parameters.AddWithValue("@PrecioAdquisicion", art.PrecioAdquisicion ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@PrecioAdquisicion", art.PrecioAdquisicion.HasValue ? (object)Convert.ToDouble(art.PrecioAdquisicion.Value) : DBNull.Value);
                 cmd.Parameters.AddWithValue("@VidaUtilMeses", art.VidaUtilMeses ?? (object)DBNull.Value);
 
                 cmd.Parameters.AddWithValue("@CategoriaId", art.CategoriaId);
@@ -213,7 +232,7 @@ namespace ControlInventario.Database
 
                     cmd.Parameters.AddWithValue("@RucProveedor", art.RucProveedor);
                     cmd.Parameters.AddWithValue("@Proveedor", art.Proveedor);
-                    cmd.Parameters.AddWithValue("@PrecioAdquisicion", art.PrecioAdquisicion ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@PrecioAdquisicion", art.PrecioAdquisicion.HasValue ? (object)Convert.ToDouble(art.PrecioAdquisicion.Value) : DBNull.Value);
                     cmd.Parameters.AddWithValue("@VidaUtilMeses", art.VidaUtilMeses ?? (object)DBNull.Value);
                     cmd.Parameters.AddWithValue("@Id", art.Id);
 
@@ -370,11 +389,23 @@ namespace ControlInventario.Database
                 FechaBaja = reader["FechaBaja"] != DBNull.Value ? DateTime.Parse(reader["FechaBaja"].ToString()) : (DateTime?)null,
                 FechaFinGarantia = reader["FechaFinGarantia"] != DBNull.Value ? DateTime.Parse(reader["FechaFinGarantia"].ToString()) : (DateTime?)null,
 
-                // --- MAPEO DE EMPLEADOS ---
+                // --- MAPEO DE EMPLEADO ACTUAL ---
                 EmpleadoActualId = reader["EmpleadoActualId"] != DBNull.Value ? Convert.ToInt32(reader["EmpleadoActualId"]) : (int?)null,
                 EmpleadoActualTexto = reader["EmpleadoActualTexto"]?.ToString(),
+                EmpleadoActualDNI = reader["EmpleadoActualDNI"]?.ToString(),
+                EmpleadoActualIdArea = reader["EmpleadoActualIdArea"] != DBNull.Value ? Convert.ToInt32(reader["EmpleadoActualIdArea"]) : (int?)null,
+                EmpleadoActualAreaTexto = reader["EmpleadoActualAreaTexto"]?.ToString(),
+                EmpleadoActualIdCargo = reader["EmpleadoActualIdCargo"] != DBNull.Value ? Convert.ToInt32(reader["EmpleadoActualIdCargo"]) : (int?)null,
+                EmpleadoActualCargoTexto = reader["EmpleadoActualCargoTexto"]?.ToString(),
+
+                // --- MAPEO DE EMPLEADO ANTERIOR ---
                 EmpleadoAnteriorId = reader["EmpleadoAnteriorId"] != DBNull.Value ? Convert.ToInt32(reader["EmpleadoAnteriorId"]) : (int?)null,
                 EmpleadoAnteriorTexto = reader["EmpleadoAnteriorTexto"]?.ToString(),
+                EmpleadoAnteriorDNI = reader["EmpleadoAnteriorDNI"]?.ToString(),
+                EmpleadoAnteriorIdArea = reader["EmpleadoAnteriorIdArea"] != DBNull.Value ? Convert.ToInt32(reader["EmpleadoAnteriorIdArea"]) : (int?)null,
+                EmpleadoAnteriorAreaTexto = reader["EmpleadoAnteriorAreaTexto"]?.ToString(),
+                EmpleadoAnteriorIdCargo = reader["EmpleadoAnteriorIdCargo"] != DBNull.Value ? Convert.ToInt32(reader["EmpleadoAnteriorIdCargo"]) : (int?)null,
+                EmpleadoAnteriorCargoTexto = reader["EmpleadoAnteriorCargoTexto"]?.ToString(),
 
                 IdEstado = reader["IdEstado"] != DBNull.Value ? Convert.ToInt32(reader["IdEstado"]) : 0,
                 Estado = reader["EstadoTexto"]?.ToString(),

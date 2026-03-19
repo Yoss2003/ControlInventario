@@ -99,14 +99,19 @@ namespace ControlInventario.Servicios
                 item.SubItems.Add(ClassHelper.FormatearFecha(art.FechaAdquisicion));
                 item.SubItems.Add(ClassHelper.FormatearFecha(art.FechaBaja));
                 item.SubItems.Add(ClassHelper.FormatearFecha(art.FechaFinGarantia));
-                item.SubItems.Add("");
+
+                // --- INFORMACIÓN DEL EMPLEADO ACTUAL ---
+                item.SubItems.Add(art.EmpleadoActualDNI ?? "");
                 item.SubItems.Add(art.EmpleadoActualTexto ?? "");
-                item.SubItems.Add("");
-                item.SubItems.Add("");
-                item.SubItems.Add("");
+                item.SubItems.Add(art.EmpleadoActualAreaTexto ?? "");
+                item.SubItems.Add(art.EmpleadoActualCargoTexto ?? "");
+
+                // --- INFORMACIÓN DEL EMPLEADO ANTERIOR ---
+                item.SubItems.Add(art.EmpleadoAnteriorDNI ?? "");
                 item.SubItems.Add(art.EmpleadoAnteriorTexto ?? "");
-                item.SubItems.Add("");
-                item.SubItems.Add("");
+                item.SubItems.Add(art.EmpleadoAnteriorAreaTexto ?? "");
+                item.SubItems.Add(art.EmpleadoAnteriorCargoTexto ?? "");
+
                 item.SubItems.Add(art.Estado ?? "");
                 item.SubItems.Add(art.Ubicacion ?? "");
                 item.SubItems.Add(art.Condicion ?? "");
@@ -120,7 +125,6 @@ namespace ControlInventario.Servicios
 
                 listView.Items.Add(item);
             }
-
         }
 
         public static string NormalizarCombo(ComboBox combo)
@@ -408,34 +412,21 @@ namespace ControlInventario.Servicios
 
         public static decimal? ConvertirTextoAMoneda(string textoMoneda)
         {
-            if (string.IsNullOrWhiteSpace(textoMoneda)) return null;
+            // Usamos el extractor blindado
+            decimal? montoPantalla = ExtraerNumero(textoMoneda);
+            if (!montoPantalla.HasValue) return null;
 
-            string textoLimpio = Regex.Replace(textoMoneda, @"[^\d.,-]", "").Trim();
-            if (string.IsNullOrWhiteSpace(textoLimpio)) return null;
+            string monedaCompleta = UsuarioSesion.Configuracion?.Moneda ?? "PEN";
+            string isoCode = (!string.IsNullOrEmpty(monedaCompleta) && monedaCompleta.Length >= 3) ? monedaCompleta.Substring(0, 3) : "PEN";
 
-            decimal? montoPantalla = null;
+            decimal tasaPEN = TasasDeCambioCache.ContainsKey("PEN") ? TasasDeCambioCache["PEN"] : 3.75m;
+            decimal tasaOrigen = TasasDeCambioCache.ContainsKey(isoCode) ? TasasDeCambioCache[isoCode] : 1.00m;
 
-            if (decimal.TryParse(textoLimpio, NumberStyles.Any, CultureInfo.CurrentCulture, out decimal resultadoA))
-                montoPantalla = resultadoA;
-            else if (decimal.TryParse(textoLimpio, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal resultadoB))
-                montoPantalla = resultadoB;
+            decimal montoEnUSD = montoPantalla.Value / tasaOrigen;
+            decimal montoParaBD = montoEnUSD * tasaPEN;
 
-            if (montoPantalla.HasValue)
-            {
-                string monedaCompleta = UsuarioSesion.Configuracion?.Moneda ?? "PEN";
-                string isoCode = (!string.IsNullOrEmpty(monedaCompleta) && monedaCompleta.Length >= 3) ? monedaCompleta.Substring(0, 3) : "PEN";
-
-                decimal tasaPEN = TasasDeCambioCache.ContainsKey("PEN") ? TasasDeCambioCache["PEN"] : 3.75m;
-                decimal tasaOrigen = TasasDeCambioCache.ContainsKey(isoCode) ? TasasDeCambioCache[isoCode] : 1.00m;
-
-                decimal montoEnUSD = montoPantalla.Value / tasaOrigen;
-
-                decimal montoParaBD = montoEnUSD * tasaPEN;
-
-                return montoParaBD;
-            }
-
-            return null;
+            // LA MAGIA ESTÁ AQUÍ: Redondeamos a 2 decimales para evitar los .999999999M
+            return Math.Round(montoParaBD, 2);
         }
 
         public static decimal ObtenerTipoCambio(string codigoISODestino)
@@ -485,15 +476,49 @@ namespace ControlInventario.Servicios
 
         public static decimal? LimpiarTextoParaEdicion(string textoMoneda)
         {
-            if (string.IsNullOrWhiteSpace(textoMoneda)) return null;
+            return ExtraerNumero(textoMoneda);
+        }
 
-            string textoLimpio = Regex.Replace(textoMoneda, @"[^\d.,-]", "").Trim();
-            if (string.IsNullOrWhiteSpace(textoLimpio)) return null;
+        private static decimal? ExtraerNumero(string texto)
+        {
+            if (string.IsNullOrWhiteSpace(texto)) return null;
 
-            if (decimal.TryParse(textoLimpio, NumberStyles.Any, CultureInfo.CurrentCulture, out decimal resultadoA))
-                return resultadoA;
-            if (decimal.TryParse(textoLimpio, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal resultadoB))
-                return resultadoB;
+            // 1. Quitar símbolos conocidos (Lo pasamos a mayúsculas para atrapar el "s/." aunque lo escriban en minúscula)
+            string t = texto.ToUpper().Replace("S/.", "").Replace("S/", "").Replace("$", "").Replace("€", "").Trim();
+
+            // 2. Dejar puramente números, comas y puntos
+            t = Regex.Replace(t, @"[^\d.,]", "");
+            if (string.IsNullOrWhiteSpace(t)) return null;
+
+            // 3. Inteligencia para detectar qué es el separador de miles y cuál el decimal
+            int ultimaComa = t.LastIndexOf(',');
+            int ultimoPunto = t.LastIndexOf('.');
+
+            if (ultimaComa > -1 && ultimoPunto > -1)
+            {
+                // Si tiene ambos (ej: 1,500.50 o 1.500,50), el que está al final es el decimal real
+                if (ultimaComa > ultimoPunto)
+                    t = t.Replace(".", "").Replace(",", "."); // Formato europeo a invariante
+                else
+                    t = t.Replace(",", ""); // Formato americano a invariante
+            }
+            else if (ultimaComa > -1)
+            {
+                // Si solo hay comas, la convertimos en un punto decimal
+                t = t.Replace(",", ".");
+            }
+
+            // 4. Si por algún error de tipeo (o al borrar el S/.) quedaron varios puntos (ej: .150.00), limpiamos los sobrantes
+            while (t.IndexOf('.') != t.LastIndexOf('.'))
+            {
+                t = t.Remove(t.IndexOf('.'), 1);
+            }
+
+            // 5. Convertimos a decimal de forma 100% segura usando cultura Invariante
+            if (decimal.TryParse(t, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal result))
+            {
+                return result;
+            }
 
             return null;
         }

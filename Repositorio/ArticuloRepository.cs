@@ -155,17 +155,17 @@ namespace ControlInventario.Database
                 cmd.Parameters.AddWithValue("@IdEstado", art.IdEstado);
                 cmd.Parameters.AddWithValue("@IdUbicacion", art.IdUbicacion);
                 cmd.Parameters.AddWithValue("@IdCondicion", art.IdCondicion);
-                cmd.Parameters.AddWithValue("@ActivoFijo", art.ActivoFijo);
+                cmd.Parameters.AddWithValue("@ActivoFijo", (object)art.ActivoFijo ?? DBNull.Value);
 
-                cmd.Parameters.AddWithValue("@Observacion", art.Observacion);
-                cmd.Parameters.AddWithValue("@RutaFotoPrincipal", art.FotoPrincipal);
-                cmd.Parameters.AddWithValue("@RutaFotoSecundaria", art.FotoSecundaria);
-                cmd.Parameters.AddWithValue("@RutaComprobantePrincipal", art.ComprobantePrincipal);
-                cmd.Parameters.AddWithValue("@RutaComprobanteSecundaria", art.ComprobanteSecundaria);
+                cmd.Parameters.AddWithValue("@Observacion", (object)art.Observacion ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@RutaFotoPrincipal", (object)art.FotoPrincipal ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@RutaFotoSecundaria", (object)art.FotoSecundaria ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@RutaComprobantePrincipal", (object)art.ComprobantePrincipal ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@RutaComprobanteSecundaria", (object)art.ComprobanteSecundaria ?? DBNull.Value);
 
-                cmd.Parameters.AddWithValue("@RucProveedor", art.RucProveedor);
-                cmd.Parameters.AddWithValue("@Proveedor", art.Proveedor);
-                cmd.Parameters.AddWithValue("@PrecioAdquisicion", art.PrecioAdquisicion.HasValue ? (object)Convert.ToDouble(art.PrecioAdquisicion.Value) : DBNull.Value);
+                cmd.Parameters.AddWithValue("@RucProveedor", (object)art.RucProveedor ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@Proveedor", (object)art.Proveedor ?? DBNull.Value);
+                cmd.Parameters.Add(new SQLiteParameter("@PrecioAdquisicion", DbType.Decimal) { Value = art.PrecioAdquisicion ?? (object)DBNull.Value });
                 cmd.Parameters.AddWithValue("@VidaUtilMeses", art.VidaUtilMeses ?? (object)DBNull.Value);
 
                 cmd.Parameters.AddWithValue("@CategoriaId", art.CategoriaId);
@@ -222,17 +222,17 @@ namespace ControlInventario.Database
                     cmd.Parameters.AddWithValue("@IdEstado", art.IdEstado);
                     cmd.Parameters.AddWithValue("@IdUbicacion", art.IdUbicacion);
                     cmd.Parameters.AddWithValue("@IdCondicion", art.IdCondicion);
-                    cmd.Parameters.AddWithValue("@ActivoFijo", art.ActivoFijo);
+                    cmd.Parameters.AddWithValue("@ActivoFijo", (object)art.ActivoFijo ?? DBNull.Value);
 
-                    cmd.Parameters.AddWithValue("@Observacion", art.Observacion);
-                    cmd.Parameters.AddWithValue("@RutaFotoPrincipal", art.FotoPrincipal);
-                    cmd.Parameters.AddWithValue("@RutaFotoSecundaria", art.FotoSecundaria);
-                    cmd.Parameters.AddWithValue("@RutaComprobantePrincipal", art.ComprobantePrincipal);
-                    cmd.Parameters.AddWithValue("@RutaComprobanteSecundaria", art.ComprobanteSecundaria);
+                    cmd.Parameters.AddWithValue("@Observacion", (object)art.Observacion ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@RutaFotoPrincipal", (object)art.FotoPrincipal ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@RutaFotoSecundaria", (object)art.FotoSecundaria ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@RutaComprobantePrincipal", (object)art.ComprobantePrincipal ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@RutaComprobanteSecundaria", (object)art.ComprobanteSecundaria ?? DBNull.Value);
 
-                    cmd.Parameters.AddWithValue("@RucProveedor", art.RucProveedor);
-                    cmd.Parameters.AddWithValue("@Proveedor", art.Proveedor);
-                    cmd.Parameters.AddWithValue("@PrecioAdquisicion", art.PrecioAdquisicion.HasValue ? (object)Convert.ToDouble(art.PrecioAdquisicion.Value) : DBNull.Value);
+                    cmd.Parameters.AddWithValue("@RucProveedor", (object)art.RucProveedor ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Proveedor", (object)art.Proveedor ?? DBNull.Value);
+                    cmd.Parameters.Add(new SQLiteParameter("@PrecioAdquisicion", DbType.Decimal) { Value = art.PrecioAdquisicion ?? (object)DBNull.Value });
                     cmd.Parameters.AddWithValue("@VidaUtilMeses", art.VidaUtilMeses ?? (object)DBNull.Value);
                     cmd.Parameters.AddWithValue("@Id", art.Id);
 

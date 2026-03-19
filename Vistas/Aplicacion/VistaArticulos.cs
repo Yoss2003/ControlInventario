@@ -36,7 +36,7 @@ namespace ControlInventario.Vistas
         private string ultimoModeloGuardado = "";
         private int ultimaCategoriaIdGuardada = 0;
         private bool rechazoSugerenciaModelo = false;
-
+         
         public VistaArticulos(int categoriaId, string categoria, int articuloId)
         {
             InitializeComponent();
@@ -71,45 +71,58 @@ namespace ControlInventario.Vistas
             if (string.IsNullOrWhiteSpace(TxtSerie.Text))
             {
                 ErrorArticulos.SetError(TxtSerie, Idiomas.MensajeErrorAgregarSerieArticulo);
+                valido = false; 
             }
 
             if (CbMarcas.Text == Idiomas.OpcionSeleccione || CbMarcas.SelectedIndex == 0)
             {
                 ErrorArticulos.SetError(CbMarcas, Idiomas.MensajeErrorAgregarMarcaArticulo);
+                valido = false; 
             }
 
             if (ChkFechaBaja.Checked || ChkFechaGarantia.Checked)
             {
                 if (DtpFechaBaja.Value < DtpFechaAdquisicion.Value)
+                {
                     ErrorArticulos.SetError(DtpFechaBaja, Idiomas.MensajeErrorAgregarFechaBajaArticulo);
+                    valido = false; 
+                }
 
                 if (DtpFechaFinGarantia.Value < DtpFechaAdquisicion.Value)
+                {
                     ErrorArticulos.SetError(DtpFechaFinGarantia, Idiomas.MensajeErrorAgregarFechaGarantiaArticulo);
+                    valido = false; 
+                }
             }
 
             if (string.IsNullOrWhiteSpace(TxtDniUsuarioActual.Text))
             {
                 ErrorArticulos.SetError(TxtDniUsuarioActual, Idiomas.MensajeErrorAgregarDniArticulo);
+                valido = false; 
             }
 
             if (CbEstadoArticulo.Text == Idiomas.OpcionSeleccione || CbEstadoArticulo.SelectedIndex == 0)
             {
                 ErrorArticulos.SetError(CbEstadoArticulo, Idiomas.MensajeErrorAgregarEstadoArticulo);
+                valido = false; 
             }
 
             if (CbUbicacion.Text == Idiomas.OpcionSeleccione || CbUbicacion.SelectedIndex == 0)
             {
                 ErrorArticulos.SetError(CbUbicacion, Idiomas.MensajeErrorAgregarUbicacionArticulo);
+                valido = false; 
             }
 
             if (CbCondicion.Text == Idiomas.OpcionSeleccione || CbCondicion.SelectedIndex == 0)
             {
                 ErrorArticulos.SetError(CbCondicion, Idiomas.MensajeErrorAgregarCondicionArticulo);
+                valido = false; 
             }
 
             if (string.IsNullOrWhiteSpace(TxtDireccionImagen.Text))
             {
                 ErrorArticulos.SetError(TxtDireccionImagen, Idiomas.MensajeErrorAgregarFotoArticulo);
+                valido = false; 
             }
 
             return valido;
@@ -178,7 +191,6 @@ namespace ControlInventario.Vistas
             }
         }
 
-        // Recolecta TextBox y ComboBox recursivamente (mantiene orden visual)
         private void RecolectarControles(Control parent, List<Control> lista)
         {
             foreach (Control c in parent.Controls)
@@ -191,7 +203,6 @@ namespace ControlInventario.Vistas
             }
         }
 
-        // Normaliza el nombre del control para buscar su label asociado
         private string ObtenerNombreBase(Control ctrl)
         {
             if (string.IsNullOrEmpty(ctrl?.Name)) return string.Empty;
@@ -200,7 +211,6 @@ namespace ControlInventario.Vistas
             return n;
         }
 
-        // Busca un Label cuyo Name contenga nombreBase en todo el árbol (recursivo)
         private Label BuscarLabelRecursivo(Control root, string nombreBase)
         {
             if (string.IsNullOrEmpty(nombreBase)) return null;
@@ -302,7 +312,7 @@ namespace ControlInventario.Vistas
                 string carpetaImagenes = ConexionGlobal.ObtenerCarpetaImagenes();
 
                 string codigoActivoFijo = TxtActivoFijo.Text.Trim();
-                string precioTexto = TxtPrecio.Text.Trim().Replace(".", ",");
+                string precioTexto = TxtPrecio.Text.Trim();
                 decimal? precioFinal = ClassHelper.ConvertirTextoAMoneda(precioTexto);
 
                 // Verificar ActivoFijo
@@ -430,7 +440,7 @@ namespace ControlInventario.Vistas
 
                             Articulos art = new Articulos
                             {
-                                Id = _articuloId,
+                                InventarioId = UsuarioSesion.InventarioId,
                                 Codigo = codigoFinal,
                                 Modelo = TxtModelo.Text,
                                 Serie = TxtSerie.Text,
@@ -456,11 +466,11 @@ namespace ControlInventario.Vistas
                                 Proveedor = string.IsNullOrWhiteSpace(TxtRazonSocial.Text) ? null : TxtRazonSocial.Text,
                                 PrecioAdquisicion = precioFinal,
 
-                                FechaModificacion = DateTime.Now,
+                                FechaRegistro = DateTime.Now,
 
                                 CategoriaId = _categoriaId,
                                 Categoria = _categoria
-                            };                           
+                            };
 
                             // guardar comprobante
                             if (!string.IsNullOrWhiteSpace(TxtRutaComprobante.Text) && File.Exists(TxtRutaComprobante.Text))
@@ -525,8 +535,8 @@ namespace ControlInventario.Vistas
                 string carpetaImagenes = ConexionGlobal.ObtenerCarpetaImagenes();
 
                 string codigoActivoFijo = TxtActivoFijo.Text.Trim();
-                string precioTexto = TxtPrecio.Text.Trim().Replace(".", ",");
-                decimal? precioFinal = null;
+                string precioTexto = TxtPrecio.Text.Trim();
+                decimal? precioFinal = ClassHelper.ConvertirTextoAMoneda(precioTexto);
 
                 // Verificar ActivoFijo
                 if (!string.IsNullOrEmpty(codigoActivoFijo))
@@ -540,13 +550,7 @@ namespace ControlInventario.Vistas
                         TxtActivoFijo.Focus();
                         return;
                     }
-                }
-
-                // Verificar Precio
-                if (decimal.TryParse(precioTexto, out decimal resultadoDecimal))
-                {
-                    precioFinal = resultadoDecimal;
-                }
+                }                
 
                 // Mapear Codigo automatico
                 if (generarCodigoAutomatico)
@@ -574,7 +578,6 @@ namespace ControlInventario.Vistas
                             FechaBaja = ChkFechaBaja.Checked ? DtpFechaBaja.Value.Date : (DateTime?)null,
                             FechaFinGarantia = ChkFechaGarantia.Checked ? DtpFechaFinGarantia.Value.Date : (DateTime?)null,
 
-                            // Aquí mandamos la información del custodio usando solo los IDs que guardamos temporalmente
                             EmpleadoActualId = idEmpleadoActualTemporal,
                             EmpleadoAnteriorId = idEmpleadoAnteriorTemporal,
 
@@ -589,7 +592,9 @@ namespace ControlInventario.Vistas
                             Proveedor = string.IsNullOrWhiteSpace(TxtRazonSocial.Text) ? null : TxtRazonSocial.Text,
                             PrecioAdquisicion = precioFinal,
 
-                            CategoriaId = _categoriaId
+                            CategoriaId = _categoriaId,
+                            Categoria = _categoria,
+                            FechaRegistro = DateTime.Now
                         };
 
                         // guardar comprobante
@@ -745,13 +750,36 @@ namespace ControlInventario.Vistas
                 if (DatosEdicion != null)
                 {
                     CbMarcas.SelectedIndex = CbMarcas.FindStringExact(DatosEdicion.Marca);
-                    CbAreaUsuarioActual.SelectedIndex = CbAreaUsuarioActual.FindStringExact(DatosEdicion.Area1);
-                    CbCargoUsuarioActual.SelectedIndex = CbCargoUsuarioActual.FindStringExact(DatosEdicion.Cargo1);
-                    CbAreaUsuarioAnterior.SelectedIndex = CbAreaUsuarioAnterior.FindStringExact(DatosEdicion.Area2);
-                    CbCargoUsuarioAnterior.SelectedIndex = CbCargoUsuarioAnterior.FindStringExact(DatosEdicion.Cargo2);
                     CbEstadoArticulo.SelectedIndex = CbEstadoArticulo.FindStringExact(DatosEdicion.Estado);
                     CbUbicacion.SelectedIndex = CbUbicacion.FindStringExact(DatosEdicion.Ubicacion);
                     CbCondicion.SelectedIndex = CbCondicion.FindStringExact(DatosEdicion.Condicion);
+
+                    // NUEVO: Cargar los datos visuales del Empleado Actual usando su ID
+                    if (idEmpleadoActualTemporal != null)
+                    {
+                        var empActual = EmpleadoRepository.ObtenerEmpleadoPorId(idEmpleadoActualTemporal.Value);
+                        if (empActual != null)
+                        {
+                            TxtDniUsuarioActual.Text = empActual.DNI;
+                            TxtNombreUsuarioActual.Text = empActual.Nombres + " " + empActual.Apellidos;
+                            CbAreaUsuarioActual.SelectedValue = empActual.IdArea;
+                            CbCargoUsuarioActual.SelectedValue = empActual.IdCargo;
+                            dniTemporal = empActual.DNI; // Llenamos la memoria temporal
+                        }
+                    }
+
+                    // NUEVO: Cargar los datos visuales del Empleado Anterior usando su ID
+                    if (idEmpleadoAnteriorTemporal != null)
+                    {
+                        var empAnterior = EmpleadoRepository.ObtenerEmpleadoPorId(idEmpleadoAnteriorTemporal.Value);
+                        if (empAnterior != null)
+                        {
+                            TxtDniUsuarioAnterior.Text = empAnterior.DNI;
+                            TxtNombreUsuarioAnterior.Text = empAnterior.Nombres + " " + empAnterior.Apellidos;
+                            CbAreaUsuarioAnterior.SelectedValue = empAnterior.IdArea;
+                            CbCargoUsuarioAnterior.SelectedValue = empAnterior.IdCargo;
+                        }
+                    }
                 }
             }
             ClassHelper.AplicarTema(this);
@@ -859,7 +887,17 @@ namespace ControlInventario.Vistas
                     var emp = EmpleadoRepository.ObtenerEmpleadoPorDni(TxtDniUsuarioActual.Text);
                     if (emp != null)
                     {
-                        // Guardar valores actuales
+                        if (dniTemporal == TxtDniUsuarioActual.Text)
+                        {
+                            dniTemporal = "";
+                        }
+                        else
+                        {
+                            idEmpleadoAnteriorTemporal = idEmpleadoActualTemporal;
+                        }
+
+                        idEmpleadoActualTemporal = emp.Id;
+
                         TxtDniUsuarioAnterior.Text = dniTemporal;
                         var Nombre1 = TxtNombreUsuarioActual.Text;
                         var IdArea1 = CbAreaUsuarioActual.SelectedValue;
@@ -867,16 +905,9 @@ namespace ControlInventario.Vistas
                         var IdCargo1 = CbCargoUsuarioActual.SelectedValue;
                         var Cargo1 = CbCargoUsuarioActual.Text;
 
-                        // Cargar usaurio actual
                         TxtNombreUsuarioActual.Text = emp.Nombres;
                         CbAreaUsuarioActual.SelectedValue = emp.IdArea;
                         CbCargoUsuarioActual.SelectedValue = emp.IdCargo;
-
-                        // Cargar usuario anterior
-                        if (dniTemporal == TxtDniUsuarioActual.Text)
-                        {
-                            dniTemporal = "";
-                        }
 
                         dniTemporal = TxtDniUsuarioAnterior.Text;
                         TxtNombreUsuarioAnterior.Text = Nombre1;

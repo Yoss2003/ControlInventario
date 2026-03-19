@@ -20,10 +20,24 @@ namespace ControlInventario.Modelos
         // Información Usuario Actual
         public int? EmpleadoActualId { get; set; } // ID del empleado que lo tiene ahora
         public string EmpleadoActualTexto { get; set; } // Nombre completo (Viene de la Vista SQL)
+        
+        //Propiedades Extendidas del Empleado Actual
+        public string EmpleadoActualDNI { get; set; }
+        public int? EmpleadoActualIdArea { get; set; }
+        public string EmpleadoActualAreaTexto { get; set; }
+        public int? EmpleadoActualIdCargo { get; set; }
+        public string EmpleadoActualCargoTexto { get; set; }
 
         // Información Usuario Anterior
         public int? EmpleadoAnteriorId { get; set; } // ID del empleado que lo tuvo antes
         public string EmpleadoAnteriorTexto { get; set; } // Nombre completo (Viene de la Vista SQL)
+
+        // Propiedades Extendidas del Empleado Anterior
+        public string EmpleadoAnteriorDNI { get; set; }
+        public int? EmpleadoAnteriorIdArea { get; set; }
+        public string EmpleadoAnteriorAreaTexto { get; set; }
+        public int? EmpleadoAnteriorIdCargo { get; set; }
+        public string EmpleadoAnteriorCargoTexto { get; set; }
 
         // Información de articulo
         public int IdEstado { get; set; } // Identificador del estado

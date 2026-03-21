@@ -187,59 +187,7 @@ namespace ControlInventario.Vistas
                 articulos.ChkAutoModelo.Enabled = true;
                 articulos.TxtSerie.Enabled = true;
                 articulos.ChkAutoSerie.Enabled = true;
-                articulos.CbMarcas.Visible = true;
-                articulos.GpCaracteristicas.Visible = true;
-
-                switch (texto)
-                {
-                    case "Accesorios":
-                        //articulos.Size = new Size(828, 510);
-                        articulos.GpCaracteristicas.Visible = false;
-
-                        // Group Informacion
-                        articulos.GpInformación.Size = new Size(306, 454);
-                        articulos.GpInformación.Location = new Point(494, 12);
-                        articulos.TabMultipedia.Size = new Size(294, 329);
-
-                        // Group Adquisicion
-                        articulos.GpAdquisicion.Size = new Size(475, 116);
-                        articulos.GpAdquisicion.Location = new Point(12, 476);
-
-                        // Elementos de Group Adquisicion
-                        articulos.LblRuc.Location = new Point(7, 16);
-                        articulos.TxtRuc.Location = new Point(10, 32);
-                        articulos.BtnAgregarRUC.Location = new Point(120, 29);
-
-                        articulos.LblActivoFijo.Location = new Point(226, 16);
-                        articulos.TxtActivoFijo.Location = new Point(229, 32);
-
-                        articulos.LblPrecio.Location = new Point(361, 16);
-                        articulos.TxtPrecio.Location = new Point(364, 32);
-
-                        articulos.LblRazonSocial.Location = new Point(7, 66);
-                        articulos.TxtRazonSocial.Location = new Point(10, 82);
-                        articulos.TxtRazonSocial.Size = new Size(449, 20);
-
-                        // Gp Usos
-                        articulos.GpUsos.Size = new Size(476, 172);
-                        articulos.TxtObservaciones.Size = new Size(318, 122);
-
-                        // Gp Acciones
-                        articulos.GpAcciones.Location = new Point(494, 476);
-                        articulos.GpAcciones.Size = new Size(306, 116);
-
-                        articulos.BtnGuardar.Location = new Point(69, 38);
-                        articulos.BtnGuardarPlus.Location = new Point(190, 38);
-                        articulos.BtnCancelar.Location = new Point(69, 79);
-                        articulos.BtnEmpleados.Location = new Point(190, 79);
-
-
-                    break;
-
-                    default:
-                        articulos.Size = new Size(828, 643);
-                    break;
-                }
+                articulos.CbMarcas.Visible = true;                
 
                 // Mostrar el formulario de alta
                 if (articulos.ShowDialog() == DialogResult.OK)
@@ -291,8 +239,8 @@ namespace ControlInventario.Vistas
                     IdEstado = art.IdEstado,
                     IdUbicacion = art.IdUbicacion,
                     IdCondicion = art.IdCondicion,
-                    IdEmpleadoActual = art.EmpleadoActualId,   // Aquí evitamos que llegue null
-                    IdEmpleadoAnterior = art.EmpleadoAnteriorId // Aquí evitamos que llegue null
+                    IdEmpleadoActual = art.EmpleadoActualId,
+                    IdEmpleadoAnterior = art.EmpleadoAnteriorId
                 };
 
                 // Configuración inicial
@@ -303,77 +251,13 @@ namespace ControlInventario.Vistas
                 articulos.ChkAutoModelo.Enabled = false;
                 articulos.TxtSerie.Enabled = false;
                 articulos.ChkAutoSerie.Enabled = false;
-                articulos.GpCaracteristicas.Visible = true;
-
-                switch (categoriaSeleccionadaNombre)
-                {
-                    case "Accesorios":
-                        articulos.GpCaracteristicas.Visible = false;
-
-                        // Group Informacion
-                        articulos.GpInformación.Size = new Size(306, 454);
-                        articulos.GpInformación.Location = new Point(494, 12);
-                        articulos.TabMultipedia.Size = new Size(294, 329);
-
-                        // Group Adquisicion
-                        articulos.GpAdquisicion.Size = new Size(475, 116);
-                        articulos.GpAdquisicion.Location = new Point(12, 476);
-
-                        // Elementos de Group Adquisicion
-                        articulos.LblRuc.Location = new Point(7, 16);
-                        articulos.TxtRuc.Location = new Point(10, 32);
-                        articulos.BtnAgregarRUC.Location = new Point(120, 29);
-
-                        articulos.LblActivoFijo.Location = new Point(226, 16);
-                        articulos.TxtActivoFijo.Location = new Point(229, 32);
-
-                        articulos.LblPrecio.Location = new Point(361, 16);
-                        articulos.TxtPrecio.Location = new Point(364, 32);
-
-                        articulos.LblRazonSocial.Location = new Point(7, 66);
-                        articulos.TxtRazonSocial.Location = new Point(10, 82);
-                        articulos.TxtRazonSocial.Size = new Size(449, 20);
-
-                        // Gp Usos
-                        articulos.GpUsos.Size = new Size(476, 172);
-                        articulos.TxtObservaciones.Size = new Size(318, 122);
-
-                        //Gp Acciones
-                        articulos.GpAcciones.Location = new Point(494, 476);
-                        articulos.GpAcciones.Size = new Size(306, 116);
-
-                        articulos.BtnGuardar.Location = new Point(69, 38);
-                        articulos.BtnGuardarPlus.Location = new Point(190, 38);
-                        articulos.BtnCancelar.Location = new Point(69, 79);
-                        articulos.BtnEmpleados.Location = new Point(190, 79);
-                        break;
-
-                    default:
-                        // Caso genérico: cualquier categoría con marcas
-                        articulos.Size = new Size(828, 643);
-                        break;
-                }
-
                 articulos.DatosEdicion = datos;
-
-                // 3. CARGAMOS LOS CAMPOS VISUALES USANDO EL OBJETO 'art'
-                // Esto evita errores de conversión y "TryParse" complejos de los SubItems
                 articulos.TxtCodigo.Text = art.Codigo ?? string.Empty;
                 articulos.TxtModelo.Text = art.Modelo ?? string.Empty;
                 articulos.TxtSerie.Text = art.Serie ?? string.Empty;
 
                 // Fechas
                 articulos.DtpFechaAdquisicion.Value = art.FechaAdquisicion;
-
-                if (art.FechaBaja.HasValue)
-                {
-                    articulos.DtpFechaBaja.Value = art.FechaBaja.Value;
-                    articulos.ChkFechaBaja.Checked = true;
-                }
-                else
-                {
-                    articulos.ChkFechaBaja.Checked = false;
-                }
 
                 if (art.FechaFinGarantia.HasValue)
                 {
@@ -389,7 +273,6 @@ namespace ControlInventario.Vistas
                 articulos.TxtRuc.Text = art.RucProveedor ?? string.Empty;
                 articulos.TxtRazonSocial.Text = art.Proveedor ?? string.Empty;
                 articulos.TxtPrecio.Text = ClassHelper.AgregarSimboloVisual(art.PrecioAdquisicion);
-                articulos.TxtActivoFijo.Text = art.ActivoFijo ?? string.Empty;
                 articulos.TxtObservaciones.Text = art.Observacion ?? string.Empty;
 
                 // Carga de imágenes
@@ -605,7 +488,6 @@ namespace ControlInventario.Vistas
                 item.SubItems.Add(row["RucProveedor"].ToString());
                 item.SubItems.Add(row["Proveedor"].ToString());
                 item.SubItems.Add(row["PrecioAdquisicion"].ToString());
-                item.SubItems.Add(row["ActivoFijo"].ToString());
                 item.SubItems.Add(row["Observacion"].ToString());
                 item.SubItems.Add(row["RutaFotoPrincipal"].ToString());
                 item.SubItems.Add(row["RutaComprobantePrincipal"].ToString());

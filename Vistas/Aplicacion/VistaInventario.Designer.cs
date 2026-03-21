@@ -38,7 +38,6 @@
             this.SerieArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.MarcaArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.FechaAdquisicionArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.FechaBajaArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.FechaFinGarantiaArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.DniUsuarioActualArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.NombreUsuarioActualArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -54,7 +53,6 @@
             this.RucArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ProveedorArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.PrecioArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ActivoFijoArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ObservacionArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ImagenArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ComprobanteArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -167,7 +165,6 @@
             this.SerieArticulo,
             this.MarcaArticulo,
             this.FechaAdquisicionArticulo,
-            this.FechaBajaArticulo,
             this.FechaFinGarantiaArticulo,
             this.DniUsuarioActualArticulo,
             this.NombreUsuarioActualArticulo,
@@ -183,7 +180,6 @@
             this.RucArticulo,
             this.ProveedorArticulo,
             this.PrecioArticulo,
-            this.ActivoFijoArticulo,
             this.ObservacionArticulo,
             this.ImagenArticulo,
             this.ComprobanteArticulo});
@@ -218,10 +214,6 @@
             // FechaAdquisicionArticulo
             // 
             resources.ApplyResources(this.FechaAdquisicionArticulo, "FechaAdquisicionArticulo");
-            // 
-            // FechaBajaArticulo
-            // 
-            resources.ApplyResources(this.FechaBajaArticulo, "FechaBajaArticulo");
             // 
             // FechaFinGarantiaArticulo
             // 
@@ -282,10 +274,6 @@
             // PrecioArticulo
             // 
             resources.ApplyResources(this.PrecioArticulo, "PrecioArticulo");
-            // 
-            // ActivoFijoArticulo
-            // 
-            resources.ApplyResources(this.ActivoFijoArticulo, "ActivoFijoArticulo");
             // 
             // ObservacionArticulo
             // 
@@ -805,7 +793,6 @@
         private System.Windows.Forms.ColumnHeader SerieArticulo;
         private System.Windows.Forms.ColumnHeader MarcaArticulo;
         private System.Windows.Forms.ColumnHeader FechaAdquisicionArticulo;
-        private System.Windows.Forms.ColumnHeader FechaBajaArticulo;
         private System.Windows.Forms.ColumnHeader FechaFinGarantiaArticulo;
         private System.Windows.Forms.ColumnHeader DniUsuarioActualArticulo;
         private System.Windows.Forms.ColumnHeader NombreUsuarioActualArticulo;
@@ -821,7 +808,6 @@
         private System.Windows.Forms.ColumnHeader RucArticulo;
         private System.Windows.Forms.ColumnHeader ProveedorArticulo;
         private System.Windows.Forms.ColumnHeader PrecioArticulo;
-        private System.Windows.Forms.ColumnHeader ActivoFijoArticulo;
         private System.Windows.Forms.ColumnHeader ObservacionArticulo;
         private System.Windows.Forms.ColumnHeader ImagenArticulo;
         private System.Windows.Forms.ColumnHeader ComprobanteArticulo;

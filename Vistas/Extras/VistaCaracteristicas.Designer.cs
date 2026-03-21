@@ -28,454 +28,200 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.GrpDesktop = new System.Windows.Forms.GroupBox();
-            this.ChkCargadorDesktop = new System.Windows.Forms.CheckBox();
-            this.TxtGeneracionDesktop = new System.Windows.Forms.TextBox();
-            this.CbProcesadorDesktop = new System.Windows.Forms.ComboBox();
-            this.CbRamDesktop = new System.Windows.Forms.ComboBox();
-            this.CbAlmacenamientoDesktop = new System.Windows.Forms.ComboBox();
-            this.LblGeneracionDesktop = new System.Windows.Forms.Label();
-            this.LblProcesadorDesktop = new System.Windows.Forms.Label();
-            this.LblRamDesktop = new System.Windows.Forms.Label();
-            this.LblAlmacenamientoDesktop = new System.Windows.Forms.Label();
-            this.ChkCaracteristicaDesktop = new System.Windows.Forms.CheckBox();
-            this.GrpCelular = new System.Windows.Forms.GroupBox();
-            this.TxtImeiCelular = new System.Windows.Forms.TextBox();
-            this.CbProcesadorCelular = new System.Windows.Forms.ComboBox();
-            this.LblAlmacenamientoCelular = new System.Windows.Forms.Label();
-            this.CbRamCelular = new System.Windows.Forms.ComboBox();
-            this.LblRamCelular = new System.Windows.Forms.Label();
-            this.CbAlmacenamientoCelular = new System.Windows.Forms.ComboBox();
-            this.LblProcesadorCelular = new System.Windows.Forms.Label();
-            this.LblImeiCelular = new System.Windows.Forms.Label();
-            this.ChkCaracteristicaCelular = new System.Windows.Forms.CheckBox();
-            this.GrpMonitor = new System.Windows.Forms.GroupBox();
-            this.TxtTamañoMonitor = new System.Windows.Forms.TextBox();
-            this.CbResoluciónMonitor = new System.Windows.Forms.ComboBox();
-            this.CbEntradaMonitor = new System.Windows.Forms.ComboBox();
-            this.LblTamañoMonitor = new System.Windows.Forms.Label();
-            this.LblResoluciónMonitor = new System.Windows.Forms.Label();
-            this.LblEntradaMonitor = new System.Windows.Forms.Label();
-            this.CbHzMonitor = new System.Windows.Forms.ComboBox();
-            this.LblHzMonitor = new System.Windows.Forms.Label();
-            this.ChkCaracteristicasMonitor = new System.Windows.Forms.CheckBox();
-            this.BtnAgregar = new System.Windows.Forms.Button();
-            this.BtnCancelar = new System.Windows.Forms.Button();
-            this.BtnAgregarCaracteristica = new System.Windows.Forms.Button();
-            this.GrpDesktop.SuspendLayout();
-            this.GrpCelular.SuspendLayout();
-            this.GrpMonitor.SuspendLayout();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            this.label1 = new System.Windows.Forms.Label();
+            this.BtnAgregarFila = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.DgvCaracteristicas = new System.Windows.Forms.DataGridView();
+            this.BtnEliminarFila = new System.Windows.Forms.Button();
+            this.BtnGuardar = new System.Windows.Forms.Button();
+            this.NombreCaracteristica = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ValorCaracteristica = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BtnCancel = new System.Windows.Forms.Button();
+            this.TxtNombre = new System.Windows.Forms.TextBox();
+            this.TxtValor = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.DgvCaracteristicas)).BeginInit();
             this.SuspendLayout();
             // 
-            // GrpDesktop
-            // 
-            this.GrpDesktop.Controls.Add(this.ChkCargadorDesktop);
-            this.GrpDesktop.Controls.Add(this.TxtGeneracionDesktop);
-            this.GrpDesktop.Controls.Add(this.CbProcesadorDesktop);
-            this.GrpDesktop.Controls.Add(this.CbRamDesktop);
-            this.GrpDesktop.Controls.Add(this.CbAlmacenamientoDesktop);
-            this.GrpDesktop.Controls.Add(this.LblGeneracionDesktop);
-            this.GrpDesktop.Controls.Add(this.LblProcesadorDesktop);
-            this.GrpDesktop.Controls.Add(this.LblRamDesktop);
-            this.GrpDesktop.Controls.Add(this.LblAlmacenamientoDesktop);
-            this.GrpDesktop.Location = new System.Drawing.Point(13, 13);
-            this.GrpDesktop.Name = "GrpDesktop";
-            this.GrpDesktop.Size = new System.Drawing.Size(200, 275);
-            this.GrpDesktop.TabIndex = 0;
-            this.GrpDesktop.TabStop = false;
-            this.GrpDesktop.Text = "Laptop o PC";
-            // 
-            // ChkCargadorDesktop
-            // 
-            this.ChkCargadorDesktop.AutoSize = true;
-            this.ChkCargadorDesktop.Location = new System.Drawing.Point(6, 252);
-            this.ChkCargadorDesktop.Name = "ChkCargadorDesktop";
-            this.ChkCargadorDesktop.Size = new System.Drawing.Size(104, 17);
-            this.ChkCargadorDesktop.TabIndex = 4;
-            this.ChkCargadorDesktop.Text = "Tiene cargador?";
-            this.ChkCargadorDesktop.UseVisualStyleBackColor = true;
-            // 
-            // TxtGeneracionDesktop
-            // 
-            this.TxtGeneracionDesktop.Location = new System.Drawing.Point(6, 208);
-            this.TxtGeneracionDesktop.Name = "TxtGeneracionDesktop";
-            this.TxtGeneracionDesktop.Size = new System.Drawing.Size(121, 20);
-            this.TxtGeneracionDesktop.TabIndex = 2;
-            // 
-            // CbProcesadorDesktop
-            // 
-            this.CbProcesadorDesktop.FormattingEnabled = true;
-            this.CbProcesadorDesktop.Items.AddRange(new object[] {
-            "Intel",
-            "AMD"});
-            this.CbProcesadorDesktop.Location = new System.Drawing.Point(6, 151);
-            this.CbProcesadorDesktop.Name = "CbProcesadorDesktop";
-            this.CbProcesadorDesktop.Size = new System.Drawing.Size(121, 21);
-            this.CbProcesadorDesktop.TabIndex = 1;
-            this.CbProcesadorDesktop.Text = "SELECCIONE";
-            // 
-            // CbRamDesktop
-            // 
-            this.CbRamDesktop.FormattingEnabled = true;
-            this.CbRamDesktop.Items.AddRange(new object[] {
-            "1 GB",
-            "2 GB",
-            "4 GB",
-            "8 GB",
-            "12 GB",
-            "16 GB",
-            "24 GB",
-            "32 GB",
-            "64 GB"});
-            this.CbRamDesktop.Location = new System.Drawing.Point(6, 95);
-            this.CbRamDesktop.Name = "CbRamDesktop";
-            this.CbRamDesktop.Size = new System.Drawing.Size(121, 21);
-            this.CbRamDesktop.TabIndex = 1;
-            this.CbRamDesktop.Text = "SELECCIONE";
-            // 
-            // CbAlmacenamientoDesktop
-            // 
-            this.CbAlmacenamientoDesktop.FormattingEnabled = true;
-            this.CbAlmacenamientoDesktop.Items.AddRange(new object[] {
-            "240 GB",
-            "480 GB",
-            "1 TB",
-            "2 TB"});
-            this.CbAlmacenamientoDesktop.Location = new System.Drawing.Point(6, 39);
-            this.CbAlmacenamientoDesktop.Name = "CbAlmacenamientoDesktop";
-            this.CbAlmacenamientoDesktop.Size = new System.Drawing.Size(121, 21);
-            this.CbAlmacenamientoDesktop.TabIndex = 1;
-            this.CbAlmacenamientoDesktop.Text = "SELECCIONE";
-            // 
-            // LblGeneracionDesktop
-            // 
-            this.LblGeneracionDesktop.AutoSize = true;
-            this.LblGeneracionDesktop.Location = new System.Drawing.Point(3, 191);
-            this.LblGeneracionDesktop.Name = "LblGeneracionDesktop";
-            this.LblGeneracionDesktop.Size = new System.Drawing.Size(65, 13);
-            this.LblGeneracionDesktop.TabIndex = 0;
-            this.LblGeneracionDesktop.Text = "Generación:";
-            // 
-            // LblProcesadorDesktop
-            // 
-            this.LblProcesadorDesktop.AutoSize = true;
-            this.LblProcesadorDesktop.Location = new System.Drawing.Point(6, 135);
-            this.LblProcesadorDesktop.Name = "LblProcesadorDesktop";
-            this.LblProcesadorDesktop.Size = new System.Drawing.Size(64, 13);
-            this.LblProcesadorDesktop.TabIndex = 0;
-            this.LblProcesadorDesktop.Text = "Procesador:";
-            // 
-            // LblRamDesktop
-            // 
-            this.LblRamDesktop.AutoSize = true;
-            this.LblRamDesktop.Location = new System.Drawing.Point(6, 79);
-            this.LblRamDesktop.Name = "LblRamDesktop";
-            this.LblRamDesktop.Size = new System.Drawing.Size(34, 13);
-            this.LblRamDesktop.TabIndex = 0;
-            this.LblRamDesktop.Text = "RAM:";
-            // 
-            // LblAlmacenamientoDesktop
-            // 
-            this.LblAlmacenamientoDesktop.AutoSize = true;
-            this.LblAlmacenamientoDesktop.Location = new System.Drawing.Point(6, 23);
-            this.LblAlmacenamientoDesktop.Name = "LblAlmacenamientoDesktop";
-            this.LblAlmacenamientoDesktop.Size = new System.Drawing.Size(88, 13);
-            this.LblAlmacenamientoDesktop.TabIndex = 0;
-            this.LblAlmacenamientoDesktop.Text = "Almacenamiento:";
-            // 
-            // ChkCaracteristicaDesktop
-            // 
-            this.ChkCaracteristicaDesktop.AutoSize = true;
-            this.ChkCaracteristicaDesktop.Location = new System.Drawing.Point(199, 7);
-            this.ChkCaracteristicaDesktop.Name = "ChkCaracteristicaDesktop";
-            this.ChkCaracteristicaDesktop.Size = new System.Drawing.Size(15, 14);
-            this.ChkCaracteristicaDesktop.TabIndex = 3;
-            this.ChkCaracteristicaDesktop.UseVisualStyleBackColor = true;
-            this.ChkCaracteristicaDesktop.CheckedChanged += new System.EventHandler(this.ChkCaracteristicaDesktop_CheckedChanged);
-            // 
-            // GrpCelular
-            // 
-            this.GrpCelular.Controls.Add(this.TxtImeiCelular);
-            this.GrpCelular.Controls.Add(this.CbProcesadorCelular);
-            this.GrpCelular.Controls.Add(this.LblAlmacenamientoCelular);
-            this.GrpCelular.Controls.Add(this.CbRamCelular);
-            this.GrpCelular.Controls.Add(this.LblRamCelular);
-            this.GrpCelular.Controls.Add(this.CbAlmacenamientoCelular);
-            this.GrpCelular.Controls.Add(this.LblProcesadorCelular);
-            this.GrpCelular.Controls.Add(this.LblImeiCelular);
-            this.GrpCelular.Location = new System.Drawing.Point(219, 13);
-            this.GrpCelular.Name = "GrpCelular";
-            this.GrpCelular.Size = new System.Drawing.Size(200, 243);
-            this.GrpCelular.TabIndex = 0;
-            this.GrpCelular.TabStop = false;
-            this.GrpCelular.Text = "Celular";
-            // 
-            // TxtImeiCelular
-            // 
-            this.TxtImeiCelular.Location = new System.Drawing.Point(6, 208);
-            this.TxtImeiCelular.Name = "TxtImeiCelular";
-            this.TxtImeiCelular.Size = new System.Drawing.Size(121, 20);
-            this.TxtImeiCelular.TabIndex = 2;
-            // 
-            // CbProcesadorCelular
-            // 
-            this.CbProcesadorCelular.FormattingEnabled = true;
-            this.CbProcesadorCelular.Items.AddRange(new object[] {
-            "Mediatek",
-            "Samsung",
-            "Apple",
-            "Qualcomm",
-            "Hisilicon",
-            "Unisoc"});
-            this.CbProcesadorCelular.Location = new System.Drawing.Point(6, 151);
-            this.CbProcesadorCelular.Name = "CbProcesadorCelular";
-            this.CbProcesadorCelular.Size = new System.Drawing.Size(121, 21);
-            this.CbProcesadorCelular.TabIndex = 1;
-            this.CbProcesadorCelular.Text = "SELECCIONE";
-            // 
-            // LblAlmacenamientoCelular
-            // 
-            this.LblAlmacenamientoCelular.AutoSize = true;
-            this.LblAlmacenamientoCelular.Location = new System.Drawing.Point(6, 23);
-            this.LblAlmacenamientoCelular.Name = "LblAlmacenamientoCelular";
-            this.LblAlmacenamientoCelular.Size = new System.Drawing.Size(88, 13);
-            this.LblAlmacenamientoCelular.TabIndex = 0;
-            this.LblAlmacenamientoCelular.Text = "Almacenamiento:";
-            // 
-            // CbRamCelular
-            // 
-            this.CbRamCelular.FormattingEnabled = true;
-            this.CbRamCelular.Items.AddRange(new object[] {
-            "2 GB",
-            "4 GB",
-            "8 GB",
-            "16 GB",
-            "32 GB"});
-            this.CbRamCelular.Location = new System.Drawing.Point(6, 95);
-            this.CbRamCelular.Name = "CbRamCelular";
-            this.CbRamCelular.Size = new System.Drawing.Size(121, 21);
-            this.CbRamCelular.TabIndex = 1;
-            this.CbRamCelular.Text = "SELECCIONE";
-            // 
-            // LblRamCelular
-            // 
-            this.LblRamCelular.AutoSize = true;
-            this.LblRamCelular.Location = new System.Drawing.Point(6, 79);
-            this.LblRamCelular.Name = "LblRamCelular";
-            this.LblRamCelular.Size = new System.Drawing.Size(34, 13);
-            this.LblRamCelular.TabIndex = 0;
-            this.LblRamCelular.Text = "RAM:";
-            // 
-            // CbAlmacenamientoCelular
-            // 
-            this.CbAlmacenamientoCelular.FormattingEnabled = true;
-            this.CbAlmacenamientoCelular.Items.AddRange(new object[] {
-            "64 GB",
-            "120 GB",
-            "500 GB ",
-            "1 TB"});
-            this.CbAlmacenamientoCelular.Location = new System.Drawing.Point(6, 39);
-            this.CbAlmacenamientoCelular.Name = "CbAlmacenamientoCelular";
-            this.CbAlmacenamientoCelular.Size = new System.Drawing.Size(121, 21);
-            this.CbAlmacenamientoCelular.TabIndex = 1;
-            this.CbAlmacenamientoCelular.Text = "SELECCIONE";
-            // 
-            // LblProcesadorCelular
-            // 
-            this.LblProcesadorCelular.AutoSize = true;
-            this.LblProcesadorCelular.Location = new System.Drawing.Point(6, 135);
-            this.LblProcesadorCelular.Name = "LblProcesadorCelular";
-            this.LblProcesadorCelular.Size = new System.Drawing.Size(64, 13);
-            this.LblProcesadorCelular.TabIndex = 0;
-            this.LblProcesadorCelular.Text = "Procesador:";
-            // 
-            // LblImeiCelular
-            // 
-            this.LblImeiCelular.AutoSize = true;
-            this.LblImeiCelular.Location = new System.Drawing.Point(6, 191);
-            this.LblImeiCelular.Name = "LblImeiCelular";
-            this.LblImeiCelular.Size = new System.Drawing.Size(32, 13);
-            this.LblImeiCelular.TabIndex = 0;
-            this.LblImeiCelular.Text = "IMEI:";
-            // 
-            // ChkCaracteristicaCelular
-            // 
-            this.ChkCaracteristicaCelular.AutoSize = true;
-            this.ChkCaracteristicaCelular.Location = new System.Drawing.Point(404, 7);
-            this.ChkCaracteristicaCelular.Name = "ChkCaracteristicaCelular";
-            this.ChkCaracteristicaCelular.Size = new System.Drawing.Size(15, 14);
-            this.ChkCaracteristicaCelular.TabIndex = 3;
-            this.ChkCaracteristicaCelular.UseVisualStyleBackColor = true;
-            this.ChkCaracteristicaCelular.CheckedChanged += new System.EventHandler(this.ChkCaracteristicaCelular_CheckedChanged);
-            // 
-            // GrpMonitor
-            // 
-            this.GrpMonitor.Controls.Add(this.TxtTamañoMonitor);
-            this.GrpMonitor.Controls.Add(this.CbResoluciónMonitor);
-            this.GrpMonitor.Controls.Add(this.CbEntradaMonitor);
-            this.GrpMonitor.Controls.Add(this.LblTamañoMonitor);
-            this.GrpMonitor.Controls.Add(this.LblResoluciónMonitor);
-            this.GrpMonitor.Controls.Add(this.LblEntradaMonitor);
-            this.GrpMonitor.Controls.Add(this.CbHzMonitor);
-            this.GrpMonitor.Controls.Add(this.LblHzMonitor);
-            this.GrpMonitor.Location = new System.Drawing.Point(425, 13);
-            this.GrpMonitor.Name = "GrpMonitor";
-            this.GrpMonitor.Size = new System.Drawing.Size(200, 243);
-            this.GrpMonitor.TabIndex = 0;
-            this.GrpMonitor.TabStop = false;
-            this.GrpMonitor.Text = "Monitor";
-            // 
-            // TxtTamañoMonitor
-            // 
-            this.TxtTamañoMonitor.Location = new System.Drawing.Point(6, 208);
-            this.TxtTamañoMonitor.Name = "TxtTamañoMonitor";
-            this.TxtTamañoMonitor.Size = new System.Drawing.Size(121, 20);
-            this.TxtTamañoMonitor.TabIndex = 2;
-            // 
-            // CbResoluciónMonitor
-            // 
-            this.CbResoluciónMonitor.FormattingEnabled = true;
-            this.CbResoluciónMonitor.Items.AddRange(new object[] {
-            "640 × 480",
-            "800 × 600",
-            "1024 × 768",
-            "1280 × 720",
-            "1280 × 800",
-            "1366 × 768",
-            "1600 × 900",
-            "1920 × 1080",
-            "1920 × 1200",
-            "2560 × 1440",
-            "2560 × 1600",
-            "3440 × 1440",
-            "3840 × 2160",
-            "5120 × 2880",
-            "7680 × 4320"});
-            this.CbResoluciónMonitor.Location = new System.Drawing.Point(6, 39);
-            this.CbResoluciónMonitor.Name = "CbResoluciónMonitor";
-            this.CbResoluciónMonitor.Size = new System.Drawing.Size(121, 21);
-            this.CbResoluciónMonitor.TabIndex = 1;
-            this.CbResoluciónMonitor.Text = "SELECCIONE";
-            // 
-            // CbEntradaMonitor
-            // 
-            this.CbEntradaMonitor.FormattingEnabled = true;
-            this.CbEntradaMonitor.Items.AddRange(new object[] {
-            "HDMI",
-            "DisplayPort",
-            "DVI",
-            "VGA",
-            "USB-C"});
-            this.CbEntradaMonitor.Location = new System.Drawing.Point(6, 151);
-            this.CbEntradaMonitor.Name = "CbEntradaMonitor";
-            this.CbEntradaMonitor.Size = new System.Drawing.Size(121, 21);
-            this.CbEntradaMonitor.TabIndex = 1;
-            this.CbEntradaMonitor.Text = "SELECCIONE";
-            // 
-            // LblTamañoMonitor
-            // 
-            this.LblTamañoMonitor.AutoSize = true;
-            this.LblTamañoMonitor.Location = new System.Drawing.Point(6, 191);
-            this.LblTamañoMonitor.Name = "LblTamañoMonitor";
-            this.LblTamañoMonitor.Size = new System.Drawing.Size(89, 13);
-            this.LblTamañoMonitor.TabIndex = 0;
-            this.LblTamañoMonitor.Text = "Tamaño pantalla:";
-            // 
-            // LblResoluciónMonitor
-            // 
-            this.LblResoluciónMonitor.AutoSize = true;
-            this.LblResoluciónMonitor.Location = new System.Drawing.Point(6, 23);
-            this.LblResoluciónMonitor.Name = "LblResoluciónMonitor";
-            this.LblResoluciónMonitor.Size = new System.Drawing.Size(63, 13);
-            this.LblResoluciónMonitor.TabIndex = 0;
-            this.LblResoluciónMonitor.Text = "Resolución:";
-            // 
-            // LblEntradaMonitor
-            // 
-            this.LblEntradaMonitor.AutoSize = true;
-            this.LblEntradaMonitor.Location = new System.Drawing.Point(6, 135);
-            this.LblEntradaMonitor.Name = "LblEntradaMonitor";
-            this.LblEntradaMonitor.Size = new System.Drawing.Size(47, 13);
-            this.LblEntradaMonitor.TabIndex = 0;
-            this.LblEntradaMonitor.Text = "Entrada:";
-            // 
-            // CbHzMonitor
-            // 
-            this.CbHzMonitor.FormattingEnabled = true;
-            this.CbHzMonitor.Items.AddRange(new object[] {
-            "60HZ",
-            "120Hz",
-            "144Hz",
-            "240Hz"});
-            this.CbHzMonitor.Location = new System.Drawing.Point(6, 95);
-            this.CbHzMonitor.Name = "CbHzMonitor";
-            this.CbHzMonitor.Size = new System.Drawing.Size(121, 21);
-            this.CbHzMonitor.TabIndex = 1;
-            this.CbHzMonitor.Text = "SELECCIONE";
-            // 
-            // LblHzMonitor
-            // 
-            this.LblHzMonitor.AutoSize = true;
-            this.LblHzMonitor.Location = new System.Drawing.Point(6, 79);
-            this.LblHzMonitor.Name = "LblHzMonitor";
-            this.LblHzMonitor.Size = new System.Drawing.Size(23, 13);
-            this.LblHzMonitor.TabIndex = 0;
-            this.LblHzMonitor.Text = "Hz:";
-            // 
-            // ChkCaracteristicasMonitor
-            // 
-            this.ChkCaracteristicasMonitor.AutoSize = true;
-            this.ChkCaracteristicasMonitor.Location = new System.Drawing.Point(610, 7);
-            this.ChkCaracteristicasMonitor.Name = "ChkCaracteristicasMonitor";
-            this.ChkCaracteristicasMonitor.Size = new System.Drawing.Size(15, 14);
-            this.ChkCaracteristicasMonitor.TabIndex = 3;
-            this.ChkCaracteristicasMonitor.UseVisualStyleBackColor = true;
-            this.ChkCaracteristicasMonitor.CheckedChanged += new System.EventHandler(this.ChkCaracteristicasMonitor_CheckedChanged);
-            // 
-            // BtnAgregar
-            // 
-            this.BtnAgregar.Location = new System.Drawing.Point(219, 265);
-            this.BtnAgregar.Name = "BtnAgregar";
-            this.BtnAgregar.Size = new System.Drawing.Size(75, 23);
-            this.BtnAgregar.TabIndex = 1;
-            this.BtnAgregar.Text = "Agregar";
-            this.BtnAgregar.UseVisualStyleBackColor = true;
-            this.BtnAgregar.Click += new System.EventHandler(this.BtnAgregar_Click);
-            // 
-            // BtnCancelar
-            // 
-            this.BtnCancelar.Location = new System.Drawing.Point(361, 265);
-            this.BtnCancelar.Name = "BtnCancelar";
-            this.BtnCancelar.Size = new System.Drawing.Size(75, 23);
-            this.BtnCancelar.TabIndex = 1;
-            this.BtnCancelar.Text = "Cancelar";
-            this.BtnCancelar.UseVisualStyleBackColor = true;
-            this.BtnCancelar.Click += new System.EventHandler(this.BtnCancelar_Click);
-            // 
-            // BtnAgregarCaracteristica
-            // 
-            this.BtnAgregarCaracteristica.Enabled = false;
-            this.BtnAgregarCaracteristica.Location = new System.Drawing.Point(503, 265);
-            this.BtnAgregarCaracteristica.Name = "BtnAgregarCaracteristica";
-            this.BtnAgregarCaracteristica.Size = new System.Drawing.Size(121, 23);
-            this.BtnAgregarCaracteristica.TabIndex = 1;
-            this.BtnAgregarCaracteristica.Text = "Agregar Caracteristica";
-            this.BtnAgregarCaracteristica.UseVisualStyleBackColor = true;
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(18, 18);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(246, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Preparando caracteristicas para el articulo \"Code\":";
+            // 
+            // BtnAgregarFila
+            // 
+            this.BtnAgregarFila.Location = new System.Drawing.Point(265, 13);
+            this.BtnAgregarFila.Name = "BtnAgregarFila";
+            this.BtnAgregarFila.Size = new System.Drawing.Size(21, 23);
+            this.BtnAgregarFila.TabIndex = 1;
+            this.BtnAgregarFila.Text = "+";
+            this.BtnAgregarFila.UseVisualStyleBackColor = true;
+            this.BtnAgregarFila.Click += new System.EventHandler(this.btnAgregarFila_Click);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.DgvCaracteristicas);
+            this.groupBox1.Location = new System.Drawing.Point(15, 102);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(436, 333);
+            this.groupBox1.TabIndex = 2;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Caracteristicas agregadas";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(340, 13);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(111, 13);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "CATEGORIA: \"name\"";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(366, 32);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(85, 13);
+            this.label3.TabIndex = 3;
+            this.label3.Text = "FECHA: \"fecha\"";
+            // 
+            // DgvCaracteristicas
+            // 
+            this.DgvCaracteristicas.AllowUserToAddRows = false;
+            this.DgvCaracteristicas.AllowUserToDeleteRows = false;
+            this.DgvCaracteristicas.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.DgvCaracteristicas.BackgroundColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.DgvCaracteristicas.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.DgvCaracteristicas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DgvCaracteristicas.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.NombreCaracteristica,
+            this.ValorCaracteristica});
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.DgvCaracteristicas.DefaultCellStyle = dataGridViewCellStyle2;
+            this.DgvCaracteristicas.GridColor = System.Drawing.Color.DarkGray;
+            this.DgvCaracteristicas.Location = new System.Drawing.Point(7, 20);
+            this.DgvCaracteristicas.Name = "DgvCaracteristicas";
+            this.DgvCaracteristicas.ReadOnly = true;
+            this.DgvCaracteristicas.Size = new System.Drawing.Size(423, 307);
+            this.DgvCaracteristicas.TabIndex = 0;
+            // 
+            // BtnEliminarFila
+            // 
+            this.BtnEliminarFila.Location = new System.Drawing.Point(292, 13);
+            this.BtnEliminarFila.Name = "BtnEliminarFila";
+            this.BtnEliminarFila.Size = new System.Drawing.Size(21, 23);
+            this.BtnEliminarFila.TabIndex = 4;
+            this.BtnEliminarFila.Text = "-";
+            this.BtnEliminarFila.UseVisualStyleBackColor = true;
+            this.BtnEliminarFila.Click += new System.EventHandler(this.btnEliminarFila_Click);
+            // 
+            // BtnGuardar
+            // 
+            this.BtnGuardar.Location = new System.Drawing.Point(152, 441);
+            this.BtnGuardar.Name = "BtnGuardar";
+            this.BtnGuardar.Size = new System.Drawing.Size(75, 23);
+            this.BtnGuardar.TabIndex = 5;
+            this.BtnGuardar.Text = "Guardar";
+            this.BtnGuardar.UseVisualStyleBackColor = true;
+            this.BtnGuardar.Click += new System.EventHandler(this.BtnGuardar_Click);
+            // 
+            // NombreCaracteristica
+            // 
+            this.NombreCaracteristica.HeaderText = "Nombre";
+            this.NombreCaracteristica.Name = "NombreCaracteristica";
+            this.NombreCaracteristica.ReadOnly = true;
+            // 
+            // ValorCaracteristica
+            // 
+            this.ValorCaracteristica.HeaderText = "Valor";
+            this.ValorCaracteristica.Name = "ValorCaracteristica";
+            this.ValorCaracteristica.ReadOnly = true;
+            // 
+            // BtnCancel
+            // 
+            this.BtnCancel.Location = new System.Drawing.Point(238, 441);
+            this.BtnCancel.Name = "BtnCancel";
+            this.BtnCancel.Size = new System.Drawing.Size(75, 23);
+            this.BtnCancel.TabIndex = 6;
+            this.BtnCancel.Text = "Guardar";
+            this.BtnCancel.UseVisualStyleBackColor = true;
+            this.BtnCancel.Click += new System.EventHandler(this.BtnCancelar_Click);
+            // 
+            // TxtNombre
+            // 
+            this.TxtNombre.Location = new System.Drawing.Point(22, 76);
+            this.TxtNombre.Name = "TxtNombre";
+            this.TxtNombre.Size = new System.Drawing.Size(100, 20);
+            this.TxtNombre.TabIndex = 2;
+            this.TxtNombre.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtValor_KeyDown);
+            // 
+            // TxtValor
+            // 
+            this.TxtValor.Location = new System.Drawing.Point(164, 76);
+            this.TxtValor.Name = "TxtValor";
+            this.TxtValor.Size = new System.Drawing.Size(100, 20);
+            this.TxtValor.TabIndex = 3;
+            this.TxtValor.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtValor_KeyDown);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(22, 57);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(110, 13);
+            this.label4.TabIndex = 7;
+            this.label4.Text = "Nombre caracteristica";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(161, 57);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(97, 13);
+            this.label5.TabIndex = 7;
+            this.label5.Text = "Valor caracteristica";
             // 
             // VistaCaracteristicas
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(637, 300);
-            this.Controls.Add(this.ChkCaracteristicasMonitor);
-            this.Controls.Add(this.ChkCaracteristicaCelular);
-            this.Controls.Add(this.BtnCancelar);
-            this.Controls.Add(this.ChkCaracteristicaDesktop);
-            this.Controls.Add(this.BtnAgregarCaracteristica);
-            this.Controls.Add(this.BtnAgregar);
-            this.Controls.Add(this.GrpMonitor);
-            this.Controls.Add(this.GrpCelular);
-            this.Controls.Add(this.GrpDesktop);
+            this.ClientSize = new System.Drawing.Size(463, 476);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.TxtValor);
+            this.Controls.Add(this.TxtNombre);
+            this.Controls.Add(this.BtnCancel);
+            this.Controls.Add(this.BtnGuardar);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.BtnEliminarFila);
+            this.Controls.Add(this.BtnAgregarFila);
+            this.Controls.Add(this.label1);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "VistaCaracteristicas";
@@ -483,12 +229,8 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Caracteristicas articulos";
             this.Load += new System.EventHandler(this.VistaCaracteristicas_Load);
-            this.GrpDesktop.ResumeLayout(false);
-            this.GrpDesktop.PerformLayout();
-            this.GrpCelular.ResumeLayout(false);
-            this.GrpCelular.PerformLayout();
-            this.GrpMonitor.ResumeLayout(false);
-            this.GrpMonitor.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.DgvCaracteristicas)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -496,39 +238,20 @@
 
         #endregion
 
-        private System.Windows.Forms.GroupBox GrpDesktop;
-        private System.Windows.Forms.GroupBox GrpCelular;
-        private System.Windows.Forms.GroupBox GrpMonitor;
-        private System.Windows.Forms.ComboBox CbAlmacenamientoDesktop;
-        private System.Windows.Forms.Label LblRamDesktop;
-        private System.Windows.Forms.Label LblAlmacenamientoDesktop;
-        private System.Windows.Forms.ComboBox CbRamDesktop;
-        private System.Windows.Forms.Label LblProcesadorDesktop;
-        private System.Windows.Forms.TextBox TxtGeneracionDesktop;
-        private System.Windows.Forms.ComboBox CbProcesadorDesktop;
-        private System.Windows.Forms.Label LblGeneracionDesktop;
-        private System.Windows.Forms.TextBox TxtImeiCelular;
-        private System.Windows.Forms.ComboBox CbProcesadorCelular;
-        private System.Windows.Forms.Label LblAlmacenamientoCelular;
-        private System.Windows.Forms.ComboBox CbRamCelular;
-        private System.Windows.Forms.Label LblRamCelular;
-        private System.Windows.Forms.ComboBox CbAlmacenamientoCelular;
-        private System.Windows.Forms.Label LblProcesadorCelular;
-        private System.Windows.Forms.Label LblImeiCelular;
-        private System.Windows.Forms.ComboBox CbResoluciónMonitor;
-        private System.Windows.Forms.ComboBox CbEntradaMonitor;
-        private System.Windows.Forms.Label LblResoluciónMonitor;
-        private System.Windows.Forms.Label LblEntradaMonitor;
-        private System.Windows.Forms.ComboBox CbHzMonitor;
-        private System.Windows.Forms.Label LblHzMonitor;
-        private System.Windows.Forms.TextBox TxtTamañoMonitor;
-        private System.Windows.Forms.Label LblTamañoMonitor;
-        private System.Windows.Forms.Button BtnAgregar;
-        private System.Windows.Forms.CheckBox ChkCaracteristicasMonitor;
-        private System.Windows.Forms.Button BtnCancelar;
-        private System.Windows.Forms.CheckBox ChkCargadorDesktop;
-        private System.Windows.Forms.Button BtnAgregarCaracteristica;
-        public System.Windows.Forms.CheckBox ChkCaracteristicaDesktop;
-        public System.Windows.Forms.CheckBox ChkCaracteristicaCelular;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button BtnAgregarFila;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.DataGridView DgvCaracteristicas;
+        private System.Windows.Forms.DataGridViewTextBoxColumn NombreCaracteristica;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ValorCaracteristica;
+        private System.Windows.Forms.Button BtnEliminarFila;
+        private System.Windows.Forms.Button BtnGuardar;
+        private System.Windows.Forms.Button BtnCancel;
+        private System.Windows.Forms.TextBox TxtNombre;
+        private System.Windows.Forms.TextBox TxtValor;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
     }
 }

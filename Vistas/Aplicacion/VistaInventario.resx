@@ -151,12 +151,6 @@
   <data name="FechaAdquisicionArticulo.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
     <value>Center</value>
   </data>
-  <data name="FechaBajaArticulo.Text" xml:space="preserve">
-    <value>FechaBaja</value>
-  </data>
-  <data name="FechaBajaArticulo.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Center</value>
-  </data>
   <data name="FechaFinGarantiaArticulo.Text" xml:space="preserve">
     <value>Fecha fin garantia</value>
   </data>
@@ -245,12 +239,6 @@
     <value>Precio adquirido</value>
   </data>
   <data name="PrecioArticulo.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Center</value>
-  </data>
-  <data name="ActivoFijoArticulo.Text" xml:space="preserve">
-    <value>Activo fijo</value>
-  </data>
-  <data name="ActivoFijoArticulo.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
     <value>Center</value>
   </data>
   <data name="ObservacionArticulo.Text" xml:space="preserve">
@@ -1656,12 +1644,6 @@
   <data name="&gt;&gt;FechaAdquisicionArticulo.Type" xml:space="preserve">
     <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;FechaBajaArticulo.Name" xml:space="preserve">
-    <value>FechaBajaArticulo</value>
-  </data>
-  <data name="&gt;&gt;FechaBajaArticulo.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;FechaFinGarantiaArticulo.Name" xml:space="preserve">
     <value>FechaFinGarantiaArticulo</value>
   </data>
@@ -1750,12 +1732,6 @@
     <value>PrecioArticulo</value>
   </data>
   <data name="&gt;&gt;PrecioArticulo.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ActivoFijoArticulo.Name" xml:space="preserve">
-    <value>ActivoFijoArticulo</value>
-  </data>
-  <data name="&gt;&gt;ActivoFijoArticulo.Type" xml:space="preserve">
     <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;ObservacionArticulo.Name" xml:space="preserve">

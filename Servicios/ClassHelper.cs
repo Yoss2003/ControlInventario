@@ -97,7 +97,6 @@ namespace ControlInventario.Servicios
                 item.SubItems.Add(art.Serie ?? "");
                 item.SubItems.Add(art.Marca ?? "");
                 item.SubItems.Add(ClassHelper.FormatearFecha(art.FechaAdquisicion));
-                item.SubItems.Add(ClassHelper.FormatearFecha(art.FechaBaja));
                 item.SubItems.Add(ClassHelper.FormatearFecha(art.FechaFinGarantia));
 
                 // --- INFORMACIÓN DEL EMPLEADO ACTUAL ---
@@ -118,7 +117,6 @@ namespace ControlInventario.Servicios
                 item.SubItems.Add(art.RucProveedor ?? "");
                 item.SubItems.Add(art.Proveedor ?? "");
                 item.SubItems.Add(ClassHelper.FormatearMoneda(art.PrecioAdquisicion));
-                item.SubItems.Add(art.ActivoFijo ?? "");
                 item.SubItems.Add(art.Observacion ?? "");
                 item.SubItems.Add(art.FotoPrincipal ?? "");
                 item.SubItems.Add(art.ComprobantePrincipal ?? "");
@@ -566,5 +564,25 @@ namespace ControlInventario.Servicios
             return v1[t.Length];
         }
 
+        public static string FormatearNombreCorto(string nombres, string apellidos)
+        {
+            if (string.IsNullOrWhiteSpace(nombres) || string.IsNullOrWhiteSpace(apellidos))
+                return nombres ?? "" + " " + apellidos ?? "";
+
+            // Obtener primer nombre
+            string primerNombre = nombres.Trim().Split(' ')[0];
+
+            // Procesar apellidos
+            string[] listaApellidos = apellidos.Trim().Split(' ');
+            string primerApellido = listaApellidos[0];
+            string inicialSegundo = "";
+
+            if (listaApellidos.Length > 1)
+            {
+                inicialSegundo = " " + listaApellidos[1].Substring(0, 1).ToUpper() + ".";
+            }
+
+            return $"{primerNombre} {primerApellido}{inicialSegundo}";
+        }
     }
 }

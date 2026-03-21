@@ -71,14 +71,14 @@ namespace ControlInventario.Database
                 e.Nombre AS EstadoTexto,
                 u.Nombre AS UbicacionTexto,
                 cond.Nombre AS CondicionTexto,
-    
+
                 empAct.Nombres || ' ' || empAct.Apellidos AS EmpleadoActualTexto,
                 empAct.DNI AS EmpleadoActualDNI,
                 empAct.IdArea AS EmpleadoActualIdArea,
                 areaAct.Nombre AS EmpleadoActualAreaTexto,
                 empAct.IdCargo AS EmpleadoActualIdCargo,
                 cargoAct.Nombre AS EmpleadoActualCargoTexto,
-    
+
                 empAnt.Nombres || ' ' || empAnt.Apellidos AS EmpleadoAnteriorTexto,
                 empAnt.DNI AS EmpleadoAnteriorDNI,
                 empAnt.IdArea AS EmpleadoAnteriorIdArea,
@@ -92,11 +92,9 @@ namespace ControlInventario.Database
             LEFT JOIN Parametros e ON a.IdEstado = e.Id
             LEFT JOIN Parametros u ON a.IdUbicacion = u.Id
             LEFT JOIN Parametros cond ON a.IdCondicion = cond.Id
-
             LEFT JOIN Empleados empAct ON a.EmpleadoActualId = empAct.Id
             LEFT JOIN Parametros areaAct ON empAct.IdArea = areaAct.Id
             LEFT JOIN Parametros cargoAct ON empAct.IdCargo = cargoAct.Id
-
             LEFT JOIN Empleados empAnt ON a.EmpleadoAnteriorId = empAnt.Id
             LEFT JOIN Parametros areaAnt ON empAnt.IdArea = areaAnt.Id
             LEFT JOIN Parametros cargoAnt ON empAnt.IdCargo = cargoAnt.Id;";
@@ -126,7 +124,7 @@ namespace ControlInventario.Database
                 InventarioId, Codigo, Modelo, Serie, IdMarca, FechaAdquisicion, FechaBaja, FechaFinGarantia,
                 EmpleadoActualId, EmpleadoAnteriorId,
                 IdEstado, IdUbicacion, IdCondicion, ActivoFijo, Observacion, RutaFotoPrincipal, RutaFotoSecundaria, 
-                RutaComprobantePrincipal, RutaComprobanteSecundaria, RucProveedor, Proveedor, PrecioAdquisicion, VidaUtilMeses, Caracteristicas
+                RutaComprobantePrincipal, RutaComprobanteSecundaria, RucProveedor, Proveedor, PrecioAdquisicion, VidaUtilMeses, Caracteristicas,
                 CategoriaId, FechaRegistro, Accion
             ) VALUES (
                 @InventarioId, @Codigo, @Modelo, @Serie, @IdMarca, @FechaAdquisicion, @FechaBaja, @FechaFinGarantia,

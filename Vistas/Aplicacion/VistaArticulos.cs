@@ -430,6 +430,8 @@ namespace ControlInventario.Vistas
                                 Proveedor = string.IsNullOrWhiteSpace(TxtRazonSocial.Text) ? null : TxtRazonSocial.Text,
                                 PrecioAdquisicion = precioFinal,
 
+                                Caracteristicas = jsonCaracteristicas,
+
                                 FechaRegistro = DateTime.Now,
 
                                 CategoriaId = _categoriaId,
@@ -511,6 +513,12 @@ namespace ControlInventario.Vistas
                     codigoFinal = ArticuloRepository.GenerarCodigoArticulo(prefijo, UsuarioSesion.InventarioId);
                 }
 
+                string jsonCaracteristicas = null;
+                if (caracteristicasTemporales != null && caracteristicasTemporales.Count > 0)
+                {
+                    jsonCaracteristicas = JsonSerializer.Serialize(caracteristicasTemporales);
+                }
+
                 try
                 {
                     using (var con = ConexionGlobal.ObtenerConexion())
@@ -538,6 +546,8 @@ namespace ControlInventario.Vistas
                             RucProveedor = string.IsNullOrWhiteSpace(TxtRuc.Text) ? null : TxtRuc.Text,
                             Proveedor = string.IsNullOrWhiteSpace(TxtRazonSocial.Text) ? null : TxtRazonSocial.Text,
                             PrecioAdquisicion = precioFinal,
+
+                            Caracteristicas = jsonCaracteristicas,
 
                             CategoriaId = _categoriaId,
                             Categoria = _categoria,
@@ -1081,6 +1091,11 @@ namespace ControlInventario.Vistas
                 ultimoModeloGuardado = TxtModelo.Text.Trim();
                 rechazoSugerenciaModelo = false;
             }
+        }
+
+        private void BtnDepreciacion_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("En desarrollo");
         }
     }
 }

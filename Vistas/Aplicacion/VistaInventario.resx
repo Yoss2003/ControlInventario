@@ -170,7 +170,7 @@
     <value>Fecha Adquisicion</value>
   </data>
   <data name="FechaAdquisicionArticulo.Width" type="System.Int32, mscorlib">
-    <value>109</value>
+    <value>119</value>
   </data>
   <metadata name="FechaFinGarantiaArticulo.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -179,7 +179,7 @@
     <value>Fin de garantia</value>
   </data>
   <data name="FechaFinGarantiaArticulo.Width" type="System.Int32, mscorlib">
-    <value>94</value>
+    <value>102</value>
   </data>
   <metadata name="DniUsuarioActual.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -188,7 +188,7 @@
     <value>DNI actual</value>
   </data>
   <data name="DniUsuarioActual.Width" type="System.Int32, mscorlib">
-    <value>77</value>
+    <value>83</value>
   </data>
   <metadata name="DniUsuarioActualArticulo.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -197,7 +197,7 @@
     <value>Empleado actual</value>
   </data>
   <data name="DniUsuarioActualArticulo.Width" type="System.Int32, mscorlib">
-    <value>102</value>
+    <value>111</value>
   </data>
   <metadata name="AreaUsuarioActualArticulo.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -206,7 +206,7 @@
     <value>Area actual</value>
   </data>
   <data name="AreaUsuarioActualArticulo.Width" type="System.Int32, mscorlib">
-    <value>79</value>
+    <value>86</value>
   </data>
   <metadata name="CargoUsuarioActualArticulo.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -215,7 +215,7 @@
     <value>Cargo actual</value>
   </data>
   <data name="CargoUsuarioActualArticulo.Width" type="System.Int32, mscorlib">
-    <value>85</value>
+    <value>92</value>
   </data>
   <metadata name="DniUsuarioAnteriorArticulo.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -224,7 +224,7 @@
     <value>DNI anterior</value>
   </data>
   <data name="DniUsuarioAnteriorArticulo.Width" type="System.Int32, mscorlib">
-    <value>82</value>
+    <value>89</value>
   </data>
   <metadata name="NombreUsuarioAnteriorArticulo.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -233,7 +233,7 @@
     <value>Empleado anterior</value>
   </data>
   <data name="NombreUsuarioAnteriorArticulo.Width" type="System.Int32, mscorlib">
-    <value>107</value>
+    <value>117</value>
   </data>
   <metadata name="AreaUsuarioAnteriorArticulo.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -242,7 +242,7 @@
     <value>Area anterior</value>
   </data>
   <data name="AreaUsuarioAnteriorArticulo.Width" type="System.Int32, mscorlib">
-    <value>85</value>
+    <value>92</value>
   </data>
   <metadata name="CargoUsuarioAnteriorArticulo.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -251,7 +251,7 @@
     <value>Cargo anterior</value>
   </data>
   <data name="CargoUsuarioAnteriorArticulo.Width" type="System.Int32, mscorlib">
-    <value>90</value>
+    <value>98</value>
   </data>
   <metadata name="EstadoArticulo.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -305,7 +305,7 @@
     <value>Precio aquirido</value>
   </data>
   <data name="PrecioArticulo.Width" type="System.Int32, mscorlib">
-    <value>94</value>
+    <value>102</value>
   </data>
   <metadata name="ObservacionArticulo.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -334,13 +334,13 @@
   <data name="ComprobanteArticulo.Width" type="System.Int32, mscorlib">
     <value>95</value>
   </data>
-  <metadata name="CaracteriticasArticulo.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <metadata name="CaracteristicasArticulo.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <data name="CaracteriticasArticulo.HeaderText" xml:space="preserve">
+  <data name="CaracteristicasArticulo.HeaderText" xml:space="preserve">
     <value>Caracteriticas</value>
   </data>
-  <data name="CaracteriticasArticulo.Width" type="System.Int32, mscorlib">
+  <data name="CaracteristicasArticulo.Width" type="System.Int32, mscorlib">
     <value>77</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
@@ -1992,10 +1992,10 @@
   <data name="&gt;&gt;ComprobanteArticulo.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;CaracteriticasArticulo.Name" xml:space="preserve">
-    <value>CaracteriticasArticulo</value>
+  <data name="&gt;&gt;CaracteristicasArticulo.Name" xml:space="preserve">
+    <value>CaracteristicasArticulo</value>
   </data>
-  <data name="&gt;&gt;CaracteriticasArticulo.Type" xml:space="preserve">
+  <data name="&gt;&gt;CaracteristicasArticulo.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewButtonColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">

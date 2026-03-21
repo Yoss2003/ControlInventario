@@ -117,172 +117,255 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Id.Text" xml:space="preserve">
+  <metadata name="IdArticulo.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="IdArticulo.HeaderText" xml:space="preserve">
     <value>Id</value>
   </data>
-  <data name="CodigoArticulo.Text" xml:space="preserve">
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="IdArticulo.Width" type="System.Int32, mscorlib">
+    <value>41</value>
+  </data>
+  <metadata name="CodigoArticulo.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="CodigoArticulo.HeaderText" xml:space="preserve">
     <value>Codigo</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="CodigoArticulo.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Center</value>
+  <data name="CodigoArticulo.Width" type="System.Int32, mscorlib">
+    <value>65</value>
   </data>
-  <data name="ModeloArticulo.Text" xml:space="preserve">
+  <metadata name="ModeloArticulo.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="ModeloArticulo.HeaderText" xml:space="preserve">
     <value>Modelo</value>
   </data>
-  <data name="ModeloArticulo.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Center</value>
+  <data name="ModeloArticulo.Width" type="System.Int32, mscorlib">
+    <value>67</value>
   </data>
-  <data name="SerieArticulo.Text" xml:space="preserve">
+  <metadata name="SerieArticulo.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="SerieArticulo.HeaderText" xml:space="preserve">
     <value>Serie</value>
   </data>
-  <data name="SerieArticulo.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Center</value>
+  <data name="SerieArticulo.Width" type="System.Int32, mscorlib">
+    <value>56</value>
   </data>
-  <data name="MarcaArticulo.Text" xml:space="preserve">
+  <metadata name="MarcaArticulo.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="MarcaArticulo.HeaderText" xml:space="preserve">
     <value>Marca</value>
   </data>
-  <data name="MarcaArticulo.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Center</value>
+  <data name="MarcaArticulo.Width" type="System.Int32, mscorlib">
+    <value>62</value>
   </data>
-  <data name="FechaAdquisicionArticulo.Text" xml:space="preserve">
-    <value>Fecha adquisicion</value>
+  <metadata name="FechaAdquisicionArticulo.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="FechaAdquisicionArticulo.HeaderText" xml:space="preserve">
+    <value>Fecha Adquisicion</value>
   </data>
-  <data name="FechaAdquisicionArticulo.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Center</value>
+  <data name="FechaAdquisicionArticulo.Width" type="System.Int32, mscorlib">
+    <value>109</value>
   </data>
-  <data name="FechaFinGarantiaArticulo.Text" xml:space="preserve">
-    <value>Fecha fin garantia</value>
+  <metadata name="FechaFinGarantiaArticulo.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="FechaFinGarantiaArticulo.HeaderText" xml:space="preserve">
+    <value>Fin de garantia</value>
   </data>
-  <data name="FechaFinGarantiaArticulo.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Center</value>
+  <data name="FechaFinGarantiaArticulo.Width" type="System.Int32, mscorlib">
+    <value>94</value>
   </data>
-  <data name="DniUsuarioActualArticulo.Text" xml:space="preserve">
-    <value>Dni usuario actual</value>
+  <metadata name="DniUsuarioActual.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="DniUsuarioActual.HeaderText" xml:space="preserve">
+    <value>DNI actual</value>
   </data>
-  <data name="DniUsuarioActualArticulo.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Center</value>
+  <data name="DniUsuarioActual.Width" type="System.Int32, mscorlib">
+    <value>77</value>
   </data>
-  <data name="NombreUsuarioActualArticulo.Text" xml:space="preserve">
-    <value>Usuario actual</value>
+  <metadata name="DniUsuarioActualArticulo.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="DniUsuarioActualArticulo.HeaderText" xml:space="preserve">
+    <value>Empleado actual</value>
   </data>
-  <data name="NombreUsuarioActualArticulo.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Center</value>
+  <data name="DniUsuarioActualArticulo.Width" type="System.Int32, mscorlib">
+    <value>102</value>
   </data>
-  <data name="AreaUsuarioActualArticulo.Text" xml:space="preserve">
-    <value>Area usuario actual</value>
+  <metadata name="AreaUsuarioActualArticulo.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="AreaUsuarioActualArticulo.HeaderText" xml:space="preserve">
+    <value>Area actual</value>
   </data>
-  <data name="AreaUsuarioActualArticulo.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Center</value>
+  <data name="AreaUsuarioActualArticulo.Width" type="System.Int32, mscorlib">
+    <value>79</value>
   </data>
-  <data name="CargoUsuarioActualArticulo.Text" xml:space="preserve">
-    <value>Cargo usuario actual</value>
+  <metadata name="CargoUsuarioActualArticulo.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="CargoUsuarioActualArticulo.HeaderText" xml:space="preserve">
+    <value>Cargo actual</value>
   </data>
-  <data name="CargoUsuarioActualArticulo.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Center</value>
+  <data name="CargoUsuarioActualArticulo.Width" type="System.Int32, mscorlib">
+    <value>85</value>
   </data>
-  <data name="DniUsuarioAnteriorArticulo.Text" xml:space="preserve">
-    <value>Dni usuario anterior</value>
+  <metadata name="DniUsuarioAnteriorArticulo.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="DniUsuarioAnteriorArticulo.HeaderText" xml:space="preserve">
+    <value>DNI anterior</value>
   </data>
-  <data name="DniUsuarioAnteriorArticulo.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Center</value>
+  <data name="DniUsuarioAnteriorArticulo.Width" type="System.Int32, mscorlib">
+    <value>82</value>
   </data>
-  <data name="NombreUsuarioAnteriorArticulo.Text" xml:space="preserve">
-    <value>Usuario anterior</value>
+  <metadata name="NombreUsuarioAnteriorArticulo.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="NombreUsuarioAnteriorArticulo.HeaderText" xml:space="preserve">
+    <value>Empleado anterior</value>
   </data>
-  <data name="NombreUsuarioAnteriorArticulo.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Center</value>
+  <data name="NombreUsuarioAnteriorArticulo.Width" type="System.Int32, mscorlib">
+    <value>107</value>
   </data>
-  <data name="AreaUsuarioAnteriorArticulo.Text" xml:space="preserve">
-    <value>Area usuario anterior</value>
+  <metadata name="AreaUsuarioAnteriorArticulo.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="AreaUsuarioAnteriorArticulo.HeaderText" xml:space="preserve">
+    <value>Area anterior</value>
   </data>
-  <data name="AreaUsuarioAnteriorArticulo.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Center</value>
+  <data name="AreaUsuarioAnteriorArticulo.Width" type="System.Int32, mscorlib">
+    <value>85</value>
   </data>
-  <data name="CargoUsuarioAnteriorArticulo.Text" xml:space="preserve">
-    <value>Cargo usuario anterior</value>
+  <metadata name="CargoUsuarioAnteriorArticulo.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="CargoUsuarioAnteriorArticulo.HeaderText" xml:space="preserve">
+    <value>Cargo anterior</value>
   </data>
-  <data name="CargoUsuarioAnteriorArticulo.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Center</value>
+  <data name="CargoUsuarioAnteriorArticulo.Width" type="System.Int32, mscorlib">
+    <value>90</value>
   </data>
-  <data name="EstadoArticulo.Text" xml:space="preserve">
+  <metadata name="EstadoArticulo.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="EstadoArticulo.HeaderText" xml:space="preserve">
     <value>Estado</value>
   </data>
-  <data name="EstadoArticulo.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Center</value>
+  <data name="EstadoArticulo.Width" type="System.Int32, mscorlib">
+    <value>65</value>
   </data>
-  <data name="UbicacionArticulo.Text" xml:space="preserve">
-    <value>Ubicación</value>
+  <metadata name="UbicacionArticulo.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="UbicacionArticulo.HeaderText" xml:space="preserve">
+    <value>Ubicacion</value>
   </data>
-  <data name="UbicacionArticulo.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Center</value>
+  <data name="UbicacionArticulo.Width" type="System.Int32, mscorlib">
+    <value>80</value>
   </data>
-  <data name="CondicionArticulo.Text" xml:space="preserve">
-    <value>Condición</value>
+  <metadata name="CondicionArticulo.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="CondicionArticulo.HeaderText" xml:space="preserve">
+    <value>Condicion</value>
   </data>
-  <data name="CondicionArticulo.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Center</value>
+  <data name="CondicionArticulo.Width" type="System.Int32, mscorlib">
+    <value>79</value>
   </data>
-  <data name="RucArticulo.Text" xml:space="preserve">
-    <value>Ruc proveedor</value>
+  <metadata name="RucArticulo.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="RucArticulo.HeaderText" xml:space="preserve">
+    <value>Ruc</value>
   </data>
-  <data name="RucArticulo.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Center</value>
+  <data name="RucArticulo.Width" type="System.Int32, mscorlib">
+    <value>52</value>
   </data>
-  <data name="ProveedorArticulo.Text" xml:space="preserve">
-    <value>Razón social</value>
+  <metadata name="ProveedorArticulo.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="ProveedorArticulo.HeaderText" xml:space="preserve">
+    <value>Proveedor</value>
   </data>
-  <data name="ProveedorArticulo.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Center</value>
+  <data name="ProveedorArticulo.Width" type="System.Int32, mscorlib">
+    <value>81</value>
   </data>
-  <data name="PrecioArticulo.Text" xml:space="preserve">
-    <value>Precio adquirido</value>
+  <metadata name="PrecioArticulo.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="PrecioArticulo.HeaderText" xml:space="preserve">
+    <value>Precio aquirido</value>
   </data>
-  <data name="PrecioArticulo.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Center</value>
+  <data name="PrecioArticulo.Width" type="System.Int32, mscorlib">
+    <value>94</value>
   </data>
-  <data name="ObservacionArticulo.Text" xml:space="preserve">
+  <metadata name="ObservacionArticulo.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="ObservacionArticulo.HeaderText" xml:space="preserve">
     <value>Observacion</value>
   </data>
-  <data name="ObservacionArticulo.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Center</value>
+  <data name="ObservacionArticulo.Width" type="System.Int32, mscorlib">
+    <value>92</value>
   </data>
-  <data name="ImagenArticulo.Text" xml:space="preserve">
+  <metadata name="ImagenArticulo.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="ImagenArticulo.HeaderText" xml:space="preserve">
     <value>Imagen</value>
   </data>
-  <data name="ImagenArticulo.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Center</value>
+  <data name="ImagenArticulo.Width" type="System.Int32, mscorlib">
+    <value>67</value>
   </data>
-  <data name="ComprobanteArticulo.Text" xml:space="preserve">
+  <metadata name="ComprobanteArticulo.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="ComprobanteArticulo.HeaderText" xml:space="preserve">
     <value>Comprobante</value>
   </data>
-  <data name="ComprobanteArticulo.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Center</value>
+  <data name="ComprobanteArticulo.Width" type="System.Int32, mscorlib">
+    <value>95</value>
+  </data>
+  <metadata name="CaracteriticasArticulo.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="CaracteriticasArticulo.HeaderText" xml:space="preserve">
+    <value>Caracteriticas</value>
+  </data>
+  <data name="CaracteriticasArticulo.Width" type="System.Int32, mscorlib">
+    <value>77</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="LstIngresos.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="DvgIngresos.Location" type="System.Drawing.Point, System.Drawing">
     <value>98, 87</value>
   </data>
-  <data name="LstIngresos.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="DvgIngresos.Size" type="System.Drawing.Size, System.Drawing">
     <value>663, 306</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="LstIngresos.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
+  <data name="DvgIngresos.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
   </data>
-  <data name="LstIngresos.Visible" type="System.Boolean, mscorlib">
+  <data name="DvgIngresos.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="&gt;&gt;LstIngresos.Name" xml:space="preserve">
-    <value>LstIngresos</value>
+  <data name="&gt;&gt;DvgIngresos.Name" xml:space="preserve">
+    <value>DvgIngresos</value>
   </data>
-  <data name="&gt;&gt;LstIngresos.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ListView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;DvgIngresos.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;LstIngresos.Parent" xml:space="preserve">
+  <data name="&gt;&gt;DvgIngresos.Parent" xml:space="preserve">
     <value>TabIngresos</value>
   </data>
-  <data name="&gt;&gt;LstIngresos.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;DvgIngresos.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="LstDefault1.Location" type="System.Drawing.Point, System.Drawing">
@@ -633,6 +716,7 @@
   <data name="FlCategorias.AutoScroll" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="FlCategorias.FlowDirection" type="System.Windows.Forms.FlowDirection, System.Windows.Forms">
     <value>TopDown</value>
   </data>
@@ -1608,150 +1692,6 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Inventario</value>
   </data>
-  <data name="&gt;&gt;Id.Name" xml:space="preserve">
-    <value>Id</value>
-  </data>
-  <data name="&gt;&gt;Id.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CodigoArticulo.Name" xml:space="preserve">
-    <value>CodigoArticulo</value>
-  </data>
-  <data name="&gt;&gt;CodigoArticulo.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ModeloArticulo.Name" xml:space="preserve">
-    <value>ModeloArticulo</value>
-  </data>
-  <data name="&gt;&gt;ModeloArticulo.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;SerieArticulo.Name" xml:space="preserve">
-    <value>SerieArticulo</value>
-  </data>
-  <data name="&gt;&gt;SerieArticulo.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;MarcaArticulo.Name" xml:space="preserve">
-    <value>MarcaArticulo</value>
-  </data>
-  <data name="&gt;&gt;MarcaArticulo.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;FechaAdquisicionArticulo.Name" xml:space="preserve">
-    <value>FechaAdquisicionArticulo</value>
-  </data>
-  <data name="&gt;&gt;FechaAdquisicionArticulo.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;FechaFinGarantiaArticulo.Name" xml:space="preserve">
-    <value>FechaFinGarantiaArticulo</value>
-  </data>
-  <data name="&gt;&gt;FechaFinGarantiaArticulo.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;DniUsuarioActualArticulo.Name" xml:space="preserve">
-    <value>DniUsuarioActualArticulo</value>
-  </data>
-  <data name="&gt;&gt;DniUsuarioActualArticulo.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;NombreUsuarioActualArticulo.Name" xml:space="preserve">
-    <value>NombreUsuarioActualArticulo</value>
-  </data>
-  <data name="&gt;&gt;NombreUsuarioActualArticulo.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;AreaUsuarioActualArticulo.Name" xml:space="preserve">
-    <value>AreaUsuarioActualArticulo</value>
-  </data>
-  <data name="&gt;&gt;AreaUsuarioActualArticulo.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CargoUsuarioActualArticulo.Name" xml:space="preserve">
-    <value>CargoUsuarioActualArticulo</value>
-  </data>
-  <data name="&gt;&gt;CargoUsuarioActualArticulo.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;DniUsuarioAnteriorArticulo.Name" xml:space="preserve">
-    <value>DniUsuarioAnteriorArticulo</value>
-  </data>
-  <data name="&gt;&gt;DniUsuarioAnteriorArticulo.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;NombreUsuarioAnteriorArticulo.Name" xml:space="preserve">
-    <value>NombreUsuarioAnteriorArticulo</value>
-  </data>
-  <data name="&gt;&gt;NombreUsuarioAnteriorArticulo.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;AreaUsuarioAnteriorArticulo.Name" xml:space="preserve">
-    <value>AreaUsuarioAnteriorArticulo</value>
-  </data>
-  <data name="&gt;&gt;AreaUsuarioAnteriorArticulo.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CargoUsuarioAnteriorArticulo.Name" xml:space="preserve">
-    <value>CargoUsuarioAnteriorArticulo</value>
-  </data>
-  <data name="&gt;&gt;CargoUsuarioAnteriorArticulo.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;EstadoArticulo.Name" xml:space="preserve">
-    <value>EstadoArticulo</value>
-  </data>
-  <data name="&gt;&gt;EstadoArticulo.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;UbicacionArticulo.Name" xml:space="preserve">
-    <value>UbicacionArticulo</value>
-  </data>
-  <data name="&gt;&gt;UbicacionArticulo.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CondicionArticulo.Name" xml:space="preserve">
-    <value>CondicionArticulo</value>
-  </data>
-  <data name="&gt;&gt;CondicionArticulo.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;RucArticulo.Name" xml:space="preserve">
-    <value>RucArticulo</value>
-  </data>
-  <data name="&gt;&gt;RucArticulo.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ProveedorArticulo.Name" xml:space="preserve">
-    <value>ProveedorArticulo</value>
-  </data>
-  <data name="&gt;&gt;ProveedorArticulo.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;PrecioArticulo.Name" xml:space="preserve">
-    <value>PrecioArticulo</value>
-  </data>
-  <data name="&gt;&gt;PrecioArticulo.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ObservacionArticulo.Name" xml:space="preserve">
-    <value>ObservacionArticulo</value>
-  </data>
-  <data name="&gt;&gt;ObservacionArticulo.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ImagenArticulo.Name" xml:space="preserve">
-    <value>ImagenArticulo</value>
-  </data>
-  <data name="&gt;&gt;ImagenArticulo.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ComprobanteArticulo.Name" xml:space="preserve">
-    <value>ComprobanteArticulo</value>
-  </data>
-  <data name="&gt;&gt;ComprobanteArticulo.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;columnHeader1.Name" xml:space="preserve">
     <value>columnHeader1</value>
   </data>
@@ -1907,6 +1847,156 @@
   </data>
   <data name="&gt;&gt;columnHeader26.Type" xml:space="preserve">
     <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;IdArticulo.Name" xml:space="preserve">
+    <value>IdArticulo</value>
+  </data>
+  <data name="&gt;&gt;IdArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CodigoArticulo.Name" xml:space="preserve">
+    <value>CodigoArticulo</value>
+  </data>
+  <data name="&gt;&gt;CodigoArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ModeloArticulo.Name" xml:space="preserve">
+    <value>ModeloArticulo</value>
+  </data>
+  <data name="&gt;&gt;ModeloArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SerieArticulo.Name" xml:space="preserve">
+    <value>SerieArticulo</value>
+  </data>
+  <data name="&gt;&gt;SerieArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;MarcaArticulo.Name" xml:space="preserve">
+    <value>MarcaArticulo</value>
+  </data>
+  <data name="&gt;&gt;MarcaArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;FechaAdquisicionArticulo.Name" xml:space="preserve">
+    <value>FechaAdquisicionArticulo</value>
+  </data>
+  <data name="&gt;&gt;FechaAdquisicionArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;FechaFinGarantiaArticulo.Name" xml:space="preserve">
+    <value>FechaFinGarantiaArticulo</value>
+  </data>
+  <data name="&gt;&gt;FechaFinGarantiaArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;DniUsuarioActual.Name" xml:space="preserve">
+    <value>DniUsuarioActual</value>
+  </data>
+  <data name="&gt;&gt;DniUsuarioActual.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;DniUsuarioActualArticulo.Name" xml:space="preserve">
+    <value>DniUsuarioActualArticulo</value>
+  </data>
+  <data name="&gt;&gt;DniUsuarioActualArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;AreaUsuarioActualArticulo.Name" xml:space="preserve">
+    <value>AreaUsuarioActualArticulo</value>
+  </data>
+  <data name="&gt;&gt;AreaUsuarioActualArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CargoUsuarioActualArticulo.Name" xml:space="preserve">
+    <value>CargoUsuarioActualArticulo</value>
+  </data>
+  <data name="&gt;&gt;CargoUsuarioActualArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;DniUsuarioAnteriorArticulo.Name" xml:space="preserve">
+    <value>DniUsuarioAnteriorArticulo</value>
+  </data>
+  <data name="&gt;&gt;DniUsuarioAnteriorArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NombreUsuarioAnteriorArticulo.Name" xml:space="preserve">
+    <value>NombreUsuarioAnteriorArticulo</value>
+  </data>
+  <data name="&gt;&gt;NombreUsuarioAnteriorArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;AreaUsuarioAnteriorArticulo.Name" xml:space="preserve">
+    <value>AreaUsuarioAnteriorArticulo</value>
+  </data>
+  <data name="&gt;&gt;AreaUsuarioAnteriorArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CargoUsuarioAnteriorArticulo.Name" xml:space="preserve">
+    <value>CargoUsuarioAnteriorArticulo</value>
+  </data>
+  <data name="&gt;&gt;CargoUsuarioAnteriorArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;EstadoArticulo.Name" xml:space="preserve">
+    <value>EstadoArticulo</value>
+  </data>
+  <data name="&gt;&gt;EstadoArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;UbicacionArticulo.Name" xml:space="preserve">
+    <value>UbicacionArticulo</value>
+  </data>
+  <data name="&gt;&gt;UbicacionArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CondicionArticulo.Name" xml:space="preserve">
+    <value>CondicionArticulo</value>
+  </data>
+  <data name="&gt;&gt;CondicionArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RucArticulo.Name" xml:space="preserve">
+    <value>RucArticulo</value>
+  </data>
+  <data name="&gt;&gt;RucArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ProveedorArticulo.Name" xml:space="preserve">
+    <value>ProveedorArticulo</value>
+  </data>
+  <data name="&gt;&gt;ProveedorArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;PrecioArticulo.Name" xml:space="preserve">
+    <value>PrecioArticulo</value>
+  </data>
+  <data name="&gt;&gt;PrecioArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ObservacionArticulo.Name" xml:space="preserve">
+    <value>ObservacionArticulo</value>
+  </data>
+  <data name="&gt;&gt;ObservacionArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ImagenArticulo.Name" xml:space="preserve">
+    <value>ImagenArticulo</value>
+  </data>
+  <data name="&gt;&gt;ImagenArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ComprobanteArticulo.Name" xml:space="preserve">
+    <value>ComprobanteArticulo</value>
+  </data>
+  <data name="&gt;&gt;ComprobanteArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CaracteriticasArticulo.Name" xml:space="preserve">
+    <value>CaracteriticasArticulo</value>
+  </data>
+  <data name="&gt;&gt;CaracteriticasArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewButtonColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>VistaInventario</value>

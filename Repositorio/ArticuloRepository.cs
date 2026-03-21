@@ -43,6 +43,7 @@ namespace ControlInventario.Database
                 Proveedor TEXT,
                 PrecioAdquisicion REAL,
                 VidaUtilMeses INTEGER,
+                Caracteristicas TEXT,
 
                 CategoriaId INTEGER NOT NULL,
 
@@ -50,7 +51,6 @@ namespace ControlInventario.Database
                 FechaModificacion TEXT,
                 Accion TEXT,
 
-                Caracteristicas BOOL,
                 FOREIGN KEY (CategoriaId) REFERENCES Categorias(Id),
                 FOREIGN KEY (EmpleadoActualId) REFERENCES Empleados(Id),
                 FOREIGN KEY (EmpleadoAnteriorId) REFERENCES Empleados(Id)
@@ -126,13 +126,13 @@ namespace ControlInventario.Database
                 InventarioId, Codigo, Modelo, Serie, IdMarca, FechaAdquisicion, FechaBaja, FechaFinGarantia,
                 EmpleadoActualId, EmpleadoAnteriorId,
                 IdEstado, IdUbicacion, IdCondicion, ActivoFijo, Observacion, RutaFotoPrincipal, RutaFotoSecundaria, 
-                RutaComprobantePrincipal, RutaComprobanteSecundaria, RucProveedor, Proveedor, PrecioAdquisicion, VidaUtilMeses, 
+                RutaComprobantePrincipal, RutaComprobanteSecundaria, RucProveedor, Proveedor, PrecioAdquisicion, VidaUtilMeses, Caracteristicas
                 CategoriaId, FechaRegistro, Accion
             ) VALUES (
                 @InventarioId, @Codigo, @Modelo, @Serie, @IdMarca, @FechaAdquisicion, @FechaBaja, @FechaFinGarantia,
                 @EmpleadoActualId, @EmpleadoAnteriorId,
                 @IdEstado, @IdUbicacion, @IdCondicion, @ActivoFijo, @Observacion, @RutaFotoPrincipal, @RutaFotoSecundaria, 
-                @RutaComprobantePrincipal, @RutaComprobanteSecundaria, @RucProveedor, @Proveedor, @PrecioAdquisicion, @VidaUtilMeses, 
+                @RutaComprobantePrincipal, @RutaComprobanteSecundaria, @RucProveedor, @Proveedor, @PrecioAdquisicion, @VidaUtilMeses, @Caracteristicas,
                 @CategoriaId, @FechaRegistro, @Accion
             );";
 
@@ -167,6 +167,7 @@ namespace ControlInventario.Database
                 cmd.Parameters.AddWithValue("@Proveedor", (object)art.Proveedor ?? DBNull.Value);
                 cmd.Parameters.Add(new SQLiteParameter("@PrecioAdquisicion", DbType.Decimal) { Value = art.PrecioAdquisicion ?? (object)DBNull.Value });
                 cmd.Parameters.AddWithValue("@VidaUtilMeses", art.VidaUtilMeses ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@Caracteristicas", art.Caracteristicas ?? (object)DBNull.Value);
 
                 cmd.Parameters.AddWithValue("@CategoriaId", art.CategoriaId);
                 cmd.Parameters.AddWithValue("@FechaRegistro", art.FechaRegistro.ToString("yyyy-MM-dd"));
@@ -177,15 +178,6 @@ namespace ControlInventario.Database
             using (var cmd = new SQLiteCommand("SELECT last_insert_rowid();", con))
             {
                 art.Id = Convert.ToInt32(cmd.ExecuteScalar());
-            }
-
-            if (art.Caracteristicas != null && art.Caracteristicas.Count > 0)
-            {
-                foreach (var car in art.Caracteristicas)
-                {
-                    car.ArticuloId = art.Id;
-                    CaracteristicaRepository.InsertarCaracteristica(car, con);
-                }
             }
         }
 
@@ -203,7 +195,7 @@ namespace ControlInventario.Database
                     Observacion = @Observacion, RutaFotoPrincipal = @RutaFotoPrincipal, RutaFotoSecundaria = @RutaFotoSecundaria, 
                     RutaComprobantePrincipal = @RutaComprobantePrincipal, RutaComprobanteSecundaria = @RutaComprobanteSecundaria,
                     RucProveedor = @RucProveedor, Proveedor = @Proveedor, PrecioAdquisicion = @PrecioAdquisicion, 
-                    VidaUtilMeses = @VidaUtilMeses, FechaModificacion = @FechaModificacion, Accion = @Accion
+                    VidaUtilMeses = @VidaUtilMeses, Caracteristicas = @Caracteristicas, FechaModificacion = @FechaModificacion, Accion = @Accion 
                 WHERE Id = @Id;";
 
                 using (var cmd = new SQLiteCommand(query, con))
@@ -234,20 +226,12 @@ namespace ControlInventario.Database
                     cmd.Parameters.AddWithValue("@Proveedor", (object)art.Proveedor ?? DBNull.Value);
                     cmd.Parameters.Add(new SQLiteParameter("@PrecioAdquisicion", DbType.Decimal) { Value = art.PrecioAdquisicion ?? (object)DBNull.Value });
                     cmd.Parameters.AddWithValue("@VidaUtilMeses", art.VidaUtilMeses ?? (object)DBNull.Value);
-                    cmd.Parameters.AddWithValue("@Id", art.Id);
+                    cmd.Parameters.AddWithValue("@Caracteristicas", art.Caracteristicas ?? (object)DBNull.Value);
 
                     cmd.Parameters.AddWithValue("@FechaModificacion", art.FechaModificacion.ToString("yyyy-MM-dd"));
                     cmd.Parameters.AddWithValue("@Accion", "Modificado");
+                    cmd.Parameters.AddWithValue("@Id", art.Id);
                     cmd.ExecuteNonQuery();
-                }
-            }
-
-            if (art.Caracteristicas != null && art.Caracteristicas.Count > 0)
-            {
-                foreach (var car in art.Caracteristicas)
-                {
-                    car.ArticuloId = art.Id;
-                    CaracteristicaRepository.ActualizarCaracteristicas(car);
                 }
             }
         }
@@ -257,7 +241,6 @@ namespace ControlInventario.Database
             using (var con = ConexionGlobal.ObtenerConexion())
             {
                 con.Open();
-                CaracteristicaRepository.EliminarCaracteristica(id);
 
                 string query = @"DELETE FROM Articulos WHERE Id = @Id;";
                 using (var cmd = new SQLiteCommand(query, con))
@@ -284,7 +267,6 @@ namespace ControlInventario.Database
                         while (reader.Read())
                         {
                             var articulo = MapearArticulos(reader);
-                            articulo.Caracteristicas = CaracteristicaRepository.ListarCaracteristicas(articulo.Id);
                             lista.Add(articulo);
                         }
                     }
@@ -425,6 +407,7 @@ namespace ControlInventario.Database
                 Proveedor = reader["Proveedor"]?.ToString(),
                 PrecioAdquisicion = reader["PrecioAdquisicion"] != DBNull.Value ? Convert.ToDecimal(reader["PrecioAdquisicion"]) : (decimal?)null,
                 VidaUtilMeses = reader["VidaUtilMeses"] != DBNull.Value ? Convert.ToInt32(reader["VidaUtilMeses"]) : (int?)null,
+                Caracteristicas = reader["Caracteristicas"] != DBNull.Value ? reader["Caracteristicas"].ToString() : null,
 
                 CategoriaId = reader["CategoriaId"] != DBNull.Value ? Convert.ToInt32(reader["CategoriaId"]) : 0,
                 Categoria = reader["CategoriaTexto"]?.ToString(),

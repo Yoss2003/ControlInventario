@@ -22,7 +22,6 @@ namespace ControlInventario.Servicios
             // 3. HIJOS: Dependen de muchos padres
             ArticuloRepository.CrearTablaArticulos(con);
             MovimientoRepository.CrearTablaMovimientos(con);
-            CaracteristicaRepository.CrearTablaCaracteristicas(con);
 
             // 4. SISTEMA: Tablas operativas
             InventarioRepository.CrearTablaInventarios(con);

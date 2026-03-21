@@ -165,7 +165,6 @@
     <Compile Include="Modelo\Proveedor.cs" />
     <Compile Include="Modelo\SalidaArticulo.cs" />
     <Compile Include="Repositorio\ArticuloRepository.cs" />
-    <Compile Include="Repositorio\CaracteristicaRepository.cs" />
     <Compile Include="Repositorio\CategoriaRepository.cs" />
     <Compile Include="Database\ConexionGlobal.cs" />
     <Compile Include="Repositorio\ConfiguracionRepository.cs" />

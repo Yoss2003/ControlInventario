@@ -28,34 +28,34 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VistaInventario));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
             this.TbPrincipal = new System.Windows.Forms.TabControl();
             this.TabIngresos = new System.Windows.Forms.TabPage();
-            this.LstIngresos = new System.Windows.Forms.ListView();
-            this.Id = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.CodigoArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ModeloArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.SerieArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.MarcaArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.FechaAdquisicionArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.FechaFinGarantiaArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.DniUsuarioActualArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.NombreUsuarioActualArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.AreaUsuarioActualArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.CargoUsuarioActualArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.DniUsuarioAnteriorArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.NombreUsuarioAnteriorArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.AreaUsuarioAnteriorArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.CargoUsuarioAnteriorArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.EstadoArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.UbicacionArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.CondicionArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.RucArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ProveedorArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.PrecioArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ObservacionArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ImagenArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ComprobanteArticulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.LstDefault1 = new System.Windows.Forms.ListView();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.ChkUsarFechas = new System.Windows.Forms.CheckBox();
@@ -125,6 +125,32 @@
             this.BtnEditarArticulo = new System.Windows.Forms.Button();
             this.BtnNuevaAsignacion = new System.Windows.Forms.Button();
             this.BtnAgregarArticulo = new System.Windows.Forms.Button();
+            this.DvgIngresos = new System.Windows.Forms.DataGridView();
+            this.IdArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CodigoArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ModeloArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SerieArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MarcaArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FechaAdquisicionArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FechaFinGarantiaArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DniUsuarioActual = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DniUsuarioActualArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AreaUsuarioActualArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CargoUsuarioActualArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DniUsuarioAnteriorArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.NombreUsuarioAnteriorArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AreaUsuarioAnteriorArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CargoUsuarioAnteriorArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.EstadoArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.UbicacionArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CondicionArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RucArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ProveedorArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PrecioArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ObservacionArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ImagenArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ComprobanteArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CaracteriticasArticulo = new System.Windows.Forms.DataGridViewButtonColumn();
             this.TbPrincipal.SuspendLayout();
             this.TabIngresos.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -132,6 +158,7 @@
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NuAccionInventario)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DvgIngresos)).BeginInit();
             this.SuspendLayout();
             // 
             // TbPrincipal
@@ -146,7 +173,7 @@
             // 
             // TabIngresos
             // 
-            this.TabIngresos.Controls.Add(this.LstIngresos);
+            this.TabIngresos.Controls.Add(this.DvgIngresos);
             this.TabIngresos.Controls.Add(this.LstDefault1);
             this.TabIngresos.Controls.Add(this.groupBox2);
             this.TabIngresos.Controls.Add(this.FlCategorias);
@@ -154,138 +181,6 @@
             resources.ApplyResources(this.TabIngresos, "TabIngresos");
             this.TabIngresos.Name = "TabIngresos";
             this.TabIngresos.UseVisualStyleBackColor = true;
-            // 
-            // LstIngresos
-            // 
-            this.LstIngresos.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.LstIngresos.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.Id,
-            this.CodigoArticulo,
-            this.ModeloArticulo,
-            this.SerieArticulo,
-            this.MarcaArticulo,
-            this.FechaAdquisicionArticulo,
-            this.FechaFinGarantiaArticulo,
-            this.DniUsuarioActualArticulo,
-            this.NombreUsuarioActualArticulo,
-            this.AreaUsuarioActualArticulo,
-            this.CargoUsuarioActualArticulo,
-            this.DniUsuarioAnteriorArticulo,
-            this.NombreUsuarioAnteriorArticulo,
-            this.AreaUsuarioAnteriorArticulo,
-            this.CargoUsuarioAnteriorArticulo,
-            this.EstadoArticulo,
-            this.UbicacionArticulo,
-            this.CondicionArticulo,
-            this.RucArticulo,
-            this.ProveedorArticulo,
-            this.PrecioArticulo,
-            this.ObservacionArticulo,
-            this.ImagenArticulo,
-            this.ComprobanteArticulo});
-            this.LstIngresos.FullRowSelect = true;
-            this.LstIngresos.GridLines = true;
-            this.LstIngresos.HideSelection = false;
-            resources.ApplyResources(this.LstIngresos, "LstIngresos");
-            this.LstIngresos.Name = "LstIngresos";
-            this.LstIngresos.UseCompatibleStateImageBehavior = false;
-            this.LstIngresos.View = System.Windows.Forms.View.Details;
-            // 
-            // Id
-            // 
-            resources.ApplyResources(this.Id, "Id");
-            // 
-            // CodigoArticulo
-            // 
-            resources.ApplyResources(this.CodigoArticulo, "CodigoArticulo");
-            // 
-            // ModeloArticulo
-            // 
-            resources.ApplyResources(this.ModeloArticulo, "ModeloArticulo");
-            // 
-            // SerieArticulo
-            // 
-            resources.ApplyResources(this.SerieArticulo, "SerieArticulo");
-            // 
-            // MarcaArticulo
-            // 
-            resources.ApplyResources(this.MarcaArticulo, "MarcaArticulo");
-            // 
-            // FechaAdquisicionArticulo
-            // 
-            resources.ApplyResources(this.FechaAdquisicionArticulo, "FechaAdquisicionArticulo");
-            // 
-            // FechaFinGarantiaArticulo
-            // 
-            resources.ApplyResources(this.FechaFinGarantiaArticulo, "FechaFinGarantiaArticulo");
-            // 
-            // DniUsuarioActualArticulo
-            // 
-            resources.ApplyResources(this.DniUsuarioActualArticulo, "DniUsuarioActualArticulo");
-            // 
-            // NombreUsuarioActualArticulo
-            // 
-            resources.ApplyResources(this.NombreUsuarioActualArticulo, "NombreUsuarioActualArticulo");
-            // 
-            // AreaUsuarioActualArticulo
-            // 
-            resources.ApplyResources(this.AreaUsuarioActualArticulo, "AreaUsuarioActualArticulo");
-            // 
-            // CargoUsuarioActualArticulo
-            // 
-            resources.ApplyResources(this.CargoUsuarioActualArticulo, "CargoUsuarioActualArticulo");
-            // 
-            // DniUsuarioAnteriorArticulo
-            // 
-            resources.ApplyResources(this.DniUsuarioAnteriorArticulo, "DniUsuarioAnteriorArticulo");
-            // 
-            // NombreUsuarioAnteriorArticulo
-            // 
-            resources.ApplyResources(this.NombreUsuarioAnteriorArticulo, "NombreUsuarioAnteriorArticulo");
-            // 
-            // AreaUsuarioAnteriorArticulo
-            // 
-            resources.ApplyResources(this.AreaUsuarioAnteriorArticulo, "AreaUsuarioAnteriorArticulo");
-            // 
-            // CargoUsuarioAnteriorArticulo
-            // 
-            resources.ApplyResources(this.CargoUsuarioAnteriorArticulo, "CargoUsuarioAnteriorArticulo");
-            // 
-            // EstadoArticulo
-            // 
-            resources.ApplyResources(this.EstadoArticulo, "EstadoArticulo");
-            // 
-            // UbicacionArticulo
-            // 
-            resources.ApplyResources(this.UbicacionArticulo, "UbicacionArticulo");
-            // 
-            // CondicionArticulo
-            // 
-            resources.ApplyResources(this.CondicionArticulo, "CondicionArticulo");
-            // 
-            // RucArticulo
-            // 
-            resources.ApplyResources(this.RucArticulo, "RucArticulo");
-            // 
-            // ProveedorArticulo
-            // 
-            resources.ApplyResources(this.ProveedorArticulo, "ProveedorArticulo");
-            // 
-            // PrecioArticulo
-            // 
-            resources.ApplyResources(this.PrecioArticulo, "PrecioArticulo");
-            // 
-            // ObservacionArticulo
-            // 
-            resources.ApplyResources(this.ObservacionArticulo, "ObservacionArticulo");
-            // 
-            // ImagenArticulo
-            // 
-            resources.ApplyResources(this.ImagenArticulo, "ImagenArticulo");
-            // 
-            // ComprobanteArticulo
-            // 
-            resources.ApplyResources(this.ComprobanteArticulo, "ComprobanteArticulo");
             // 
             // LstDefault1
             // 
@@ -749,6 +644,255 @@
             this.BtnAgregarArticulo.UseVisualStyleBackColor = true;
             this.BtnAgregarArticulo.Click += new System.EventHandler(this.BtnAgregarArticulo_Click);
             // 
+            // DvgIngresos
+            // 
+            this.DvgIngresos.AllowUserToAddRows = false;
+            this.DvgIngresos.AllowUserToDeleteRows = false;
+            this.DvgIngresos.AllowUserToResizeColumns = false;
+            this.DvgIngresos.AllowUserToResizeRows = false;
+            this.DvgIngresos.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            this.DvgIngresos.BackgroundColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.DvgIngresos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.DvgIngresos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DvgIngresos.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.IdArticulo,
+            this.CodigoArticulo,
+            this.ModeloArticulo,
+            this.SerieArticulo,
+            this.MarcaArticulo,
+            this.FechaAdquisicionArticulo,
+            this.FechaFinGarantiaArticulo,
+            this.DniUsuarioActual,
+            this.DniUsuarioActualArticulo,
+            this.AreaUsuarioActualArticulo,
+            this.CargoUsuarioActualArticulo,
+            this.DniUsuarioAnteriorArticulo,
+            this.NombreUsuarioAnteriorArticulo,
+            this.AreaUsuarioAnteriorArticulo,
+            this.CargoUsuarioAnteriorArticulo,
+            this.EstadoArticulo,
+            this.UbicacionArticulo,
+            this.CondicionArticulo,
+            this.RucArticulo,
+            this.ProveedorArticulo,
+            this.PrecioArticulo,
+            this.ObservacionArticulo,
+            this.ImagenArticulo,
+            this.ComprobanteArticulo,
+            this.CaracteriticasArticulo});
+            resources.ApplyResources(this.DvgIngresos, "DvgIngresos");
+            this.DvgIngresos.MultiSelect = false;
+            this.DvgIngresos.Name = "DvgIngresos";
+            this.DvgIngresos.ReadOnly = true;
+            this.DvgIngresos.RowHeadersVisible = false;
+            this.DvgIngresos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.DvgIngresos.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DvgIngresos_CellContentClick);
+            // 
+            // IdArticulo
+            // 
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.IdArticulo.DefaultCellStyle = dataGridViewCellStyle2;
+            resources.ApplyResources(this.IdArticulo, "IdArticulo");
+            this.IdArticulo.Name = "IdArticulo";
+            this.IdArticulo.ReadOnly = true;
+            // 
+            // CodigoArticulo
+            // 
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.CodigoArticulo.DefaultCellStyle = dataGridViewCellStyle3;
+            resources.ApplyResources(this.CodigoArticulo, "CodigoArticulo");
+            this.CodigoArticulo.Name = "CodigoArticulo";
+            this.CodigoArticulo.ReadOnly = true;
+            // 
+            // ModeloArticulo
+            // 
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ModeloArticulo.DefaultCellStyle = dataGridViewCellStyle4;
+            resources.ApplyResources(this.ModeloArticulo, "ModeloArticulo");
+            this.ModeloArticulo.Name = "ModeloArticulo";
+            this.ModeloArticulo.ReadOnly = true;
+            // 
+            // SerieArticulo
+            // 
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.SerieArticulo.DefaultCellStyle = dataGridViewCellStyle5;
+            resources.ApplyResources(this.SerieArticulo, "SerieArticulo");
+            this.SerieArticulo.Name = "SerieArticulo";
+            this.SerieArticulo.ReadOnly = true;
+            // 
+            // MarcaArticulo
+            // 
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.MarcaArticulo.DefaultCellStyle = dataGridViewCellStyle6;
+            resources.ApplyResources(this.MarcaArticulo, "MarcaArticulo");
+            this.MarcaArticulo.Name = "MarcaArticulo";
+            this.MarcaArticulo.ReadOnly = true;
+            // 
+            // FechaAdquisicionArticulo
+            // 
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.FechaAdquisicionArticulo.DefaultCellStyle = dataGridViewCellStyle7;
+            resources.ApplyResources(this.FechaAdquisicionArticulo, "FechaAdquisicionArticulo");
+            this.FechaAdquisicionArticulo.Name = "FechaAdquisicionArticulo";
+            this.FechaAdquisicionArticulo.ReadOnly = true;
+            // 
+            // FechaFinGarantiaArticulo
+            // 
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.FechaFinGarantiaArticulo.DefaultCellStyle = dataGridViewCellStyle8;
+            resources.ApplyResources(this.FechaFinGarantiaArticulo, "FechaFinGarantiaArticulo");
+            this.FechaFinGarantiaArticulo.Name = "FechaFinGarantiaArticulo";
+            this.FechaFinGarantiaArticulo.ReadOnly = true;
+            // 
+            // DniUsuarioActual
+            // 
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.DniUsuarioActual.DefaultCellStyle = dataGridViewCellStyle9;
+            resources.ApplyResources(this.DniUsuarioActual, "DniUsuarioActual");
+            this.DniUsuarioActual.Name = "DniUsuarioActual";
+            this.DniUsuarioActual.ReadOnly = true;
+            // 
+            // DniUsuarioActualArticulo
+            // 
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.DniUsuarioActualArticulo.DefaultCellStyle = dataGridViewCellStyle10;
+            resources.ApplyResources(this.DniUsuarioActualArticulo, "DniUsuarioActualArticulo");
+            this.DniUsuarioActualArticulo.Name = "DniUsuarioActualArticulo";
+            this.DniUsuarioActualArticulo.ReadOnly = true;
+            // 
+            // AreaUsuarioActualArticulo
+            // 
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.AreaUsuarioActualArticulo.DefaultCellStyle = dataGridViewCellStyle11;
+            resources.ApplyResources(this.AreaUsuarioActualArticulo, "AreaUsuarioActualArticulo");
+            this.AreaUsuarioActualArticulo.Name = "AreaUsuarioActualArticulo";
+            this.AreaUsuarioActualArticulo.ReadOnly = true;
+            // 
+            // CargoUsuarioActualArticulo
+            // 
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.CargoUsuarioActualArticulo.DefaultCellStyle = dataGridViewCellStyle12;
+            resources.ApplyResources(this.CargoUsuarioActualArticulo, "CargoUsuarioActualArticulo");
+            this.CargoUsuarioActualArticulo.Name = "CargoUsuarioActualArticulo";
+            this.CargoUsuarioActualArticulo.ReadOnly = true;
+            // 
+            // DniUsuarioAnteriorArticulo
+            // 
+            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.DniUsuarioAnteriorArticulo.DefaultCellStyle = dataGridViewCellStyle13;
+            resources.ApplyResources(this.DniUsuarioAnteriorArticulo, "DniUsuarioAnteriorArticulo");
+            this.DniUsuarioAnteriorArticulo.Name = "DniUsuarioAnteriorArticulo";
+            this.DniUsuarioAnteriorArticulo.ReadOnly = true;
+            // 
+            // NombreUsuarioAnteriorArticulo
+            // 
+            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.NombreUsuarioAnteriorArticulo.DefaultCellStyle = dataGridViewCellStyle14;
+            resources.ApplyResources(this.NombreUsuarioAnteriorArticulo, "NombreUsuarioAnteriorArticulo");
+            this.NombreUsuarioAnteriorArticulo.Name = "NombreUsuarioAnteriorArticulo";
+            this.NombreUsuarioAnteriorArticulo.ReadOnly = true;
+            // 
+            // AreaUsuarioAnteriorArticulo
+            // 
+            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.AreaUsuarioAnteriorArticulo.DefaultCellStyle = dataGridViewCellStyle15;
+            resources.ApplyResources(this.AreaUsuarioAnteriorArticulo, "AreaUsuarioAnteriorArticulo");
+            this.AreaUsuarioAnteriorArticulo.Name = "AreaUsuarioAnteriorArticulo";
+            this.AreaUsuarioAnteriorArticulo.ReadOnly = true;
+            // 
+            // CargoUsuarioAnteriorArticulo
+            // 
+            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.CargoUsuarioAnteriorArticulo.DefaultCellStyle = dataGridViewCellStyle16;
+            resources.ApplyResources(this.CargoUsuarioAnteriorArticulo, "CargoUsuarioAnteriorArticulo");
+            this.CargoUsuarioAnteriorArticulo.Name = "CargoUsuarioAnteriorArticulo";
+            this.CargoUsuarioAnteriorArticulo.ReadOnly = true;
+            // 
+            // EstadoArticulo
+            // 
+            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.EstadoArticulo.DefaultCellStyle = dataGridViewCellStyle17;
+            resources.ApplyResources(this.EstadoArticulo, "EstadoArticulo");
+            this.EstadoArticulo.Name = "EstadoArticulo";
+            this.EstadoArticulo.ReadOnly = true;
+            // 
+            // UbicacionArticulo
+            // 
+            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.UbicacionArticulo.DefaultCellStyle = dataGridViewCellStyle18;
+            resources.ApplyResources(this.UbicacionArticulo, "UbicacionArticulo");
+            this.UbicacionArticulo.Name = "UbicacionArticulo";
+            this.UbicacionArticulo.ReadOnly = true;
+            // 
+            // CondicionArticulo
+            // 
+            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.CondicionArticulo.DefaultCellStyle = dataGridViewCellStyle19;
+            resources.ApplyResources(this.CondicionArticulo, "CondicionArticulo");
+            this.CondicionArticulo.Name = "CondicionArticulo";
+            this.CondicionArticulo.ReadOnly = true;
+            // 
+            // RucArticulo
+            // 
+            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.RucArticulo.DefaultCellStyle = dataGridViewCellStyle20;
+            resources.ApplyResources(this.RucArticulo, "RucArticulo");
+            this.RucArticulo.Name = "RucArticulo";
+            this.RucArticulo.ReadOnly = true;
+            // 
+            // ProveedorArticulo
+            // 
+            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ProveedorArticulo.DefaultCellStyle = dataGridViewCellStyle21;
+            resources.ApplyResources(this.ProveedorArticulo, "ProveedorArticulo");
+            this.ProveedorArticulo.Name = "ProveedorArticulo";
+            this.ProveedorArticulo.ReadOnly = true;
+            // 
+            // PrecioArticulo
+            // 
+            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.PrecioArticulo.DefaultCellStyle = dataGridViewCellStyle22;
+            resources.ApplyResources(this.PrecioArticulo, "PrecioArticulo");
+            this.PrecioArticulo.Name = "PrecioArticulo";
+            this.PrecioArticulo.ReadOnly = true;
+            // 
+            // ObservacionArticulo
+            // 
+            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ObservacionArticulo.DefaultCellStyle = dataGridViewCellStyle23;
+            resources.ApplyResources(this.ObservacionArticulo, "ObservacionArticulo");
+            this.ObservacionArticulo.Name = "ObservacionArticulo";
+            this.ObservacionArticulo.ReadOnly = true;
+            // 
+            // ImagenArticulo
+            // 
+            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ImagenArticulo.DefaultCellStyle = dataGridViewCellStyle24;
+            resources.ApplyResources(this.ImagenArticulo, "ImagenArticulo");
+            this.ImagenArticulo.Name = "ImagenArticulo";
+            this.ImagenArticulo.ReadOnly = true;
+            // 
+            // ComprobanteArticulo
+            // 
+            dataGridViewCellStyle25.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ComprobanteArticulo.DefaultCellStyle = dataGridViewCellStyle25;
+            resources.ApplyResources(this.ComprobanteArticulo, "ComprobanteArticulo");
+            this.ComprobanteArticulo.Name = "ComprobanteArticulo";
+            this.ComprobanteArticulo.ReadOnly = true;
+            // 
+            // CaracteriticasArticulo
+            // 
+            resources.ApplyResources(this.CaracteriticasArticulo, "CaracteriticasArticulo");
+            this.CaracteriticasArticulo.Name = "CaracteriticasArticulo";
+            this.CaracteriticasArticulo.ReadOnly = true;
+            // 
             // VistaInventario
             // 
             resources.ApplyResources(this, "$this");
@@ -769,6 +913,7 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NuAccionInventario)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DvgIngresos)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -786,31 +931,6 @@
         public System.Windows.Forms.NumericUpDown NuAccionInventario;
         public System.Windows.Forms.TabPage TabIngresos;
         public System.Windows.Forms.FlowLayoutPanel FlCategorias;
-        public System.Windows.Forms.ListView LstIngresos;
-        private System.Windows.Forms.ColumnHeader Id;
-        private System.Windows.Forms.ColumnHeader CodigoArticulo;
-        private System.Windows.Forms.ColumnHeader ModeloArticulo;
-        private System.Windows.Forms.ColumnHeader SerieArticulo;
-        private System.Windows.Forms.ColumnHeader MarcaArticulo;
-        private System.Windows.Forms.ColumnHeader FechaAdquisicionArticulo;
-        private System.Windows.Forms.ColumnHeader FechaFinGarantiaArticulo;
-        private System.Windows.Forms.ColumnHeader DniUsuarioActualArticulo;
-        private System.Windows.Forms.ColumnHeader NombreUsuarioActualArticulo;
-        private System.Windows.Forms.ColumnHeader AreaUsuarioActualArticulo;
-        private System.Windows.Forms.ColumnHeader CargoUsuarioActualArticulo;
-        private System.Windows.Forms.ColumnHeader DniUsuarioAnteriorArticulo;
-        private System.Windows.Forms.ColumnHeader NombreUsuarioAnteriorArticulo;
-        private System.Windows.Forms.ColumnHeader AreaUsuarioAnteriorArticulo;
-        private System.Windows.Forms.ColumnHeader CargoUsuarioAnteriorArticulo;
-        private System.Windows.Forms.ColumnHeader EstadoArticulo;
-        private System.Windows.Forms.ColumnHeader UbicacionArticulo;
-        private System.Windows.Forms.ColumnHeader CondicionArticulo;
-        private System.Windows.Forms.ColumnHeader RucArticulo;
-        private System.Windows.Forms.ColumnHeader ProveedorArticulo;
-        private System.Windows.Forms.ColumnHeader PrecioArticulo;
-        private System.Windows.Forms.ColumnHeader ObservacionArticulo;
-        private System.Windows.Forms.ColumnHeader ImagenArticulo;
-        private System.Windows.Forms.ColumnHeader ComprobanteArticulo;
         private System.Windows.Forms.ListView LstDefault1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.DateTimePicker DtBuscarFechaInicio;
@@ -871,5 +991,31 @@
         private System.Windows.Forms.DateTimePicker dateTimePicker2;
         public System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.ListView LstDefault2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn IdArticulo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CodigoArticulo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ModeloArticulo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SerieArticulo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn MarcaArticulo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn FechaAdquisicionArticulo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn FechaFinGarantiaArticulo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DniUsuarioActual;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DniUsuarioActualArticulo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn AreaUsuarioActualArticulo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CargoUsuarioActualArticulo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DniUsuarioAnteriorArticulo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn NombreUsuarioAnteriorArticulo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn AreaUsuarioAnteriorArticulo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CargoUsuarioAnteriorArticulo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn EstadoArticulo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn UbicacionArticulo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CondicionArticulo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn RucArticulo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ProveedorArticulo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PrecioArticulo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ObservacionArticulo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ImagenArticulo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ComprobanteArticulo;
+        private System.Windows.Forms.DataGridViewButtonColumn CaracteriticasArticulo;
+        public System.Windows.Forms.DataGridView DvgIngresos;
     }
 }

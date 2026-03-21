@@ -20,22 +20,22 @@ namespace ControlInventario.Vistas.Extras
     public partial class VistaRutaExportacion : Form
     {
         private bool message= false;
-        readonly private ListView listViewInventario;
+        readonly private DataGridView dataViewInventario;
         readonly private string categoria; 
         readonly private string nombreArchivo;
         readonly int UsuarioId = UsuarioSesion.UsuarioId;
 
-        public VistaRutaExportacion(string nombreArchivo, ListView listViewActivo, string categoria)
+        public VistaRutaExportacion(string nombreArchivo, DataGridView dataViewActivo, string categoria)
         {
             InitializeComponent();
-            listViewInventario = listViewActivo; 
+            dataViewInventario = dataViewActivo; 
             this.nombreArchivo = nombreArchivo;
             this.categoria = categoria;
 
             LblRutaArchivo.Text = nombreArchivo;
         }
 
-        public void ExportarACsv(ListView listView, string categoria, string filePath)
+        public void ExportarACsv(DataGridView dataView, string categoria, string filePath)
         {
             if (string.IsNullOrWhiteSpace(filePath))
             {
@@ -49,36 +49,41 @@ namespace ControlInventario.Vistas.Extras
 
             try
             {
-                using (var writer = new StreamWriter(rutaFinal))
+                using (var writer = new StreamWriter(rutaFinal, false, System.Text.Encoding.UTF8))
                 {
-                    // Escribir encabezados
-                    var headers = listView.Columns.Cast<ColumnHeader>().Select(h => h.Text);
+                    var headers = dataView.Columns.Cast<DataGridViewColumn>()
+                                                  .Select(col => col.HeaderText);
+
                     writer.WriteLine(string.Join(",", headers));
 
-                    // Escribir filas
-                    foreach (ListViewItem item in listView.Items)
+                    foreach (DataGridViewRow row in dataView.Rows)
                     {
-                        var values = new List<string> { item.Text };
-                        values.AddRange(item.SubItems.Cast<ListViewItem.ListViewSubItem>().Skip(1).Select(s => s.Text));
+                        if (row.IsNewRow) continue;
+                        var values = row.Cells.Cast<DataGridViewCell>()
+                                              .Select(celda => $"\"{celda.Value?.ToString()?.Replace("\"", "\"\"") ?? ""}\"");
+
                         writer.WriteLine(string.Join(",", values));
                     }
                 }
 
+                MessageBox.Show("Exportación CSV completada con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();
             }
-            catch
+            catch (Exception ex)
             {
                 if (!filePath.EndsWith(".csv", StringComparison.OrdinalIgnoreCase))
                 {
                     MessageBox.Show("La extensión seleccionada no es válida. Debe ser .csv", "Error",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
-                    return;
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    MessageBox.Show("Error al exportar: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
 
-        public void ExportarAExcel(ListView listView, string categoria, string filePath)
+        public void ExportarAExcel(DataGridView dataView, string categoria, string filePath)
         {
             if (string.IsNullOrWhiteSpace(filePath))
             {
@@ -96,31 +101,41 @@ namespace ControlInventario.Vistas.Extras
                 {
                     var worksheet = workbook.Worksheets.Add("Datos");
 
-                    for (int i = 0; i < listView.Columns.Count; i++)
-                        worksheet.Cell(1, i + 1).Value = listView.Columns[i].Text;
-
-                    for (int r = 0; r < listView.Items.Count; r++)
+                    for (int i = 0; i < dataView.Columns.Count; i++)
                     {
-                        var item = listView.Items[r];
-                        worksheet.Cell(r + 2, 1).Value = item.Text;
+                        worksheet.Cell(1, i + 1).Value = dataView.Columns[i].HeaderText;
+                    }
 
-                        for (int c = 1; c < item.SubItems.Count; c++)
-                            worksheet.Cell(r + 2, c + 1).Value = item.SubItems[c].Text;
+                    for (int r = 0; r < dataView.Rows.Count; r++)
+                    {
+                        DataGridViewRow fila = dataView.Rows[r];
+
+                        if (fila.IsNewRow) continue;
+
+                        for (int c = 0; c < dataView.Columns.Count; c++)
+                        {
+                            string valorCelda = fila.Cells[c].Value?.ToString() ?? "";
+
+                            worksheet.Cell(r + 2, c + 1).Value = valorCelda;
+                        }
                     }
 
                     workbook.SaveAs(rutaFinal);
                 }
 
+                MessageBox.Show("Exportación completada con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();
             }
-            catch
+            catch (Exception ex)
             {
                 if (!filePath.EndsWith(".xlsx", StringComparison.OrdinalIgnoreCase))
                 {
                     MessageBox.Show("La extensión seleccionada no es válida. Debe ser .xlsx", "Error",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
-                    return;
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    MessageBox.Show("Error al exportar: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -253,9 +268,9 @@ namespace ControlInventario.Vistas.Extras
 
                 // Exportar según extensión
                 if (extension == ".csv")
-                    ExportarACsv(listViewInventario, categoria, filePath);
+                    ExportarACsv(dataViewInventario, categoria, filePath);
                 else if (extension == ".xlsx")
-                    ExportarAExcel(listViewInventario, categoria, filePath);
+                    ExportarAExcel(dataViewInventario, categoria, filePath);
 
                 MessageBox.Show($"Archivo exportado correctamente en: {filePath}", "Éxito",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);

@@ -29,23 +29,23 @@ namespace ControlInventario.Servicios
         }
         public void EliminarBotonCategoria(int idCategoria)
         {
-            foreach (Control control in inventario.LstIngresos.Controls)
+            foreach (Control control in inventario.DvgIngresos.Controls)
             {
                 if (control is Button btn && btn.Tag != null && Convert.ToInt32(btn.Tag) == idCategoria)
                 {
-                    inventario.LstIngresos.Controls.Remove(btn);
+                    inventario.DvgIngresos.Controls.Remove(btn);
                     btn.Dispose();
                     break;
                 }
             }
 
-            if (inventario.LstIngresos.Controls.Count == 0)
+            if (inventario.DvgIngresos.Controls.Count == 0)
             {
-                inventario.LstIngresos.Visible = false;
+                inventario.DvgIngresos.Visible = false;
             }
             else
             {
-                Button primerBoton = (Button)inventario.LstIngresos.Controls[0];
+                Button primerBoton = (Button)inventario.DvgIngresos.Controls[0];
                 primerBoton.PerformClick();
             }
         }
@@ -82,12 +82,12 @@ namespace ControlInventario.Servicios
             inventario.categoriaSeleccionadaNombre = nombreCategoria;
 
             var articulos = ArticuloRepository.ListarArticulos(idCategoria);
-            RefrescarListView(inventario.LstIngresos, articulos);
+            RefrescarListView(inventario.DvgIngresos, articulos);
         }
 
-        public static void RefrescarListView(ListView listView, IEnumerable<Articulos> articulos)
+        public static void RefrescarListView(DataGridView dataGrdi, IEnumerable<Articulos> articulos)
         {
-            listView.Items.Clear();
+            dataGrdi.Rows.Clear();
             foreach (var art in articulos)
             {
                 var item = new ListViewItem(art.Id.ToString());
@@ -121,7 +121,7 @@ namespace ControlInventario.Servicios
                 item.SubItems.Add(art.FotoPrincipal ?? "");
                 item.SubItems.Add(art.ComprobantePrincipal ?? "");
 
-                listView.Items.Add(item);
+                dataGrdi.Rows.Add(item);
             }
         }
 

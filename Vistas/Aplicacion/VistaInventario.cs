@@ -1,13 +1,16 @@
 ﻿using ControlInventario.Database;
 using ControlInventario.Modelo;
 using ControlInventario.Modelo.Interface;
+using ControlInventario.Modelos;
 using ControlInventario.Servicios;
 using ControlInventario.Vistas.Aplicacion;
 using ControlInventario.Vistas.Extras;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.IO;
+using System.Text.Json;
 using System.Windows.Forms;
 
 namespace ControlInventario.Vistas
@@ -42,7 +45,7 @@ namespace ControlInventario.Vistas
             TxtBuscarCodArticulo.Enabled = false;
             CbBuscarMarcaArticulo.Enabled = false;
             ChkUsarFechas.Enabled = false;
-            LstIngresos.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+            DvgIngresos.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.ColumnHeader);
             LblAccionDecription.Text = "EXCEL";
             CargarCategorias();
 
@@ -63,14 +66,14 @@ namespace ControlInventario.Vistas
             if (categoriaSeleccionadaId > 0)
             {
                 var articulosCategoria = ArticuloRepository.ListarArticulos(categoriaSeleccionadaId);
-                ClassHelper.RefrescarListView(LstIngresos, articulosCategoria);
-                LstIngresos.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+                ClassHelper.RefrescarListView(DvgIngresos, articulosCategoria);
+                DvgIngresos.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.ColumnHeader);
             }
         }
 
         private void ActivarBotonCategoria(Button botonActivar, int idCat, string nombreCat)
         {
-            LstIngresos.Visible = true;
+            DvgIngresos.Visible = true;
 
             this.categoriaSeleccionadaId = idCat;
             this.categoriaSeleccionadaNombre = nombreCat;
@@ -94,7 +97,7 @@ namespace ControlInventario.Vistas
             CbBuscarMarcaArticulo.Enabled = true;
             ChkUsarFechas.Enabled = true;
 
-            LstIngresos.Focus();
+            DvgIngresos.Focus();
         }
 
         public void CargarCategorias()
@@ -210,14 +213,14 @@ namespace ControlInventario.Vistas
                 return;
             }
 
-            if (LstIngresos == null || LstIngresos.SelectedItems.Count == 0)
+            if (DvgIngresos == null || DvgIngresos.SelectedRows.Count == 0)
             {
                 MessageBox.Show("Seleccione un artículo para editar.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
-            ListViewItem item = LstIngresos.SelectedItems[0];
-            _articuloId = Convert.ToInt32(item.SubItems[0].Text);
+            DataGridViewRow filaSeleccionada = DvgIngresos.SelectedRows[0];
+            _articuloId = Convert.ToInt32(filaSeleccionada.Cells[0].Value);
 
             // 1. OBTENEMOS EL ARTÍCULO DESDE EL INICIO
             // Esto nos da acceso a todos los IDs reales sin depender de los textos del ListView
@@ -322,7 +325,7 @@ namespace ControlInventario.Vistas
                 return;
             }
 
-            if (LstIngresos == null || LstIngresos.SelectedItems.Count == 0)
+            if (DvgIngresos == null || DvgIngresos.SelectedRows.Count == 0)
             {
                 MessageBox.Show("Seleccione un artículo para eliminar.", "Información",
                     MessageBoxButtons.OK,
@@ -332,8 +335,8 @@ namespace ControlInventario.Vistas
             }
             else
             {
-                ListViewItem item = LstIngresos.SelectedItems[0];
-                _articuloId = Convert.ToInt32(item.SubItems[0].Text);
+                DataGridViewRow filaSeleccionada = DvgIngresos.SelectedRows[0];
+                _articuloId = Convert.ToInt32(filaSeleccionada.Cells[0].Value);
 
                 DialogResult result = MessageBox.Show(
                     "¿Seguro que quieres eliminar este artículo?",
@@ -377,7 +380,7 @@ namespace ControlInventario.Vistas
                 return;
             }
 
-            if (LstIngresos.Items.Count == 0)
+            if (DvgIngresos.SelectedRows.Count == 0)
             {
                 MessageBox.Show("No hay articulos para exportar.", "Advertencia",
                     MessageBoxButtons.OK,
@@ -397,13 +400,13 @@ namespace ControlInventario.Vistas
             var rutas = rutRepo.ObtenerRutas(usuarioId);
 
             // Crear UNA sola instancia de la vista
-            VistaRutaExportacion vistaRuta = new VistaRutaExportacion(nombreArchivo, LstIngresos, categoria);
+            VistaRutaExportacion vistaRuta = new VistaRutaExportacion(nombreArchivo, DvgIngresos, categoria);
             if (rutas.EsPredeterminado1 == true)
             {
                 if (extension == ".xlsx")
                 {
                     filePath = rutas.RutaPredeterminada1;
-                    vistaRuta.ExportarAExcel(LstIngresos, categoria, filePath);
+                    vistaRuta.ExportarAExcel(DvgIngresos, categoria, filePath);
                 }
 
                 MessageBox.Show($"Archivo exportado correctamente en: {filePath}", "Éxito",
@@ -417,7 +420,7 @@ namespace ControlInventario.Vistas
                 if (extension == ".csv")
                 {
                     filePath = rutas.RutaPredeterminada2;
-                    vistaRuta.ExportarACsv(LstIngresos, categoria, filePath);
+                    vistaRuta.ExportarACsv(DvgIngresos, categoria, filePath);
                 }
 
                 MessageBox.Show($"Archivo exportado correctamente en: {filePath}", "Éxito",
@@ -460,7 +463,7 @@ namespace ControlInventario.Vistas
 
         private void BusquedaArticulos(DataTable dt)
         {
-            LstIngresos.Items.Clear();
+            DvgIngresos.Rows.Clear();
 
             foreach (DataRow row in dt.Rows)
             {
@@ -491,7 +494,7 @@ namespace ControlInventario.Vistas
                 item.SubItems.Add(row["Observacion"].ToString());
                 item.SubItems.Add(row["RutaFotoPrincipal"].ToString());
                 item.SubItems.Add(row["RutaComprobantePrincipal"].ToString());
-                LstIngresos.Items.Add(item);
+                DvgIngresos.Rows.Add(item);
             }
         }
 
@@ -635,6 +638,52 @@ namespace ControlInventario.Vistas
         {
             VistaMovimiento vistaMovimiento = new VistaMovimiento();
             vistaMovimiento.ShowDialog();
+        }
+
+        private void DvgIngresos_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                if (DvgIngresos.Columns[e.ColumnIndex].Name == "ColCaracteristicas")
+                {
+                    string valorBoton = DvgIngresos.Rows[e.RowIndex].Cells[e.ColumnIndex].Value?.ToString();
+
+                    if (valorBoton == "Ver Detalles")
+                    {
+                        Articulos art = (Articulos)DvgIngresos.Rows[e.RowIndex].Tag;
+                        MostrarDetallesJson(art.Caracteristicas); 
+                    }
+                }
+            }
+        }
+        private void MostrarDetallesJson(string jsonString)
+        {
+            try
+            {
+                var diccionario = JsonSerializer.Deserialize<Dictionary<string, string>>(jsonString);
+
+                System.Text.StringBuilder mensaje = new System.Text.StringBuilder();
+                mensaje.AppendLine("ESPECIFICACIONES TÉCNICAS:");
+                mensaje.AppendLine(new string('-', 30));
+
+                if (diccionario != null && diccionario.Count > 0)
+                {
+                    foreach (var especificacion in diccionario)
+                    {
+                        mensaje.AppendLine($"• {especificacion.Key}: {especificacion.Value}");
+                    }
+                }
+                else
+                {
+                    mensaje.AppendLine("No hay especificaciones registradas.");
+                }
+
+                MessageBox.Show(mensaje.ToString(), "Detalles del Artículo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Hubo un error al leer las especificaciones: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

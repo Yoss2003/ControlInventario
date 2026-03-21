@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using System.Text.Json;
 
 namespace ControlInventario.Vistas
 {
@@ -298,6 +299,12 @@ namespace ControlInventario.Vistas
                     codigoFinal = ArticuloRepository.GenerarCodigoArticulo(prefijo, UsuarioSesion.InventarioId);
                 }
 
+                string jsonCaracteristicas = null;
+                if (caracteristicasTemporales != null && caracteristicasTemporales.Count > 0)
+                {
+                    jsonCaracteristicas = JsonSerializer.Serialize(caracteristicasTemporales);
+                }
+
                 // Actualizar o Guardar articuloa
                 if (VistaInventario.isEdit == false)
                 {
@@ -331,6 +338,7 @@ namespace ControlInventario.Vistas
                                 RucProveedor = string.IsNullOrWhiteSpace(TxtRuc.Text) ? null : TxtRuc.Text,
                                 Proveedor = string.IsNullOrWhiteSpace(TxtRazonSocial.Text) ? null : TxtRazonSocial.Text,
                                 PrecioAdquisicion = precioFinal,
+                                Caracteristicas = jsonCaracteristicas,
 
                                 FechaRegistro = DateTime.Now,
 
@@ -713,6 +721,24 @@ namespace ControlInventario.Vistas
                             TxtCargoUsuarioAnterior.Text = empAnterior.Cargo;
                         }
                     }
+
+                    if (!string.IsNullOrEmpty(DatosEdicion.Caracteristicas))
+                    {
+                        try
+                        {
+                            caracteristicasTemporales = JsonSerializer.Deserialize<Dictionary<string, string>>(DatosEdicion.Caracteristicas);
+                        }
+                        catch
+                        {
+                            caracteristicasTemporales = new Dictionary<string, string>();
+                        }
+                    }
+                    else
+                    {
+                        caracteristicasTemporales = new Dictionary<string, string>();
+                    }
+
+                    ActualizarBotonCaracteristicas();
                 }
             }
             ClassHelper.AplicarTema(this);

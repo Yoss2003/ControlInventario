@@ -16,6 +16,7 @@ namespace ControlInventario.Modelos
         public DateTime FechaAdquisicion { get; set; } // Fecha de adquisición
         public DateTime? FechaBaja { get; set; } // nullable, porque no siempre hay baja
         public DateTime? FechaFinGarantia { get; set; } // opcional: fin de garantía
+        public string Caracteristicas { get; set; } // opcional: caracteristicas
 
         // Información Usuario Actual
         public int? EmpleadoActualId { get; set; } // ID del empleado que lo tiene ahora
@@ -64,9 +65,6 @@ namespace ControlInventario.Modelos
         // Relación con Categoria
         public int CategoriaId { get; set; } // Identificador de la categoría del articulo
         public string Categoria { get; set; } // Categoría asociada
-
-        // Relación con Caracteristicas
-        public List<Caracteristicas> Caracteristicas { get; set; } // Lista de características asociadas al artículo
 
         // Datos Busqueda
         public DateTime FechaRegistro { get; set; } // Fecha de registro del artículo

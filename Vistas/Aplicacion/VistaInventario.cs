@@ -664,7 +664,6 @@ namespace ControlInventario.Vistas
             try
             {
                 var diccionario = JsonSerializer.Deserialize<Dictionary<string, string>>(jsonString);
-
                 if (diccionario == null || diccionario.Count == 0) return;
 
                 if (burbujaActual != null && burbujaActual.Visible)
@@ -672,67 +671,165 @@ namespace ControlInventario.Vistas
                     burbujaActual.Close();
                 }
 
+                const int G_BORDE = 1;
+                const int P_INTERNO = 10;
+                const int H_CABECERA_GRID = 24;
+                const int H_FILA_GRID = 22;
+                const int A_INDICADOR = 8;
+
+                Panel pnlBordeExterno = new Panel
+                {
+                    AutoSize = true,
+                    BackColor = Color.Black,
+                    Padding = new Padding(G_BORDE),
+                    Margin = new Padding(0)
+                };
+
+                TableLayoutPanel contenedorInterno = new TableLayoutPanel
+                {
+                    ColumnCount = 1,
+                    RowCount = 3,
+                    AutoSize = true,
+                    BackColor = Color.White,
+                    Padding = new Padding(P_INTERNO),
+                    Dock = DockStyle.Fill
+                };
+                pnlBordeExterno.Controls.Add(contenedorInterno);
+
+                Label lblTitulo = new Label
+                {
+                    Text = "RESUMEN DE CARACTERÍSTICAS",
+                    Font = new Font("Segoe UI", 8, FontStyle.Bold),
+                    ForeColor = Color.FromArgb(30, 30, 30),
+                    AutoSize = true,
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    Dock = DockStyle.Fill,
+                    Margin = new Padding(0, 0, 0, 10)
+                };
+                contenedorInterno.Controls.Add(lblTitulo, 0, 0);
+
                 DataGridView dgvDetalles = new DataGridView
                 {
                     AllowUserToAddRows = false,
-                    AllowUserToDeleteRows = false,
                     ReadOnly = true,
+                    Enabled = false,
                     RowHeadersVisible = false,
-                    ColumnHeadersVisible = false,
-                    AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells,
-                    BackgroundColor = Color.White,
+                    ColumnHeadersVisible = true,
                     BorderStyle = BorderStyle.None,
-                    SelectionMode = DataGridViewSelectionMode.FullRowSelect,
-                    ScrollBars = ScrollBars.None, 
-                    Width = 240
+                    BackgroundColor = Color.White,
+                    ScrollBars = ScrollBars.None,
+                    AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells,
+                    AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells,
+                    //GridColor = Color.FromArgb(220, 220, 220),
+                    EnableHeadersVisualStyles = false,
+                    Anchor = AnchorStyles.None,
+                    Margin = new Padding(0, 2, 0, 5)
                 };
 
-                dgvDetalles.Columns.Add("Caracteristica", "");
-                dgvDetalles.Columns.Add("Valor", "");
+                dgvDetalles.ColumnHeadersDefaultCellStyle.BackColor = Color.White;
+                dgvDetalles.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
+                dgvDetalles.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 7, FontStyle.Bold);
+                dgvDetalles.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                dgvDetalles.ColumnHeadersHeight = H_CABECERA_GRID;
+                dgvDetalles.RowTemplate.Height = H_FILA_GRID;
 
-                dgvDetalles.Columns[0].DefaultCellStyle.Font = new Font(dgvDetalles.Font, FontStyle.Bold);
-
-                foreach (var especificacion in diccionario)
+                DataGridViewTextBoxColumn colCaract = new DataGridViewTextBoxColumn
                 {
-                    dgvDetalles.Rows.Add(especificacion.Key + ":", especificacion.Value);
+                    Name = "Caracteristica",
+                    HeaderText = "PROPIEDAD",
+                    DefaultCellStyle = new DataGridViewCellStyle { Alignment = DataGridViewContentAlignment.MiddleCenter }
+                };
+                DataGridViewTextBoxColumn colValor = new DataGridViewTextBoxColumn
+                {
+                    Name = "Valor",
+                    HeaderText = "VALOR",
+                    DefaultCellStyle = new DataGridViewCellStyle { Alignment = DataGridViewContentAlignment.MiddleCenter }
+                };
+                dgvDetalles.Columns.AddRange(colCaract, colValor);
+
+                dgvDetalles.DefaultCellStyle.ForeColor = Color.FromArgb(70, 70, 70);
+                dgvDetalles.DefaultCellStyle.BackColor = Color.White;
+                dgvDetalles.DefaultCellStyle.SelectionBackColor = Color.White;
+                dgvDetalles.DefaultCellStyle.SelectionForeColor = Color.FromArgb(70, 70, 70);
+                dgvDetalles.DefaultCellStyle.Font = new Font("Segoe UI", 7);
+
+                foreach (var item in diccionario)
+                {
+                    string valorSeguro = string.IsNullOrWhiteSpace(item.Value) ? "-" : item.Value;
+                    dgvDetalles.Rows.Add(item.Key, valorSeguro);
                 }
 
-                dgvDetalles.ClearSelection();
-                dgvDetalles.CurrentCell = null;
+                int anchoCalculado = 0;
+                foreach (DataGridViewColumn col in dgvDetalles.Columns) anchoCalculado += col.Width;
+                dgvDetalles.Width = anchoCalculado + 3;
 
-                int alturaTotal = 0;
-                foreach (DataGridViewRow row in dgvDetalles.Rows) { alturaTotal += row.Height; }
-                dgvDetalles.Height = alturaTotal + 5;
+                int altoCalculado = dgvDetalles.ColumnHeadersHeight;
+                foreach (DataGridViewRow row in dgvDetalles.Rows) altoCalculado += row.Height;
+                dgvDetalles.Height = altoCalculado + 3;
 
-                ToolStripControlHost host = new ToolStripControlHost(dgvDetalles)
+                contenedorInterno.Controls.Add(dgvDetalles, 0, 1);
+
+                string codigoArt = DvgIngresos.Rows[rowIndex].Cells[1].Value?.ToString();
+                string modeloArt = DvgIngresos.Rows[rowIndex].Cells[2].Value?.ToString();
+                string cod = string.IsNullOrWhiteSpace(codigoArt) ? "N/A" : codigoArt;
+                string mod = string.IsNullOrWhiteSpace(modeloArt) ? "N/A" : modeloArt;
+
+                Label lblInfo = new Label
                 {
-                    Margin = Padding.Empty,
-                    Padding = Padding.Empty
+                    Text = $"ARTÍCULO: {cod} | MODELO: {mod.ToUpper()}",
+                    Font = new Font("Verdana", 6, FontStyle.Italic),
+                    ForeColor = Color.FromArgb(100, 100, 100),
+                    AutoSize = true,
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    Dock = DockStyle.Fill,
                 };
+                contenedorInterno.Controls.Add(lblInfo, 0, 2);
+
+                ToolStripControlHost host = new ToolStripControlHost(pnlBordeExterno);
+                host.Margin = new Padding(0, A_INDICADOR, 0, 0);
 
                 burbujaActual = new ToolStripDropDown
                 {
-                    Padding = new Padding(2),
-                    BackColor = Color.White,
-                    DropShadowEnabled = true
+                    Padding = Padding.Empty,
+                    DropShadowEnabled = false,
+                    BackColor = Color.Black
                 };
                 burbujaActual.Items.Add(host);
 
-                burbujaActual.Closed += (s, ev) => { filaBurbujaAbierta = -1; };
+                burbujaActual.Opened += (s, e) =>
+                {
+                    int w = burbujaActual.Width;
+                    int h = burbujaActual.Height;
+                    System.Drawing.Drawing2D.GraphicsPath path = new System.Drawing.Drawing2D.GraphicsPath();
+
+                    path.AddRectangle(new Rectangle(0, A_INDICADOR, w, h - A_INDICADOR));
+
+                    Point[] puntos = {
+                        new Point(w / 2 - (A_INDICADOR + 2), A_INDICADOR + 1),
+                        new Point(w / 2 + (A_INDICADOR + 2), A_INDICADOR + 1),
+                        new Point(w / 2, 0)
+                    };
+                    path.AddPolygon(puntos);
+
+                    
+                    burbujaActual.Region = new Region(path);
+                };
 
                 Rectangle rectCelda = DvgIngresos.GetCellDisplayRectangle(colIndex, rowIndex, false);
-
-                Point ubicacionBurbuja = new Point(rectCelda.Left, rectCelda.Bottom);
-
                 filaBurbujaAbierta = rowIndex;
 
-                burbujaActual.Show(DvgIngresos, ubicacionBurbuja);
+                Point ubicacion = new Point(
+                    rectCelda.Left + (rectCelda.Width / 2) - (pnlBordeExterno.PreferredSize.Width / 2),
+                    rectCelda.Bottom + 2
+                );
+
+                burbujaActual.Show(DvgIngresos, ubicacion);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al leer características: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Console.WriteLine("Error: " + ex.Message);
             }
-        }        
+        }
 
         private void Fondo_Click(object sender, EventArgs e)
         {

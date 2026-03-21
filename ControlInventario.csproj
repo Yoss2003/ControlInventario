@@ -311,6 +311,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Vistas\Aplicacion\VistaArticulos.en-US.resx">
+      <DependentUpon>VistaArticulos.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Vistas\Aplicacion\VistaArticulos.resx">
       <DependentUpon>VistaArticulos.cs</DependentUpon>
     </EmbeddedResource>

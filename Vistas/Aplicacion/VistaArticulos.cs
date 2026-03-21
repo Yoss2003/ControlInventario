@@ -36,7 +36,11 @@ namespace ControlInventario.Vistas
         private string ultimoModeloGuardado = "";
         private int ultimaCategoriaIdGuardada = 0;
         private bool rechazoSugerenciaModelo = false;
-         
+
+        private Dictionary<string, string> caracteristicasTemporales = new Dictionary<string, string>();
+
+        private ToolTip toolTipCaracteristicas = new ToolTip();
+
         public VistaArticulos(int categoriaId, string categoria, int articuloId)
         {
             InitializeComponent();
@@ -80,14 +84,8 @@ namespace ControlInventario.Vistas
                 valido = false; 
             }
 
-            if (ChkFechaBaja.Checked || ChkFechaGarantia.Checked)
+            if (ChkFechaGarantia.Checked) 
             {
-                if (DtpFechaBaja.Value < DtpFechaAdquisicion.Value)
-                {
-                    ErrorArticulos.SetError(DtpFechaBaja, Idiomas.MensajeErrorAgregarFechaBajaArticulo);
-                    valido = false; 
-                }
-
                 if (DtpFechaFinGarantia.Value < DtpFechaAdquisicion.Value)
                 {
                     ErrorArticulos.SetError(DtpFechaFinGarantia, Idiomas.MensajeErrorAgregarFechaGarantiaArticulo);
@@ -130,66 +128,16 @@ namespace ControlInventario.Vistas
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
-            VistaCaracteristicas caracteristicas = new VistaCaracteristicas();
-            caracteristicas.CaracteristicasGuardadas += AgregarCaracteristicas;
-            caracteristicas.ShowDialog();
-            FlCaracteristicas.Visible = true;
-        }
-
-        private void btnEliminar_Click(object sender, EventArgs e)
-        {
-            FlCaracteristicas.Controls.Clear();
-            FlCaracteristicas.Visible = false;
-        }
-
-        public void AgregarCaracteristicas(GroupBox grupo)
-        {
-            FlCaracteristicas.Controls.Clear();
-
-            var controles = new List<Control>();
-            RecolectarControles(grupo, controles);
-
-            var labelsAgregados = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-
-            foreach (var ctrl in controles)
+            using (VistaCaracteristicas vista = new VistaCaracteristicas(caracteristicasTemporales))
             {
-                string nombreBase = ObtenerNombreBase(ctrl);
-
-                Label lbl = BuscarLabelRecursivo(grupo, nombreBase);
-                if (lbl != null && !labelsAgregados.Contains(lbl.Name))
+                if (vista.ShowDialog() == DialogResult.OK)
                 {
-                    lbl.AutoSize = false;
-                    lbl.TextAlign = ContentAlignment.MiddleLeft;
-                    lbl.Margin = new Padding(5, 3, 10, 0);
+                    caracteristicasTemporales = vista.CaracteristicasGuardadas;
 
-                    int panelWidth = FlCaracteristicas.ClientSize.Width;
-                    int marginSum = (lbl.Margin.Left + lbl.Margin.Right) + (ctrl.Margin.Left + ctrl.Margin.Right);
-
-                    int lblPreferred = lbl.AutoSize ? lbl.PreferredSize.Width : lbl.Width;
-                    int ctrlPreferred = ctrl.AutoSize ? ctrl.PreferredSize.Width : ctrl.Width;
-
-                    int totalNecesario = lblPreferred + ctrlPreferred + marginSum;
-
-                    if (totalNecesario > panelWidth)
-                    {
-                        int minimoControl = Math.Min(ctrlPreferred, 80);
-                        int nuevoLblWidth = Math.Max(40, panelWidth - minimoControl - marginSum);
-
-                        if (nuevoLblWidth < lblPreferred)
-                        {
-                            lbl.AutoSize = false;
-                            lbl.Width = nuevoLblWidth;
-                        }
-                    }
-
-                    FlCaracteristicas.Controls.Add(lbl);
-                    labelsAgregados.Add(lbl.Name);
+                    ActualizarBotonCaracteristicas();
                 }
-
-                ctrl.Margin = new Padding(5, 0, 10, 8);
-                FlCaracteristicas.Controls.Add(ctrl);
             }
-        }
+        }        
 
         private void RecolectarControles(Control parent, List<Control> lista)
         {
@@ -248,23 +196,21 @@ namespace ControlInventario.Vistas
             TxtSerie.Text = "";
             CbMarcas.SelectedIndex = 0;
             DtpFechaAdquisicion.Value = DateTime.Now;
-            DtpFechaBaja.Value = DateTime.Now;
             DtpFechaFinGarantia.Value = DateTime.Now;
 
             TxtDniUsuarioActual.Text = "";
             TxtNombreUsuarioActual.Text = "";
-            CbAreaUsuarioActual.SelectedIndex = -1;
-            CbCargoUsuarioActual.SelectedIndex = -1;
+            TxtAreaUsuarioActual.Text = "";
+            TxtCargoUsuarioActual.Text = "";
 
             TxtDniUsuarioAnterior.Text = "";
             TxtNombreUsuarioAnterior.Text = "";
-            CbAreaUsuarioAnterior.SelectedIndex = -1;
-            CbCargoUsuarioAnterior.SelectedIndex = -1;
+            TxtAreaUsuarioAnterior.Text = "";
+            TxtCargoUsuarioAnterior.Text = "";
 
             CbEstadoArticulo.SelectedIndex = -1;
             CbUbicacion.SelectedIndex = -1;
             CbCondicion.SelectedIndex = -1;
-            TxtActivoFijo.Text = "";
             TxtObservaciones.Text = "";
 
             TxtRuc.Text = "";
@@ -277,7 +223,6 @@ namespace ControlInventario.Vistas
             PbFotoArticulo.Image = null;
             PanelComprobante.Controls.Clear();
 
-            FlCaracteristicas.Controls.Clear();
             serieAutomaticaGenerada = "";
 
             if (ChkAutoSerie != null && ChkAutoSerie.Checked) ActualizarSerie();
@@ -303,6 +248,35 @@ namespace ControlInventario.Vistas
             }
         }
 
+        private void ActualizarBotonCaracteristicas()
+        {
+            if (caracteristicasTemporales == null || caracteristicasTemporales.Count == 0)
+            {
+                btnAgregar.BackColor = Color.White;
+                toolTipCaracteristicas.SetToolTip(btnAgregar, "Haz clic para agregar especificaciones técnicas.");
+            }
+            else
+            {
+                btnAgregar.Text = $"Extras: ({caracteristicasTemporales.Count})";
+                btnAgregar.BackColor = Color.LightGreen;
+
+                // Construimos el "Mini-Recibo" para el cartelito flotante
+                System.Text.StringBuilder textoTooltip = new System.Text.StringBuilder();
+                textoTooltip.AppendLine("Características registradas:");
+                textoTooltip.AppendLine("--------------------------");
+
+                int contador = 1;
+                foreach (var item in caracteristicasTemporales)
+                {
+                    textoTooltip.AppendLine($"{contador}. {item.Key}: {item.Value}");
+                    contador++;
+                }
+
+                // Le asignamos el texto flotante al botón
+                toolTipCaracteristicas.SetToolTip(btnAgregar, textoTooltip.ToString());
+            }
+        }
+
         private void BtnGuardar_Click(object sender, EventArgs e)
         {
             if (ValidarCampos())
@@ -311,23 +285,8 @@ namespace ControlInventario.Vistas
                 string carpetaComprobantes = ConexionGlobal.ObtenerCarpetaComprobantes();
                 string carpetaImagenes = ConexionGlobal.ObtenerCarpetaImagenes();
 
-                string codigoActivoFijo = TxtActivoFijo.Text.Trim();
                 string precioTexto = TxtPrecio.Text.Trim();
                 decimal? precioFinal = ClassHelper.ConvertirTextoAMoneda(precioTexto);
-
-                // Verificar ActivoFijo
-                if (!string.IsNullOrEmpty(codigoActivoFijo))
-                {
-                    if (ClassHelper.ExisteComponenteDuplicado("Articulos", codigoActivoFijo, _articuloId, "ActivoFijo"))
-                    {
-                        string mensajeArmado = string.Format(Idiomas.MensajeAdvertenciaActivoFijo, codigoActivoFijo);
-
-                        MessageBox.Show(mensajeArmado, Idiomas.MensajeCodigoDuplicado,
-                                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        TxtActivoFijo.Focus();
-                        return;
-                    }
-                }
 
                 // Mapear Codigo automatico
                 if (generarCodigoAutomatico)
@@ -356,7 +315,6 @@ namespace ControlInventario.Vistas
                                 IdMarca = Convert.ToInt32(CbMarcas.SelectedValue),
                                 Marca = ClassHelper.NormalizarCombo(CbMarcas),
                                 FechaAdquisicion = DtpFechaAdquisicion.Value,
-                                FechaBaja = ChkFechaBaja.Checked ? DtpFechaBaja.Value.Date : (DateTime?)null,
                                 FechaFinGarantia = ChkFechaGarantia.Checked ? DtpFechaFinGarantia.Value.Date : (DateTime?)null,
 
                                 EmpleadoActualId = idEmpleadoActualTemporal,
@@ -368,7 +326,6 @@ namespace ControlInventario.Vistas
                                 Ubicacion = ClassHelper.NormalizarCombo(CbUbicacion),
                                 IdCondicion = Convert.ToInt32(CbCondicion.SelectedValue),
                                 Condicion = ClassHelper.NormalizarCombo(CbCondicion),
-                                ActivoFijo = string.IsNullOrEmpty(codigoActivoFijo) ? null : codigoActivoFijo,
                                 Observacion = string.IsNullOrWhiteSpace(TxtObservaciones.Text) ? null : TxtObservaciones.Text,
 
                                 RucProveedor = string.IsNullOrWhiteSpace(TxtRuc.Text) ? null : TxtRuc.Text,
@@ -404,7 +361,7 @@ namespace ControlInventario.Vistas
                             }
 
                             // verificar fecha garantía y fecha baja
-                            if ((ChkFechaGarantia.Checked && DtpFechaFinGarantia.Value < DateTime.Now) || (ChkFechaBaja.Checked && DtpFechaBaja.Value < DateTime.Now))
+                            if ((ChkFechaGarantia.Checked && DtpFechaFinGarantia.Value < DateTime.Now))
                             {
                                 var result = MessageBox.Show(Idiomas.MensajeAdvertenciaAgregarFechasArticulo, Idiomas.TituloAdvertencia, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                                 if (result == DialogResult.No)
@@ -448,7 +405,6 @@ namespace ControlInventario.Vistas
                                 IdMarca = Convert.ToInt32(CbMarcas.SelectedValue),
                                 Marca = ClassHelper.NormalizarCombo(CbMarcas),
                                 FechaAdquisicion = DtpFechaAdquisicion.Value,
-                                FechaBaja = ChkFechaBaja.Checked ? DtpFechaBaja.Value.Date : (DateTime?)null,
                                 FechaFinGarantia = ChkFechaGarantia.Checked ? DtpFechaFinGarantia.Value.Date : (DateTime?)null,
 
                                 EmpleadoActualId = idEmpleadoActualTemporal,
@@ -460,7 +416,6 @@ namespace ControlInventario.Vistas
                                 Ubicacion = ClassHelper.NormalizarCombo(CbUbicacion),
                                 IdCondicion = Convert.ToInt32(CbCondicion.SelectedValue),
                                 Condicion = ClassHelper.NormalizarCombo(CbCondicion),
-                                ActivoFijo = string.IsNullOrEmpty(codigoActivoFijo) ? null : codigoActivoFijo,
                                 Observacion = string.IsNullOrWhiteSpace(TxtObservaciones.Text) ? null : TxtObservaciones.Text,
 
                                 RucProveedor = string.IsNullOrWhiteSpace(TxtRuc.Text) ? null : TxtRuc.Text,
@@ -496,7 +451,7 @@ namespace ControlInventario.Vistas
                             }
 
                             // verificar fecha garantía y fecha baja
-                            if ((ChkFechaGarantia.Checked && DtpFechaFinGarantia.Value < DateTime.Now) || (ChkFechaBaja.Checked && DtpFechaBaja.Value < DateTime.Now))
+                            if ((ChkFechaGarantia.Checked && DtpFechaFinGarantia.Value < DateTime.Now))
                             {
                                 var result = MessageBox.Show(Idiomas.MensajeAdvertenciaAgregarFechasArticulo, Idiomas.TituloAdvertencia, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                                 if (result == DialogResult.No)
@@ -535,23 +490,8 @@ namespace ControlInventario.Vistas
                 string carpetaComprobantes = ConexionGlobal.ObtenerCarpetaComprobantes();
                 string carpetaImagenes = ConexionGlobal.ObtenerCarpetaImagenes();
 
-                string codigoActivoFijo = TxtActivoFijo.Text.Trim();
                 string precioTexto = TxtPrecio.Text.Trim();
-                decimal? precioFinal = ClassHelper.ConvertirTextoAMoneda(precioTexto);
-
-                // Verificar ActivoFijo
-                if (!string.IsNullOrEmpty(codigoActivoFijo))
-                {
-                    if (ClassHelper.ExisteComponenteDuplicado("Articulos", codigoActivoFijo, _articuloId, "ActivoFijo"))
-                    {
-                        string mensajeArmado = string.Format(Idiomas.MensajeAdvertenciaActivoFijo, codigoActivoFijo);
-
-                        MessageBox.Show(mensajeArmado, Idiomas.MensajeCodigoDuplicado,
-                                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        TxtActivoFijo.Focus();
-                        return;
-                    }
-                }                
+                decimal? precioFinal = ClassHelper.ConvertirTextoAMoneda(precioTexto);              
 
                 // Mapear Codigo automatico
                 if (generarCodigoAutomatico)
@@ -576,7 +516,6 @@ namespace ControlInventario.Vistas
                             IdMarca = Convert.ToInt32(CbMarcas.SelectedValue),
 
                             FechaAdquisicion = DtpFechaAdquisicion.Value,
-                            FechaBaja = ChkFechaBaja.Checked ? DtpFechaBaja.Value.Date : (DateTime?)null,
                             FechaFinGarantia = ChkFechaGarantia.Checked ? DtpFechaFinGarantia.Value.Date : (DateTime?)null,
 
                             EmpleadoActualId = idEmpleadoActualTemporal,
@@ -586,7 +525,6 @@ namespace ControlInventario.Vistas
                             IdUbicacion = Convert.ToInt32(CbUbicacion.SelectedValue),
                             IdCondicion = Convert.ToInt32(CbCondicion.SelectedValue),
 
-                            ActivoFijo = string.IsNullOrWhiteSpace(TxtActivoFijo.Text) ? null : TxtActivoFijo.Text,
                             Observacion = string.IsNullOrWhiteSpace(TxtObservaciones.Text) ? null : TxtObservaciones.Text,
 
                             RucProveedor = string.IsNullOrWhiteSpace(TxtRuc.Text) ? null : TxtRuc.Text,
@@ -610,7 +548,7 @@ namespace ControlInventario.Vistas
                         }
 
                         // verificar fecha garantía y fecha baja
-                        if ((ChkFechaGarantia.Checked && DtpFechaFinGarantia.Value < DateTime.Now) || (ChkFechaBaja.Checked && DtpFechaBaja.Value < DateTime.Now))
+                        if ((ChkFechaGarantia.Checked && DtpFechaFinGarantia.Value < DateTime.Now))
                         {
                             var result = MessageBox.Show(Idiomas.MensajeAdvertenciaAgregarFechasArticulo, Idiomas.TituloAdvertencia, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                             if (result == DialogResult.No)
@@ -717,18 +655,6 @@ namespace ControlInventario.Vistas
             {
                 con.Open();
 
-                var dtAreaActual = ParametrosRepository.ListarParametros(con, "Area");
-                RefreshService.RefrescarComboDT(CbAreaUsuarioActual, dtAreaActual, "Nombre", "Id", Idiomas.OpcionSeleccione);
-
-                var dtAreaAnterior = ParametrosRepository.ListarParametros(con, "Area");
-                RefreshService.RefrescarComboDT(CbAreaUsuarioAnterior, dtAreaAnterior, "Nombre", "Id", Idiomas.OpcionSeleccione);
-
-                var dtCargoActual = ParametrosRepository.ListarParametros(con, "Cargo");
-                RefreshService.RefrescarComboDT(CbCargoUsuarioActual, dtCargoActual, "Nombre", "Id", Idiomas.OpcionSeleccione);
-
-                var dtCargoAnterior = ParametrosRepository.ListarParametros(con, "Cargo");
-                RefreshService.RefrescarComboDT(CbCargoUsuarioAnterior, dtCargoAnterior, "Nombre", "Id", Idiomas.OpcionSeleccione);
-
                 var dtEstadoArticulos = ParametrosRepository.ListarParametros(con, "EstadoArticulos");
                 RefreshService.RefrescarComboDT(CbEstadoArticulo, dtEstadoArticulos, "Nombre", "Id", Idiomas.OpcionSeleccione);
 
@@ -750,31 +676,26 @@ namespace ControlInventario.Vistas
 
                 if (DatosEdicion != null)
                 {
-                    // 1. Asignar características del artículo de forma segura usando los IDs
-                    // Al asignar directamente el SelectedValue, evitamos problemas de textos mal escritos o cambiados
                     CbMarcas.SelectedValue = DatosEdicion.IdMarca;
                     CbEstadoArticulo.SelectedValue = DatosEdicion.IdEstado;
                     CbUbicacion.SelectedValue = DatosEdicion.IdUbicacion;
                     CbCondicion.SelectedValue = DatosEdicion.IdCondicion;
 
-                    // 2. Recuperar los IDs de los empleados desde la memoria compartida
                     idEmpleadoActualTemporal = DatosEdicion.IdEmpleadoActual;
                     idEmpleadoAnteriorTemporal = DatosEdicion.IdEmpleadoAnterior;
 
-                    // 3. Consultar y llenar datos visuales del Empleado Actual (Si existe)
-                    if (idEmpleadoActualTemporal != null && idEmpleadoActualTemporal > 0)
+                    if (idEmpleadoActualTemporal != null)
                     {
                         var empActual = EmpleadoRepository.ObtenerEmpleadoPorId(idEmpleadoActualTemporal.Value);
                         if (empActual != null)
                         {
                             TxtDniUsuarioActual.Text = empActual.DNI;
-                            TxtNombreUsuarioActual.Text = empActual.Nombres + " " + empActual.Apellidos;
+                            TxtNombreUsuarioActual.Text = ClassHelper.FormatearNombreCorto(empActual.Nombres, empActual.Apellidos);
 
                             // Asignamos directamente usando los IDs del empleado obtenido de la BD
-                            CbAreaUsuarioActual.SelectedValue = empActual.IdArea;
-                            CbCargoUsuarioActual.SelectedValue = empActual.IdCargo;
-
-                            dniTemporal = empActual.DNI; // Llenamos la memoria temporal
+                            TxtAreaUsuarioActual.Text = empActual.Area;
+                            TxtCargoUsuarioActual.Text = empActual.Cargo;
+                            dniTemporal = empActual.DNI;
                         }
                     }
 
@@ -785,18 +706,17 @@ namespace ControlInventario.Vistas
                         if (empAnterior != null)
                         {
                             TxtDniUsuarioAnterior.Text = empAnterior.DNI;
-                            TxtNombreUsuarioAnterior.Text = empAnterior.Nombres + " " + empAnterior.Apellidos;
+                            TxtNombreUsuarioActual.Text = ClassHelper.FormatearNombreCorto(empAnterior.Nombres, empAnterior.Apellidos);
 
                             // Asignamos directamente usando los IDs del empleado obtenido de la BD
-                            CbAreaUsuarioAnterior.SelectedValue = empAnterior.IdArea;
-                            CbCargoUsuarioAnterior.SelectedValue = empAnterior.IdCargo;
+                            TxtAreaUsuarioAnterior.Text = empAnterior.Area;
+                            TxtCargoUsuarioAnterior.Text = empAnterior.Cargo;
                         }
                     }
                 }
             }
             ClassHelper.AplicarTema(this);
             ClassHelper.AplicarFormatoFecha(DtpFechaFinGarantia);
-            ClassHelper.AplicarFormatoFecha(DtpFechaBaja);
             ClassHelper.AplicarFormatoFecha(DtpFechaAdquisicion);
         }
 
@@ -810,14 +730,6 @@ namespace ControlInventario.Vistas
                 };
                 vistaAgregar.ShowDialog();
             }
-        }
-
-        private void ChkFechaBaja_CheckedChanged(object sender, EventArgs e)
-        {
-            if (ChkFechaBaja.Checked)
-                DtpFechaBaja.Enabled = true;
-            else
-                DtpFechaBaja.Enabled = false;
         }
 
         private void ChkFechaGarantia_CheckedChanged(object sender, EventArgs e)
@@ -849,16 +761,6 @@ namespace ControlInventario.Vistas
         private void CbEstadoArticulo_TextUpdate(object sender, EventArgs e)
         {
             ClassHelper.NormalizarTexto(CbEstadoArticulo);
-        }
-
-        private void CbAreaUsuarioAnterior_TextUpdate(object sender, EventArgs e)
-        {
-            ClassHelper.NormalizarTexto(CbAreaUsuarioAnterior);
-        }
-
-        private void CbAreaUsuarioActual_TextUpdate(object sender, EventArgs e)
-        {
-            ClassHelper.NormalizarTexto(CbAreaUsuarioActual);
         }
 
         private void CbCondicion_TextUpdate(object sender, EventArgs e)
@@ -911,22 +813,18 @@ namespace ControlInventario.Vistas
                         idEmpleadoActualTemporal = emp.Id;
 
                         TxtDniUsuarioAnterior.Text = dniTemporal;
-                        var Nombre1 = TxtNombreUsuarioActual.Text;
-                        var IdArea1 = CbAreaUsuarioActual.SelectedValue;
-                        var Area1 = CbAreaUsuarioActual.Text;
-                        var IdCargo1 = CbCargoUsuarioActual.SelectedValue;
-                        var Cargo1 = CbCargoUsuarioActual.Text;
+                        var NombreAnterior = TxtNombreUsuarioActual.Text;
+                        var AreaAnterior = TxtAreaUsuarioActual.Text;
+                        var CargoAnterior = TxtCargoUsuarioActual.Text;
 
-                        TxtNombreUsuarioActual.Text = emp.Nombres;
-                        CbAreaUsuarioActual.SelectedValue = emp.IdArea;
-                        CbCargoUsuarioActual.SelectedValue = emp.IdCargo;
+                        TxtNombreUsuarioActual.Text = ClassHelper.FormatearNombreCorto(emp.Nombres, emp.Apellidos);
+                        TxtAreaUsuarioActual.Text = emp.Area;
+                        TxtCargoUsuarioActual.Text = emp.Cargo;
 
                         dniTemporal = TxtDniUsuarioAnterior.Text;
-                        TxtNombreUsuarioAnterior.Text = Nombre1;
-                        CbAreaUsuarioAnterior.SelectedValue = IdArea1;
-                        CbAreaUsuarioAnterior.Text = Area1;
-                        CbCargoUsuarioAnterior.SelectedValue = IdCargo1;
-                        CbCargoUsuarioAnterior.Text = Cargo1;
+                        TxtNombreUsuarioAnterior.Text = NombreAnterior;
+                        TxtAreaUsuarioAnterior.Text = AreaAnterior;
+                        TxtCargoUsuarioAnterior.Text = CargoAnterior;
                     }
                 }
                 else

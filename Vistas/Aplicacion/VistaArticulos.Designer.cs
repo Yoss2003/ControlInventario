@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VistaArticulos));
             this.TxtCodigo = new System.Windows.Forms.TextBox();
             this.CbMarcas = new System.Windows.Forms.ComboBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -36,37 +37,36 @@
             this.ChkAutoSerie = new System.Windows.Forms.CheckBox();
             this.ChkAutoCodigo = new System.Windows.Forms.CheckBox();
             this.ChkFechaGarantia = new System.Windows.Forms.CheckBox();
-            this.ChkFechaBaja = new System.Windows.Forms.CheckBox();
             this.BtnAgregarMarca = new System.Windows.Forms.Button();
             this.DtpFechaFinGarantia = new System.Windows.Forms.DateTimePicker();
-            this.DtpFechaBaja = new System.Windows.Forms.DateTimePicker();
             this.DtpFechaAdquisicion = new System.Windows.Forms.DateTimePicker();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.TxtSerie = new System.Windows.Forms.TextBox();
             this.TxtModelo = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.CbCargoUsuarioAnterior = new System.Windows.Forms.ComboBox();
-            this.CbAreaUsuarioAnterior = new System.Windows.Forms.ComboBox();
-            this.CbCargoUsuarioActual = new System.Windows.Forms.ComboBox();
-            this.CbAreaUsuarioActual = new System.Windows.Forms.ComboBox();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.TxtDniUsuarioAnterior = new System.Windows.Forms.TextBox();
-            this.TxtDniUsuarioActual = new System.Windows.Forms.TextBox();
-            this.label14 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.TxtCargoUsuarioAnterior = new System.Windows.Forms.TextBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.TxtAreaUsuarioAnterior = new System.Windows.Forms.TextBox();
+            this.label19 = new System.Windows.Forms.Label();
             this.TxtNombreUsuarioAnterior = new System.Windows.Forms.TextBox();
-            this.label13 = new System.Windows.Forms.Label();
-            this.TxtNombreUsuarioActual = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.TxtDniUsuarioActual = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
+            this.TxtCargoUsuarioActual = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.TxtAreaUsuarioActual = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.TxtNombreUsuarioActual = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
             this.GpUsos = new System.Windows.Forms.GroupBox();
             this.CbUbicacion = new System.Windows.Forms.ComboBox();
             this.TxtObservaciones = new System.Windows.Forms.TextBox();
@@ -79,17 +79,6 @@
             this.label22 = new System.Windows.Forms.Label();
             this.CbCondicion = new System.Windows.Forms.ComboBox();
             this.CbEstadoArticulo = new System.Windows.Forms.ComboBox();
-            this.TxtActivoFijo = new System.Windows.Forms.TextBox();
-            this.LblActivoFijo = new System.Windows.Forms.Label();
-            this.TxtRuc = new System.Windows.Forms.TextBox();
-            this.LblRuc = new System.Windows.Forms.Label();
-            this.GpAdquisicion = new System.Windows.Forms.GroupBox();
-            this.BtnAgregarRUC = new System.Windows.Forms.Button();
-            this.TxtRazonSocial = new System.Windows.Forms.TextBox();
-            this.label25 = new System.Windows.Forms.Label();
-            this.LblPrecio = new System.Windows.Forms.Label();
-            this.TxtPrecio = new System.Windows.Forms.TextBox();
-            this.LblRazonSocial = new System.Windows.Forms.Label();
             this.GpInformación = new System.Windows.Forms.GroupBox();
             this.TabMultipedia = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
@@ -102,46 +91,49 @@
             this.label26 = new System.Windows.Forms.Label();
             this.TxtDireccionImagen = new System.Windows.Forms.TextBox();
             this.label23 = new System.Windows.Forms.Label();
-            this.GpCaracteristicas = new System.Windows.Forms.GroupBox();
             this.btnAgregar = new System.Windows.Forms.Button();
-            this.FlCaracteristicas = new System.Windows.Forms.FlowLayoutPanel();
-            this.BtnEliminar = new System.Windows.Forms.Button();
             this.ErrorArticulos = new System.Windows.Forms.ErrorProvider(this.components);
             this.GpAcciones = new System.Windows.Forms.GroupBox();
             this.BtnCancelar = new System.Windows.Forms.Button();
             this.BtnGuardarPlus = new System.Windows.Forms.Button();
             this.BtnGuardar = new System.Windows.Forms.Button();
             this.BtnEmpleados = new System.Windows.Forms.Button();
+            this.GpAdquisicion = new System.Windows.Forms.GroupBox();
+            this.TxtRazonSocial = new System.Windows.Forms.TextBox();
+            this.LblRazonSocial = new System.Windows.Forms.Label();
+            this.BtnDepreciacion = new System.Windows.Forms.Button();
+            this.BtnAgregarRUC = new System.Windows.Forms.Button();
+            this.label25 = new System.Windows.Forms.Label();
+            this.LblPrecio = new System.Windows.Forms.Label();
+            this.TxtPrecio = new System.Windows.Forms.TextBox();
+            this.TxtRuc = new System.Windows.Forms.TextBox();
+            this.LblRuc = new System.Windows.Forms.Label();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBox5.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.GpUsos.SuspendLayout();
-            this.GpAdquisicion.SuspendLayout();
             this.GpInformación.SuspendLayout();
             this.TabMultipedia.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PbFotoArticulo)).BeginInit();
             this.tabPage2.SuspendLayout();
-            this.GpCaracteristicas.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ErrorArticulos)).BeginInit();
             this.GpAcciones.SuspendLayout();
+            this.GpAdquisicion.SuspendLayout();
             this.SuspendLayout();
             // 
             // TxtCodigo
             // 
-            this.TxtCodigo.Location = new System.Drawing.Point(9, 48);
+            resources.ApplyResources(this.TxtCodigo, "TxtCodigo");
             this.TxtCodigo.Name = "TxtCodigo";
-            this.TxtCodigo.Size = new System.Drawing.Size(100, 20);
-            this.TxtCodigo.TabIndex = 1;
             // 
             // CbMarcas
             // 
             this.CbMarcas.FormattingEnabled = true;
-            this.CbMarcas.Location = new System.Drawing.Point(361, 48);
+            resources.ApplyResources(this.CbMarcas, "CbMarcas");
             this.CbMarcas.Name = "CbMarcas";
-            this.CbMarcas.Size = new System.Drawing.Size(90, 21);
-            this.CbMarcas.TabIndex = 4;
-            this.CbMarcas.Text = "SELECCIONE";
             this.CbMarcas.TextUpdate += new System.EventHandler(this.CbMarcas_TextUpdate);
             // 
             // groupBox1
@@ -150,366 +142,228 @@
             this.groupBox1.Controls.Add(this.ChkAutoSerie);
             this.groupBox1.Controls.Add(this.ChkAutoCodigo);
             this.groupBox1.Controls.Add(this.ChkFechaGarantia);
-            this.groupBox1.Controls.Add(this.ChkFechaBaja);
             this.groupBox1.Controls.Add(this.BtnAgregarMarca);
             this.groupBox1.Controls.Add(this.DtpFechaFinGarantia);
-            this.groupBox1.Controls.Add(this.DtpFechaBaja);
             this.groupBox1.Controls.Add(this.DtpFechaAdquisicion);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label7);
-            this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.CbMarcas);
             this.groupBox1.Controls.Add(this.TxtSerie);
             this.groupBox1.Controls.Add(this.TxtModelo);
             this.groupBox1.Controls.Add(this.TxtCodigo);
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(476, 135);
-            this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Información";
             // 
             // ChkAutoModelo
             // 
-            this.ChkAutoModelo.AutoSize = true;
-            this.ChkAutoModelo.Location = new System.Drawing.Point(212, 31);
+            resources.ApplyResources(this.ChkAutoModelo, "ChkAutoModelo");
             this.ChkAutoModelo.Name = "ChkAutoModelo";
-            this.ChkAutoModelo.Size = new System.Drawing.Size(15, 14);
-            this.ChkAutoModelo.TabIndex = 11;
             this.ChkAutoModelo.UseVisualStyleBackColor = true;
             this.ChkAutoModelo.CheckedChanged += new System.EventHandler(this.ChkAutoModelo_CheckedChanged);
             // 
             // ChkAutoSerie
             // 
-            this.ChkAutoSerie.AutoSize = true;
-            this.ChkAutoSerie.Location = new System.Drawing.Point(329, 31);
+            resources.ApplyResources(this.ChkAutoSerie, "ChkAutoSerie");
             this.ChkAutoSerie.Name = "ChkAutoSerie";
-            this.ChkAutoSerie.Size = new System.Drawing.Size(15, 14);
-            this.ChkAutoSerie.TabIndex = 11;
             this.ChkAutoSerie.UseVisualStyleBackColor = true;
             this.ChkAutoSerie.CheckedChanged += new System.EventHandler(this.ChkAutoSerie_CheckedChanged);
             // 
             // ChkAutoCodigo
             // 
-            this.ChkAutoCodigo.AutoSize = true;
-            this.ChkAutoCodigo.Location = new System.Drawing.Point(95, 31);
+            resources.ApplyResources(this.ChkAutoCodigo, "ChkAutoCodigo");
             this.ChkAutoCodigo.Name = "ChkAutoCodigo";
-            this.ChkAutoCodigo.Size = new System.Drawing.Size(15, 14);
-            this.ChkAutoCodigo.TabIndex = 10;
             this.ChkAutoCodigo.UseVisualStyleBackColor = true;
             this.ChkAutoCodigo.CheckedChanged += new System.EventHandler(this.ChkAuto_CheckedChanged);
             // 
             // ChkFechaGarantia
             // 
-            this.ChkFechaGarantia.AutoSize = true;
-            this.ChkFechaGarantia.Location = new System.Drawing.Point(329, 86);
+            resources.ApplyResources(this.ChkFechaGarantia, "ChkFechaGarantia");
             this.ChkFechaGarantia.Name = "ChkFechaGarantia";
-            this.ChkFechaGarantia.Size = new System.Drawing.Size(15, 14);
-            this.ChkFechaGarantia.TabIndex = 9;
             this.ChkFechaGarantia.UseVisualStyleBackColor = true;
             this.ChkFechaGarantia.CheckedChanged += new System.EventHandler(this.ChkFechaGarantia_CheckedChanged);
             // 
-            // ChkFechaBaja
-            // 
-            this.ChkFechaBaja.AutoSize = true;
-            this.ChkFechaBaja.Location = new System.Drawing.Point(212, 86);
-            this.ChkFechaBaja.Name = "ChkFechaBaja";
-            this.ChkFechaBaja.Size = new System.Drawing.Size(15, 14);
-            this.ChkFechaBaja.TabIndex = 9;
-            this.ChkFechaBaja.UseVisualStyleBackColor = true;
-            this.ChkFechaBaja.CheckedChanged += new System.EventHandler(this.ChkFechaBaja_CheckedChanged);
-            // 
             // BtnAgregarMarca
             // 
-            this.BtnAgregarMarca.Location = new System.Drawing.Point(362, 73);
+            resources.ApplyResources(this.BtnAgregarMarca, "BtnAgregarMarca");
             this.BtnAgregarMarca.Name = "BtnAgregarMarca";
-            this.BtnAgregarMarca.Size = new System.Drawing.Size(90, 23);
-            this.BtnAgregarMarca.TabIndex = 8;
-            this.BtnAgregarMarca.Text = "Agregar marca";
             this.BtnAgregarMarca.UseVisualStyleBackColor = true;
             this.BtnAgregarMarca.Click += new System.EventHandler(this.BtnAgregarMarca_Click);
             // 
             // DtpFechaFinGarantia
             // 
-            this.DtpFechaFinGarantia.Enabled = false;
+            resources.ApplyResources(this.DtpFechaFinGarantia, "DtpFechaFinGarantia");
             this.DtpFechaFinGarantia.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.DtpFechaFinGarantia.Location = new System.Drawing.Point(244, 102);
             this.DtpFechaFinGarantia.Name = "DtpFechaFinGarantia";
-            this.DtpFechaFinGarantia.Size = new System.Drawing.Size(100, 20);
-            this.DtpFechaFinGarantia.TabIndex = 7;
-            // 
-            // DtpFechaBaja
-            // 
-            this.DtpFechaBaja.Enabled = false;
-            this.DtpFechaBaja.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.DtpFechaBaja.Location = new System.Drawing.Point(127, 102);
-            this.DtpFechaBaja.Name = "DtpFechaBaja";
-            this.DtpFechaBaja.Size = new System.Drawing.Size(100, 20);
-            this.DtpFechaBaja.TabIndex = 6;
             // 
             // DtpFechaAdquisicion
             // 
             this.DtpFechaAdquisicion.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.DtpFechaAdquisicion.Location = new System.Drawing.Point(9, 102);
+            resources.ApplyResources(this.DtpFechaAdquisicion, "DtpFechaAdquisicion");
             this.DtpFechaAdquisicion.Name = "DtpFechaAdquisicion";
-            this.DtpFechaAdquisicion.Size = new System.Drawing.Size(100, 20);
-            this.DtpFechaAdquisicion.TabIndex = 5;
             // 
             // label4
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(358, 29);
+            resources.ApplyResources(this.label4, "label4");
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(78, 13);
-            this.label4.TabIndex = 2;
-            this.label4.Text = "Marca Articulo:";
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(241, 29);
+            resources.ApplyResources(this.label3, "label3");
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(72, 13);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "Serie Articulo:";
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(124, 29);
+            resources.ApplyResources(this.label2, "label2");
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(83, 13);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Modelo Articulo:";
             // 
             // label7
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(241, 86);
+            resources.ApplyResources(this.label7, "label7");
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(82, 13);
-            this.label7.TabIndex = 2;
-            this.label7.Text = "Fin de garantía:";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(124, 86);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(64, 13);
-            this.label6.TabIndex = 2;
-            this.label6.Text = "Fecha Baja:";
             // 
             // label5
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(7, 86);
+            resources.ApplyResources(this.label5, "label5");
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(97, 13);
-            this.label5.TabIndex = 2;
-            this.label5.Text = "Fecha Adquisicion:";
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(7, 29);
+            resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(81, 13);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Codigo Articulo:";
             // 
             // TxtSerie
             // 
-            this.TxtSerie.Location = new System.Drawing.Point(244, 48);
+            resources.ApplyResources(this.TxtSerie, "TxtSerie");
             this.TxtSerie.Name = "TxtSerie";
-            this.TxtSerie.Size = new System.Drawing.Size(100, 20);
-            this.TxtSerie.TabIndex = 3;
             // 
             // TxtModelo
             // 
-            this.TxtModelo.Location = new System.Drawing.Point(127, 48);
+            resources.ApplyResources(this.TxtModelo, "TxtModelo");
             this.TxtModelo.Name = "TxtModelo";
-            this.TxtModelo.Size = new System.Drawing.Size(100, 20);
-            this.TxtModelo.TabIndex = 2;
             this.TxtModelo.Leave += new System.EventHandler(this.TxtModelo_Leave);
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.CbCargoUsuarioAnterior);
-            this.groupBox2.Controls.Add(this.CbAreaUsuarioAnterior);
-            this.groupBox2.Controls.Add(this.CbCargoUsuarioActual);
-            this.groupBox2.Controls.Add(this.CbAreaUsuarioActual);
-            this.groupBox2.Controls.Add(this.TxtDniUsuarioAnterior);
-            this.groupBox2.Controls.Add(this.TxtDniUsuarioActual);
-            this.groupBox2.Controls.Add(this.label14);
-            this.groupBox2.Controls.Add(this.label11);
-            this.groupBox2.Controls.Add(this.TxtNombreUsuarioAnterior);
-            this.groupBox2.Controls.Add(this.label13);
-            this.groupBox2.Controls.Add(this.TxtNombreUsuarioActual);
-            this.groupBox2.Controls.Add(this.label10);
-            this.groupBox2.Controls.Add(this.label15);
-            this.groupBox2.Controls.Add(this.label12);
-            this.groupBox2.Controls.Add(this.label9);
-            this.groupBox2.Controls.Add(this.label8);
-            this.groupBox2.Location = new System.Drawing.Point(12, 153);
+            this.groupBox2.Controls.Add(this.groupBox5);
+            this.groupBox2.Controls.Add(this.groupBox3);
+            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(476, 135);
-            this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "groupBox1";
             // 
-            // CbCargoUsuarioAnterior
+            // groupBox5
             // 
-            this.CbCargoUsuarioAnterior.Enabled = false;
-            this.CbCargoUsuarioAnterior.FormattingEnabled = true;
-            this.CbCargoUsuarioAnterior.Location = new System.Drawing.Point(359, 92);
-            this.CbCargoUsuarioAnterior.Name = "CbCargoUsuarioAnterior";
-            this.CbCargoUsuarioAnterior.Size = new System.Drawing.Size(92, 21);
-            this.CbCargoUsuarioAnterior.TabIndex = 5;
-            this.CbCargoUsuarioAnterior.Text = "SELECCIONE";
-            this.CbCargoUsuarioAnterior.TextUpdate += new System.EventHandler(this.CbAreaUsuarioAnterior_TextUpdate);
-            // 
-            // CbAreaUsuarioAnterior
-            // 
-            this.CbAreaUsuarioAnterior.Enabled = false;
-            this.CbAreaUsuarioAnterior.FormattingEnabled = true;
-            this.CbAreaUsuarioAnterior.Location = new System.Drawing.Point(243, 92);
-            this.CbAreaUsuarioAnterior.Name = "CbAreaUsuarioAnterior";
-            this.CbAreaUsuarioAnterior.Size = new System.Drawing.Size(92, 21);
-            this.CbAreaUsuarioAnterior.TabIndex = 5;
-            this.CbAreaUsuarioAnterior.Text = "SELECCIONE";
-            this.CbAreaUsuarioAnterior.TextUpdate += new System.EventHandler(this.CbAreaUsuarioAnterior_TextUpdate);
-            // 
-            // CbCargoUsuarioActual
-            // 
-            this.CbCargoUsuarioActual.Enabled = false;
-            this.CbCargoUsuarioActual.FormattingEnabled = true;
-            this.CbCargoUsuarioActual.Location = new System.Drawing.Point(360, 42);
-            this.CbCargoUsuarioActual.Name = "CbCargoUsuarioActual";
-            this.CbCargoUsuarioActual.Size = new System.Drawing.Size(92, 21);
-            this.CbCargoUsuarioActual.TabIndex = 5;
-            this.CbCargoUsuarioActual.Text = "SELECCIONE";
-            this.CbCargoUsuarioActual.TextUpdate += new System.EventHandler(this.CbAreaUsuarioActual_TextUpdate);
-            // 
-            // CbAreaUsuarioActual
-            // 
-            this.CbAreaUsuarioActual.Enabled = false;
-            this.CbAreaUsuarioActual.FormattingEnabled = true;
-            this.CbAreaUsuarioActual.Location = new System.Drawing.Point(244, 42);
-            this.CbAreaUsuarioActual.Name = "CbAreaUsuarioActual";
-            this.CbAreaUsuarioActual.Size = new System.Drawing.Size(92, 21);
-            this.CbAreaUsuarioActual.TabIndex = 5;
-            this.CbAreaUsuarioActual.Text = "SELECCIONE";
-            this.CbAreaUsuarioActual.TextUpdate += new System.EventHandler(this.CbAreaUsuarioActual_TextUpdate);
+            this.groupBox5.Controls.Add(this.TxtDniUsuarioAnterior);
+            this.groupBox5.Controls.Add(this.label6);
+            this.groupBox5.Controls.Add(this.TxtCargoUsuarioAnterior);
+            this.groupBox5.Controls.Add(this.label16);
+            this.groupBox5.Controls.Add(this.TxtAreaUsuarioAnterior);
+            this.groupBox5.Controls.Add(this.label19);
+            this.groupBox5.Controls.Add(this.TxtNombreUsuarioAnterior);
+            this.groupBox5.Controls.Add(this.label21);
+            resources.ApplyResources(this.groupBox5, "groupBox5");
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.TabStop = false;
             // 
             // TxtDniUsuarioAnterior
             // 
-            this.TxtDniUsuarioAnterior.Enabled = false;
-            this.TxtDniUsuarioAnterior.Location = new System.Drawing.Point(9, 92);
+            resources.ApplyResources(this.TxtDniUsuarioAnterior, "TxtDniUsuarioAnterior");
             this.TxtDniUsuarioAnterior.Name = "TxtDniUsuarioAnterior";
-            this.TxtDniUsuarioAnterior.Size = new System.Drawing.Size(100, 20);
-            this.TxtDniUsuarioAnterior.TabIndex = 12;
             // 
-            // TxtDniUsuarioActual
+            // label6
             // 
-            this.TxtDniUsuarioActual.Location = new System.Drawing.Point(9, 43);
-            this.TxtDniUsuarioActual.Name = "TxtDniUsuarioActual";
-            this.TxtDniUsuarioActual.Size = new System.Drawing.Size(100, 20);
-            this.TxtDniUsuarioActual.TabIndex = 8;
-            this.TxtDniUsuarioActual.Enter += new System.EventHandler(this.TxtDniUsuarioActual_Enter);
-            this.TxtDniUsuarioActual.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtDniUsuarioActual_KeyDown);
+            resources.ApplyResources(this.label6, "label6");
+            this.label6.Name = "label6";
             // 
-            // label14
+            // TxtCargoUsuarioAnterior
             // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(240, 75);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(107, 13);
-            this.label14.TabIndex = 6;
-            this.label14.Text = "Área usuario anterior:";
+            resources.ApplyResources(this.TxtCargoUsuarioAnterior, "TxtCargoUsuarioAnterior");
+            this.TxtCargoUsuarioAnterior.Name = "TxtCargoUsuarioAnterior";
             // 
-            // label11
+            // label16
             // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(240, 24);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(101, 13);
-            this.label11.TabIndex = 7;
-            this.label11.Text = "Área usuario actual:";
+            resources.ApplyResources(this.label16, "label16");
+            this.label16.Name = "label16";
+            // 
+            // TxtAreaUsuarioAnterior
+            // 
+            resources.ApplyResources(this.TxtAreaUsuarioAnterior, "TxtAreaUsuarioAnterior");
+            this.TxtAreaUsuarioAnterior.Name = "TxtAreaUsuarioAnterior";
+            // 
+            // label19
+            // 
+            resources.ApplyResources(this.label19, "label19");
+            this.label19.Name = "label19";
             // 
             // TxtNombreUsuarioAnterior
             // 
-            this.TxtNombreUsuarioAnterior.Enabled = false;
-            this.TxtNombreUsuarioAnterior.Location = new System.Drawing.Point(127, 92);
+            resources.ApplyResources(this.TxtNombreUsuarioAnterior, "TxtNombreUsuarioAnterior");
             this.TxtNombreUsuarioAnterior.Name = "TxtNombreUsuarioAnterior";
-            this.TxtNombreUsuarioAnterior.Size = new System.Drawing.Size(100, 20);
-            this.TxtNombreUsuarioAnterior.TabIndex = 13;
             // 
-            // label13
+            // label21
             // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(357, 75);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(113, 13);
-            this.label13.TabIndex = 8;
-            this.label13.Text = "Cargo usuario anterior:";
+            resources.ApplyResources(this.label21, "label21");
+            this.label21.Name = "label21";
             // 
-            // TxtNombreUsuarioActual
+            // groupBox3
             // 
-            this.TxtNombreUsuarioActual.Enabled = false;
-            this.TxtNombreUsuarioActual.Location = new System.Drawing.Point(127, 43);
-            this.TxtNombreUsuarioActual.Name = "TxtNombreUsuarioActual";
-            this.TxtNombreUsuarioActual.Size = new System.Drawing.Size(100, 20);
-            this.TxtNombreUsuarioActual.TabIndex = 9;
+            this.groupBox3.Controls.Add(this.TxtDniUsuarioActual);
+            this.groupBox3.Controls.Add(this.label8);
+            this.groupBox3.Controls.Add(this.TxtCargoUsuarioActual);
+            this.groupBox3.Controls.Add(this.label9);
+            this.groupBox3.Controls.Add(this.TxtAreaUsuarioActual);
+            this.groupBox3.Controls.Add(this.label10);
+            this.groupBox3.Controls.Add(this.TxtNombreUsuarioActual);
+            this.groupBox3.Controls.Add(this.label11);
+            resources.ApplyResources(this.groupBox3, "groupBox3");
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.TabStop = false;
             // 
-            // label10
+            // TxtDniUsuarioActual
             // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(357, 24);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(107, 13);
-            this.label10.TabIndex = 9;
-            this.label10.Text = "Cargo usuario actual:";
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(6, 75);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(98, 13);
-            this.label15.TabIndex = 10;
-            this.label15.Text = "Dni usuario anterior";
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(123, 74);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(84, 13);
-            this.label12.TabIndex = 11;
-            this.label12.Text = "Usuario anterior:";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(6, 24);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(92, 13);
-            this.label9.TabIndex = 12;
-            this.label9.Text = "Dni usuario actual";
+            resources.ApplyResources(this.TxtDniUsuarioActual, "TxtDniUsuarioActual");
+            this.TxtDniUsuarioActual.Name = "TxtDniUsuarioActual";
+            this.TxtDniUsuarioActual.Enter += new System.EventHandler(this.TxtDniUsuarioActual_Enter);
+            this.TxtDniUsuarioActual.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtDniUsuarioActual_KeyDown);
             // 
             // label8
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(123, 24);
+            resources.ApplyResources(this.label8, "label8");
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(78, 13);
-            this.label8.TabIndex = 13;
-            this.label8.Text = "Usuario actual:";
+            // 
+            // TxtCargoUsuarioActual
+            // 
+            resources.ApplyResources(this.TxtCargoUsuarioActual, "TxtCargoUsuarioActual");
+            this.TxtCargoUsuarioActual.Name = "TxtCargoUsuarioActual";
+            // 
+            // label9
+            // 
+            resources.ApplyResources(this.label9, "label9");
+            this.label9.Name = "label9";
+            // 
+            // TxtAreaUsuarioActual
+            // 
+            resources.ApplyResources(this.TxtAreaUsuarioActual, "TxtAreaUsuarioActual");
+            this.TxtAreaUsuarioActual.Name = "TxtAreaUsuarioActual";
+            // 
+            // label10
+            // 
+            resources.ApplyResources(this.label10, "label10");
+            this.label10.Name = "label10";
+            // 
+            // TxtNombreUsuarioActual
+            // 
+            resources.ApplyResources(this.TxtNombreUsuarioActual, "TxtNombreUsuarioActual");
+            this.TxtNombreUsuarioActual.Name = "TxtNombreUsuarioActual";
+            // 
+            // label11
+            // 
+            resources.ApplyResources(this.label11, "label11");
+            this.label11.Name = "label11";
             // 
             // GpUsos
             // 
@@ -524,225 +378,76 @@
             this.GpUsos.Controls.Add(this.label22);
             this.GpUsos.Controls.Add(this.CbCondicion);
             this.GpUsos.Controls.Add(this.CbEstadoArticulo);
-            this.GpUsos.Location = new System.Drawing.Point(12, 294);
+            resources.ApplyResources(this.GpUsos, "GpUsos");
             this.GpUsos.Name = "GpUsos";
-            this.GpUsos.Size = new System.Drawing.Size(358, 172);
-            this.GpUsos.TabIndex = 2;
             this.GpUsos.TabStop = false;
-            this.GpUsos.Text = "Usos";
             // 
             // CbUbicacion
             // 
             this.CbUbicacion.FormattingEnabled = true;
-            this.CbUbicacion.Location = new System.Drawing.Point(9, 86);
+            resources.ApplyResources(this.CbUbicacion, "CbUbicacion");
             this.CbUbicacion.Name = "CbUbicacion";
-            this.CbUbicacion.Size = new System.Drawing.Size(92, 21);
-            this.CbUbicacion.TabIndex = 5;
-            this.CbUbicacion.Text = "SELECCIONE";
             this.CbUbicacion.TextUpdate += new System.EventHandler(this.CbUbicacion_TextUpdate);
             // 
             // TxtObservaciones
             // 
-            this.TxtObservaciones.Location = new System.Drawing.Point(152, 35);
-            this.TxtObservaciones.Multiline = true;
+            resources.ApplyResources(this.TxtObservaciones, "TxtObservaciones");
             this.TxtObservaciones.Name = "TxtObservaciones";
-            this.TxtObservaciones.Size = new System.Drawing.Size(191, 122);
-            this.TxtObservaciones.TabIndex = 20;
             // 
             // BtnAgregarEstado
             // 
-            this.BtnAgregarEstado.Location = new System.Drawing.Point(108, 35);
+            resources.ApplyResources(this.BtnAgregarEstado, "BtnAgregarEstado");
             this.BtnAgregarEstado.Name = "BtnAgregarEstado";
-            this.BtnAgregarEstado.Size = new System.Drawing.Size(26, 21);
-            this.BtnAgregarEstado.TabIndex = 8;
-            this.BtnAgregarEstado.Text = "...";
             this.BtnAgregarEstado.UseVisualStyleBackColor = true;
             this.BtnAgregarEstado.Click += new System.EventHandler(this.BtnAgregarEstado_Click);
             // 
             // BtnAgregarCondicion
             // 
-            this.BtnAgregarCondicion.Location = new System.Drawing.Point(108, 135);
+            resources.ApplyResources(this.BtnAgregarCondicion, "BtnAgregarCondicion");
             this.BtnAgregarCondicion.Name = "BtnAgregarCondicion";
-            this.BtnAgregarCondicion.Size = new System.Drawing.Size(26, 21);
-            this.BtnAgregarCondicion.TabIndex = 8;
-            this.BtnAgregarCondicion.Text = "...";
             this.BtnAgregarCondicion.UseVisualStyleBackColor = true;
             this.BtnAgregarCondicion.Click += new System.EventHandler(this.BtnAgregarCondicion_Click);
             // 
             // BtnAgregarUbicacion
             // 
-            this.BtnAgregarUbicacion.Location = new System.Drawing.Point(108, 85);
+            resources.ApplyResources(this.BtnAgregarUbicacion, "BtnAgregarUbicacion");
             this.BtnAgregarUbicacion.Name = "BtnAgregarUbicacion";
-            this.BtnAgregarUbicacion.Size = new System.Drawing.Size(26, 21);
-            this.BtnAgregarUbicacion.TabIndex = 8;
-            this.BtnAgregarUbicacion.Text = "...";
             this.BtnAgregarUbicacion.UseVisualStyleBackColor = true;
             this.BtnAgregarUbicacion.Click += new System.EventHandler(this.BtnAgregarUbicacion_Click);
             // 
             // label17
             // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(5, 70);
+            resources.ApplyResources(this.label17, "label17");
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(95, 13);
-            this.label17.TabIndex = 7;
-            this.label17.Text = "Ubicación articulo:";
             // 
             // label20
             // 
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(149, 18);
+            resources.ApplyResources(this.label20, "label20");
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(81, 13);
-            this.label20.TabIndex = 10;
-            this.label20.Text = "Observaciones:";
             // 
             // label18
             // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(6, 120);
+            resources.ApplyResources(this.label18, "label18");
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(94, 13);
-            this.label18.TabIndex = 12;
-            this.label18.Text = "Condición articulo:";
             // 
             // label22
             // 
-            this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(6, 18);
+            resources.ApplyResources(this.label22, "label22");
             this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(81, 13);
-            this.label22.TabIndex = 12;
-            this.label22.Text = "Estado Articulo:";
             // 
             // CbCondicion
             // 
             this.CbCondicion.FormattingEnabled = true;
-            this.CbCondicion.Location = new System.Drawing.Point(10, 136);
+            resources.ApplyResources(this.CbCondicion, "CbCondicion");
             this.CbCondicion.Name = "CbCondicion";
-            this.CbCondicion.Size = new System.Drawing.Size(92, 21);
-            this.CbCondicion.TabIndex = 19;
-            this.CbCondicion.Text = "SELECCIONE";
             this.CbCondicion.TextUpdate += new System.EventHandler(this.CbCondicion_TextUpdate);
             // 
             // CbEstadoArticulo
             // 
             this.CbEstadoArticulo.FormattingEnabled = true;
-            this.CbEstadoArticulo.Location = new System.Drawing.Point(10, 35);
+            resources.ApplyResources(this.CbEstadoArticulo, "CbEstadoArticulo");
             this.CbEstadoArticulo.Name = "CbEstadoArticulo";
-            this.CbEstadoArticulo.Size = new System.Drawing.Size(92, 21);
-            this.CbEstadoArticulo.TabIndex = 16;
-            this.CbEstadoArticulo.Text = "SELECCIONE";
             this.CbEstadoArticulo.TextUpdate += new System.EventHandler(this.CbEstadoArticulo_TextUpdate);
-            // 
-            // TxtActivoFijo
-            // 
-            this.TxtActivoFijo.Enabled = false;
-            this.TxtActivoFijo.Location = new System.Drawing.Point(205, 49);
-            this.TxtActivoFijo.Name = "TxtActivoFijo";
-            this.TxtActivoFijo.Size = new System.Drawing.Size(95, 20);
-            this.TxtActivoFijo.TabIndex = 18;
-            // 
-            // LblActivoFijo
-            // 
-            this.LblActivoFijo.AutoSize = true;
-            this.LblActivoFijo.Location = new System.Drawing.Point(202, 33);
-            this.LblActivoFijo.Name = "LblActivoFijo";
-            this.LblActivoFijo.Size = new System.Drawing.Size(59, 13);
-            this.LblActivoFijo.TabIndex = 7;
-            this.LblActivoFijo.Text = "Activo Fijo:";
-            // 
-            // TxtRuc
-            // 
-            this.TxtRuc.Location = new System.Drawing.Point(6, 48);
-            this.TxtRuc.Name = "TxtRuc";
-            this.TxtRuc.Size = new System.Drawing.Size(104, 20);
-            this.TxtRuc.TabIndex = 21;
-            this.TxtRuc.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtRuc_KeyDown);
-            // 
-            // LblRuc
-            // 
-            this.LblRuc.AutoSize = true;
-            this.LblRuc.Location = new System.Drawing.Point(3, 29);
-            this.LblRuc.Name = "LblRuc";
-            this.LblRuc.Size = new System.Drawing.Size(85, 13);
-            this.LblRuc.TabIndex = 9;
-            this.LblRuc.Text = "RUC Proveedor:";
-            // 
-            // GpAdquisicion
-            // 
-            this.GpAdquisicion.Controls.Add(this.BtnAgregarRUC);
-            this.GpAdquisicion.Controls.Add(this.TxtActivoFijo);
-            this.GpAdquisicion.Controls.Add(this.TxtRazonSocial);
-            this.GpAdquisicion.Controls.Add(this.LblActivoFijo);
-            this.GpAdquisicion.Controls.Add(this.label25);
-            this.GpAdquisicion.Controls.Add(this.LblPrecio);
-            this.GpAdquisicion.Controls.Add(this.TxtPrecio);
-            this.GpAdquisicion.Controls.Add(this.LblRazonSocial);
-            this.GpAdquisicion.Controls.Add(this.TxtRuc);
-            this.GpAdquisicion.Controls.Add(this.LblRuc);
-            this.GpAdquisicion.Location = new System.Drawing.Point(494, 12);
-            this.GpAdquisicion.Name = "GpAdquisicion";
-            this.GpAdquisicion.Size = new System.Drawing.Size(306, 135);
-            this.GpAdquisicion.TabIndex = 2;
-            this.GpAdquisicion.TabStop = false;
-            this.GpAdquisicion.Text = "Adquisición";
-            // 
-            // BtnAgregarRUC
-            // 
-            this.BtnAgregarRUC.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.BtnAgregarRUC.Location = new System.Drawing.Point(120, 45);
-            this.BtnAgregarRUC.Name = "BtnAgregarRUC";
-            this.BtnAgregarRUC.Size = new System.Drawing.Size(73, 23);
-            this.BtnAgregarRUC.TabIndex = 24;
-            this.BtnAgregarRUC.Text = "Nuevo RUC";
-            this.BtnAgregarRUC.UseVisualStyleBackColor = true;
-            this.BtnAgregarRUC.Click += new System.EventHandler(this.BtnAgregarRUC_Click);
-            // 
-            // TxtRazonSocial
-            // 
-            this.TxtRazonSocial.Enabled = false;
-            this.TxtRazonSocial.Location = new System.Drawing.Point(6, 102);
-            this.TxtRazonSocial.Name = "TxtRazonSocial";
-            this.TxtRazonSocial.Size = new System.Drawing.Size(191, 20);
-            this.TxtRazonSocial.TabIndex = 22;
-            // 
-            // label25
-            // 
-            this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(386, 141);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(73, 13);
-            this.label25.TabIndex = 9;
-            this.label25.Text = "Razón Social:";
-            // 
-            // LblPrecio
-            // 
-            this.LblPrecio.AutoSize = true;
-            this.LblPrecio.Location = new System.Drawing.Point(202, 86);
-            this.LblPrecio.Name = "LblPrecio";
-            this.LblPrecio.Size = new System.Drawing.Size(87, 13);
-            this.LblPrecio.TabIndex = 9;
-            this.LblPrecio.Text = "Precio Adquirido:";
-            // 
-            // TxtPrecio
-            // 
-            this.TxtPrecio.Location = new System.Drawing.Point(205, 102);
-            this.TxtPrecio.Name = "TxtPrecio";
-            this.TxtPrecio.Size = new System.Drawing.Size(95, 20);
-            this.TxtPrecio.TabIndex = 23;
-            this.TxtPrecio.Enter += new System.EventHandler(this.TxtPrecio_Enter);
-            this.TxtPrecio.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtPrecio_KeyPress);
-            this.TxtPrecio.Leave += new System.EventHandler(this.TxtPrecio_Leave);
-            // 
-            // LblRazonSocial
-            // 
-            this.LblRazonSocial.AutoSize = true;
-            this.LblRazonSocial.Location = new System.Drawing.Point(3, 83);
-            this.LblRazonSocial.Name = "LblRazonSocial";
-            this.LblRazonSocial.Size = new System.Drawing.Size(73, 13);
-            this.LblRazonSocial.TabIndex = 9;
-            this.LblRazonSocial.Text = "Razón Social:";
             // 
             // GpInformación
             // 
@@ -753,162 +458,87 @@
             this.GpInformación.Controls.Add(this.label26);
             this.GpInformación.Controls.Add(this.TxtDireccionImagen);
             this.GpInformación.Controls.Add(this.label23);
-            this.GpInformación.Location = new System.Drawing.Point(494, 153);
+            resources.ApplyResources(this.GpInformación, "GpInformación");
             this.GpInformación.Name = "GpInformación";
-            this.GpInformación.Size = new System.Drawing.Size(306, 439);
-            this.GpInformación.TabIndex = 2;
             this.GpInformación.TabStop = false;
-            this.GpInformación.Text = "Información adicional";
             // 
             // TabMultipedia
             // 
             this.TabMultipedia.Controls.Add(this.tabPage1);
             this.TabMultipedia.Controls.Add(this.tabPage2);
-            this.TabMultipedia.Location = new System.Drawing.Point(6, 119);
+            resources.ApplyResources(this.TabMultipedia, "TabMultipedia");
             this.TabMultipedia.Name = "TabMultipedia";
             this.TabMultipedia.SelectedIndex = 0;
-            this.TabMultipedia.Size = new System.Drawing.Size(294, 314);
-            this.TabMultipedia.TabIndex = 30;
             // 
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.PbFotoArticulo);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            resources.ApplyResources(this.tabPage1, "tabPage1");
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(286, 288);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Foto";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // PbFotoArticulo
             // 
-            this.PbFotoArticulo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PbFotoArticulo.Location = new System.Drawing.Point(3, 3);
+            resources.ApplyResources(this.PbFotoArticulo, "PbFotoArticulo");
             this.PbFotoArticulo.Name = "PbFotoArticulo";
-            this.PbFotoArticulo.Size = new System.Drawing.Size(280, 282);
-            this.PbFotoArticulo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.PbFotoArticulo.TabIndex = 31;
             this.PbFotoArticulo.TabStop = false;
             this.PbFotoArticulo.Tag = "ImagenArticulo";
             // 
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.PanelComprobante);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            resources.ApplyResources(this.tabPage2, "tabPage2");
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(286, 288);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Comprobante";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // PanelComprobante
             // 
-            this.PanelComprobante.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PanelComprobante.Location = new System.Drawing.Point(3, 3);
+            resources.ApplyResources(this.PanelComprobante, "PanelComprobante");
             this.PanelComprobante.Name = "PanelComprobante";
-            this.PanelComprobante.Size = new System.Drawing.Size(280, 282);
-            this.PanelComprobante.TabIndex = 33;
             // 
             // BtnAgregarComprobante
             // 
             this.BtnAgregarComprobante.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.BtnAgregarComprobante.Location = new System.Drawing.Point(271, 42);
+            resources.ApplyResources(this.BtnAgregarComprobante, "BtnAgregarComprobante");
             this.BtnAgregarComprobante.Name = "BtnAgregarComprobante";
-            this.BtnAgregarComprobante.Size = new System.Drawing.Size(29, 23);
-            this.BtnAgregarComprobante.TabIndex = 27;
-            this.BtnAgregarComprobante.Text = "...";
             this.BtnAgregarComprobante.UseVisualStyleBackColor = true;
             this.BtnAgregarComprobante.Click += new System.EventHandler(this.BtnAgregarComprobante_Click);
             // 
             // BtnAgregarImagen
             // 
             this.BtnAgregarImagen.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.BtnAgregarImagen.Location = new System.Drawing.Point(271, 90);
+            resources.ApplyResources(this.BtnAgregarImagen, "BtnAgregarImagen");
             this.BtnAgregarImagen.Name = "BtnAgregarImagen";
-            this.BtnAgregarImagen.Size = new System.Drawing.Size(29, 23);
-            this.BtnAgregarImagen.TabIndex = 29;
-            this.BtnAgregarImagen.Text = "...";
             this.BtnAgregarImagen.UseVisualStyleBackColor = true;
             this.BtnAgregarImagen.Click += new System.EventHandler(this.BtnAgregarImagen_Click);
             // 
             // TxtRutaComprobante
             // 
-            this.TxtRutaComprobante.Enabled = false;
-            this.TxtRutaComprobante.Location = new System.Drawing.Point(6, 43);
+            resources.ApplyResources(this.TxtRutaComprobante, "TxtRutaComprobante");
             this.TxtRutaComprobante.Name = "TxtRutaComprobante";
-            this.TxtRutaComprobante.Size = new System.Drawing.Size(259, 20);
-            this.TxtRutaComprobante.TabIndex = 26;
             // 
             // label26
             // 
-            this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(6, 24);
+            resources.ApplyResources(this.label26, "label26");
             this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(126, 13);
-            this.label26.TabIndex = 9;
-            this.label26.Text = "Comprobante de compra:";
             // 
             // TxtDireccionImagen
             // 
-            this.TxtDireccionImagen.Enabled = false;
-            this.TxtDireccionImagen.Location = new System.Drawing.Point(6, 92);
+            resources.ApplyResources(this.TxtDireccionImagen, "TxtDireccionImagen");
             this.TxtDireccionImagen.Name = "TxtDireccionImagen";
-            this.TxtDireccionImagen.Size = new System.Drawing.Size(259, 20);
-            this.TxtDireccionImagen.TabIndex = 28;
             // 
             // label23
             // 
-            this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(3, 74);
+            resources.ApplyResources(this.label23, "label23");
             this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(107, 13);
-            this.label23.TabIndex = 9;
-            this.label23.Text = "Dirección de imagen:";
-            // 
-            // GpCaracteristicas
-            // 
-            this.GpCaracteristicas.Controls.Add(this.btnAgregar);
-            this.GpCaracteristicas.Controls.Add(this.FlCaracteristicas);
-            this.GpCaracteristicas.Controls.Add(this.BtnEliminar);
-            this.GpCaracteristicas.Location = new System.Drawing.Point(12, 472);
-            this.GpCaracteristicas.Name = "GpCaracteristicas";
-            this.GpCaracteristicas.Size = new System.Drawing.Size(476, 120);
-            this.GpCaracteristicas.TabIndex = 3;
-            this.GpCaracteristicas.TabStop = false;
-            this.GpCaracteristicas.Text = "Caracteristicas";
             // 
             // btnAgregar
             // 
             this.btnAgregar.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnAgregar.Location = new System.Drawing.Point(152, 84);
+            resources.ApplyResources(this.btnAgregar, "btnAgregar");
             this.btnAgregar.Name = "btnAgregar";
-            this.btnAgregar.Size = new System.Drawing.Size(75, 23);
-            this.btnAgregar.TabIndex = 30;
-            this.btnAgregar.Text = "Agregar";
             this.btnAgregar.UseVisualStyleBackColor = true;
             this.btnAgregar.Click += new System.EventHandler(this.btnAgregar_Click);
-            // 
-            // FlCaracteristicas
-            // 
-            this.FlCaracteristicas.AutoScroll = true;
-            this.FlCaracteristicas.Location = new System.Drawing.Point(10, 19);
-            this.FlCaracteristicas.Name = "FlCaracteristicas";
-            this.FlCaracteristicas.Size = new System.Drawing.Size(460, 48);
-            this.FlCaracteristicas.TabIndex = 32;
-            this.FlCaracteristicas.WrapContents = false;
-            // 
-            // BtnEliminar
-            // 
-            this.BtnEliminar.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.BtnEliminar.Location = new System.Drawing.Point(243, 84);
-            this.BtnEliminar.Name = "BtnEliminar";
-            this.BtnEliminar.Size = new System.Drawing.Size(75, 23);
-            this.BtnEliminar.TabIndex = 31;
-            this.BtnEliminar.Text = "Eliminar";
-            this.BtnEliminar.UseVisualStyleBackColor = true;
-            this.BtnEliminar.Click += new System.EventHandler(this.btnEliminar_Click);
             // 
             // ErrorArticulos
             // 
@@ -916,101 +546,146 @@
             // 
             // GpAcciones
             // 
+            this.GpAcciones.Controls.Add(this.btnAgregar);
             this.GpAcciones.Controls.Add(this.BtnCancelar);
             this.GpAcciones.Controls.Add(this.BtnGuardarPlus);
             this.GpAcciones.Controls.Add(this.BtnGuardar);
             this.GpAcciones.Controls.Add(this.BtnEmpleados);
-            this.GpAcciones.Location = new System.Drawing.Point(376, 297);
+            resources.ApplyResources(this.GpAcciones, "GpAcciones");
             this.GpAcciones.Name = "GpAcciones";
-            this.GpAcciones.Size = new System.Drawing.Size(112, 169);
-            this.GpAcciones.TabIndex = 12;
             this.GpAcciones.TabStop = false;
-            this.GpAcciones.Text = "Acciones";
             // 
             // BtnCancelar
             // 
             this.BtnCancelar.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.BtnCancelar.Location = new System.Drawing.Point(18, 95);
+            resources.ApplyResources(this.BtnCancelar, "BtnCancelar");
             this.BtnCancelar.Name = "BtnCancelar";
-            this.BtnCancelar.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.BtnCancelar.Size = new System.Drawing.Size(75, 23);
-            this.BtnCancelar.TabIndex = 13;
-            this.BtnCancelar.Text = "Cancelar";
             this.BtnCancelar.UseVisualStyleBackColor = true;
             this.BtnCancelar.Click += new System.EventHandler(this.BtnCancelar_Click);
             // 
             // BtnGuardarPlus
             // 
             this.BtnGuardarPlus.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.BtnGuardarPlus.Location = new System.Drawing.Point(18, 60);
+            resources.ApplyResources(this.BtnGuardarPlus, "BtnGuardarPlus");
             this.BtnGuardarPlus.Name = "BtnGuardarPlus";
-            this.BtnGuardarPlus.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.BtnGuardarPlus.Size = new System.Drawing.Size(75, 23);
-            this.BtnGuardarPlus.TabIndex = 14;
-            this.BtnGuardarPlus.Text = "+ Guardar";
             this.BtnGuardarPlus.UseVisualStyleBackColor = true;
             this.BtnGuardarPlus.Click += new System.EventHandler(this.BtnGuardarPlus_Click);
             // 
             // BtnGuardar
             // 
             this.BtnGuardar.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.BtnGuardar.Location = new System.Drawing.Point(18, 25);
+            resources.ApplyResources(this.BtnGuardar, "BtnGuardar");
             this.BtnGuardar.Name = "BtnGuardar";
-            this.BtnGuardar.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.BtnGuardar.Size = new System.Drawing.Size(75, 23);
-            this.BtnGuardar.TabIndex = 15;
-            this.BtnGuardar.Text = "Guardar";
             this.BtnGuardar.UseVisualStyleBackColor = true;
             this.BtnGuardar.Click += new System.EventHandler(this.BtnGuardar_Click);
             // 
             // BtnEmpleados
             // 
             this.BtnEmpleados.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.BtnEmpleados.Location = new System.Drawing.Point(18, 130);
+            resources.ApplyResources(this.BtnEmpleados, "BtnEmpleados");
             this.BtnEmpleados.Name = "BtnEmpleados";
-            this.BtnEmpleados.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.BtnEmpleados.Size = new System.Drawing.Size(75, 23);
-            this.BtnEmpleados.TabIndex = 12;
-            this.BtnEmpleados.Text = "Empleados";
             this.BtnEmpleados.UseVisualStyleBackColor = true;
             this.BtnEmpleados.Click += new System.EventHandler(this.BtnEmpleados_Click);
             // 
+            // GpAdquisicion
+            // 
+            this.GpAdquisicion.Controls.Add(this.TxtRazonSocial);
+            this.GpAdquisicion.Controls.Add(this.LblRazonSocial);
+            this.GpAdquisicion.Controls.Add(this.BtnDepreciacion);
+            this.GpAdquisicion.Controls.Add(this.BtnAgregarRUC);
+            this.GpAdquisicion.Controls.Add(this.label25);
+            this.GpAdquisicion.Controls.Add(this.LblPrecio);
+            this.GpAdquisicion.Controls.Add(this.TxtPrecio);
+            this.GpAdquisicion.Controls.Add(this.TxtRuc);
+            this.GpAdquisicion.Controls.Add(this.LblRuc);
+            resources.ApplyResources(this.GpAdquisicion, "GpAdquisicion");
+            this.GpAdquisicion.Name = "GpAdquisicion";
+            this.GpAdquisicion.TabStop = false;
+            // 
+            // TxtRazonSocial
+            // 
+            resources.ApplyResources(this.TxtRazonSocial, "TxtRazonSocial");
+            this.TxtRazonSocial.Name = "TxtRazonSocial";
+            // 
+            // LblRazonSocial
+            // 
+            resources.ApplyResources(this.LblRazonSocial, "LblRazonSocial");
+            this.LblRazonSocial.Name = "LblRazonSocial";
+            // 
+            // BtnDepreciacion
+            // 
+            this.BtnDepreciacion.Cursor = System.Windows.Forms.Cursors.Hand;
+            resources.ApplyResources(this.BtnDepreciacion, "BtnDepreciacion");
+            this.BtnDepreciacion.Name = "BtnDepreciacion";
+            this.BtnDepreciacion.UseVisualStyleBackColor = true;
+            // 
+            // BtnAgregarRUC
+            // 
+            this.BtnAgregarRUC.Cursor = System.Windows.Forms.Cursors.Hand;
+            resources.ApplyResources(this.BtnAgregarRUC, "BtnAgregarRUC");
+            this.BtnAgregarRUC.Name = "BtnAgregarRUC";
+            this.BtnAgregarRUC.UseVisualStyleBackColor = true;
+            // 
+            // label25
+            // 
+            resources.ApplyResources(this.label25, "label25");
+            this.label25.Name = "label25";
+            // 
+            // LblPrecio
+            // 
+            resources.ApplyResources(this.LblPrecio, "LblPrecio");
+            this.LblPrecio.Name = "LblPrecio";
+            // 
+            // TxtPrecio
+            // 
+            resources.ApplyResources(this.TxtPrecio, "TxtPrecio");
+            this.TxtPrecio.Name = "TxtPrecio";
+            // 
+            // TxtRuc
+            // 
+            resources.ApplyResources(this.TxtRuc, "TxtRuc");
+            this.TxtRuc.Name = "TxtRuc";
+            // 
+            // LblRuc
+            // 
+            resources.ApplyResources(this.LblRuc, "LblRuc");
+            this.LblRuc.Name = "LblRuc";
+            // 
             // VistaArticulos
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(812, 604);
-            this.Controls.Add(this.GpAcciones);
-            this.Controls.Add(this.GpCaracteristicas);
             this.Controls.Add(this.GpInformación);
+            this.Controls.Add(this.GpAcciones);
             this.Controls.Add(this.GpAdquisicion);
             this.Controls.Add(this.GpUsos);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "VistaArticulos";
             this.ShowIcon = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Articulos";
             this.Load += new System.EventHandler(this.VistaArticulos_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.GpUsos.ResumeLayout(false);
             this.GpUsos.PerformLayout();
-            this.GpAdquisicion.ResumeLayout(false);
-            this.GpAdquisicion.PerformLayout();
             this.GpInformación.ResumeLayout(false);
             this.GpInformación.PerformLayout();
             this.TabMultipedia.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PbFotoArticulo)).EndInit();
             this.tabPage2.ResumeLayout(false);
-            this.GpCaracteristicas.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.ErrorArticulos)).EndInit();
             this.GpAcciones.ResumeLayout(false);
+            this.GpAdquisicion.ResumeLayout(false);
+            this.GpAdquisicion.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1023,14 +698,9 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label6;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label17;
@@ -1039,14 +709,10 @@
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Button BtnAgregarImagen;
         private System.Windows.Forms.Label label23;
-        private System.Windows.Forms.Label label25;
         private System.Windows.Forms.Button BtnAgregarComprobante;
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.Button btnAgregar;
-        private System.Windows.Forms.Button BtnEliminar;
-        public System.Windows.Forms.FlowLayoutPanel FlCaracteristicas;
         public System.Windows.Forms.ComboBox CbMarcas;
-        public System.Windows.Forms.GroupBox GpCaracteristicas;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
         public System.Windows.Forms.TextBox TxtCodigo;
@@ -1054,28 +720,16 @@
         public System.Windows.Forms.TextBox TxtModelo;
         public System.Windows.Forms.DateTimePicker DtpFechaAdquisicion;
         public System.Windows.Forms.DateTimePicker DtpFechaFinGarantia;
-        public System.Windows.Forms.DateTimePicker DtpFechaBaja;
         public System.Windows.Forms.TextBox TxtDniUsuarioActual;
         public System.Windows.Forms.TextBox TxtNombreUsuarioActual;
-        public System.Windows.Forms.TextBox TxtRuc;
         public System.Windows.Forms.ComboBox CbEstadoArticulo;
-        public System.Windows.Forms.TextBox TxtRazonSocial;
         public System.Windows.Forms.TextBox TxtObservaciones;
-        public System.Windows.Forms.TextBox TxtActivoFijo;
         public System.Windows.Forms.ComboBox CbCondicion;
         public System.Windows.Forms.TextBox TxtDireccionImagen;
-        public System.Windows.Forms.TextBox TxtPrecio;
         public System.Windows.Forms.TextBox TxtRutaComprobante;
-        public System.Windows.Forms.TextBox TxtDniUsuarioAnterior;
-        public System.Windows.Forms.TextBox TxtNombreUsuarioAnterior;
-        public System.Windows.Forms.ComboBox CbAreaUsuarioAnterior;
-        public System.Windows.Forms.ComboBox CbAreaUsuarioActual;
         public System.Windows.Forms.ComboBox CbUbicacion;
-        public System.Windows.Forms.ComboBox CbCargoUsuarioAnterior;
-        public System.Windows.Forms.ComboBox CbCargoUsuarioActual;
         private System.Windows.Forms.Button BtnAgregarMarca;
         public System.Windows.Forms.CheckBox ChkFechaGarantia;
-        public System.Windows.Forms.CheckBox ChkFechaBaja;
         private System.Windows.Forms.ErrorProvider ErrorArticulos;
         private System.Windows.Forms.Button BtnAgregarUbicacion;
         private System.Windows.Forms.Button BtnAgregarEstado;
@@ -1089,16 +743,32 @@
         public System.Windows.Forms.Button BtnGuardar;
         public System.Windows.Forms.Button BtnEmpleados;
         public System.Windows.Forms.GroupBox GpUsos;
-        public System.Windows.Forms.Label LblRuc;
-        public System.Windows.Forms.GroupBox GpAdquisicion;
-        public System.Windows.Forms.Label LblRazonSocial;
-        public System.Windows.Forms.Label LblActivoFijo;
         public System.Windows.Forms.GroupBox GpInformación;
-        public System.Windows.Forms.Button BtnAgregarRUC;
-        public System.Windows.Forms.Label LblPrecio;
         public System.Windows.Forms.TabControl TabMultipedia;
         public System.Windows.Forms.CheckBox ChkAutoCodigo;
         public System.Windows.Forms.CheckBox ChkAutoSerie;
         public System.Windows.Forms.CheckBox ChkAutoModelo;
+        private System.Windows.Forms.TextBox TxtCargoUsuarioActual;
+        private System.Windows.Forms.TextBox TxtAreaUsuarioActual;
+        private System.Windows.Forms.GroupBox groupBox3;
+        public System.Windows.Forms.GroupBox GpAdquisicion;
+        public System.Windows.Forms.Button BtnDepreciacion;
+        public System.Windows.Forms.Button BtnAgregarRUC;
+        private System.Windows.Forms.Label label25;
+        public System.Windows.Forms.Label LblPrecio;
+        public System.Windows.Forms.TextBox TxtPrecio;
+        public System.Windows.Forms.TextBox TxtRuc;
+        public System.Windows.Forms.Label LblRuc;
+        public System.Windows.Forms.TextBox TxtRazonSocial;
+        public System.Windows.Forms.Label LblRazonSocial;
+        private System.Windows.Forms.GroupBox groupBox5;
+        public System.Windows.Forms.TextBox TxtDniUsuarioAnterior;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox TxtCargoUsuarioAnterior;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.TextBox TxtAreaUsuarioAnterior;
+        private System.Windows.Forms.Label label19;
+        public System.Windows.Forms.TextBox TxtNombreUsuarioAnterior;
+        private System.Windows.Forms.Label label21;
     }
 }

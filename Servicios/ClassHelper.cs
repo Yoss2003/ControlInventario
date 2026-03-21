@@ -90,38 +90,43 @@ namespace ControlInventario.Servicios
             dataGrdi.Rows.Clear();
             foreach (var art in articulos)
             {
-                var item = new ListViewItem(art.Id.ToString());
+                string json = art.Caracteristicas;
+                string textoBoton = (!string.IsNullOrEmpty(json) && json != "{}") ? "Ver Detalles" : "N/A";
 
-                item.SubItems.Add(art.Codigo ?? "");
-                item.SubItems.Add(art.Modelo ?? "");
-                item.SubItems.Add(art.Serie ?? "");
-                item.SubItems.Add(art.Marca ?? "");
-                item.SubItems.Add(ClassHelper.FormatearFecha(art.FechaAdquisicion));
-                item.SubItems.Add(ClassHelper.FormatearFecha(art.FechaFinGarantia));
+                int rowIndex = dataGrdi.Rows.Add(
+                    art.Id,
+                    art.Codigo ?? "",
+                    art.Modelo ?? "",
+                    art.Serie ?? "",
+                    art.Marca ?? "",
+                    ClassHelper.FormatearFecha(art.FechaAdquisicion),
+                    ClassHelper.FormatearFecha(art.FechaFinGarantia),
 
-                // --- INFORMACIÓN DEL EMPLEADO ACTUAL ---
-                item.SubItems.Add(art.EmpleadoActualDNI ?? "");
-                item.SubItems.Add(art.EmpleadoActualTexto ?? "");
-                item.SubItems.Add(art.EmpleadoActualAreaTexto ?? "");
-                item.SubItems.Add(art.EmpleadoActualCargoTexto ?? "");
+                    art.EmpleadoActualDNI ?? "",
+                    art.EmpleadoActualTexto ?? "",
+                    art.EmpleadoActualAreaTexto ?? "",
+                    art.EmpleadoActualCargoTexto ?? "",
 
-                // --- INFORMACIÓN DEL EMPLEADO ANTERIOR ---
-                item.SubItems.Add(art.EmpleadoAnteriorDNI ?? "");
-                item.SubItems.Add(art.EmpleadoAnteriorTexto ?? "");
-                item.SubItems.Add(art.EmpleadoAnteriorAreaTexto ?? "");
-                item.SubItems.Add(art.EmpleadoAnteriorCargoTexto ?? "");
+                    art.EmpleadoAnteriorDNI ?? "",
+                    art.EmpleadoAnteriorTexto ?? "",
+                    art.EmpleadoAnteriorAreaTexto ?? "",
+                    art.EmpleadoAnteriorCargoTexto ?? "",
 
-                item.SubItems.Add(art.Estado ?? "");
-                item.SubItems.Add(art.Ubicacion ?? "");
-                item.SubItems.Add(art.Condicion ?? "");
-                item.SubItems.Add(art.RucProveedor ?? "");
-                item.SubItems.Add(art.Proveedor ?? "");
-                item.SubItems.Add(ClassHelper.FormatearMoneda(art.PrecioAdquisicion));
-                item.SubItems.Add(art.Observacion ?? "");
-                item.SubItems.Add(art.FotoPrincipal ?? "");
-                item.SubItems.Add(art.ComprobantePrincipal ?? "");
+                    art.Estado ?? "",
+                    art.Ubicacion ?? "",
+                    art.Condicion ?? "",
 
-                dataGrdi.Rows.Add(item);
+                    art.RucProveedor ?? "",
+                    art.Proveedor ?? "",
+                    ClassHelper.FormatearMoneda(art.PrecioAdquisicion),
+                    art.Observacion ?? "",
+                    art.FotoPrincipal ?? "",
+                    art.ComprobantePrincipal ?? "",
+
+                    textoBoton
+                );
+
+                dataGrdi.Rows[rowIndex].Tag = art;
             }
         }
 

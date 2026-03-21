@@ -56,6 +56,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
             this.TbPrincipal = new System.Windows.Forms.TabControl();
             this.TabIngresos = new System.Windows.Forms.TabPage();
+            this.DvgIngresos = new System.Windows.Forms.DataGridView();
             this.LstDefault1 = new System.Windows.Forms.ListView();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.ChkUsarFechas = new System.Windows.Forms.CheckBox();
@@ -125,7 +126,6 @@
             this.BtnEditarArticulo = new System.Windows.Forms.Button();
             this.BtnNuevaAsignacion = new System.Windows.Forms.Button();
             this.BtnAgregarArticulo = new System.Windows.Forms.Button();
-            this.DvgIngresos = new System.Windows.Forms.DataGridView();
             this.IdArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CodigoArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ModeloArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -150,15 +150,15 @@
             this.ObservacionArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ImagenArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ComprobanteArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CaracteriticasArticulo = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.CaracteristicasArticulo = new System.Windows.Forms.DataGridViewButtonColumn();
             this.TbPrincipal.SuspendLayout();
             this.TabIngresos.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.DvgIngresos)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.TabSalidas.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NuAccionInventario)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.DvgIngresos)).BeginInit();
             this.SuspendLayout();
             // 
             // TbPrincipal
@@ -181,6 +181,57 @@
             resources.ApplyResources(this.TabIngresos, "TabIngresos");
             this.TabIngresos.Name = "TabIngresos";
             this.TabIngresos.UseVisualStyleBackColor = true;
+            // 
+            // DvgIngresos
+            // 
+            this.DvgIngresos.AllowUserToAddRows = false;
+            this.DvgIngresos.AllowUserToDeleteRows = false;
+            this.DvgIngresos.AllowUserToResizeColumns = false;
+            this.DvgIngresos.AllowUserToResizeRows = false;
+            this.DvgIngresos.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            this.DvgIngresos.BackgroundColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.DvgIngresos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.DvgIngresos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DvgIngresos.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.IdArticulo,
+            this.CodigoArticulo,
+            this.ModeloArticulo,
+            this.SerieArticulo,
+            this.MarcaArticulo,
+            this.FechaAdquisicionArticulo,
+            this.FechaFinGarantiaArticulo,
+            this.DniUsuarioActual,
+            this.DniUsuarioActualArticulo,
+            this.AreaUsuarioActualArticulo,
+            this.CargoUsuarioActualArticulo,
+            this.DniUsuarioAnteriorArticulo,
+            this.NombreUsuarioAnteriorArticulo,
+            this.AreaUsuarioAnteriorArticulo,
+            this.CargoUsuarioAnteriorArticulo,
+            this.EstadoArticulo,
+            this.UbicacionArticulo,
+            this.CondicionArticulo,
+            this.RucArticulo,
+            this.ProveedorArticulo,
+            this.PrecioArticulo,
+            this.ObservacionArticulo,
+            this.ImagenArticulo,
+            this.ComprobanteArticulo,
+            this.CaracteristicasArticulo});
+            resources.ApplyResources(this.DvgIngresos, "DvgIngresos");
+            this.DvgIngresos.MultiSelect = false;
+            this.DvgIngresos.Name = "DvgIngresos";
+            this.DvgIngresos.ReadOnly = true;
+            this.DvgIngresos.RowHeadersVisible = false;
+            this.DvgIngresos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.DvgIngresos.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DvgIngresos_CellContentClick);
             // 
             // LstDefault1
             // 
@@ -644,57 +695,6 @@
             this.BtnAgregarArticulo.UseVisualStyleBackColor = true;
             this.BtnAgregarArticulo.Click += new System.EventHandler(this.BtnAgregarArticulo_Click);
             // 
-            // DvgIngresos
-            // 
-            this.DvgIngresos.AllowUserToAddRows = false;
-            this.DvgIngresos.AllowUserToDeleteRows = false;
-            this.DvgIngresos.AllowUserToResizeColumns = false;
-            this.DvgIngresos.AllowUserToResizeRows = false;
-            this.DvgIngresos.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
-            this.DvgIngresos.BackgroundColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.DvgIngresos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.DvgIngresos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.DvgIngresos.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.IdArticulo,
-            this.CodigoArticulo,
-            this.ModeloArticulo,
-            this.SerieArticulo,
-            this.MarcaArticulo,
-            this.FechaAdquisicionArticulo,
-            this.FechaFinGarantiaArticulo,
-            this.DniUsuarioActual,
-            this.DniUsuarioActualArticulo,
-            this.AreaUsuarioActualArticulo,
-            this.CargoUsuarioActualArticulo,
-            this.DniUsuarioAnteriorArticulo,
-            this.NombreUsuarioAnteriorArticulo,
-            this.AreaUsuarioAnteriorArticulo,
-            this.CargoUsuarioAnteriorArticulo,
-            this.EstadoArticulo,
-            this.UbicacionArticulo,
-            this.CondicionArticulo,
-            this.RucArticulo,
-            this.ProveedorArticulo,
-            this.PrecioArticulo,
-            this.ObservacionArticulo,
-            this.ImagenArticulo,
-            this.ComprobanteArticulo,
-            this.CaracteriticasArticulo});
-            resources.ApplyResources(this.DvgIngresos, "DvgIngresos");
-            this.DvgIngresos.MultiSelect = false;
-            this.DvgIngresos.Name = "DvgIngresos";
-            this.DvgIngresos.ReadOnly = true;
-            this.DvgIngresos.RowHeadersVisible = false;
-            this.DvgIngresos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.DvgIngresos.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DvgIngresos_CellContentClick);
-            // 
             // IdArticulo
             // 
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
@@ -887,11 +887,12 @@
             this.ComprobanteArticulo.Name = "ComprobanteArticulo";
             this.ComprobanteArticulo.ReadOnly = true;
             // 
-            // CaracteriticasArticulo
+            // CaracteristicasArticulo
             // 
-            resources.ApplyResources(this.CaracteriticasArticulo, "CaracteriticasArticulo");
-            this.CaracteriticasArticulo.Name = "CaracteriticasArticulo";
-            this.CaracteriticasArticulo.ReadOnly = true;
+            this.CaracteristicasArticulo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            resources.ApplyResources(this.CaracteristicasArticulo, "CaracteristicasArticulo");
+            this.CaracteristicasArticulo.Name = "CaracteristicasArticulo";
+            this.CaracteristicasArticulo.ReadOnly = true;
             // 
             // VistaInventario
             // 
@@ -905,6 +906,7 @@
             this.Load += new System.EventHandler(this.VistaInventario_Load);
             this.TbPrincipal.ResumeLayout(false);
             this.TabIngresos.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.DvgIngresos)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.TabSalidas.ResumeLayout(false);
@@ -913,7 +915,6 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NuAccionInventario)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.DvgIngresos)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -991,6 +992,7 @@
         private System.Windows.Forms.DateTimePicker dateTimePicker2;
         public System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.ListView LstDefault2;
+        public System.Windows.Forms.DataGridView DvgIngresos;
         private System.Windows.Forms.DataGridViewTextBoxColumn IdArticulo;
         private System.Windows.Forms.DataGridViewTextBoxColumn CodigoArticulo;
         private System.Windows.Forms.DataGridViewTextBoxColumn ModeloArticulo;
@@ -1015,7 +1017,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ObservacionArticulo;
         private System.Windows.Forms.DataGridViewTextBoxColumn ImagenArticulo;
         private System.Windows.Forms.DataGridViewTextBoxColumn ComprobanteArticulo;
-        private System.Windows.Forms.DataGridViewButtonColumn CaracteriticasArticulo;
-        public System.Windows.Forms.DataGridView DvgIngresos;
+        private System.Windows.Forms.DataGridViewButtonColumn CaracteristicasArticulo;
     }
 }

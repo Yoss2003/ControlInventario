@@ -618,6 +618,7 @@
             resources.ApplyResources(this.BtnDepreciacion, "BtnDepreciacion");
             this.BtnDepreciacion.Name = "BtnDepreciacion";
             this.BtnDepreciacion.UseVisualStyleBackColor = true;
+            this.BtnDepreciacion.Click += new System.EventHandler(this.BtnDepreciacion_Click);
             // 
             // BtnAgregarRUC
             // 
@@ -625,6 +626,7 @@
             resources.ApplyResources(this.BtnAgregarRUC, "BtnAgregarRUC");
             this.BtnAgregarRUC.Name = "BtnAgregarRUC";
             this.BtnAgregarRUC.UseVisualStyleBackColor = true;
+            this.BtnAgregarRUC.Click += new System.EventHandler(this.BtnAgregarRUC_Click);
             // 
             // label25
             // 
@@ -640,11 +642,14 @@
             // 
             resources.ApplyResources(this.TxtPrecio, "TxtPrecio");
             this.TxtPrecio.Name = "TxtPrecio";
+            this.TxtPrecio.Enter += new System.EventHandler(this.TxtPrecio_Enter);
+            this.TxtPrecio.Leave += new System.EventHandler(this.TxtPrecio_Leave);
             // 
             // TxtRuc
             // 
             resources.ApplyResources(this.TxtRuc, "TxtRuc");
             this.TxtRuc.Name = "TxtRuc";
+            this.TxtRuc.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtRuc_KeyDown);
             // 
             // LblRuc
             // 

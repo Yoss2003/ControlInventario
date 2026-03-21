@@ -30,6 +30,9 @@ namespace ControlInventario.Vistas
         readonly string nombreUusario = UsuarioSesion.NombreUsuario;
         readonly int inventarioId = UsuarioSesion.InventarioId;
 
+        private ToolStripDropDown burbujaActual = null;
+        private int filaBurbujaAbierta = -1;
+
         public VistaInventario()
         {
             InitializeComponent();
@@ -42,6 +45,9 @@ namespace ControlInventario.Vistas
 
         private void VistaInventario_Load(object sender, EventArgs e)
         {
+            this.Click += Fondo_Click;
+            ConfigurarPerdidaDeFoco(this);
+
             TxtBuscarCodArticulo.Enabled = false;
             CbBuscarMarcaArticulo.Enabled = false;
             ChkUsarFechas.Enabled = false;
@@ -53,6 +59,10 @@ namespace ControlInventario.Vistas
             ClassHelper.AplicarFormatoFecha(DtBuscarFechaFin);
             ClassHelper.AplicarFormatoFecha(DtBuscarFechaInicio);
             ActualizarVistaBotones();
+
+            this.BeginInvoke(new MethodInvoker(() => {
+                DvgIngresos.ClearSelection();
+            }));
         }
 
         private void BtnNuevaCategoria_Click(object sender, EventArgs e)
@@ -67,6 +77,7 @@ namespace ControlInventario.Vistas
             {
                 var articulosCategoria = ArticuloRepository.ListarArticulos(categoriaSeleccionadaId);
                 ClassHelper.RefrescarListView(DvgIngresos, articulosCategoria);
+                DvgIngresos.ClearSelection();
                 DvgIngresos.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.ColumnHeader);
             }
         }
@@ -222,8 +233,6 @@ namespace ControlInventario.Vistas
             DataGridViewRow filaSeleccionada = DvgIngresos.SelectedRows[0];
             _articuloId = Convert.ToInt32(filaSeleccionada.Cells[0].Value);
 
-            // 1. OBTENEMOS EL ARTÍCULO DESDE EL INICIO
-            // Esto nos da acceso a todos los IDs reales sin depender de los textos del ListView
             var art = ArticuloRepository.ObtenerArticuloPorId(_articuloId);
 
             if (art == null)
@@ -234,7 +243,6 @@ namespace ControlInventario.Vistas
 
             using (var articulos = new VistaArticulos(categoriaId, categoria, _articuloId))
             {
-                // 2. LLENAMOS EL MODELO USANDO LOS IDs DE LA BASE DE DATOS
                 var datos = new EdicionArticulo
                 {
                     Id = _articuloId,
@@ -243,7 +251,8 @@ namespace ControlInventario.Vistas
                     IdUbicacion = art.IdUbicacion,
                     IdCondicion = art.IdCondicion,
                     IdEmpleadoActual = art.EmpleadoActualId,
-                    IdEmpleadoAnterior = art.EmpleadoAnteriorId
+                    IdEmpleadoAnterior = art.EmpleadoAnteriorId,
+                    Caracteristicas = art.Caracteristicas
                 };
 
                 // Configuración inicial
@@ -301,10 +310,8 @@ namespace ControlInventario.Vistas
                     }
                 }
 
-                // Mostrar el formulario de alta
                 if (articulos.ShowDialog() == DialogResult.OK)
                 {
-                    // Refrescar la lista activa al volver
                     RefrescarArticulos();
                 }
             }
@@ -467,34 +474,26 @@ namespace ControlInventario.Vistas
 
             foreach (DataRow row in dt.Rows)
             {
-                ListViewItem item = new ListViewItem(row["Id"].ToString());
+                string json = row["Caracteristicas"]?.ToString();
+                string textoBoton = (!string.IsNullOrEmpty(json) && json != "{}") ? "Ver Detalles" : "N/A";
 
-                // Agregamos el resto de las columnas como SubItems (Asegúrate de poner los nombres exactos de tus columnas SQL)
-                item.SubItems.Add(row["Codigo"].ToString());
-                item.SubItems.Add(row["Modelo"].ToString());
-                item.SubItems.Add(row["Serie"].ToString());
-                item.SubItems.Add(row["Marca"].ToString());
-                item.SubItems.Add(row["FechaAdquisicion"].ToString());
-                item.SubItems.Add(row["FechaBaja"].ToString());
-                item.SubItems.Add(row["FechaFinGarantia"].ToString());
-                item.SubItems.Add(row["DniUsuarioActual"].ToString());
-                item.SubItems.Add(row["NombreUsuarioActual"].ToString());
-                item.SubItems.Add(row["AreaUsuarioActual"].ToString());
-                item.SubItems.Add(row["CargoUsuarioActual"].ToString());
-                item.SubItems.Add(row["DniUsuarioAnterior"].ToString());
-                item.SubItems.Add(row["NombreUsuarioAnterior"].ToString());
-                item.SubItems.Add(row["AreaUsuarioAnterior"].ToString());
-                item.SubItems.Add(row["CargoUsuarioAnterior"].ToString());
-                item.SubItems.Add(row["Estado"].ToString());
-                item.SubItems.Add(row["Ubicacion"].ToString());
-                item.SubItems.Add(row["Condicion"].ToString());
-                item.SubItems.Add(row["RucProveedor"].ToString());
-                item.SubItems.Add(row["Proveedor"].ToString());
-                item.SubItems.Add(row["PrecioAdquisicion"].ToString());
-                item.SubItems.Add(row["Observacion"].ToString());
-                item.SubItems.Add(row["RutaFotoPrincipal"].ToString());
-                item.SubItems.Add(row["RutaComprobantePrincipal"].ToString());
-                DvgIngresos.Rows.Add(item);
+                int rowIndex = DvgIngresos.Rows.Add(
+                    row["Id"], row["Codigo"], row["Modelo"], row["Serie"], row["Marca"],
+                    row["FechaAdquisicion"], row["FechaBaja"], row["FechaFinGarantia"],
+                    row["DniUsuarioActual"], row["NombreUsuarioActual"], row["AreaUsuarioActual"], row["CargoUsuarioActual"],
+                    row["DniUsuarioAnterior"], row["NombreUsuarioAnterior"], row["AreaUsuarioAnterior"], row["CargoUsuarioAnterior"],
+                    row["Estado"], row["Ubicacion"], row["Condicion"],
+                    row["RucProveedor"], row["Proveedor"], row["PrecioAdquisicion"],
+                    row["Observacion"], row["RutaFotoPrincipal"], row["RutaComprobantePrincipal"],
+                    textoBoton
+                );
+
+                Articulos art = new Articulos
+                {
+                    Id = Convert.ToInt32(row["Id"]),
+                    Caracteristicas = json
+                };
+                DvgIngresos.Rows[rowIndex].Tag = art;
             }
         }
 
@@ -642,47 +641,115 @@ namespace ControlInventario.Vistas
 
         private void DvgIngresos_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex >= 0)
+            if (e.RowIndex >= 0 && DvgIngresos.Columns[e.ColumnIndex].Name == "CaracteristicasArticulo")
             {
-                if (DvgIngresos.Columns[e.ColumnIndex].Name == "ColCaracteristicas")
-                {
-                    string valorBoton = DvgIngresos.Rows[e.RowIndex].Cells[e.ColumnIndex].Value?.ToString();
+                string valorBoton = DvgIngresos.Rows[e.RowIndex].Cells[e.ColumnIndex].Value?.ToString();
 
-                    if (valorBoton == "Ver Detalles")
+                if (valorBoton != null && valorBoton.Contains("Ver Detalles"))
+                {
+                    if (burbujaActual != null && burbujaActual.Visible && filaBurbujaAbierta == e.RowIndex)
                     {
-                        Articulos art = (Articulos)DvgIngresos.Rows[e.RowIndex].Tag;
-                        MostrarDetallesJson(art.Caracteristicas); 
+                        burbujaActual.Close();
+                        return;
                     }
+
+                    Articulos art = (Articulos)DvgIngresos.Rows[e.RowIndex].Tag;
+                    MostrarDetallesBurbuja(art.Caracteristicas, e.ColumnIndex, e.RowIndex);
                 }
             }
         }
-        private void MostrarDetallesJson(string jsonString)
+
+        private void MostrarDetallesBurbuja(string jsonString, int colIndex, int rowIndex)
         {
             try
             {
                 var diccionario = JsonSerializer.Deserialize<Dictionary<string, string>>(jsonString);
 
-                System.Text.StringBuilder mensaje = new System.Text.StringBuilder();
-                mensaje.AppendLine("ESPECIFICACIONES TÉCNICAS:");
-                mensaje.AppendLine(new string('-', 30));
+                if (diccionario == null || diccionario.Count == 0) return;
 
-                if (diccionario != null && diccionario.Count > 0)
+                if (burbujaActual != null && burbujaActual.Visible)
                 {
-                    foreach (var especificacion in diccionario)
-                    {
-                        mensaje.AppendLine($"• {especificacion.Key}: {especificacion.Value}");
-                    }
-                }
-                else
-                {
-                    mensaje.AppendLine("No hay especificaciones registradas.");
+                    burbujaActual.Close();
                 }
 
-                MessageBox.Show(mensaje.ToString(), "Detalles del Artículo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                DataGridView dgvDetalles = new DataGridView
+                {
+                    AllowUserToAddRows = false,
+                    AllowUserToDeleteRows = false,
+                    ReadOnly = true,
+                    RowHeadersVisible = false,
+                    ColumnHeadersVisible = false,
+                    AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells,
+                    BackgroundColor = Color.White,
+                    BorderStyle = BorderStyle.None,
+                    SelectionMode = DataGridViewSelectionMode.FullRowSelect,
+                    ScrollBars = ScrollBars.None, 
+                    Width = 240
+                };
+
+                dgvDetalles.Columns.Add("Caracteristica", "");
+                dgvDetalles.Columns.Add("Valor", "");
+
+                dgvDetalles.Columns[0].DefaultCellStyle.Font = new Font(dgvDetalles.Font, FontStyle.Bold);
+
+                foreach (var especificacion in diccionario)
+                {
+                    dgvDetalles.Rows.Add(especificacion.Key + ":", especificacion.Value);
+                }
+
+                dgvDetalles.ClearSelection();
+                dgvDetalles.CurrentCell = null;
+
+                int alturaTotal = 0;
+                foreach (DataGridViewRow row in dgvDetalles.Rows) { alturaTotal += row.Height; }
+                dgvDetalles.Height = alturaTotal + 5;
+
+                ToolStripControlHost host = new ToolStripControlHost(dgvDetalles)
+                {
+                    Margin = Padding.Empty,
+                    Padding = Padding.Empty
+                };
+
+                burbujaActual = new ToolStripDropDown
+                {
+                    Padding = new Padding(2),
+                    BackColor = Color.White,
+                    DropShadowEnabled = true
+                };
+                burbujaActual.Items.Add(host);
+
+                burbujaActual.Closed += (s, ev) => { filaBurbujaAbierta = -1; };
+
+                Rectangle rectCelda = DvgIngresos.GetCellDisplayRectangle(colIndex, rowIndex, false);
+
+                Point ubicacionBurbuja = new Point(rectCelda.Left, rectCelda.Bottom);
+
+                filaBurbujaAbierta = rowIndex;
+
+                burbujaActual.Show(DvgIngresos, ubicacionBurbuja);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Hubo un error al leer las especificaciones: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error al leer características: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }        
+
+        private void Fondo_Click(object sender, EventArgs e)
+        {
+            DvgIngresos.ClearSelection();
+
+            this.ActiveControl = null;
+        }
+
+        private void ConfigurarPerdidaDeFoco(Control contenedorPadre)
+        {
+            foreach (Control c in contenedorPadre.Controls)
+            {
+                if (c is Panel || c is GroupBox || c is Label || c is PictureBox || c is FlowLayoutPanel)
+                {
+                    c.Click += Fondo_Click;
+                    ConfigurarPerdidaDeFoco(c);
+                }
             }
         }
     }

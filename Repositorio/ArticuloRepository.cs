@@ -489,19 +489,20 @@ namespace ControlInventario.Database
 
         public static DataTable ListarArticulosDisponibles(int inventarioId)
         {
-            var dt = new DataTable();
+            DataTable dt = new DataTable();
             using (var con = ConexionGlobal.ObtenerConexion())
             {
                 con.Open();
 
-                string query = @"
-                    SELECT * FROM vw_Articulos 
-                    WHERE InventarioId = @InventarioId 
-                    AND EmpleadoActualId IS NULL;";
+                string query = @"SELECT Id, Codigo, Modelo, RutaFotoPrincipal, RutaFotoSecundaria, PrecioAdquisicion 
+                                 FROM vw_Articulos 
+                                 WHERE InventarioId = @InvId 
+                                   AND EstadoTexto = 'Operativo' 
+                                   AND EmpleadoActualId IS NULL;";
 
                 using (var cmd = new SQLiteCommand(query, con))
                 {
-                    cmd.Parameters.AddWithValue("@InventarioId", inventarioId);
+                    cmd.Parameters.AddWithValue("@InvId", inventarioId);
 
                     using (var adapter = new SQLiteDataAdapter(cmd))
                     {
@@ -509,14 +510,6 @@ namespace ControlInventario.Database
                     }
                 }
             }
-
-            // Renombrar columnas del DataTable para que hagan match con tu diseño de grilla
-            if (dt.Columns.Contains("MarcaTexto")) dt.Columns["MarcaTexto"].ColumnName = "Marca";
-            if (dt.Columns.Contains("EstadoTexto")) dt.Columns["EstadoTexto"].ColumnName = "Estado";
-            if (dt.Columns.Contains("UbicacionTexto")) dt.Columns["UbicacionTexto"].ColumnName = "Ubicacion";
-            if (dt.Columns.Contains("CondicionTexto")) dt.Columns["CondicionTexto"].ColumnName = "Condicion";
-            if (dt.Columns.Contains("CategoriaTexto")) dt.Columns["CategoriaTexto"].ColumnName = "Categoria";
-
             return dt;
         }
 
@@ -588,6 +581,32 @@ namespace ControlInventario.Database
 
             DateTime ahora = DateTime.Now;
             return $"{prefijo}{ahora.ToString("MM")}-{ahora.ToString("mmss")}";
+        }
+
+        public static DataTable ListarArticulosAsignados(int inventarioId)
+        {
+            DataTable dt = new DataTable();
+            using (var con = ConexionGlobal.ObtenerConexion())
+            {
+                con.Open();
+
+                string query = @"SELECT Id, Codigo, Modelo, RutaFotoPrincipal, RutaFotoSecundaria, 
+                                EmpleadoActualTexto, EmpleadoActualAreaTexto, EstadoTexto
+                         FROM vw_Articulos 
+                         WHERE InventarioId = @InvId 
+                           AND EmpleadoActualId IS NOT NULL;";
+
+                using (var cmd = new System.Data.SQLite.SQLiteCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@InvId", inventarioId);
+
+                    using (var adapter = new System.Data.SQLite.SQLiteDataAdapter(cmd))
+                    {
+                        adapter.Fill(dt);
+                    }
+                }
+            }
+            return dt;
         }
     }
 }

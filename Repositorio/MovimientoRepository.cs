@@ -100,5 +100,58 @@ namespace ControlInventario.Repositorio
             }
             return lista;
         }
+
+        public static void RegistrarAsignacionLote(List<int> listaArticulosIds, int empleadoId, string observacion, int idEstadoAsignado, string usuarioResponsable)
+        {
+            using (var con = ConexionGlobal.ObtenerConexion())
+            {
+                con.Open();
+
+                using (var transaction = con.BeginTransaction())
+                {
+                    try
+                    {
+                        string fechaActual = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+
+                        string queryMov = @"INSERT INTO Movimientos (ArticuloId, EmpleadoId, TipoMovimiento, FechaMovimiento, Observacion, UsuarioResponsable) 
+                                    VALUES (@ArtId, @EmpId, 'ASIGNACION', @Fecha, @Obs, @UsuResp);";
+
+                        string queryArt = @"UPDATE Articulos 
+                                    SET EmpleadoAnteriorId = EmpleadoActualId, 
+                                        EmpleadoActualId = @EmpId, 
+                                        IdEstado = @IdEst 
+                                    WHERE Id = @ArtId;";
+
+                        using (var cmdMov = new SQLiteCommand(queryMov, con, transaction))
+                        using (var cmdArt = new SQLiteCommand(queryArt, con, transaction))
+                        {
+                            foreach (int artId in listaArticulosIds)
+                            {
+                                cmdMov.Parameters.Clear();
+                                cmdMov.Parameters.AddWithValue("@ArtId", artId);
+                                cmdMov.Parameters.AddWithValue("@EmpId", empleadoId);
+                                cmdMov.Parameters.AddWithValue("@Fecha", fechaActual);
+                                cmdMov.Parameters.AddWithValue("@Obs", string.IsNullOrWhiteSpace(observacion) ? (object)DBNull.Value : observacion);
+                                cmdMov.Parameters.AddWithValue("@UsuResp", usuarioResponsable);
+                                cmdMov.ExecuteNonQuery();
+
+                                cmdArt.Parameters.Clear();
+                                cmdArt.Parameters.AddWithValue("@ArtId", artId);
+                                cmdArt.Parameters.AddWithValue("@EmpId", empleadoId);
+                                cmdArt.Parameters.AddWithValue("@IdEst", idEstadoAsignado);
+                                cmdArt.ExecuteNonQuery();
+                            }
+                        }
+
+                        transaction.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        throw new Exception("Error al registrar la asignación en lote: " + ex.Message);
+                    }
+                }
+            }
+        }
     }
 }

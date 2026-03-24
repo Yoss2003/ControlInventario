@@ -29,42 +29,42 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VistaMovimiento));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.TxtDNI = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.TxtNombre = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.TxtCargo = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.TxtArea = new System.Windows.Forms.TextBox();
-            this.BtnVerEmpleados = new System.Windows.Forms.Button();
-            this.label5 = new System.Windows.Forms.Label();
-            this.TxtObservacion = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.TxtMontoTotal = new System.Windows.Forms.TextBox();
             this.BtnGuardarMovimiento = new System.Windows.Forms.Button();
+            this.label11 = new System.Windows.Forms.Label();
+            this.BtnVerEmpleados = new System.Windows.Forms.Button();
+            this.TxtObservacion = new System.Windows.Forms.TextBox();
+            this.TxtMontoTotal = new System.Windows.Forms.TextBox();
+            this.TxtArea = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.TxtCargo = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.TxtNombre = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.TxtDNI = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.DvgArticulosDisponibles = new System.Windows.Forms.DataGridView();
             this.ImageArticulo = new System.Windows.Forms.DataGridViewImageColumn();
             this.CodigoArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ModeloArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
             this.BtnBuscarArticulo = new System.Windows.Forms.Button();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             this.TxtBuscarArticulo = new System.Windows.Forms.TextBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.label10 = new System.Windows.Forms.Label();
             this.DvgArticulosSeleccionados = new System.Windows.Forms.DataGridView();
             this.ImagenArticuloSeleccionado = new System.Windows.Forms.DataGridViewImageColumn();
             this.ModeloArticuloSeleccionado = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AccionArticuloSeleccionado = new System.Windows.Forms.DataGridViewButtonColumn();
             this.label9 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DvgArticulosDisponibles)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -93,77 +93,85 @@
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
             // 
-            // label1
+            // BtnGuardarMovimiento
             // 
-            resources.ApplyResources(this.label1, "label1");
-            this.label1.Name = "label1";
+            resources.ApplyResources(this.BtnGuardarMovimiento, "BtnGuardarMovimiento");
+            this.BtnGuardarMovimiento.Name = "BtnGuardarMovimiento";
+            this.BtnGuardarMovimiento.UseVisualStyleBackColor = true;
+            this.BtnGuardarMovimiento.Click += new System.EventHandler(this.BtnGuardarMovimiento_Click);
             // 
-            // TxtDNI
+            // label11
             // 
-            resources.ApplyResources(this.TxtDNI, "TxtDNI");
-            this.TxtDNI.Name = "TxtDNI";
-            // 
-            // label2
-            // 
-            resources.ApplyResources(this.label2, "label2");
-            this.label2.Name = "label2";
-            // 
-            // TxtNombre
-            // 
-            resources.ApplyResources(this.TxtNombre, "TxtNombre");
-            this.TxtNombre.Name = "TxtNombre";
-            // 
-            // label3
-            // 
-            resources.ApplyResources(this.label3, "label3");
-            this.label3.Name = "label3";
-            // 
-            // TxtCargo
-            // 
-            resources.ApplyResources(this.TxtCargo, "TxtCargo");
-            this.TxtCargo.Name = "TxtCargo";
-            // 
-            // label4
-            // 
-            resources.ApplyResources(this.label4, "label4");
-            this.label4.Name = "label4";
-            // 
-            // TxtArea
-            // 
-            resources.ApplyResources(this.TxtArea, "TxtArea");
-            this.TxtArea.Name = "TxtArea";
+            resources.ApplyResources(this.label11, "label11");
+            this.label11.Name = "label11";
             // 
             // BtnVerEmpleados
             // 
             resources.ApplyResources(this.BtnVerEmpleados, "BtnVerEmpleados");
             this.BtnVerEmpleados.Name = "BtnVerEmpleados";
             this.BtnVerEmpleados.UseVisualStyleBackColor = true;
-            // 
-            // label5
-            // 
-            resources.ApplyResources(this.label5, "label5");
-            this.label5.Name = "label5";
+            this.BtnVerEmpleados.Click += new System.EventHandler(this.BtnVerEmpleados_Click);
             // 
             // TxtObservacion
             // 
             resources.ApplyResources(this.TxtObservacion, "TxtObservacion");
             this.TxtObservacion.Name = "TxtObservacion";
             // 
-            // label6
-            // 
-            resources.ApplyResources(this.label6, "label6");
-            this.label6.Name = "label6";
-            // 
             // TxtMontoTotal
             // 
             resources.ApplyResources(this.TxtMontoTotal, "TxtMontoTotal");
             this.TxtMontoTotal.Name = "TxtMontoTotal";
             // 
-            // BtnGuardarMovimiento
+            // TxtArea
             // 
-            resources.ApplyResources(this.BtnGuardarMovimiento, "BtnGuardarMovimiento");
-            this.BtnGuardarMovimiento.Name = "BtnGuardarMovimiento";
-            this.BtnGuardarMovimiento.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.TxtArea, "TxtArea");
+            this.TxtArea.Name = "TxtArea";
+            // 
+            // label6
+            // 
+            resources.ApplyResources(this.label6, "label6");
+            this.label6.Name = "label6";
+            // 
+            // label5
+            // 
+            resources.ApplyResources(this.label5, "label5");
+            this.label5.Name = "label5";
+            // 
+            // label4
+            // 
+            resources.ApplyResources(this.label4, "label4");
+            this.label4.Name = "label4";
+            // 
+            // TxtCargo
+            // 
+            resources.ApplyResources(this.TxtCargo, "TxtCargo");
+            this.TxtCargo.Name = "TxtCargo";
+            // 
+            // label3
+            // 
+            resources.ApplyResources(this.label3, "label3");
+            this.label3.Name = "label3";
+            // 
+            // TxtNombre
+            // 
+            resources.ApplyResources(this.TxtNombre, "TxtNombre");
+            this.TxtNombre.Name = "TxtNombre";
+            // 
+            // label2
+            // 
+            resources.ApplyResources(this.label2, "label2");
+            this.label2.Name = "label2";
+            // 
+            // TxtDNI
+            // 
+            resources.ApplyResources(this.TxtDNI, "TxtDNI");
+            this.TxtDNI.Name = "TxtDNI";
+            this.TxtDNI.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtDNI_KeyDown);
+            // 
+            // label1
+            // 
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.Name = "label1";
             // 
             // DvgArticulosDisponibles
             // 
@@ -173,14 +181,14 @@
             this.DvgArticulosDisponibles.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.DvgArticulosDisponibles.BackgroundColor = System.Drawing.Color.White;
             this.DvgArticulosDisponibles.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.DvgArticulosDisponibles.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.DvgArticulosDisponibles.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             this.DvgArticulosDisponibles.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DvgArticulosDisponibles.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ImageArticulo,
@@ -189,14 +197,14 @@
             resources.ApplyResources(this.DvgArticulosDisponibles, "DvgArticulosDisponibles");
             this.DvgArticulosDisponibles.Name = "DvgArticulosDisponibles";
             this.DvgArticulosDisponibles.ReadOnly = true;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.DvgArticulosDisponibles.RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.DvgArticulosDisponibles.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.DvgArticulosDisponibles.RowHeadersVisible = false;
             this.DvgArticulosDisponibles.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DvgArticulosDisponibles_CellDoubleClick);
             // 
@@ -231,21 +239,21 @@
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
             // 
-            // label7
+            // BtnBuscarArticulo
             // 
-            resources.ApplyResources(this.label7, "label7");
-            this.label7.Name = "label7";
+            resources.ApplyResources(this.BtnBuscarArticulo, "BtnBuscarArticulo");
+            this.BtnBuscarArticulo.Name = "BtnBuscarArticulo";
+            this.BtnBuscarArticulo.UseVisualStyleBackColor = true;
             // 
             // label8
             // 
             resources.ApplyResources(this.label8, "label8");
             this.label8.Name = "label8";
             // 
-            // BtnBuscarArticulo
+            // label7
             // 
-            resources.ApplyResources(this.BtnBuscarArticulo, "BtnBuscarArticulo");
-            this.BtnBuscarArticulo.Name = "BtnBuscarArticulo";
-            this.BtnBuscarArticulo.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.label7, "label7");
+            this.label7.Name = "label7";
             // 
             // TxtBuscarArticulo
             // 
@@ -261,11 +269,6 @@
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.TabStop = false;
             // 
-            // label10
-            // 
-            resources.ApplyResources(this.label10, "label10");
-            this.label10.Name = "label10";
-            // 
             // DvgArticulosSeleccionados
             // 
             this.DvgArticulosSeleccionados.AllowUserToAddRows = false;
@@ -274,14 +277,14 @@
             this.DvgArticulosSeleccionados.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.DvgArticulosSeleccionados.BackgroundColor = System.Drawing.Color.White;
             this.DvgArticulosSeleccionados.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.DvgArticulosSeleccionados.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.DvgArticulosSeleccionados.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
             this.DvgArticulosSeleccionados.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DvgArticulosSeleccionados.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ImagenArticuloSeleccionado,
@@ -290,14 +293,14 @@
             resources.ApplyResources(this.DvgArticulosSeleccionados, "DvgArticulosSeleccionados");
             this.DvgArticulosSeleccionados.Name = "DvgArticulosSeleccionados";
             this.DvgArticulosSeleccionados.ReadOnly = true;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.DvgArticulosSeleccionados.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.DvgArticulosSeleccionados.RowHeadersDefaultCellStyle = dataGridViewCellStyle8;
             this.DvgArticulosSeleccionados.RowHeadersVisible = false;
             // 
             // ImagenArticuloSeleccionado
@@ -326,10 +329,10 @@
             resources.ApplyResources(this.label9, "label9");
             this.label9.Name = "label9";
             // 
-            // label11
+            // label10
             // 
-            resources.ApplyResources(this.label11, "label11");
-            this.label11.Name = "label11";
+            resources.ApplyResources(this.label10, "label10");
+            this.label10.Name = "label10";
             // 
             // VistaMovimiento
             // 

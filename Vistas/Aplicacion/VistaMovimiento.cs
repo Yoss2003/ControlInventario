@@ -1,6 +1,9 @@
 ﻿using ControlInventario.Database;
+using ControlInventario.Repositorio;
 using ControlInventario.Servicios;
+using ControlInventario.Vistas.Extras;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
@@ -11,6 +14,8 @@ namespace ControlInventario.Vistas.Aplicacion
     {
         private DataTable dtStock;
         private DataTable dtSeleccionados;
+        private int idEmpleadoSeleccionado = 0;
+
         public VistaMovimiento()
         {
             InitializeComponent();
@@ -21,32 +26,64 @@ namespace ControlInventario.Vistas.Aplicacion
             DvgArticulosDisponibles.AutoGenerateColumns = false;
             DvgArticulosSeleccionados.AutoGenerateColumns = false;
 
+            ImageArticulo.DataPropertyName = "Foto";
+            CodigoArticulo.DataPropertyName = "Codigo";
+            ModeloArticulo.DataPropertyName = "Modelo";
+
+            ImagenArticuloSeleccionado.DataPropertyName = "Foto";
+            ModeloArticuloSeleccionado.DataPropertyName = "Modelo";
+
+            // --- CONFIGURACIÓN DEL BOTÓN "QUITAR" ---
+            AccionArticuloSeleccionado.UseColumnTextForButtonValue = true;
+            AccionArticuloSeleccionado.Text = "Quitar";
+
+            // Aseguramos que el evento del clic en el botón esté enlazado
+            DvgArticulosSeleccionados.CellContentClick += DvgArticulosSeleccionados_CellContentClick;
+
+            dtStock = new DataTable();
+            dtStock.Columns.Add("Id", typeof(int));
+            dtStock.Columns.Add("Foto", typeof(Image));
+            dtStock.Columns.Add("Codigo", typeof(string));
+            dtStock.Columns.Add("Modelo", typeof(string));
+            dtStock.Columns.Add("Precio", typeof(decimal));
+
+            dtSeleccionados = dtStock.Clone();
+
+            DvgArticulosDisponibles.DataSource = dtStock;
             DvgArticulosSeleccionados.DataSource = dtSeleccionados;
+
+            AplicarEstilosGrillas();
             CargarStockDisponible();
+
+            // --- CONFIGURACIÓN PARA PERDER EL FOCO ---
+            this.Click += Fondo_Click;
+            ConfigurarPerdidaDeFoco(this);
+
+            // Quitamos la selección azul por defecto al abrir la ventana
+            this.BeginInvoke(new MethodInvoker(() => {
+                DvgArticulosDisponibles.ClearSelection();
+                DvgArticulosSeleccionados.ClearSelection();
+            }));
         }
 
         private void CargarStockDisponible()
         {
+            // Nota: Asegúrate de que este método en ArticuloRepository exista y traiga solo los de estado "Disponible"
             DataTable tablaDisponibles = ArticuloRepository.ListarArticulosDisponibles(UsuarioSesion.InventarioId);
 
             foreach (DataRow row in tablaDisponibles.Rows)
             {
-                int idArticulo = Convert.ToInt32(row["Id"]);
+                int idArt = Convert.ToInt32(row["Id"]);
                 string codigo = row["Codigo"].ToString();
                 string modelo = row["Modelo"].ToString();
 
-                string fotoPrincipal = row["RutaFotoPrincipal"].ToString();
-                string fotoSecundaria = row["RutaFotoSecundaria"].ToString();
+                string rutaFoto = row["RutaFotoPrincipal"].ToString();
+                if (!System.IO.File.Exists(rutaFoto)) rutaFoto = row["RutaFotoSecundaria"].ToString();
+                Image fotoVisual = (System.IO.File.Exists(rutaFoto)) ? Image.FromFile(rutaFoto) : null;
 
-                Image fotoVisual = null;
-                string rutaFoto = System.IO.File.Exists(fotoPrincipal) ? fotoPrincipal : fotoSecundaria;
+                decimal precio = row["PrecioAdquisicion"] != DBNull.Value ? Convert.ToDecimal(row["PrecioAdquisicion"]) : 0m;
 
-                if (!string.IsNullOrEmpty(rutaFoto) && System.IO.File.Exists(rutaFoto))
-                {
-                    fotoVisual = Image.FromFile(rutaFoto);
-                }
-
-                dtStock.Rows.Add(idArticulo, fotoVisual, codigo, modelo);
+                dtStock.Rows.Add(idArt, fotoVisual, codigo, modelo, precio);
             }
         }
 
@@ -54,25 +91,237 @@ namespace ControlInventario.Vistas.Aplicacion
         {
             if (e.RowIndex >= 0)
             {
-                DataRowView filaSeleccionada = (DataRowView)DvgArticulosSeleccionados.Rows[e.RowIndex].DataBoundItem;
-                DataRow filaVirtual = filaSeleccionada.Row;
+                DataRowView fila = (DataRowView)DvgArticulosDisponibles.Rows[e.RowIndex].DataBoundItem;
+                dtSeleccionados.ImportRow(fila.Row);
+                dtStock.Rows.Remove(fila.Row);
 
-                dtSeleccionados.ImportRow(filaVirtual);
-
-                dtStock.Rows.Remove(filaVirtual);
+                CalcularMontoTotal();
             }
         }
 
-        private void btnQuitarArticulo_Click(object sender, EventArgs e)
+        private void Fondo_Click(object sender, EventArgs e)
         {
-            if (DvgArticulosSeleccionados.SelectedRows.Count > 0)
+            // Limpiamos la selección de ambas grillas
+            DvgArticulosDisponibles.ClearSelection();
+            DvgArticulosSeleccionados.ClearSelection();
+
+            // Quitamos el foco de cualquier TextBox activo
+            this.ActiveControl = null;
+        }
+
+        private void ConfigurarPerdidaDeFoco(Control contenedorPadre)
+        {
+            foreach (Control c in contenedorPadre.Controls)
             {
-                DataRowView filaSeleccionada = (DataRowView)DvgArticulosSeleccionados.SelectedRows[0].DataBoundItem;
+                // Si el control es un contenedor o texto estático, le asignamos el evento clic
+                if (c is Panel || c is GroupBox || c is Label || c is PictureBox || c is FlowLayoutPanel || c is TableLayoutPanel)
+                {
+                    c.Click += Fondo_Click;
+                    // Recursividad por si hay paneles dentro de paneles
+                    ConfigurarPerdidaDeFoco(c);
+                }
+            }
+        }
+
+        private void DvgArticulosSeleccionados_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // Verificamos que el clic haya sido exactamente en la columna del botón
+            if (e.RowIndex >= 0 && DvgArticulosSeleccionados.Columns[e.ColumnIndex].Name == "AccionArticuloSeleccionado")
+            {
+                // Tomamos la fila seleccionada
+                DataRowView filaSeleccionada = (DataRowView)DvgArticulosSeleccionados.Rows[e.RowIndex].DataBoundItem;
                 DataRow filaVirtual = filaSeleccionada.Row;
 
+                // La devolvemos al stock disponible (izquierda) y la borramos de los seleccionados (derecha)
                 dtStock.ImportRow(filaVirtual);
                 dtSeleccionados.Rows.Remove(filaVirtual);
+
+                // Limpiamos selecciones para que se vea limpio
+                DvgArticulosDisponibles.ClearSelection();
+                DvgArticulosSeleccionados.ClearSelection();
+
+                CalcularMontoTotal();
             }
+        }
+
+        private void TxtDNI_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true;
+
+                string dniIngresado = TxtDNI.Text.Trim();
+
+                if (string.IsNullOrEmpty(dniIngresado)) return;
+
+                try
+                {
+                    var empleado = EmpleadoRepository.ObtenerEmpleadoPorDni(dniIngresado);
+
+                    if (empleado != null)
+                    {
+                        TxtNombre.Text = empleado.Nombres + " " + empleado.Apellidos;
+                        TxtCargo.Text = empleado.Cargo;
+                        TxtArea.Text = empleado.Area;
+
+                        idEmpleadoSeleccionado = empleado.Id;
+
+                        TxtObservacion.Focus();
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se encontró ningún empleado con ese DNI.", "Búsqueda fallida", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        TxtNombre.Clear();
+                        TxtCargo.Clear();
+                        TxtArea.Clear();
+                        idEmpleadoSeleccionado = 0;
+
+                        TxtDNI.SelectAll();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al buscar empleado: " + ex.Message);
+                }
+            }
+        }
+
+        private void BtnGuardarMovimiento_Click(object sender, EventArgs e)
+        {
+            if (idEmpleadoSeleccionado == 0)
+            {
+                MessageBox.Show("Busque un empleado válido por DNI.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (dtSeleccionados.Rows.Count == 0)
+            {
+                MessageBox.Show("Seleccione al menos un artículo para asignar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Extraemos los IDs de la tabla derecha
+            List<int> listaIds = new List<int>();
+            foreach (DataRow row in dtSeleccionados.Rows)
+            {
+                listaIds.Add(Convert.ToInt32(row["Id"]));
+            }
+
+            int ID_ESTADO_ASIGNADO = 2; // <--- Cambia esto por el ID real de tu estado "Asignado"
+
+            DialogResult res = MessageBox.Show($"¿Asignar {listaIds.Count} artículo(s) al empleado?", "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (res == DialogResult.Yes)
+            {
+                try
+                {
+                    MovimientoRepository.RegistrarAsignacionLote(
+                        listaIds,
+                        idEmpleadoSeleccionado,
+                        TxtObservacion.Text.Trim(),
+                        ID_ESTADO_ASIGNADO,
+                        UsuarioSesion.NombreUsuario
+                    );
+
+                    MessageBox.Show("Asignación completada con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.DialogResult = DialogResult.OK;
+                    this.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void AplicarEstilosGrillas()
+        {
+            DataGridView[] grillas = { DvgArticulosDisponibles, DvgArticulosSeleccionados };
+
+            foreach (var grid in grillas)
+            {
+                // 1. Apariencia General (Limpio y sin bordes toscos)
+                grid.BackgroundColor = Color.White;
+                grid.BorderStyle = BorderStyle.FixedSingle;
+                grid.CellBorderStyle = DataGridViewCellBorderStyle.Single;
+                grid.GridColor = Color.FromArgb(200, 200, 200);
+                grid.EnableHeadersVisualStyles = false;
+                grid.RowHeadersVisible = false;
+                grid.AllowUserToResizeRows = false;
+                grid.AllowUserToResizeColumns = false;
+                grid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+
+                // 2. Cabeceras (Estilo Moderno Web: Fondo gris claro, texto gris oscuro)
+                grid.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(245, 247, 250);
+                grid.ColumnHeadersDefaultCellStyle.ForeColor = Color.FromArgb(70, 70, 70);
+                grid.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 9f, FontStyle.Bold); // Letra más legible
+                grid.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                grid.ColumnHeadersHeight = 40;
+                grid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+
+                // 3. Celdas (Textos más limpios y con margen)
+                grid.DefaultCellStyle.BackColor = Color.White;
+                grid.DefaultCellStyle.ForeColor = Color.FromArgb(50, 50, 50);
+
+                // Color de Selección: Azul cielo MUY suave (Estilo Windows 11), manteniendo el texto oscuro
+                grid.DefaultCellStyle.SelectionBackColor = Color.FromArgb(226, 238, 255);
+                grid.DefaultCellStyle.SelectionForeColor = Color.FromArgb(30, 30, 30);
+
+                grid.DefaultCellStyle.Font = new Font("Segoe UI", 9f);
+                grid.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                grid.DefaultCellStyle.Padding = new Padding(0, 2, 0, 2); // Un ligero respiro arriba y abajo
+
+                // 4. Altura y Alternancia
+                grid.RowTemplate.Height = 50; // Filas más altas para que respire la foto
+                grid.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(250, 250, 250); // Apenas distinguible del blanco
+            }
+
+            // 5. Ajuste de Imágenes con PADDING EXCLUSIVO
+            if (DvgArticulosDisponibles.Columns.Contains("ImageArticulo"))
+            {
+                var colImg1 = (DataGridViewImageColumn)DvgArticulosDisponibles.Columns["ImageArticulo"];
+                colImg1.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                colImg1.DefaultCellStyle.Padding = new Padding(5); // <-- Evita que la foto choque con la línea
+            }
+
+            if (DvgArticulosSeleccionados.Columns.Contains("ImagenArticuloSeleccionado"))
+            {
+                var colImg2 = (DataGridViewImageColumn)DvgArticulosSeleccionados.Columns["ImagenArticuloSeleccionado"];
+                colImg2.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                colImg2.DefaultCellStyle.Padding = new Padding(5); // <-- Evita que la foto choque con la línea
+            }
+        }
+
+        private void BtnVerEmpleados_Click(object sender, EventArgs e)
+        {
+            VistaAgregarEmpleado vistaEmpleado = new VistaAgregarEmpleado();
+            vistaEmpleado.ShowDialog();
+        }
+
+        private void CalcularMontoTotal()
+        {
+            decimal total = 0m;
+
+            foreach (DataRow row in dtSeleccionados.Rows)
+            {
+                total += Convert.ToDecimal(row["Precio"]);
+            }
+
+            string monedaCompleta = UsuarioSesion.Configuracion?.Moneda ?? "PEN - Soles";
+
+            string codigoMoneda = monedaCompleta.Split('-')[0].Trim();
+
+            string simbolo = "";
+            switch (codigoMoneda)
+            {
+                case "PEN": simbolo = "S/"; break;
+                case "USD": simbolo = "$"; break;
+                case "EUR": simbolo = "€"; break;
+                case "MXN": simbolo = "$"; break;
+                default: simbolo = codigoMoneda; break;
+            }
+
+            TxtMontoTotal.Text = $"{simbolo} {total.ToString("N2")}";
         }
     }
 }

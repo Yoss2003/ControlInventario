@@ -94,12 +94,6 @@ namespace ControlInventario.Vistas
                 }
             }
 
-            if (string.IsNullOrWhiteSpace(TxtDniUsuarioActual.Text))
-            {
-                ErrorArticulos.SetError(TxtDniUsuarioActual, Idiomas.MensajeErrorAgregarDniArticulo);
-                valido = false; 
-            }
-
             if (CbEstadoArticulo.Text == Idiomas.OpcionSeleccione || CbEstadoArticulo.SelectedIndex == 0)
             {
                 ErrorArticulos.SetError(CbEstadoArticulo, Idiomas.MensajeErrorAgregarEstadoArticulo);

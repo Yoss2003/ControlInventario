@@ -63,6 +63,7 @@ namespace ControlInventario.Vistas
             this.BeginInvoke(new MethodInvoker(() => {
                 DvgIngresos.ClearSelection();
             }));
+            CargarTabSalidas();
         }
 
         private void BtnNuevaCategoria_Click(object sender, EventArgs e)
@@ -848,6 +849,46 @@ namespace ControlInventario.Vistas
                     ConfigurarPerdidaDeFoco(c);
                 }
             }
+        }
+
+        private void CargarTabSalidas()
+        {
+            // 1. Creamos una tabla virtual en memoria
+            DataTable dtAsignados = new DataTable();
+            dtAsignados.Columns.Add("Id", typeof(int));
+            dtAsignados.Columns.Add("Codigo", typeof(string));
+            dtAsignados.Columns.Add("Modelo", typeof(string));
+            dtAsignados.Columns.Add("Responsable", typeof(string));
+            dtAsignados.Columns.Add("Area", typeof(string));
+            dtAsignados.Columns.Add("Estado", typeof(string));
+            dtAsignados.Columns.Add("Foto", typeof(Image));
+
+            // 2. Traemos los datos de la BD
+            DataTable tablaBD = ArticuloRepository.ListarArticulosAsignados(UsuarioSesion.InventarioId);
+
+            // 3. Recorremos para convertir las rutas de texto en Imágenes reales
+            foreach (DataRow row in tablaBD.Rows)
+            {
+                int idArt = Convert.ToInt32(row["Id"]);
+                string codigo = row["Codigo"].ToString();
+                string modelo = row["Modelo"].ToString();
+                string responsable = row["EmpleadoActualTexto"].ToString();
+                string area = row["EmpleadoActualAreaTexto"].ToString();
+                string estado = row["EstadoTexto"].ToString();
+
+                string rutaFoto = row["RutaFotoPrincipal"].ToString();
+                if (!File.Exists(rutaFoto)) rutaFoto = row["RutaFotoSecundaria"].ToString();
+
+                Image fotoVisual = (File.Exists(rutaFoto)) ? Image.FromFile(rutaFoto) : null;
+
+                dtAsignados.Rows.Add(idArt, codigo, modelo, responsable, area, estado, fotoVisual);
+            }
+
+            // 4. Asignamos la tabla a tu DataGridView de Salidas
+            DgvSalidas.DataSource = dtAsignados;
+
+            // (Opcional) Llamar a tu método de estilos si quieres que se vea igual de moderno
+            // AplicarEstilosGrillas(DgvSalidas); 
         }
     }
 }

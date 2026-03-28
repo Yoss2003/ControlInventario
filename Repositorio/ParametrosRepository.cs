@@ -1,5 +1,8 @@
 ﻿using ControlInventario.Database;
 using ControlInventario.Modelo;
+using DocumentFormat.OpenXml.Drawing;
+using Org.BouncyCastle.Math;
+using Org.BouncyCastle.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -7,6 +10,7 @@ using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static ClosedXML.Excel.XLPredefinedFormat;
 
 namespace ControlInventario.Repositorio
 {
@@ -79,22 +83,55 @@ namespace ControlInventario.Repositorio
             }
         }
 
-        public static DataTable ListarParametros(SQLiteConnection con, string TipoParametro)
+        public static DataTable ListarParametros(SQLiteConnection con, string tipoParametro, int inventarioIdActual)
         {
             DataTable dt = new DataTable();
-            string query = @"SELECT Id, Nombre, Descripcion 
-                            FROM Parametros 
-                            WHERE TipoParametro = @TipoParametro";
+            string query = @"SELECT Id, Nombre, Descripcion, InventarioId
+                    FROM Parametros 
+                    WHERE TipoParametro = @TipoParametro 
+                    AND (InventarioId = @InventarioId OR InventarioId = 0)
+                    ORDER BY InventarioId DESC";
 
             using (var cmd = new SQLiteCommand(query, con))
             {
-                cmd.Parameters.AddWithValue("@TipoParametro", TipoParametro);
+                cmd.Parameters.AddWithValue("@TipoParametro", tipoParametro);
+                cmd.Parameters.AddWithValue("@InventarioId", inventarioIdActual);
+
                 using (var adapter = new SQLiteDataAdapter(cmd))
                 {
                     adapter.Fill(dt);
                 }
             }
             return dt;
+        }
+
+        public static void InsertarPreguntasPorDefecto(SQLiteConnection con)
+        {
+            string checkQuery = "SELECT COUNT(*) FROM Parametros WHERE TipoParametro = 'Preguntas'";
+            using (var cmdCheck = new SQLiteCommand(checkQuery, con))
+            {
+                if (Convert.ToInt32(cmdCheck.ExecuteScalar()) > 0) return;
+            }
+
+            string insertQuery = @"INSERT INTO Parametros (InventarioId, TipoParametro, Nombre) 
+                          VALUES (0, 'Preguntas', @Nombre)";
+
+            string[] preguntas = {
+                "¿Cuál es el nombre de tu primera mascota?",
+                "¿De que provincia son tus raíces?",
+                "Acontecimiento memorable de la escuela",
+                "Momento importante de la infancia",
+                "Reconocimiento académico más importante"
+            };
+
+            foreach (string p in preguntas)
+            {
+                using (var cmd = new SQLiteCommand(insertQuery, con))
+                {
+                    cmd.Parameters.AddWithValue("@Nombre", p);
+                    cmd.ExecuteNonQuery();
+                }
+            }
         }
     }
 }

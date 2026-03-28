@@ -45,7 +45,7 @@ namespace ControlInventario.Vistas.Extras
                 BtnGuardar.Text = isEdit ? "Actualizar" : "Guardar";
 
                 if (EsParametro)
-                    lista = ParametrosRepository.ListarParametros(con, tipoComponente);
+                    lista = ParametrosRepository.ListarParametros(con, tipoComponente, UsuarioSesion.InventarioId);
                 else if (tipoComponente == "Marca")
                     lista = MarcasRepository.ListarMarcas(con, CategoriaId);
                 else if (tipoComponente == "Categoria")
@@ -100,7 +100,7 @@ namespace ControlInventario.Vistas.Extras
                 using (var con = ConexionGlobal.ObtenerConexion())
                 {
                     con.Open();
-                    ParametrosRepository.ListarParametros(con, tipoComponente);
+                    ParametrosRepository.ListarParametros(con, tipoComponente, UsuarioSesion.InventarioId);
                     DataTable dt = new DataTable();
                     DgComponentes.DataSource = dt;
                 }
@@ -110,7 +110,7 @@ namespace ControlInventario.Vistas.Extras
                 using (var con = ConexionGlobal.ObtenerConexion())
                 {
                     con.Open();
-                    ParametrosRepository.ListarParametros(con, tipoComponente);
+                    ParametrosRepository.ListarParametros(con, tipoComponente, UsuarioSesion.InventarioId);
                     DataTable dt = new DataTable();
                     DgComponentes.DataSource = dt;
                 }
@@ -120,7 +120,7 @@ namespace ControlInventario.Vistas.Extras
                 using (var con = ConexionGlobal.ObtenerConexion())
                 {
                     con.Open();
-                    ParametrosRepository.ListarParametros(con, tipoComponente);
+                    ParametrosRepository.ListarParametros(con, tipoComponente, UsuarioSesion.InventarioId);
                     DataTable dt = new DataTable();
                     DgComponentes.DataSource = dt;
                 }
@@ -130,7 +130,7 @@ namespace ControlInventario.Vistas.Extras
                 using (var con = ConexionGlobal.ObtenerConexion())
                 {
                     con.Open();
-                    ParametrosRepository.ListarParametros(con, tipoComponente);
+                    ParametrosRepository.ListarParametros(con, tipoComponente, UsuarioSesion.InventarioId);
                     DataTable dt = new DataTable();
                     DgComponentes.DataSource = dt;
                 }
@@ -140,7 +140,7 @@ namespace ControlInventario.Vistas.Extras
                 using (var con = ConexionGlobal.ObtenerConexion())
                 {
                     con.Open();
-                    ParametrosRepository.ListarParametros(con, tipoComponente);
+                    ParametrosRepository.ListarParametros(con, tipoComponente, UsuarioSesion.InventarioId);
                     DataTable dt = new DataTable();
                     DgComponentes.DataSource = dt;
                 }
@@ -150,7 +150,7 @@ namespace ControlInventario.Vistas.Extras
                 using (var con = ConexionGlobal.ObtenerConexion())
                 {
                     con.Open();
-                    ParametrosRepository.ListarParametros(con, tipoComponente);
+                    ParametrosRepository.ListarParametros(con, tipoComponente, UsuarioSesion.InventarioId);
                     DataTable dt = new DataTable();
                     DgComponentes.DataSource = dt;
                 }
@@ -192,7 +192,7 @@ namespace ControlInventario.Vistas.Extras
                 using (var con = ConexionGlobal.ObtenerConexion())
                 {
                     con.Open();
-                    ParametrosRepository.ListarParametros(con, tipoComponente);
+                    ParametrosRepository.ListarParametros(con, tipoComponente, UsuarioSesion.InventarioId);
                     DataTable dt = new DataTable();
                     DgComponentes.DataSource = dt;
                 }
@@ -377,25 +377,25 @@ namespace ControlInventario.Vistas.Extras
                 con.Open();
 
                 if (tipoComponente == "Cargo" && _vistaPrincipal is ICargosRefrescable cargosVista)
-                    RefreshService.RefrescarComboDT(cargosVista.CbCargoPublic, ParametrosRepository.ListarParametros(con, "Cargo"), "Nombre", "Id", "SELECCIONE");
+                    RefreshService.RefrescarComboDT(cargosVista.CbCargoPublic, ParametrosRepository.ListarParametros(con, "Cargo", UsuarioSesion.InventarioId), "Nombre", "Id", "SELECCIONE");
 
                 else if (tipoComponente == "Area" && _vistaPrincipal is IAreasRefrescable areasVista)
-                    RefreshService.RefrescarComboDT(areasVista.CbAreaPublic, ParametrosRepository.ListarParametros(con, "Area"), "Nombre", "Id", "SELECCIONE");
+                    RefreshService.RefrescarComboDT(areasVista.CbAreaPublic, ParametrosRepository.ListarParametros(con, "Area", UsuarioSesion.InventarioId), "Nombre", "Id", "SELECCIONE");
 
                 else if (tipoComponente == "EstadoEmpleados" && _vistaPrincipal is IEstadoEmpleadosRefrescable estEmpVista)
-                    RefreshService.RefrescarComboDT(estEmpVista.CbEstadoEmpleadosPublic, ParametrosRepository.ListarParametros(con, "EstadoEmpleados"), "Nombre", "Id", "SELECCIONE");
+                    RefreshService.RefrescarComboDT(estEmpVista.CbEstadoEmpleadosPublic, ParametrosRepository.ListarParametros(con, "EstadoEmpleados", UsuarioSesion.InventarioId), "Nombre", "Id", "SELECCIONE");
 
                 else if (tipoComponente == "EstadoArticulos" && _vistaPrincipal is IEstadoArticulosRefrescable estArtVista)
-                    RefreshService.RefrescarComboDT(estArtVista.CbEstadoArticulosPublic, ParametrosRepository.ListarParametros(con, "EstadoArticulos"), "Nombre", "Id", "SELECCIONE");
+                    RefreshService.RefrescarComboDT(estArtVista.CbEstadoArticulosPublic, ParametrosRepository.ListarParametros(con, "EstadoArticulos", UsuarioSesion.InventarioId), "Nombre", "Id", "SELECCIONE");
 
                 else if (tipoComponente == "Ubicacion" && _vistaPrincipal is IUbicacionRefrescable ubiVista)
-                    RefreshService.RefrescarComboDT(ubiVista.CbUbicacionPublic, ParametrosRepository.ListarParametros(con, "Ubicacion"), "Nombre", "Id", "SELECCIONE");
+                    RefreshService.RefrescarComboDT(ubiVista.CbUbicacionPublic, ParametrosRepository.ListarParametros(con, "Ubicacion", UsuarioSesion.InventarioId), "Nombre", "Id", "SELECCIONE");
 
                 else if (tipoComponente == "Condicion" && _vistaPrincipal is ICondicionRefrescable condVista)
-                    RefreshService.RefrescarComboDT(condVista.CbCondicionPublic, ParametrosRepository.ListarParametros(con, "Condicion"), "Nombre", "Id", "SELECCIONE");
+                    RefreshService.RefrescarComboDT(condVista.CbCondicionPublic, ParametrosRepository.ListarParametros(con, "Condicion", UsuarioSesion.InventarioId), "Nombre", "Id", "SELECCIONE");
 
                 else if (tipoComponente == "Contrato" && _vistaPrincipal is ITipoContratoRefrescable contVista)
-                    RefreshService.RefrescarComboDT(contVista.CbTipoContratoPublic, ParametrosRepository.ListarParametros(con, "Contrato"), "Nombre", "Id", "SELECCIONE");
+                    RefreshService.RefrescarComboDT(contVista.CbTipoContratoPublic, ParametrosRepository.ListarParametros(con, "Contrato", UsuarioSesion.InventarioId), "Nombre", "Id", "SELECCIONE");
 
                 else if (tipoComponente == "Categoria" && _vistaPrincipal is ICategoriasRefrescable categoriasVista)
                     RefreshService.RefrescarComboDT(categoriasVista.CbCategoriasPublic, CategoriaRepository.ListarCategorias(UsuarioSesion.InventarioId), "Nombre", "Id", "SELECCIONE");

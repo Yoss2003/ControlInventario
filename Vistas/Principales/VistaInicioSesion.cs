@@ -3,7 +3,6 @@ using ControlInventario.Modelos;
 using ControlInventario.Repositorio;
 using ControlInventario.Servicios;
 using ControlInventario.Vistas;
-using Microsoft.SqlServer.Server;
 using System;
 using System.Data.SQLite;
 using System.Drawing;

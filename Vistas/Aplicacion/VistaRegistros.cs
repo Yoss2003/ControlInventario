@@ -39,7 +39,7 @@ namespace ControlInventario.Vistas.Aplicacion
         }
 
         private void VistaRegistros_Load(object sender, EventArgs e)
-        {
+         {
             using (var con = ConexionGlobal.ObtenerConexion())
             {
                 con.Open();
@@ -47,13 +47,13 @@ namespace ControlInventario.Vistas.Aplicacion
                 var dtCate = CategoriaRepository.ListarCategorias(UsuarioSesion.InventarioId);
                 RefreshService.RefrescarComboDT(CbCategoria, dtCate, "Nombre", "Id", "SELECCIONE");
 
-                var dtCargo = ParametrosRepository.ListarParametros(con, "Cargo");
+                var dtCargo = ParametrosRepository.ListarParametros(con, "Cargo", UsuarioSesion.InventarioId);
                 RefreshService.RefrescarComboDT(CbCargo, dtCargo, "Nombre", "Id", "SELECCIONE");
 
-                var dtArea = ParametrosRepository.ListarParametros(con, "Area");
+                var dtArea = ParametrosRepository.ListarParametros(con, "Area", UsuarioSesion.InventarioId);
                 RefreshService.RefrescarComboDT(CbArea, dtArea, "Nombre", "Id", "SELECCIONE");
 
-                var dtEstado = ParametrosRepository.ListarParametros(con, "EstadoEmpleados");
+                var dtEstado = ParametrosRepository.ListarParametros(con, "EstadoEmpleados", UsuarioSesion.InventarioId);
                 RefreshService.RefrescarComboDT(CbEstadoEmpleados, dtEstado, "Nombre", "Id", "SELECCIONE");
 
                 // Cargar datos empleado

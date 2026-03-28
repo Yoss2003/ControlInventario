@@ -667,13 +667,13 @@ namespace ControlInventario.Vistas
             {
                 con.Open();
 
-                var dtEstadoArticulos = ParametrosRepository.ListarParametros(con, "EstadoArticulos");
+                var dtEstadoArticulos = ParametrosRepository.ListarParametros(con, "EstadoArticulos", UsuarioSesion.InventarioId);
                 RefreshService.RefrescarComboDT(CbEstadoArticulo, dtEstadoArticulos, "Nombre", "Id", Idiomas.OpcionSeleccione);
 
-                var dtCondicion = ParametrosRepository.ListarParametros(con, "Condicion");
+                var dtCondicion = ParametrosRepository.ListarParametros(con, "Condicion", UsuarioSesion.InventarioId);
                 RefreshService.RefrescarComboDT(CbCondicion, dtCondicion, "Nombre", "Id", Idiomas.OpcionSeleccione);
 
-                var dtUbicacion = ParametrosRepository.ListarParametros(con, "Ubicacion");
+                var dtUbicacion = ParametrosRepository.ListarParametros(con, "Ubicacion", UsuarioSesion.InventarioId);
                 RefreshService.RefrescarComboDT(CbUbicacion, dtUbicacion, "Nombre", "Id", Idiomas.OpcionSeleccione);
 
                 var dtMarcas = MarcasRepository.ListarMarcas(con, _categoriaId);

@@ -21,9 +21,6 @@ namespace ControlInventario.Vistas
         private readonly int _categoriaId;
         private readonly string _categoria;
         private readonly int _articuloId;
-        private string dniTemporal;
-        private int? idEmpleadoActualTemporal = null;
-        private int? idEmpleadoAnteriorTemporal = null;
         public ComboBox CbMarcasPublic => CbMarcas;
         public ComboBox CbEstadoArticulosPublic => CbEstadoArticulo;
         public ComboBox CbCondicionPublic => CbCondicion;
@@ -63,25 +60,25 @@ namespace ControlInventario.Vistas
             bool valido = true;
             if (string.IsNullOrWhiteSpace(TxtCodigo.Text))
             {
-                ErrorArticulos.SetError(TxtCodigo, Idiomas.MensajeErrorAgregarCodigoArticulo);
+                ErrorArticulos.SetError(LblCodigo, Idiomas.MensajeErrorAgregarCodigoArticulo);
                 valido = false;
             }
 
             if (string.IsNullOrWhiteSpace(TxtModelo.Text))
             {
-                ErrorArticulos.SetError(TxtModelo, Idiomas.MensajeErrorAgregarModeloArticulo);
+                ErrorArticulos.SetError(LblModelo, Idiomas.MensajeErrorAgregarModeloArticulo);
                 valido = false;
             }
 
             if (string.IsNullOrWhiteSpace(TxtSerie.Text))
             {
-                ErrorArticulos.SetError(TxtSerie, Idiomas.MensajeErrorAgregarSerieArticulo);
+                ErrorArticulos.SetError(LblSerie, Idiomas.MensajeErrorAgregarSerieArticulo);
                 valido = false; 
             }
 
             if (CbMarcas.Text == Idiomas.OpcionSeleccione || CbMarcas.SelectedIndex == 0)
             {
-                ErrorArticulos.SetError(CbMarcas, Idiomas.MensajeErrorAgregarMarcaArticulo);
+                ErrorArticulos.SetError(LblMarca, Idiomas.MensajeErrorAgregarMarcaArticulo);
                 valido = false; 
             }
 
@@ -96,19 +93,19 @@ namespace ControlInventario.Vistas
 
             if (CbEstadoArticulo.Text == Idiomas.OpcionSeleccione || CbEstadoArticulo.SelectedIndex == 0)
             {
-                ErrorArticulos.SetError(CbEstadoArticulo, Idiomas.MensajeErrorAgregarEstadoArticulo);
+                ErrorArticulos.SetError(LblEstado, Idiomas.MensajeErrorAgregarEstadoArticulo);
                 valido = false; 
             }
 
             if (CbUbicacion.Text == Idiomas.OpcionSeleccione || CbUbicacion.SelectedIndex == 0)
             {
-                ErrorArticulos.SetError(CbUbicacion, Idiomas.MensajeErrorAgregarUbicacionArticulo);
+                ErrorArticulos.SetError(LblUbicacion, Idiomas.MensajeErrorAgregarUbicacionArticulo);
                 valido = false; 
             }
 
             if (CbCondicion.Text == Idiomas.OpcionSeleccione || CbCondicion.SelectedIndex == 0)
             {
-                ErrorArticulos.SetError(CbCondicion, Idiomas.MensajeErrorAgregarCondicionArticulo);
+                ErrorArticulos.SetError(LblCondicion, Idiomas.MensajeErrorAgregarCondicionArticulo);
                 valido = false; 
             }
 
@@ -192,16 +189,6 @@ namespace ControlInventario.Vistas
             CbMarcas.SelectedIndex = 0;
             DtpFechaAdquisicion.Value = DateTime.Now;
             DtpFechaFinGarantia.Value = DateTime.Now;
-
-            TxtDniUsuarioActual.Text = "";
-            TxtNombreUsuarioActual.Text = "";
-            TxtAreaUsuarioActual.Text = "";
-            TxtCargoUsuarioActual.Text = "";
-
-            TxtDniUsuarioAnterior.Text = "";
-            TxtNombreUsuarioAnterior.Text = "";
-            TxtAreaUsuarioAnterior.Text = "";
-            TxtCargoUsuarioAnterior.Text = "";
 
             CbEstadoArticulo.SelectedIndex = -1;
             CbUbicacion.SelectedIndex = -1;
@@ -318,9 +305,6 @@ namespace ControlInventario.Vistas
                                 FechaAdquisicion = DtpFechaAdquisicion.Value,
                                 FechaFinGarantia = ChkFechaGarantia.Checked ? DtpFechaFinGarantia.Value.Date : (DateTime?)null,
 
-                                EmpleadoActualId = idEmpleadoActualTemporal,
-                                EmpleadoAnteriorId = idEmpleadoAnteriorTemporal,
-
                                 IdEstado = Convert.ToInt32(CbEstadoArticulo.SelectedValue),
                                 Estado = string.IsNullOrWhiteSpace(CbEstadoArticulo.Text) ? null : CbEstadoArticulo.Text,
                                 IdUbicacion = Convert.ToInt32(CbUbicacion.SelectedValue),
@@ -408,9 +392,6 @@ namespace ControlInventario.Vistas
                                 Marca = ClassHelper.NormalizarCombo(CbMarcas),
                                 FechaAdquisicion = DtpFechaAdquisicion.Value,
                                 FechaFinGarantia = ChkFechaGarantia.Checked ? DtpFechaFinGarantia.Value.Date : (DateTime?)null,
-
-                                EmpleadoActualId = idEmpleadoActualTemporal,
-                                EmpleadoAnteriorId = idEmpleadoAnteriorTemporal,
 
                                 IdEstado = Convert.ToInt32(CbEstadoArticulo.SelectedValue),
                                 Estado = string.IsNullOrWhiteSpace(CbEstadoArticulo.Text) ? null : CbEstadoArticulo.Text,
@@ -527,9 +508,6 @@ namespace ControlInventario.Vistas
 
                             FechaAdquisicion = DtpFechaAdquisicion.Value,
                             FechaFinGarantia = ChkFechaGarantia.Checked ? DtpFechaFinGarantia.Value.Date : (DateTime?)null,
-
-                            EmpleadoActualId = idEmpleadoActualTemporal,
-                            EmpleadoAnteriorId = idEmpleadoAnteriorTemporal,
 
                             IdEstado = Convert.ToInt32(CbEstadoArticulo.SelectedValue),
                             IdUbicacion = Convert.ToInt32(CbUbicacion.SelectedValue),
@@ -693,39 +671,6 @@ namespace ControlInventario.Vistas
                     CbUbicacion.SelectedValue = DatosEdicion.IdUbicacion;
                     CbCondicion.SelectedValue = DatosEdicion.IdCondicion;
 
-                    idEmpleadoActualTemporal = DatosEdicion.IdEmpleadoActual;
-                    idEmpleadoAnteriorTemporal = DatosEdicion.IdEmpleadoAnterior;
-
-                    if (idEmpleadoActualTemporal != null)
-                    {
-                        var empActual = EmpleadoRepository.ObtenerEmpleadoPorId(idEmpleadoActualTemporal.Value);
-                        if (empActual != null)
-                        {
-                            TxtDniUsuarioActual.Text = empActual.DNI;
-                            TxtNombreUsuarioActual.Text = ClassHelper.FormatearNombreCorto(empActual.Nombres, empActual.Apellidos);
-
-                            // Asignamos directamente usando los IDs del empleado obtenido de la BD
-                            TxtAreaUsuarioActual.Text = empActual.Area;
-                            TxtCargoUsuarioActual.Text = empActual.Cargo;
-                            dniTemporal = empActual.DNI;
-                        }
-                    }
-
-                    // 4. Consultar y llenar datos visuales del Empleado Anterior (Si existe)
-                    if (idEmpleadoAnteriorTemporal != null && idEmpleadoAnteriorTemporal > 0)
-                    {
-                        var empAnterior = EmpleadoRepository.ObtenerEmpleadoPorId(idEmpleadoAnteriorTemporal.Value);
-                        if (empAnterior != null)
-                        {
-                            TxtDniUsuarioAnterior.Text = empAnterior.DNI;
-                            TxtNombreUsuarioActual.Text = ClassHelper.FormatearNombreCorto(empAnterior.Nombres, empAnterior.Apellidos);
-
-                            // Asignamos directamente usando los IDs del empleado obtenido de la BD
-                            TxtAreaUsuarioAnterior.Text = empAnterior.Area;
-                            TxtCargoUsuarioAnterior.Text = empAnterior.Cargo;
-                        }
-                    }
-
                     if (!string.IsNullOrEmpty(DatosEdicion.Caracteristicas))
                     {
                         try
@@ -818,59 +763,6 @@ namespace ControlInventario.Vistas
         {
             VistaAgregarEmpleado vistaEmpleado = new VistaAgregarEmpleado();
             vistaEmpleado.ShowDialog();
-        }
-
-        private void TxtDniUsuarioActual_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                e.SuppressKeyPress = true;
-
-                if (TxtDniUsuarioActual.Text.Trim().Length == 8)
-                {
-                    var emp = EmpleadoRepository.ObtenerEmpleadoPorDni(TxtDniUsuarioActual.Text);
-                    if (emp != null)
-                    {
-                        if (dniTemporal == TxtDniUsuarioActual.Text)
-                        {
-                            dniTemporal = "";
-                        }
-                        else
-                        {
-                            idEmpleadoAnteriorTemporal = idEmpleadoActualTemporal;
-                        }
-
-                        idEmpleadoActualTemporal = emp.Id;
-
-                        TxtDniUsuarioAnterior.Text = dniTemporal;
-                        var NombreAnterior = TxtNombreUsuarioActual.Text;
-                        var AreaAnterior = TxtAreaUsuarioActual.Text;
-                        var CargoAnterior = TxtCargoUsuarioActual.Text;
-
-                        TxtNombreUsuarioActual.Text = ClassHelper.FormatearNombreCorto(emp.Nombres, emp.Apellidos);
-                        TxtAreaUsuarioActual.Text = emp.Area;
-                        TxtCargoUsuarioActual.Text = emp.Cargo;
-
-                        dniTemporal = TxtDniUsuarioAnterior.Text;
-                        TxtNombreUsuarioAnterior.Text = NombreAnterior;
-                        TxtAreaUsuarioAnterior.Text = AreaAnterior;
-                        TxtCargoUsuarioAnterior.Text = CargoAnterior;
-                    }
-                }
-                else
-                {
-                    MessageBox.Show(Idiomas.MensajeErrorBuscarEmpleado,
-                    Idiomas.MensajeBuscarEmpleado,
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
-
-                }
-            }
-        }
-
-        private void TxtDniUsuarioActual_Enter(object sender, EventArgs e)
-        {
-            dniTemporal = TxtDniUsuarioActual.Text;
         }
 
         private void TxtRuc_KeyDown(object sender, KeyEventArgs e)
@@ -1089,7 +981,9 @@ namespace ControlInventario.Vistas
 
         private void BtnDepreciacion_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("En desarrollo");
+            MessageBox.Show("En desarrollo",
+                "Depreciación de precio",
+                MessageBoxButtons.OK);
         }
     }
 }

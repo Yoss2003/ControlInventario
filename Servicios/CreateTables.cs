@@ -30,6 +30,7 @@ namespace ControlInventario.Servicios
             RecuperacionRepository.CrearTablaPreguntasSeguridad(con);
             LogsRepository.CrearTablaLogs(con);
             ConfiguracionRepository.CrearTablaConfiguracion(con);
+            AccionesRepository.CrearTablaAccion(con);
 
             // Agregar más tablas según sea necesario
             Console.WriteLine("Tablas creadas exitosamente.");

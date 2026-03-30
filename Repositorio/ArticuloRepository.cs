@@ -1,4 +1,6 @@
-﻿using ControlInventario.Modelos;
+﻿using ControlInventario.Modelo;
+using ControlInventario.Modelos;
+using ControlInventario.Repositorio;
 using ControlInventario.Servicios;
 using System;
 using System.Collections.Generic;
@@ -12,7 +14,6 @@ namespace ControlInventario.Database
     {
         public static void CrearTablaArticulos(SQLiteConnection con)
         {
-            // 1. CREAMOS LA TABLA LIMPIA (Sin textos redundantes de catálogos)
             string queryTabla = @"
             CREATE TABLE IF NOT EXISTS Articulos (
                 Id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -49,11 +50,12 @@ namespace ControlInventario.Database
 
                 FechaRegistro TEXT,
                 FechaModificacion TEXT,
-                Accion TEXT,
+                IdAccion INTEGER NOT NULL,
 
                 FOREIGN KEY (CategoriaId) REFERENCES Categorias(Id),
                 FOREIGN KEY (EmpleadoActualId) REFERENCES Empleados(Id),
-                FOREIGN KEY (EmpleadoAnteriorId) REFERENCES Empleados(Id)
+                FOREIGN KEY (EmpleadoAnteriorId) REFERENCES Empleados(Id),
+                FOREIGN KEY (IdAccion) REFERENCES Acciones(Id)
             );";
 
             using (var cmd = new SQLiteCommand(queryTabla, con))
@@ -61,7 +63,6 @@ namespace ControlInventario.Database
                 cmd.ExecuteNonQuery();
             }
 
-            // 2. CREAMOS LA VISTA SQL (El traductor automático de IDs a Textos)
             string queryVista = @"
             CREATE VIEW IF NOT EXISTS vw_Articulos AS
             SELECT 
@@ -84,7 +85,8 @@ namespace ControlInventario.Database
                 empAnt.IdArea AS EmpleadoAnteriorIdArea,
                 areaAnt.Nombre AS EmpleadoAnteriorAreaTexto,
                 empAnt.IdCargo AS EmpleadoAnteriorIdCargo,
-                cargoAnt.Nombre AS EmpleadoAnteriorCargoTexto
+                cargoAnt.Nombre AS EmpleadoAnteriorCargoTexto,
+                acc.Nombre AS NombreAccion
 
             FROM Articulos a
             LEFT JOIN Categorias c ON a.CategoriaId = c.Id
@@ -97,7 +99,8 @@ namespace ControlInventario.Database
             LEFT JOIN Parametros cargoAct ON empAct.IdCargo = cargoAct.Id
             LEFT JOIN Empleados empAnt ON a.EmpleadoAnteriorId = empAnt.Id
             LEFT JOIN Parametros areaAnt ON empAnt.IdArea = areaAnt.Id
-            LEFT JOIN Parametros cargoAnt ON empAnt.IdCargo = cargoAnt.Id;";
+            LEFT JOIN Parametros cargoAnt ON empAnt.IdCargo = cargoAnt.Id
+            LEFT JOIN Acciones acc ON a.IdAccion = acc.Id;";
 
             using (var cmdVista = new SQLiteCommand(queryVista, con))
             {
@@ -125,13 +128,13 @@ namespace ControlInventario.Database
                 EmpleadoActualId, EmpleadoAnteriorId,
                 IdEstado, IdUbicacion, IdCondicion, ActivoFijo, Observacion, RutaFotoPrincipal, RutaFotoSecundaria, 
                 RutaComprobantePrincipal, RutaComprobanteSecundaria, RucProveedor, Proveedor, PrecioAdquisicion, VidaUtilMeses, Caracteristicas,
-                CategoriaId, FechaRegistro, Accion
+                CategoriaId, FechaRegistro, IdAccion
             ) VALUES (
                 @InventarioId, @Codigo, @Modelo, @Serie, @IdMarca, @FechaAdquisicion, @FechaBaja, @FechaFinGarantia,
                 @EmpleadoActualId, @EmpleadoAnteriorId,
                 @IdEstado, @IdUbicacion, @IdCondicion, @ActivoFijo, @Observacion, @RutaFotoPrincipal, @RutaFotoSecundaria, 
                 @RutaComprobantePrincipal, @RutaComprobanteSecundaria, @RucProveedor, @Proveedor, @PrecioAdquisicion, @VidaUtilMeses, @Caracteristicas,
-                @CategoriaId, @FechaRegistro, @Accion
+                @CategoriaId, @FechaRegistro, @IdAccion
             );";
 
             using (var cmd = new SQLiteCommand(query, con))
@@ -147,8 +150,8 @@ namespace ControlInventario.Database
                 cmd.Parameters.AddWithValue("@FechaBaja", art.FechaBaja.HasValue ? art.FechaBaja.Value.ToString("yyyy-MM-dd") : (object)DBNull.Value);
                 cmd.Parameters.AddWithValue("@FechaFinGarantia", art.FechaFinGarantia.HasValue ? art.FechaFinGarantia.Value.ToString("yyyy-MM-dd") : (object)DBNull.Value);
 
-                cmd.Parameters.AddWithValue("@EmpleadoActualId", art.EmpleadoActualId ?? (object)DBNull.Value);
-                cmd.Parameters.AddWithValue("@EmpleadoAnteriorId", art.EmpleadoAnteriorId ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@EmpleadoActualId", DBNull.Value);
+                cmd.Parameters.AddWithValue("@EmpleadoAnteriorId", DBNull.Value);
 
                 cmd.Parameters.AddWithValue("@IdEstado", art.IdEstado);
                 cmd.Parameters.AddWithValue("@IdUbicacion", art.IdUbicacion);
@@ -169,7 +172,7 @@ namespace ControlInventario.Database
 
                 cmd.Parameters.AddWithValue("@CategoriaId", art.CategoriaId);
                 cmd.Parameters.AddWithValue("@FechaRegistro", art.FechaRegistro.ToString("yyyy-MM-dd"));
-                cmd.Parameters.AddWithValue("@Accion", "Ingreso");
+                cmd.Parameters.AddWithValue("@IdAccion", 1);
                 cmd.ExecuteNonQuery();
             }
 
@@ -177,6 +180,19 @@ namespace ControlInventario.Database
             {
                 art.Id = Convert.ToInt32(cmd.ExecuteScalar());
             }
+
+            var movimientoInicial = new Movimiento
+            {
+                ArticuloId = art.Id,
+                EmpleadoId = null, 
+                IdAccion = 1, 
+                FechaMovimiento = DateTime.Now,
+                Observacion = "Registro inicial en sistema.",
+                Monto = null,
+                UsuarioResponsable = UsuarioSesion.NombreUsuario ?? "Sistema"
+            };
+
+            MovimientoRepository.InsertarMovimiento(movimientoInicial, con);
         }
 
         public static void ActualizarArticulo(Articulos art)
@@ -188,12 +204,12 @@ namespace ControlInventario.Database
                 UPDATE Articulos SET
                     Codigo = @Codigo, Modelo = @Modelo, Serie = @Serie, IdMarca = @IdMarca, 
                     FechaAdquisicion = @FechaAdquisicion, FechaBaja = @FechaBaja, FechaFinGarantia = @FechaFinGarantia,
-                    EmpleadoActualId = @EmpleadoActualId, EmpleadoAnteriorId = @EmpleadoAnteriorId, 
                     IdEstado = @IdEstado, IdUbicacion = @IdUbicacion, IdCondicion = @IdCondicion, ActivoFijo = @ActivoFijo,
                     Observacion = @Observacion, RutaFotoPrincipal = @RutaFotoPrincipal, RutaFotoSecundaria = @RutaFotoSecundaria, 
                     RutaComprobantePrincipal = @RutaComprobantePrincipal, RutaComprobanteSecundaria = @RutaComprobanteSecundaria,
                     RucProveedor = @RucProveedor, Proveedor = @Proveedor, PrecioAdquisicion = @PrecioAdquisicion, 
-                    VidaUtilMeses = @VidaUtilMeses, Caracteristicas = @Caracteristicas, FechaModificacion = @FechaModificacion, Accion = @Accion 
+                    VidaUtilMeses = @VidaUtilMeses, Caracteristicas = @Caracteristicas, FechaModificacion = @FechaModificacion,
+                    IdAccion = @IdAccion
                 WHERE Id = @Id;";
 
                 using (var cmd = new SQLiteCommand(query, con))
@@ -205,9 +221,6 @@ namespace ControlInventario.Database
                     cmd.Parameters.AddWithValue("@FechaAdquisicion", art.FechaAdquisicion);
                     cmd.Parameters.AddWithValue("@FechaBaja", art.FechaBaja ?? (object)DBNull.Value);
                     cmd.Parameters.AddWithValue("@FechaFinGarantia", art.FechaFinGarantia ?? (object)DBNull.Value);
-
-                    cmd.Parameters.AddWithValue("@EmpleadoActualId", art.EmpleadoActualId ?? (object)DBNull.Value);
-                    cmd.Parameters.AddWithValue("@EmpleadoAnteriorId", art.EmpleadoAnteriorId ?? (object)DBNull.Value);
 
                     cmd.Parameters.AddWithValue("@IdEstado", art.IdEstado);
                     cmd.Parameters.AddWithValue("@IdUbicacion", art.IdUbicacion);
@@ -227,10 +240,21 @@ namespace ControlInventario.Database
                     cmd.Parameters.AddWithValue("@Caracteristicas", art.Caracteristicas ?? (object)DBNull.Value);
 
                     cmd.Parameters.AddWithValue("@FechaModificacion", art.FechaModificacion.ToString("yyyy-MM-dd"));
-                    cmd.Parameters.AddWithValue("@Accion", "Modificado");
+                    cmd.Parameters.AddWithValue("@IdAccion", 2);
                     cmd.Parameters.AddWithValue("@Id", art.Id);
                     cmd.ExecuteNonQuery();
                 }
+
+                var mov = new Movimiento
+                {
+                    ArticuloId = art.Id,
+                    EmpleadoId = art.EmpleadoActualId,
+                    IdAccion = 2,
+                    FechaMovimiento = DateTime.Now,
+                    Observacion = "Se editaron los datos del equipo.",
+                    UsuarioResponsable = UsuarioSesion.NombreUsuario ?? "Sistema"
+                };
+                MovimientoRepository.InsertarMovimiento(mov, con);
             }
         }
 
@@ -240,11 +264,34 @@ namespace ControlInventario.Database
             {
                 con.Open();
 
-                string query = @"DELETE FROM Articulos WHERE Id = @Id;";
+                string query = @"UPDATE Articulos 
+                         SET IdAccion = 15, 
+                             FechaBaja = @FechaBaja,
+                             EmpleadoActualId = NULL
+                         WHERE Id = @Id;";
+
                 using (var cmd = new SQLiteCommand(query, con))
                 {
+                    cmd.Parameters.AddWithValue("@IdAccion", 15);
+                    cmd.Parameters.AddWithValue("@FechaBaja", DateTime.Now.ToString("yyyy-MM-dd"));
                     cmd.Parameters.AddWithValue("@Id", id);
-                    return cmd.ExecuteNonQuery();
+
+                    int resultado = cmd.ExecuteNonQuery();
+
+                    if (resultado > 0)
+                    {
+                        var mov = new Movimiento
+                        {
+                            ArticuloId = id,
+                            IdAccion = 15, // BAJA
+                            FechaMovimiento = DateTime.Now,
+                            Observacion = "El artículo fue dado de baja / eliminado del sistema.",
+                            UsuarioResponsable = UsuarioSesion.NombreUsuario ?? "Sistema"
+                        };
+                        MovimientoRepository.InsertarMovimiento(mov, con);
+                    }
+
+                    return resultado;
                 }
             }
         }
@@ -342,7 +389,6 @@ namespace ControlInventario.Database
                     }
                 }
             }
-            // Renombrar columnas del DataTable para que hagan match con el DataGridView/ListView
             if (dt.Columns.Contains("MarcaTexto")) dt.Columns["MarcaTexto"].ColumnName = "Marca";
             if (dt.Columns.Contains("EstadoTexto")) dt.Columns["EstadoTexto"].ColumnName = "Estado";
             if (dt.Columns.Contains("UbicacionTexto")) dt.Columns["UbicacionTexto"].ColumnName = "Ubicacion";
@@ -369,7 +415,6 @@ namespace ControlInventario.Database
                 FechaBaja = reader["FechaBaja"] != DBNull.Value ? DateTime.Parse(reader["FechaBaja"].ToString()) : (DateTime?)null,
                 FechaFinGarantia = reader["FechaFinGarantia"] != DBNull.Value ? DateTime.Parse(reader["FechaFinGarantia"].ToString()) : (DateTime?)null,
 
-                // --- MAPEO DE EMPLEADO ACTUAL ---
                 EmpleadoActualId = reader["EmpleadoActualId"] != DBNull.Value ? Convert.ToInt32(reader["EmpleadoActualId"]) : (int?)null,
                 EmpleadoActualTexto = reader["EmpleadoActualTexto"]?.ToString(),
                 EmpleadoActualDNI = reader["EmpleadoActualDNI"]?.ToString(),
@@ -378,7 +423,6 @@ namespace ControlInventario.Database
                 EmpleadoActualIdCargo = reader["EmpleadoActualIdCargo"] != DBNull.Value ? Convert.ToInt32(reader["EmpleadoActualIdCargo"]) : (int?)null,
                 EmpleadoActualCargoTexto = reader["EmpleadoActualCargoTexto"]?.ToString(),
 
-                // --- MAPEO DE EMPLEADO ANTERIOR ---
                 EmpleadoAnteriorId = reader["EmpleadoAnteriorId"] != DBNull.Value ? Convert.ToInt32(reader["EmpleadoAnteriorId"]) : (int?)null,
                 EmpleadoAnteriorTexto = reader["EmpleadoAnteriorTexto"]?.ToString(),
                 EmpleadoAnteriorDNI = reader["EmpleadoAnteriorDNI"]?.ToString(),
@@ -596,11 +640,11 @@ namespace ControlInventario.Database
                          WHERE InventarioId = @InvId 
                            AND EmpleadoActualId IS NOT NULL;";
 
-                using (var cmd = new System.Data.SQLite.SQLiteCommand(query, con))
+                using (var cmd = new SQLiteCommand(query, con))
                 {
                     cmd.Parameters.AddWithValue("@InvId", inventarioId);
 
-                    using (var adapter = new System.Data.SQLite.SQLiteDataAdapter(cmd))
+                    using (var adapter = new SQLiteDataAdapter(cmd))
                     {
                         adapter.Fill(dt);
                     }

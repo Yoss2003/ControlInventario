@@ -40,43 +40,24 @@
             this.BtnAgregarMarca = new System.Windows.Forms.Button();
             this.DtpFechaFinGarantia = new System.Windows.Forms.DateTimePicker();
             this.DtpFechaAdquisicion = new System.Windows.Forms.DateTimePicker();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.LblMarca = new System.Windows.Forms.Label();
+            this.LblSerie = new System.Windows.Forms.Label();
+            this.LblModelo = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.LblCodigo = new System.Windows.Forms.Label();
             this.TxtSerie = new System.Windows.Forms.TextBox();
             this.TxtModelo = new System.Windows.Forms.TextBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.TxtDniUsuarioAnterior = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.TxtCargoUsuarioAnterior = new System.Windows.Forms.TextBox();
-            this.label16 = new System.Windows.Forms.Label();
-            this.TxtAreaUsuarioAnterior = new System.Windows.Forms.TextBox();
-            this.label19 = new System.Windows.Forms.Label();
-            this.TxtNombreUsuarioAnterior = new System.Windows.Forms.TextBox();
-            this.label21 = new System.Windows.Forms.Label();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.TxtDniUsuarioActual = new System.Windows.Forms.TextBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.TxtCargoUsuarioActual = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.TxtAreaUsuarioActual = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.TxtNombreUsuarioActual = new System.Windows.Forms.TextBox();
-            this.label11 = new System.Windows.Forms.Label();
             this.GpUsos = new System.Windows.Forms.GroupBox();
             this.CbUbicacion = new System.Windows.Forms.ComboBox();
             this.TxtObservaciones = new System.Windows.Forms.TextBox();
             this.BtnAgregarEstado = new System.Windows.Forms.Button();
             this.BtnAgregarCondicion = new System.Windows.Forms.Button();
             this.BtnAgregarUbicacion = new System.Windows.Forms.Button();
-            this.label17 = new System.Windows.Forms.Label();
+            this.LblUbicacion = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
-            this.label18 = new System.Windows.Forms.Label();
-            this.label22 = new System.Windows.Forms.Label();
+            this.LblCondicion = new System.Windows.Forms.Label();
+            this.LblEstado = new System.Windows.Forms.Label();
             this.CbCondicion = new System.Windows.Forms.ComboBox();
             this.CbEstadoArticulo = new System.Windows.Forms.ComboBox();
             this.GpInformación = new System.Windows.Forms.GroupBox();
@@ -103,16 +84,12 @@
             this.LblRazonSocial = new System.Windows.Forms.Label();
             this.BtnDepreciacion = new System.Windows.Forms.Button();
             this.BtnAgregarRUC = new System.Windows.Forms.Button();
-            this.label25 = new System.Windows.Forms.Label();
             this.LblPrecio = new System.Windows.Forms.Label();
             this.TxtPrecio = new System.Windows.Forms.TextBox();
             this.TxtRuc = new System.Windows.Forms.TextBox();
             this.LblRuc = new System.Windows.Forms.Label();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.groupBox5.SuspendLayout();
-            this.groupBox3.SuspendLayout();
             this.GpUsos.SuspendLayout();
             this.GpInformación.SuspendLayout();
             this.TabMultipedia.SuspendLayout();
@@ -126,12 +103,15 @@
             // 
             // TxtCodigo
             // 
+            this.TxtCodigo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.ErrorArticulos.SetIconPadding(this.TxtCodigo, ((int)(resources.GetObject("TxtCodigo.IconPadding"))));
             resources.ApplyResources(this.TxtCodigo, "TxtCodigo");
             this.TxtCodigo.Name = "TxtCodigo";
             // 
             // CbMarcas
             // 
             this.CbMarcas.FormattingEnabled = true;
+            this.ErrorArticulos.SetIconAlignment(this.CbMarcas, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("CbMarcas.IconAlignment"))));
             resources.ApplyResources(this.CbMarcas, "CbMarcas");
             this.CbMarcas.Name = "CbMarcas";
             this.CbMarcas.TextUpdate += new System.EventHandler(this.CbMarcas_TextUpdate);
@@ -145,12 +125,12 @@
             this.groupBox1.Controls.Add(this.BtnAgregarMarca);
             this.groupBox1.Controls.Add(this.DtpFechaFinGarantia);
             this.groupBox1.Controls.Add(this.DtpFechaAdquisicion);
-            this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.LblMarca);
+            this.groupBox1.Controls.Add(this.LblSerie);
+            this.groupBox1.Controls.Add(this.LblModelo);
             this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.LblCodigo);
             this.groupBox1.Controls.Add(this.CbMarcas);
             this.groupBox1.Controls.Add(this.TxtSerie);
             this.groupBox1.Controls.Add(this.TxtModelo);
@@ -189,6 +169,7 @@
             // 
             // BtnAgregarMarca
             // 
+            this.ErrorArticulos.SetIconAlignment(this.BtnAgregarMarca, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("BtnAgregarMarca.IconAlignment"))));
             resources.ApplyResources(this.BtnAgregarMarca, "BtnAgregarMarca");
             this.BtnAgregarMarca.Name = "BtnAgregarMarca";
             this.BtnAgregarMarca.UseVisualStyleBackColor = true;
@@ -203,23 +184,24 @@
             // DtpFechaAdquisicion
             // 
             this.DtpFechaAdquisicion.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.ErrorArticulos.SetIconPadding(this.DtpFechaAdquisicion, ((int)(resources.GetObject("DtpFechaAdquisicion.IconPadding"))));
             resources.ApplyResources(this.DtpFechaAdquisicion, "DtpFechaAdquisicion");
             this.DtpFechaAdquisicion.Name = "DtpFechaAdquisicion";
             // 
-            // label4
+            // LblMarca
             // 
-            resources.ApplyResources(this.label4, "label4");
-            this.label4.Name = "label4";
+            resources.ApplyResources(this.LblMarca, "LblMarca");
+            this.LblMarca.Name = "LblMarca";
             // 
-            // label3
+            // LblSerie
             // 
-            resources.ApplyResources(this.label3, "label3");
-            this.label3.Name = "label3";
+            resources.ApplyResources(this.LblSerie, "LblSerie");
+            this.LblSerie.Name = "LblSerie";
             // 
-            // label2
+            // LblModelo
             // 
-            resources.ApplyResources(this.label2, "label2");
-            this.label2.Name = "label2";
+            resources.ApplyResources(this.LblModelo, "LblModelo");
+            this.LblModelo.Name = "LblModelo";
             // 
             // label7
             // 
@@ -231,139 +213,25 @@
             resources.ApplyResources(this.label5, "label5");
             this.label5.Name = "label5";
             // 
-            // label1
+            // LblCodigo
             // 
-            resources.ApplyResources(this.label1, "label1");
-            this.label1.Name = "label1";
+            resources.ApplyResources(this.LblCodigo, "LblCodigo");
+            this.LblCodigo.Name = "LblCodigo";
             // 
             // TxtSerie
             // 
+            this.TxtSerie.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.ErrorArticulos.SetIconPadding(this.TxtSerie, ((int)(resources.GetObject("TxtSerie.IconPadding"))));
             resources.ApplyResources(this.TxtSerie, "TxtSerie");
             this.TxtSerie.Name = "TxtSerie";
             // 
             // TxtModelo
             // 
+            this.TxtModelo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.ErrorArticulos.SetIconPadding(this.TxtModelo, ((int)(resources.GetObject("TxtModelo.IconPadding"))));
             resources.ApplyResources(this.TxtModelo, "TxtModelo");
             this.TxtModelo.Name = "TxtModelo";
             this.TxtModelo.Leave += new System.EventHandler(this.TxtModelo_Leave);
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.groupBox5);
-            this.groupBox2.Controls.Add(this.groupBox3);
-            resources.ApplyResources(this.groupBox2, "groupBox2");
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.TabStop = false;
-            // 
-            // groupBox5
-            // 
-            this.groupBox5.Controls.Add(this.TxtDniUsuarioAnterior);
-            this.groupBox5.Controls.Add(this.label6);
-            this.groupBox5.Controls.Add(this.TxtCargoUsuarioAnterior);
-            this.groupBox5.Controls.Add(this.label16);
-            this.groupBox5.Controls.Add(this.TxtAreaUsuarioAnterior);
-            this.groupBox5.Controls.Add(this.label19);
-            this.groupBox5.Controls.Add(this.TxtNombreUsuarioAnterior);
-            this.groupBox5.Controls.Add(this.label21);
-            resources.ApplyResources(this.groupBox5, "groupBox5");
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.TabStop = false;
-            // 
-            // TxtDniUsuarioAnterior
-            // 
-            resources.ApplyResources(this.TxtDniUsuarioAnterior, "TxtDniUsuarioAnterior");
-            this.TxtDniUsuarioAnterior.Name = "TxtDniUsuarioAnterior";
-            // 
-            // label6
-            // 
-            resources.ApplyResources(this.label6, "label6");
-            this.label6.Name = "label6";
-            // 
-            // TxtCargoUsuarioAnterior
-            // 
-            resources.ApplyResources(this.TxtCargoUsuarioAnterior, "TxtCargoUsuarioAnterior");
-            this.TxtCargoUsuarioAnterior.Name = "TxtCargoUsuarioAnterior";
-            // 
-            // label16
-            // 
-            resources.ApplyResources(this.label16, "label16");
-            this.label16.Name = "label16";
-            // 
-            // TxtAreaUsuarioAnterior
-            // 
-            resources.ApplyResources(this.TxtAreaUsuarioAnterior, "TxtAreaUsuarioAnterior");
-            this.TxtAreaUsuarioAnterior.Name = "TxtAreaUsuarioAnterior";
-            // 
-            // label19
-            // 
-            resources.ApplyResources(this.label19, "label19");
-            this.label19.Name = "label19";
-            // 
-            // TxtNombreUsuarioAnterior
-            // 
-            resources.ApplyResources(this.TxtNombreUsuarioAnterior, "TxtNombreUsuarioAnterior");
-            this.TxtNombreUsuarioAnterior.Name = "TxtNombreUsuarioAnterior";
-            // 
-            // label21
-            // 
-            resources.ApplyResources(this.label21, "label21");
-            this.label21.Name = "label21";
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.TxtDniUsuarioActual);
-            this.groupBox3.Controls.Add(this.label8);
-            this.groupBox3.Controls.Add(this.TxtCargoUsuarioActual);
-            this.groupBox3.Controls.Add(this.label9);
-            this.groupBox3.Controls.Add(this.TxtAreaUsuarioActual);
-            this.groupBox3.Controls.Add(this.label10);
-            this.groupBox3.Controls.Add(this.TxtNombreUsuarioActual);
-            this.groupBox3.Controls.Add(this.label11);
-            resources.ApplyResources(this.groupBox3, "groupBox3");
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.TabStop = false;
-            // 
-            // TxtDniUsuarioActual
-            // 
-            resources.ApplyResources(this.TxtDniUsuarioActual, "TxtDniUsuarioActual");
-            this.TxtDniUsuarioActual.Name = "TxtDniUsuarioActual";
-            this.TxtDniUsuarioActual.Enter += new System.EventHandler(this.TxtDniUsuarioActual_Enter);
-            this.TxtDniUsuarioActual.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtDniUsuarioActual_KeyDown);
-            // 
-            // label8
-            // 
-            resources.ApplyResources(this.label8, "label8");
-            this.label8.Name = "label8";
-            // 
-            // TxtCargoUsuarioActual
-            // 
-            resources.ApplyResources(this.TxtCargoUsuarioActual, "TxtCargoUsuarioActual");
-            this.TxtCargoUsuarioActual.Name = "TxtCargoUsuarioActual";
-            // 
-            // label9
-            // 
-            resources.ApplyResources(this.label9, "label9");
-            this.label9.Name = "label9";
-            // 
-            // TxtAreaUsuarioActual
-            // 
-            resources.ApplyResources(this.TxtAreaUsuarioActual, "TxtAreaUsuarioActual");
-            this.TxtAreaUsuarioActual.Name = "TxtAreaUsuarioActual";
-            // 
-            // label10
-            // 
-            resources.ApplyResources(this.label10, "label10");
-            this.label10.Name = "label10";
-            // 
-            // TxtNombreUsuarioActual
-            // 
-            resources.ApplyResources(this.TxtNombreUsuarioActual, "TxtNombreUsuarioActual");
-            this.TxtNombreUsuarioActual.Name = "TxtNombreUsuarioActual";
-            // 
-            // label11
-            // 
-            resources.ApplyResources(this.label11, "label11");
-            this.label11.Name = "label11";
             // 
             // GpUsos
             // 
@@ -372,12 +240,13 @@
             this.GpUsos.Controls.Add(this.BtnAgregarEstado);
             this.GpUsos.Controls.Add(this.BtnAgregarCondicion);
             this.GpUsos.Controls.Add(this.BtnAgregarUbicacion);
-            this.GpUsos.Controls.Add(this.label17);
+            this.GpUsos.Controls.Add(this.LblUbicacion);
             this.GpUsos.Controls.Add(this.label20);
-            this.GpUsos.Controls.Add(this.label18);
-            this.GpUsos.Controls.Add(this.label22);
+            this.GpUsos.Controls.Add(this.LblCondicion);
+            this.GpUsos.Controls.Add(this.LblEstado);
             this.GpUsos.Controls.Add(this.CbCondicion);
             this.GpUsos.Controls.Add(this.CbEstadoArticulo);
+            this.ErrorArticulos.SetIconPadding(this.GpUsos, ((int)(resources.GetObject("GpUsos.IconPadding"))));
             resources.ApplyResources(this.GpUsos, "GpUsos");
             this.GpUsos.Name = "GpUsos";
             this.GpUsos.TabStop = false;
@@ -385,12 +254,14 @@
             // CbUbicacion
             // 
             this.CbUbicacion.FormattingEnabled = true;
+            this.ErrorArticulos.SetIconPadding(this.CbUbicacion, ((int)(resources.GetObject("CbUbicacion.IconPadding"))));
             resources.ApplyResources(this.CbUbicacion, "CbUbicacion");
             this.CbUbicacion.Name = "CbUbicacion";
             this.CbUbicacion.TextUpdate += new System.EventHandler(this.CbUbicacion_TextUpdate);
             // 
             // TxtObservaciones
             // 
+            this.TxtObservaciones.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             resources.ApplyResources(this.TxtObservaciones, "TxtObservaciones");
             this.TxtObservaciones.Name = "TxtObservaciones";
             // 
@@ -415,29 +286,30 @@
             this.BtnAgregarUbicacion.UseVisualStyleBackColor = true;
             this.BtnAgregarUbicacion.Click += new System.EventHandler(this.BtnAgregarUbicacion_Click);
             // 
-            // label17
+            // LblUbicacion
             // 
-            resources.ApplyResources(this.label17, "label17");
-            this.label17.Name = "label17";
+            resources.ApplyResources(this.LblUbicacion, "LblUbicacion");
+            this.LblUbicacion.Name = "LblUbicacion";
             // 
             // label20
             // 
             resources.ApplyResources(this.label20, "label20");
             this.label20.Name = "label20";
             // 
-            // label18
+            // LblCondicion
             // 
-            resources.ApplyResources(this.label18, "label18");
-            this.label18.Name = "label18";
+            resources.ApplyResources(this.LblCondicion, "LblCondicion");
+            this.LblCondicion.Name = "LblCondicion";
             // 
-            // label22
+            // LblEstado
             // 
-            resources.ApplyResources(this.label22, "label22");
-            this.label22.Name = "label22";
+            resources.ApplyResources(this.LblEstado, "LblEstado");
+            this.LblEstado.Name = "LblEstado";
             // 
             // CbCondicion
             // 
             this.CbCondicion.FormattingEnabled = true;
+            this.ErrorArticulos.SetIconPadding(this.CbCondicion, ((int)(resources.GetObject("CbCondicion.IconPadding"))));
             resources.ApplyResources(this.CbCondicion, "CbCondicion");
             this.CbCondicion.Name = "CbCondicion";
             this.CbCondicion.TextUpdate += new System.EventHandler(this.CbCondicion_TextUpdate);
@@ -445,6 +317,7 @@
             // CbEstadoArticulo
             // 
             this.CbEstadoArticulo.FormattingEnabled = true;
+            this.ErrorArticulos.SetIconPadding(this.CbEstadoArticulo, ((int)(resources.GetObject("CbEstadoArticulo.IconPadding"))));
             resources.ApplyResources(this.CbEstadoArticulo, "CbEstadoArticulo");
             this.CbEstadoArticulo.Name = "CbEstadoArticulo";
             this.CbEstadoArticulo.TextUpdate += new System.EventHandler(this.CbEstadoArticulo_TextUpdate);
@@ -515,6 +388,7 @@
             // TxtRutaComprobante
             // 
             resources.ApplyResources(this.TxtRutaComprobante, "TxtRutaComprobante");
+            this.ErrorArticulos.SetIconPadding(this.TxtRutaComprobante, ((int)(resources.GetObject("TxtRutaComprobante.IconPadding"))));
             this.TxtRutaComprobante.Name = "TxtRutaComprobante";
             // 
             // label26
@@ -525,6 +399,7 @@
             // TxtDireccionImagen
             // 
             resources.ApplyResources(this.TxtDireccionImagen, "TxtDireccionImagen");
+            this.ErrorArticulos.SetIconPadding(this.TxtDireccionImagen, ((int)(resources.GetObject("TxtDireccionImagen.IconPadding"))));
             this.TxtDireccionImagen.Name = "TxtDireccionImagen";
             // 
             // label23
@@ -593,7 +468,6 @@
             this.GpAdquisicion.Controls.Add(this.LblRazonSocial);
             this.GpAdquisicion.Controls.Add(this.BtnDepreciacion);
             this.GpAdquisicion.Controls.Add(this.BtnAgregarRUC);
-            this.GpAdquisicion.Controls.Add(this.label25);
             this.GpAdquisicion.Controls.Add(this.LblPrecio);
             this.GpAdquisicion.Controls.Add(this.TxtPrecio);
             this.GpAdquisicion.Controls.Add(this.TxtRuc);
@@ -614,24 +488,21 @@
             // 
             // BtnDepreciacion
             // 
+            this.BtnDepreciacion.BackColor = System.Drawing.SystemColors.Control;
             this.BtnDepreciacion.Cursor = System.Windows.Forms.Cursors.Hand;
             resources.ApplyResources(this.BtnDepreciacion, "BtnDepreciacion");
             this.BtnDepreciacion.Name = "BtnDepreciacion";
-            this.BtnDepreciacion.UseVisualStyleBackColor = true;
+            this.BtnDepreciacion.UseVisualStyleBackColor = false;
             this.BtnDepreciacion.Click += new System.EventHandler(this.BtnDepreciacion_Click);
             // 
             // BtnAgregarRUC
             // 
             this.BtnAgregarRUC.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BtnAgregarRUC.ForeColor = System.Drawing.SystemColors.ControlText;
             resources.ApplyResources(this.BtnAgregarRUC, "BtnAgregarRUC");
             this.BtnAgregarRUC.Name = "BtnAgregarRUC";
             this.BtnAgregarRUC.UseVisualStyleBackColor = true;
             this.BtnAgregarRUC.Click += new System.EventHandler(this.BtnAgregarRUC_Click);
-            // 
-            // label25
-            // 
-            resources.ApplyResources(this.label25, "label25");
-            this.label25.Name = "label25";
             // 
             // LblPrecio
             // 
@@ -640,6 +511,7 @@
             // 
             // TxtPrecio
             // 
+            this.TxtPrecio.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             resources.ApplyResources(this.TxtPrecio, "TxtPrecio");
             this.TxtPrecio.Name = "TxtPrecio";
             this.TxtPrecio.Enter += new System.EventHandler(this.TxtPrecio_Enter);
@@ -647,6 +519,7 @@
             // 
             // TxtRuc
             // 
+            this.TxtRuc.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             resources.ApplyResources(this.TxtRuc, "TxtRuc");
             this.TxtRuc.Name = "TxtRuc";
             this.TxtRuc.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtRuc_KeyDown);
@@ -664,7 +537,6 @@
             this.Controls.Add(this.GpAcciones);
             this.Controls.Add(this.GpAdquisicion);
             this.Controls.Add(this.GpUsos);
-            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
@@ -674,11 +546,6 @@
             this.Load += new System.EventHandler(this.VistaArticulos_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox5.ResumeLayout(false);
-            this.groupBox5.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
             this.GpUsos.ResumeLayout(false);
             this.GpUsos.PerformLayout();
             this.GpInformación.ResumeLayout(false);
@@ -697,21 +564,16 @@
 
         #endregion
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label LblMarca;
+        private System.Windows.Forms.Label LblSerie;
+        private System.Windows.Forms.Label LblModelo;
+        private System.Windows.Forms.Label LblCodigo;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label LblUbicacion;
         private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.Label label22;
-        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label LblEstado;
+        private System.Windows.Forms.Label LblCondicion;
         private System.Windows.Forms.Button BtnAgregarImagen;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Button BtnAgregarComprobante;
@@ -725,8 +587,6 @@
         public System.Windows.Forms.TextBox TxtModelo;
         public System.Windows.Forms.DateTimePicker DtpFechaAdquisicion;
         public System.Windows.Forms.DateTimePicker DtpFechaFinGarantia;
-        public System.Windows.Forms.TextBox TxtDniUsuarioActual;
-        public System.Windows.Forms.TextBox TxtNombreUsuarioActual;
         public System.Windows.Forms.ComboBox CbEstadoArticulo;
         public System.Windows.Forms.TextBox TxtObservaciones;
         public System.Windows.Forms.ComboBox CbCondicion;
@@ -753,27 +613,14 @@
         public System.Windows.Forms.CheckBox ChkAutoCodigo;
         public System.Windows.Forms.CheckBox ChkAutoSerie;
         public System.Windows.Forms.CheckBox ChkAutoModelo;
-        private System.Windows.Forms.TextBox TxtCargoUsuarioActual;
-        private System.Windows.Forms.TextBox TxtAreaUsuarioActual;
-        private System.Windows.Forms.GroupBox groupBox3;
         public System.Windows.Forms.GroupBox GpAdquisicion;
         public System.Windows.Forms.Button BtnDepreciacion;
         public System.Windows.Forms.Button BtnAgregarRUC;
-        private System.Windows.Forms.Label label25;
         public System.Windows.Forms.Label LblPrecio;
         public System.Windows.Forms.TextBox TxtPrecio;
         public System.Windows.Forms.TextBox TxtRuc;
         public System.Windows.Forms.Label LblRuc;
         public System.Windows.Forms.TextBox TxtRazonSocial;
         public System.Windows.Forms.Label LblRazonSocial;
-        private System.Windows.Forms.GroupBox groupBox5;
-        public System.Windows.Forms.TextBox TxtDniUsuarioAnterior;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox TxtCargoUsuarioAnterior;
-        private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.TextBox TxtAreaUsuarioAnterior;
-        private System.Windows.Forms.Label label19;
-        public System.Windows.Forms.TextBox TxtNombreUsuarioAnterior;
-        private System.Windows.Forms.Label label21;
     }
 }

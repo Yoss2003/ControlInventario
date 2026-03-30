@@ -15,13 +15,13 @@ namespace ControlInventario.Repositorio
                 Id INTEGER PRIMARY KEY AUTOINCREMENT,
                 ArticuloId INTEGER NOT NULL,
                 EmpleadoId INTEGER,
-                TipoMovimiento TEXT NOT NULL,
+                IdAccion INTEGER NOT NULL,
                 FechaMovimiento TEXT NOT NULL,
                 Observacion TEXT,
                 Monto REAL,
-                UsuarioResponsable TEXT NOT NULL,
                 FOREIGN KEY (ArticuloId) REFERENCES Articulos(Id),
-                FOREIGN KEY (EmpleadoId) REFERENCES Empleados(Id)
+                FOREIGN KEY (EmpleadoId) REFERENCES Empleados(Id),
+                FOREIGN KEY (IdAccion) REFERENCES Acciones(Id)
             );";
 
             using (var cmd = new SQLiteCommand(queryTabla, con))
@@ -29,16 +29,18 @@ namespace ControlInventario.Repositorio
                 cmd.ExecuteNonQuery();
             }
 
-            // Vista para ver el código del equipo y el nombre del empleado
+            // 2. Actualizamos la vista para cruzar con la tabla Acciones
             string queryVista = @"
             CREATE VIEW IF NOT EXISTS vw_Movimientos AS
             SELECT 
                 m.*,
                 a.Codigo AS ArticuloCodigo,
-                e.Nombres || ' ' || e.Apellidos AS EmpleadoNombre
+                e.Nombres || ' ' || e.Apellidos AS EmpleadoNombre,
+                acc.Nombre AS NombreAccion
             FROM Movimientos m
             LEFT JOIN Articulos a ON m.ArticuloId = a.Id
-            LEFT JOIN Empleados e ON m.EmpleadoId = e.Id;";
+            LEFT JOIN Empleados e ON m.EmpleadoId = e.Id
+            LEFT JOIN Acciones acc ON m.IdAccion = acc.Id;";
 
             using (var cmd = new SQLiteCommand(queryVista, con))
             {
@@ -49,18 +51,17 @@ namespace ControlInventario.Repositorio
         public static void InsertarMovimiento(Movimiento mov, SQLiteConnection con)
         {
             string query = @"
-            INSERT INTO Movimientos (ArticuloId, EmpleadoId, TipoMovimiento, FechaMovimiento, Observacion, Monto, UsuarioResponsable) 
-            VALUES (@ArticuloId, @EmpleadoId, @TipoMovimiento, @FechaMovimiento, @Observacion, @Monto, @UsuarioResponsable);";
+            INSERT INTO Movimientos (ArticuloId, EmpleadoId, IdAccion, FechaMovimiento, Observacion, Monto) 
+            VALUES (@ArticuloId, @EmpleadoId, @IdAccion, @FechaMovimiento, @Observacion, @Monto);";
 
             using (var cmd = new SQLiteCommand(query, con))
             {
                 cmd.Parameters.AddWithValue("@ArticuloId", mov.ArticuloId);
                 cmd.Parameters.AddWithValue("@EmpleadoId", mov.EmpleadoId ?? (object)DBNull.Value);
-                cmd.Parameters.AddWithValue("@TipoMovimiento", mov.TipoMovimiento);
+                cmd.Parameters.AddWithValue("@IdAccion", mov.IdAccion);
                 cmd.Parameters.AddWithValue("@FechaMovimiento", mov.FechaMovimiento.ToString("yyyy-MM-dd HH:mm:ss"));
                 cmd.Parameters.AddWithValue("@Observacion", string.IsNullOrWhiteSpace(mov.Observacion) ? (object)DBNull.Value : mov.Observacion);
                 cmd.Parameters.AddWithValue("@Monto", mov.Monto);
-                cmd.Parameters.AddWithValue("@UsuarioResponsable", mov.UsuarioResponsable);
 
                 cmd.ExecuteNonQuery();
             }
@@ -86,11 +87,11 @@ namespace ControlInventario.Repositorio
                                 Id = Convert.ToInt32(reader["Id"]),
                                 ArticuloId = Convert.ToInt32(reader["ArticuloId"]),
                                 EmpleadoId = reader["EmpleadoId"] != DBNull.Value ? Convert.ToInt32(reader["EmpleadoId"]) : (int?)null,
-                                TipoMovimiento = reader["TipoMovimiento"].ToString(),
+                                IdAccion = Convert.ToInt32(reader["IdAccion"]),
+                                NombreAccion = reader["NombreAccion"]?.ToString(),
                                 FechaMovimiento = DateTime.Parse(reader["FechaMovimiento"].ToString()),
                                 Observacion = reader["Observacion"]?.ToString(),
                                 Monto = reader["Monto"] != DBNull.Value ? Convert.ToInt32(reader["Monto"]) : (int?)null,
-                                UsuarioResponsable = reader["UsuarioResponsable"].ToString(),
                                 ArticuloCodigo = reader["ArticuloCodigo"]?.ToString(),
                                 EmpleadoNombre = reader["EmpleadoNombre"]?.ToString()
                             });
@@ -113,14 +114,15 @@ namespace ControlInventario.Repositorio
                     {
                         string fechaActual = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
-                        string queryMov = @"INSERT INTO Movimientos (ArticuloId, EmpleadoId, TipoMovimiento, FechaMovimiento, Observacion, UsuarioResponsable) 
-                                    VALUES (@ArtId, @EmpId, 'ASIGNACION', @Fecha, @Obs, @UsuResp);";
+                        string queryMov = @"INSERT INTO Movimientos (ArticuloId, EmpleadoId, IdAccion, FechaMovimiento, Observacion) 
+                                                            VALUES (@ArtId, @EmpId, 3, @Fecha, @Obs);";
 
                         string queryArt = @"UPDATE Articulos 
-                                    SET EmpleadoAnteriorId = EmpleadoActualId, 
-                                        EmpleadoActualId = @EmpId, 
-                                        IdEstado = @IdEst 
-                                    WHERE Id = @ArtId;";
+                        SET EmpleadoAnteriorId = EmpleadoActualId, 
+                            EmpleadoActualId = @EmpId,
+                            IdEstado = @IdEst,
+                            IdAccion = 3
+                        WHERE Id = @ArtId;";
 
                         using (var cmdMov = new SQLiteCommand(queryMov, con, transaction))
                         using (var cmdArt = new SQLiteCommand(queryArt, con, transaction))
@@ -132,7 +134,6 @@ namespace ControlInventario.Repositorio
                                 cmdMov.Parameters.AddWithValue("@EmpId", empleadoId);
                                 cmdMov.Parameters.AddWithValue("@Fecha", fechaActual);
                                 cmdMov.Parameters.AddWithValue("@Obs", string.IsNullOrWhiteSpace(observacion) ? (object)DBNull.Value : observacion);
-                                cmdMov.Parameters.AddWithValue("@UsuResp", usuarioResponsable);
                                 cmdMov.ExecuteNonQuery();
 
                                 cmdArt.Parameters.Clear();
@@ -142,7 +143,6 @@ namespace ControlInventario.Repositorio
                                 cmdArt.ExecuteNonQuery();
                             }
                         }
-
                         transaction.Commit();
                     }
                     catch (Exception ex)

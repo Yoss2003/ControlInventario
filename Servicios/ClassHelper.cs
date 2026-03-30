@@ -589,5 +589,35 @@ namespace ControlInventario.Servicios
 
             return $"{primerNombre} {primerApellido}{inicialSegundo}";
         }
+
+        public static void AplicarEstilosGrillas(DataGridView grid)
+        {
+            grid.BackgroundColor = Color.FromArgb(240, 244, 248);
+            grid.BorderStyle = BorderStyle.None;
+            grid.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            grid.GridColor = Color.FromArgb(215, 215, 215);
+            grid.EnableHeadersVisualStyles = false;
+            grid.RowHeadersVisible = false;
+            grid.AllowUserToResizeRows = false;
+            grid.AllowUserToResizeColumns = false;
+            grid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+
+            grid.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(245, 247, 250);
+            grid.ColumnHeadersDefaultCellStyle.ForeColor = Color.FromArgb(70, 70, 70);
+            grid.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 9f, FontStyle.Bold);
+            grid.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            grid.ColumnHeadersHeight = 40;
+
+            grid.DefaultCellStyle.BackColor = Color.White;
+            grid.DefaultCellStyle.ForeColor = Color.FromArgb(50, 50, 50);
+            grid.DefaultCellStyle.SelectionBackColor = Color.FromArgb(226, 238, 255);
+            grid.DefaultCellStyle.SelectionForeColor = Color.FromArgb(30, 30, 30);
+            grid.DefaultCellStyle.Font = new Font("Segoe UI", 9f);
+            grid.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            grid.DefaultCellStyle.Padding = new Padding(0, 2, 0, 2);
+
+            grid.RowTemplate.Height = 50;
+            grid.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(250, 250, 250);
+        }
     }
 }

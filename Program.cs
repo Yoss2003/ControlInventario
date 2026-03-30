@@ -2,6 +2,7 @@
 using ControlInventario.Servicios;
 using System;
 using System.Windows.Forms;
+using SQLitePCL;
 
 namespace ControlInventario
 {
@@ -13,6 +14,7 @@ namespace ControlInventario
         [STAThread]
         static void Main()
         {
+            Batteries.Init();
             using (var con = ConexionGlobal.ObtenerConexion())
             {
                 try

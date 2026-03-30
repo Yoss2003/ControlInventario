@@ -31,6 +31,7 @@ namespace ControlInventario.Servicios
             LogsRepository.CrearTablaLogs(con);
             ConfiguracionRepository.CrearTablaConfiguracion(con);
             AccionesRepository.CrearTablaAccion(con);
+            ParametrosRepository.InsertarPreguntasPorDefecto(con);
 
             // Agregar más tablas según sea necesario
             Console.WriteLine("Tablas creadas exitosamente.");

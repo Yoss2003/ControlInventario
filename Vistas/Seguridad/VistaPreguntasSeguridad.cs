@@ -1,16 +1,25 @@
 ﻿using ControlInventario.Database;
+using ControlInventario.Modelo.Interface;
+using ControlInventario.Modelos;
+using ControlInventario.Repositorio;
 using ControlInventario.Servicios;
 using System;
+using System.Data;
 using System.Data.SQLite;
+using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace ControlInventario.Vistas
 {
-    public partial class VistaPreguntasSeguridad : Form
+    public partial class VistaPreguntasSeguridad : Form, IPregunta1Refrescable, IPregunta2Refrescable, IPregunta3Refrescable
     {
         private long idUsuario = UsuarioSesion.UsuarioId;
         private string nombreUsuario = UsuarioSesion.NombreUsuario;
+        public ComboBox CbPregunta1Public => CbPregunta1;
+        public ComboBox CbPregunta2Public => CbPregunta2;
+        public ComboBox CbPregunta3Public => CbPregunta3;
 
         public VistaPreguntasSeguridad(long id, string nombre)
         {
@@ -25,26 +34,26 @@ namespace ControlInventario.Vistas
             bool valido = true;
 
             // Validar selección de preguntas
-            if (CmbPregunta1.SelectedIndex <= 0)
+            if (CbPregunta1.SelectedIndex <= 0)
             {
-                errorProvider1.SetError(CmbPregunta1, Idiomas.MensajeErrorPreguntaValida);
+                errorProvider1.SetError(CbPregunta1, Idiomas.MensajeErrorPreguntaValida);
                 valido = false;
             }
-            if (CmbPregunta2.SelectedIndex <= 0)
+            if (CbPregunta2.SelectedIndex <= 0)
             {
-                errorProvider1.SetError(CmbPregunta2, Idiomas.MensajeErrorPreguntaValida);
+                errorProvider1.SetError(CbPregunta2, Idiomas.MensajeErrorPreguntaValida);
                 valido = false;
             }
-            if (CmbPregunta3.SelectedIndex <= 0)
+            if (CbPregunta3.SelectedIndex <= 0)
             {
-                errorProvider1.SetError(CmbPregunta3, Idiomas.MensajeErrorPreguntaValida);
+                errorProvider1.SetError(CbPregunta3, Idiomas.MensajeErrorPreguntaValida);
                 valido = false;
             }
 
             // Validar que no se repitan preguntas
-            if (CmbPregunta1.SelectedIndex == CmbPregunta2.SelectedIndex ||
-                CmbPregunta1.SelectedIndex == CmbPregunta3.SelectedIndex ||
-                CmbPregunta2.SelectedIndex == CmbPregunta3.SelectedIndex)
+            if (CbPregunta1.SelectedIndex == CbPregunta2.SelectedIndex ||
+                CbPregunta1.SelectedIndex == CbPregunta3.SelectedIndex ||
+                CbPregunta2.SelectedIndex == CbPregunta3.SelectedIndex)
             {
                 MessageBox.Show(Idiomas.MensajeErrorPreguntaRepetida, Idiomas.TituloValidacion, 
                     MessageBoxButtons.OK, 
@@ -107,55 +116,63 @@ namespace ControlInventario.Vistas
 
         private bool ValidarUsuario()
         {
-            // No se le permite al usuario cerrar la ventana sin haber completado las preguntas de seguridad
-            if (string.IsNullOrWhiteSpace(CmbPregunta1.Text) || string.IsNullOrWhiteSpace(TxtRespuesta1.Text) || 
-                string.IsNullOrWhiteSpace(CmbPregunta2.Text) || string.IsNullOrWhiteSpace(TxtRespuesta2.Text) || 
-                string.IsNullOrWhiteSpace(CmbPregunta3.Text) || string.IsNullOrWhiteSpace(TxtRespuesta3.Text))
+            bool camposCompletos = !string.IsNullOrWhiteSpace(CbPregunta1.Text) && !string.IsNullOrWhiteSpace(TxtRespuesta1.Text) &&
+                                   !string.IsNullOrWhiteSpace(CbPregunta2.Text) && !string.IsNullOrWhiteSpace(TxtRespuesta2.Text) &&
+                                   !string.IsNullOrWhiteSpace(CbPregunta3.Text) && !string.IsNullOrWhiteSpace(TxtRespuesta3.Text);
+
+            if (camposCompletos)
             {
-                DialogResult result = MessageBox.Show(Idiomas.MnesajeAdvertenciaPreguntasSeguridad, Idiomas.TituloConfirmacion,
+                return true;
+            }
+
+            DialogResult result = MessageBox.Show(Idiomas.MnesajeAdvertenciaPreguntasSeguridad, Idiomas.TituloConfirmacion,
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question);
 
-                // Si el usuario confirma que desea salir, se elimina el usuario recién creado
-                if (result == DialogResult.Yes)
-                {
-                    MessageBox.Show(Idiomas.MensajeErrorPreguntasSeguridad,
+            if (result == DialogResult.Yes)
+            {
+                MessageBox.Show(Idiomas.MensajeErrorPreguntasSeguridad,
                     Idiomas.TituloAdvertencia,
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
 
-                    long nuevoId = UsuarioRepository.EliminarUsuario((int)idUsuario);
-                    Close();
-                }                
+                UsuarioRepository.EliminarUsuario((int)idUsuario);
+                return true; 
             }
-            return true;
+
+            return false;
         }
 
         private void CmbPregunta1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            TxtRespuesta1.Enabled = CmbPregunta1.SelectedIndex >= 0;
+            TxtRespuesta1.Enabled = CbPregunta1.SelectedIndex >= 0;
         }
 
         private void CmbPregunta2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            TxtRespuesta2.Enabled = CmbPregunta2.SelectedIndex >= 0;
+            TxtRespuesta2.Enabled = CbPregunta2.SelectedIndex >= 0;
         }
 
         private void CmbPregunta3_SelectedIndexChanged(object sender, EventArgs e)
         {
-            TxtRespuesta3.Enabled = CmbPregunta3.SelectedIndex >= 0;
+            TxtRespuesta3.Enabled = CbPregunta3.SelectedIndex >= 0;
         }
 
         private void VistaPreguntasSeguridad_Load(object sender, EventArgs e)
         {
-            // Agregar opciones de preguntas al ComboBox
-            CmbPregunta1.Items.Insert(0, Idiomas.OpcionPreguntasSeguridad); 
-            CmbPregunta2.Items.Insert(0, Idiomas.OpcionPreguntasSeguridad); 
-            CmbPregunta3.Items.Insert(0, Idiomas.OpcionPreguntasSeguridad);
-
             // Agregar preguntas de seguridad al ComboBox
             lblIdusuario.Text = idUsuario.ToString();
             lblUsuario.Text = nombreUsuario;
+
+            CbPregunta1.BindingContext = new BindingContext();
+            CbPregunta2.BindingContext = new BindingContext();
+            CbPregunta3.BindingContext = new BindingContext();
+
+            // Agregar opciones de preguntas al ComboBox
+            CbPregunta1.Items.Insert(0, Idiomas.OpcionPreguntasSeguridad);
+            CbPregunta2.Items.Insert(0, Idiomas.OpcionPreguntasSeguridad);
+            CbPregunta3.Items.Insert(0, Idiomas.OpcionPreguntasSeguridad);
+
 
             // Cargar preguntas de seguridad predefinidas
             try
@@ -164,20 +181,23 @@ namespace ControlInventario.Vistas
                 {
                     con.Open();
 
-                    //Activar claves foraneas
-                    using (var pragmacmd = new SQLiteCommand("PRAGMA foreign_keys = ON;", con))
-                    {
-                        pragmacmd.ExecuteNonQuery();
-                    }
+                    string tipo = "Preguntas";
+
+                    var dtPregunta1 = ParametrosRepository.ListarParametros(con, tipo, UsuarioSesion.InventarioId);
+                    RefreshService.RefrescarComboDT(CbPregunta1, dtPregunta1, "Nombre", "Id", "SELECCIONE");
+
+                    var dtPregunta2 = ParametrosRepository.ListarParametros(con, tipo, UsuarioSesion.InventarioId);
+                    RefreshService.RefrescarComboDT(CbPregunta2, dtPregunta2, "Nombre", "Id", "SELECCIONE");
+
+                    var dtPregunta3 = ParametrosRepository.ListarParametros(con, tipo, UsuarioSesion.InventarioId);
+                    RefreshService.RefrescarComboDT(CbPregunta3, dtPregunta3, "Nombre", "Id", "SELECCIONE");
                 }
             }
             catch (Exception ex)
             {
-                string mensajeError = string.Format(Idiomas.MensajeErrorPreguntasSeguridadBD, ex.Message);
-                MessageBox.Show(mensajeError, "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                MessageBox.Show("Error al cargar preguntas: " + ex.Message);
             }
+
             ClassHelper.AplicarTema(this);
         }
 
@@ -203,16 +223,16 @@ namespace ControlInventario.Vistas
                         cmd.Parameters.AddWithValue("@Id_Usuario", idUsuario);
                         cmd.Parameters.AddWithValue("@Nombre_Usuario", nombreUsuario);
 
-                        cmd.Parameters.AddWithValue("@Id_Pregunta1", CmbPregunta1.SelectedIndex);
-                        cmd.Parameters.AddWithValue("@Pregunta1", CmbPregunta1.SelectedItem.ToString());
+                        cmd.Parameters.AddWithValue("@Id_Pregunta1", CbPregunta1.SelectedIndex);
+                        cmd.Parameters.AddWithValue("@Pregunta1", CbPregunta1.Text);
                         cmd.Parameters.AddWithValue("@Respuesta1", TxtRespuesta1.Text);
 
-                        cmd.Parameters.AddWithValue("@Id_Pregunta2", CmbPregunta2.SelectedIndex);
-                        cmd.Parameters.AddWithValue("@Pregunta2", CmbPregunta2.SelectedItem.ToString());
+                        cmd.Parameters.AddWithValue("@Id_Pregunta2", CbPregunta2.SelectedIndex);
+                        cmd.Parameters.AddWithValue("@Pregunta2", CbPregunta2.Text);
                         cmd.Parameters.AddWithValue("@Respuesta2", TxtRespuesta2.Text);
 
-                        cmd.Parameters.AddWithValue("@Id_Pregunta3", CmbPregunta3.SelectedIndex);
-                        cmd.Parameters.AddWithValue("@Pregunta3", CmbPregunta3.SelectedItem.ToString());
+                        cmd.Parameters.AddWithValue("@Id_Pregunta3", CbPregunta3.SelectedIndex);
+                        cmd.Parameters.AddWithValue("@Pregunta3", CbPregunta3.Text);
                         cmd.Parameters.AddWithValue("@Respuesta3", TxtRespuesta3.Text);
                                                 
                         DialogResult result = MessageBox.Show("¿Estás seguro de que las respuestas son correctas?", "Confirmación", 
@@ -236,6 +256,16 @@ namespace ControlInventario.Vistas
             }
             catch (Exception ex)
             {
+
+                string diagnostico = $"Error: {ex.Message} " +
+                         $"\nValores enviados: " +
+                         $"\nUser: {idUsuario}, " +
+                         $"\nP1: {CbPregunta1.SelectedIndex}, " +
+                         $"\nP2: {CbPregunta2.SelectedIndex}, " +
+                         $"\nP3: {CbPregunta3.SelectedIndex}";
+
+                MessageBox.Show(diagnostico, "Diagnóstico de Error");
+
                 string mensajeError = string.Format(Idiomas.MensajeErrorPreguntasSeguridadGuardar, ex.Message);
                 MessageBox.Show(mensajeError,
                                 "Error",
@@ -250,17 +280,17 @@ namespace ControlInventario.Vistas
 
         private void CmbPregunta1_TextChanged(object sender, EventArgs e)
         {
-            ClassHelper.NormalizarTexto(CmbPregunta1);
+            ClassHelper.NormalizarTexto(CbPregunta1);
         }
 
         private void CmbPregunta2_TextChanged(object sender, EventArgs e)
         {
-            ClassHelper.NormalizarTexto(CmbPregunta2);
+            ClassHelper.NormalizarTexto(CbPregunta2);
         }
 
         private void CmbPregunta3_TextChanged(object sender, EventArgs e)
         {
-            ClassHelper.NormalizarTexto(CmbPregunta3);
+            ClassHelper.NormalizarTexto(CbPregunta3);
         }
 
         private void BtnCancelar_Click(object sender, EventArgs e)
@@ -270,7 +300,6 @@ namespace ControlInventario.Vistas
 
         private void VistaPreguntasSeguridad_FormClosing(object sender, FormClosingEventArgs e)
         {
-            // Si no se completó el flujo de las preguntas de seguridad se elimina el usuario creado
             if (e.CloseReason == CloseReason.UserClosing)
             {
                 if (!ValidarUsuario())

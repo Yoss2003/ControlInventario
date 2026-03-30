@@ -149,13 +149,13 @@ namespace ControlInventario.Vistas.Extras
             {
                 con.Open();
 
-                var dtCargo = ParametrosRepository.ListarParametros(con, "Cargo");
+                var dtCargo = ParametrosRepository.ListarParametros(con, "Cargo", UsuarioSesion.InventarioId);
                 RefreshService.RefrescarComboDT(CbCargo, dtCargo, "Nombre", "Id", "SELECCIONE");
 
-                var dtArea = ParametrosRepository.ListarParametros(con, "Area");
+                var dtArea = ParametrosRepository.ListarParametros(con, "Area", UsuarioSesion.InventarioId);
                 RefreshService.RefrescarComboDT(CbArea, dtArea, "Nombre", "Id", "SELECCIONE");
 
-                var dtEstado = ParametrosRepository.ListarParametros(con, "EstadoEmpleados");
+                var dtEstado = ParametrosRepository.ListarParametros(con, "EstadoEmpleados", UsuarioSesion.InventarioId);
                 RefreshService.RefrescarComboDT(CbEstadoEmpleados, dtEstado, "Nombre", "Id", "SELECCIONE");
 
                 // Cargar datos empleado

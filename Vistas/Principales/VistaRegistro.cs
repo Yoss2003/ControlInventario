@@ -1,10 +1,12 @@
 ﻿using ControlInventario.Database;
 using ControlInventario.Modelo.Interface;
 using ControlInventario.Modelos;
+using ControlInventario.Repositorio;
 using ControlInventario.Servicios;
 using ControlInventario.Vistas.Extras;
 using System;
 using System.Data.SQLite;
+using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
@@ -197,6 +199,19 @@ namespace ControlInventario.Vistas
 
         private void VistaRegistro_Load(object sender, EventArgs e)
         {
+            using (var con = ConexionGlobal.ObtenerConexion())
+            {
+                con.Open();
+                var dtCargo = ParametrosRepository.ListarParametros(con, "Cargo", UsuarioSesion.InventarioId);
+                RefreshService.RefrescarComboDT(CbCargo, dtCargo, "Nombre", "Id", "SELECCIONE");
+
+                var dtArea = ParametrosRepository.ListarParametros(con, "Area", UsuarioSesion.InventarioId);
+                RefreshService.RefrescarComboDT(CbArea, dtArea, "Nombre", "Id", "SELECCIONE");
+
+                var dtCont = ParametrosRepository.ListarParametros(con, "Contrato", UsuarioSesion.InventarioId);
+                RefreshService.RefrescarComboDT(CbTipoContrato, dtCont, "Nombre", "Id", "SELECCIONE");
+            }
+
             checkedListRol.Enabled = true;
 
             // Marcar "Usuario" por defecto

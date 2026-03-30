@@ -139,7 +139,7 @@ namespace ControlInventario.Servicios
 
         public static void NormalizarTexto(ComboBox combo)
         {
-            if (string.IsNullOrWhiteSpace(combo.Text) || combo.Text != Idiomas.OpcionSeleccione)
+            if(combo.SelectedIndex == -1 && combo.Text != Idiomas.OpcionSeleccione)
             {
                 combo.Text = Idiomas.OpcionSeleccione;
             }

@@ -25,7 +25,7 @@ namespace ControlInventario.Database
                     Id_Pregunta3 INT NOT NULL,
                     Pregunta3 TEXT NOT NULL,
                     Respuesta3 TEXT NOT NULL,
-                    FOREIGN KEY (Id_Usuario) REFERENCES Empleados(Id)
+                    FOREIGN KEY (Id_Usuario) REFERENCES Usuario(Id)
                 );";
             using (var cmd = new SQLiteCommand(query, con))
             {

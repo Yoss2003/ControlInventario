@@ -1,4 +1,5 @@
 ﻿using ControlInventario.Database;
+using ControlInventario.Modelo;
 using ControlInventario.Repositorio;
 using ControlInventario.Servicios;
 using ControlInventario.Vistas.Extras;
@@ -52,7 +53,8 @@ namespace ControlInventario.Vistas.Aplicacion
             DvgArticulosDisponibles.DataSource = dtStock;
             DvgArticulosSeleccionados.DataSource = dtSeleccionados;
 
-            AplicarEstilosGrillas();
+            ClassHelper.AplicarEstilosGrillas(DvgArticulosDisponibles);
+            ClassHelper.AplicarEstilosGrillas(DvgArticulosSeleccionados);
             CargarStockDisponible();
 
             // --- CONFIGURACIÓN PARA PERDER EL FOCO ---
@@ -208,7 +210,6 @@ namespace ControlInventario.Vistas.Aplicacion
                 listaIds.Add(Convert.ToInt32(row["Id"]));
             }
 
-            int ID_ESTADO_ASIGNADO = 2; // <--- Cambia esto por el ID real de tu estado "Asignado"
 
             DialogResult res = MessageBox.Show($"¿Asignar {listaIds.Count} artículo(s) al empleado?", "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (res == DialogResult.Yes)
@@ -219,7 +220,6 @@ namespace ControlInventario.Vistas.Aplicacion
                         listaIds,
                         idEmpleadoSeleccionado,
                         TxtObservacion.Text.Trim(),
-                        ID_ESTADO_ASIGNADO,
                         UsuarioSesion.NombreUsuario
                     );
 
@@ -232,65 +232,7 @@ namespace ControlInventario.Vistas.Aplicacion
                     MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-        }
-
-        private void AplicarEstilosGrillas()
-        {
-            DataGridView[] grillas = { DvgArticulosDisponibles, DvgArticulosSeleccionados };
-
-            foreach (var grid in grillas)
-            {
-                // 1. Apariencia General (Limpio y sin bordes toscos)
-                grid.BackgroundColor = Color.White;
-                grid.BorderStyle = BorderStyle.FixedSingle;
-                grid.CellBorderStyle = DataGridViewCellBorderStyle.Single;
-                grid.GridColor = Color.FromArgb(200, 200, 200);
-                grid.EnableHeadersVisualStyles = false;
-                grid.RowHeadersVisible = false;
-                grid.AllowUserToResizeRows = false;
-                grid.AllowUserToResizeColumns = false;
-                grid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-
-                // 2. Cabeceras (Estilo Moderno Web: Fondo gris claro, texto gris oscuro)
-                grid.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(245, 247, 250);
-                grid.ColumnHeadersDefaultCellStyle.ForeColor = Color.FromArgb(70, 70, 70);
-                grid.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 9f, FontStyle.Bold); // Letra más legible
-                grid.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                grid.ColumnHeadersHeight = 40;
-                grid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-
-                // 3. Celdas (Textos más limpios y con margen)
-                grid.DefaultCellStyle.BackColor = Color.White;
-                grid.DefaultCellStyle.ForeColor = Color.FromArgb(50, 50, 50);
-
-                // Color de Selección: Azul cielo MUY suave (Estilo Windows 11), manteniendo el texto oscuro
-                grid.DefaultCellStyle.SelectionBackColor = Color.FromArgb(226, 238, 255);
-                grid.DefaultCellStyle.SelectionForeColor = Color.FromArgb(30, 30, 30);
-
-                grid.DefaultCellStyle.Font = new Font("Segoe UI", 9f);
-                grid.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                grid.DefaultCellStyle.Padding = new Padding(0, 2, 0, 2); // Un ligero respiro arriba y abajo
-
-                // 4. Altura y Alternancia
-                grid.RowTemplate.Height = 50; // Filas más altas para que respire la foto
-                grid.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(250, 250, 250); // Apenas distinguible del blanco
-            }
-
-            // 5. Ajuste de Imágenes con PADDING EXCLUSIVO
-            if (DvgArticulosDisponibles.Columns.Contains("ImageArticulo"))
-            {
-                var colImg1 = (DataGridViewImageColumn)DvgArticulosDisponibles.Columns["ImageArticulo"];
-                colImg1.ImageLayout = DataGridViewImageCellLayout.Zoom;
-                colImg1.DefaultCellStyle.Padding = new Padding(5); // <-- Evita que la foto choque con la línea
-            }
-
-            if (DvgArticulosSeleccionados.Columns.Contains("ImagenArticuloSeleccionado"))
-            {
-                var colImg2 = (DataGridViewImageColumn)DvgArticulosSeleccionados.Columns["ImagenArticuloSeleccionado"];
-                colImg2.ImageLayout = DataGridViewImageCellLayout.Zoom;
-                colImg2.DefaultCellStyle.Padding = new Padding(5); // <-- Evita que la foto choque con la línea
-            }
-        }
+        }        
 
         private void BtnVerEmpleados_Click(object sender, EventArgs e)
         {

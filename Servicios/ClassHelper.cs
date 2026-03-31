@@ -82,10 +82,10 @@ namespace ControlInventario.Servicios
             inventario.categoriaSeleccionadaNombre = nombreCategoria;
 
             var articulos = ArticuloRepository.ListarArticulos(idCategoria);
-            RefrescarListView(inventario.DvgIngresos, articulos);
+            RefrescarDvgIngresos(inventario.DvgIngresos, articulos);
         }
 
-        public static void RefrescarListView(DataGridView dataGrdi, IEnumerable<Articulos> articulos)
+        public static void RefrescarDvgIngresos(DataGridView dataGrdi, IEnumerable<Articulos> articulos)
         {
             dataGrdi.Rows.Clear();
             foreach (var art in articulos)
@@ -102,16 +102,6 @@ namespace ControlInventario.Servicios
                     ClassHelper.FormatearFecha(art.FechaAdquisicion),
                     ClassHelper.FormatearFecha(art.FechaFinGarantia),
 
-                    art.EmpleadoActualDNI ?? "",
-                    art.EmpleadoActualTexto ?? "",
-                    art.EmpleadoActualAreaTexto ?? "",
-                    art.EmpleadoActualCargoTexto ?? "",
-
-                    art.EmpleadoAnteriorDNI ?? "",
-                    art.EmpleadoAnteriorTexto ?? "",
-                    art.EmpleadoAnteriorAreaTexto ?? "",
-                    art.EmpleadoAnteriorCargoTexto ?? "",
-
                     art.Estado ?? "",
                     art.Ubicacion ?? "",
                     art.Condicion ?? "",
@@ -127,6 +117,36 @@ namespace ControlInventario.Servicios
                 );
 
                 dataGrdi.Rows[rowIndex].Tag = art;
+            }
+        }
+        public static void RefrescarDvgSalidas(DataGridView dataGrdi, DataTable dtArticulos)
+        {
+            dataGrdi.Rows.Clear();
+
+            foreach (DataRow row in dtArticulos.Rows)
+            {
+                string json = row["Caracteristicas"] != DBNull.Value ? row["Caracteristicas"].ToString() : "";
+                string textoBoton = (!string.IsNullOrEmpty(json) && json != "{}") ? "Ver Detalles" : "N/A";
+
+                DateTime fechaAdq = row["FechaAdquisicion"] != DBNull.Value
+                                    ? Convert.ToDateTime(row["FechaAdquisicion"])
+                                    : DateTime.MinValue;
+
+                int rowIndex = dataGrdi.Rows.Add(
+                    row["Id"],
+                    row["Codigo"]?.ToString(),
+                    row["Modelo"]?.ToString(),
+                    row["MarcaTexto"]?.ToString(),
+                    row["Serie"]?.ToString(),
+                    row["EmpleadoActualTexto"]?.ToString(),
+                    row["EmpleadoActualAreaTexto"]?.ToString(),
+                    row["EmpleadoActualCargoTexto"]?.ToString(),
+                    ClassHelper.FormatearFecha(fechaAdq),
+                    row["RutaFotoPrincipal"]?.ToString(),
+                    textoBoton
+                );
+
+                dataGrdi.Rows[rowIndex].Tag = Convert.ToInt32(row["Id"]);
             }
         }
 

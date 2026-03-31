@@ -29,7 +29,6 @@ namespace ControlInventario.Repositorio
                 cmd.ExecuteNonQuery();
             }
 
-            // 2. Actualizamos la vista para cruzar con la tabla Acciones
             string queryVista = @"
             CREATE VIEW IF NOT EXISTS vw_Movimientos AS
             SELECT 
@@ -102,7 +101,7 @@ namespace ControlInventario.Repositorio
             return lista;
         }
 
-        public static void RegistrarAsignacionLote(List<int> listaArticulosIds, int empleadoId, string observacion, int idEstadoAsignado, string usuarioResponsable)
+        public static void RegistrarAsignacionLote(List<int> listaArticulosIds, int empleadoId, string observacion)
         {
             using (var con = ConexionGlobal.ObtenerConexion())
             {
@@ -115,13 +114,13 @@ namespace ControlInventario.Repositorio
                         string fechaActual = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
                         string queryMov = @"INSERT INTO Movimientos (ArticuloId, EmpleadoId, IdAccion, FechaMovimiento, Observacion) 
-                                                            VALUES (@ArtId, @EmpId, 3, @Fecha, @Obs);";
+                                                            VALUES (@ArtId, @EmpId, 2, @Fecha, @Obs);";
 
                         string queryArt = @"UPDATE Articulos 
                         SET EmpleadoAnteriorId = EmpleadoActualId, 
                             EmpleadoActualId = @EmpId,
-                            IdEstado = @IdEst,
-                            IdAccion = 3
+                            IdAccion = 2,
+                            FechaModificacion = @Fecha
                         WHERE Id = @ArtId;";
 
                         using (var cmdMov = new SQLiteCommand(queryMov, con, transaction))
@@ -139,7 +138,7 @@ namespace ControlInventario.Repositorio
                                 cmdArt.Parameters.Clear();
                                 cmdArt.Parameters.AddWithValue("@ArtId", artId);
                                 cmdArt.Parameters.AddWithValue("@EmpId", empleadoId);
-                                cmdArt.Parameters.AddWithValue("@IdEst", idEstadoAsignado);
+                                cmdArt.Parameters.AddWithValue("@Fecha", fechaActual);
                                 cmdArt.ExecuteNonQuery();
                             }
                         }

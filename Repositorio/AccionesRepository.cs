@@ -20,7 +20,7 @@ namespace ControlInventario.Repositorio
 
             string datos = @"
             INSERT OR IGNORE INTO Acciones (Id, Nombre, Descripcion) VALUES 
-            (1, 'INGRESO', 'Registro inicial en el almacén (Sin dueño).'),
+            (1, 'INGRESO', 'Registro inicial en el almacén.'),
             (2, 'ASIGNACION', 'Se entrega el equipo a un empleado.'),
             (3, 'DEVOLUCION', 'El empleado devuelve el equipo al almacén.'),
             (4, 'MANTENIMIENTO', 'Sale temporalmente para reparación técnica.'),
@@ -30,7 +30,8 @@ namespace ControlInventario.Repositorio
             (8, 'AJUSTE', 'Ajuste de inventario manual.'),
             (9, 'RESERVADO', 'Separado para un propósito o cliente.'),
             (10, 'CONSUMIDO', 'Gasto de suministro.'),
-            (11, 'RETORNO', 'Retorno por garantía o cancelación.');";
+            (11, 'RETORNO', 'Retorno por garantía o cancelación.'),
+            (12, 'MODIFICADO', 'Se modifico el articulo ingresado.');";
 
             using (var cmd = new SQLiteCommand(datos, con))
             {

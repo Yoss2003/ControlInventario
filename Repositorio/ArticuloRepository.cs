@@ -50,6 +50,7 @@ namespace ControlInventario.Database
 
                 FechaRegistro TEXT,
                 FechaModificacion TEXT,
+                FechaSalida TEXT,
                 IdAccion INTEGER NOT NULL,
 
                 FOREIGN KEY (CategoriaId) REFERENCES Categorias(Id),
@@ -134,7 +135,7 @@ namespace ControlInventario.Database
                 @EmpleadoActualId, @EmpleadoAnteriorId,
                 @IdEstado, @IdUbicacion, @IdCondicion, @ActivoFijo, @Observacion, @RutaFotoPrincipal, @RutaFotoSecundaria, 
                 @RutaComprobantePrincipal, @RutaComprobanteSecundaria, @RucProveedor, @Proveedor, @PrecioAdquisicion, @VidaUtilMeses, @Caracteristicas,
-                @CategoriaId, @FechaRegistro, @IdAccion
+                @CategoriaId, @FechaRegistro, 1
             );";
 
             using (var cmd = new SQLiteCommand(query, con))
@@ -172,7 +173,6 @@ namespace ControlInventario.Database
 
                 cmd.Parameters.AddWithValue("@CategoriaId", art.CategoriaId);
                 cmd.Parameters.AddWithValue("@FechaRegistro", art.FechaRegistro.ToString("yyyy-MM-dd"));
-                cmd.Parameters.AddWithValue("@IdAccion", 1);
                 cmd.ExecuteNonQuery();
             }
 
@@ -188,8 +188,7 @@ namespace ControlInventario.Database
                 IdAccion = 1, 
                 FechaMovimiento = DateTime.Now,
                 Observacion = "Registro inicial en sistema.",
-                Monto = null,
-                UsuarioResponsable = UsuarioSesion.NombreUsuario ?? "Sistema"
+                Monto = null
             };
 
             MovimientoRepository.InsertarMovimiento(movimientoInicial, con);
@@ -209,7 +208,7 @@ namespace ControlInventario.Database
                     RutaComprobantePrincipal = @RutaComprobantePrincipal, RutaComprobanteSecundaria = @RutaComprobanteSecundaria,
                     RucProveedor = @RucProveedor, Proveedor = @Proveedor, PrecioAdquisicion = @PrecioAdquisicion, 
                     VidaUtilMeses = @VidaUtilMeses, Caracteristicas = @Caracteristicas, FechaModificacion = @FechaModificacion,
-                    IdAccion = @IdAccion
+                    IdAccion = 12
                 WHERE Id = @Id;";
 
                 using (var cmd = new SQLiteCommand(query, con))
@@ -240,7 +239,6 @@ namespace ControlInventario.Database
                     cmd.Parameters.AddWithValue("@Caracteristicas", art.Caracteristicas ?? (object)DBNull.Value);
 
                     cmd.Parameters.AddWithValue("@FechaModificacion", art.FechaModificacion.ToString("yyyy-MM-dd"));
-                    cmd.Parameters.AddWithValue("@IdAccion", 2);
                     cmd.Parameters.AddWithValue("@Id", art.Id);
                     cmd.ExecuteNonQuery();
                 }
@@ -251,8 +249,7 @@ namespace ControlInventario.Database
                     EmpleadoId = art.EmpleadoActualId,
                     IdAccion = 2,
                     FechaMovimiento = DateTime.Now,
-                    Observacion = "Se editaron los datos del equipo.",
-                    UsuarioResponsable = UsuarioSesion.NombreUsuario ?? "Sistema"
+                    Observacion = "Se editaron los datos del equipo."
                 };
                 MovimientoRepository.InsertarMovimiento(mov, con);
             }
@@ -265,14 +262,13 @@ namespace ControlInventario.Database
                 con.Open();
 
                 string query = @"UPDATE Articulos 
-                         SET IdAccion = 15, 
+                         SET IdAccion = 5, 
                              FechaBaja = @FechaBaja,
                              EmpleadoActualId = NULL
                          WHERE Id = @Id;";
 
                 using (var cmd = new SQLiteCommand(query, con))
                 {
-                    cmd.Parameters.AddWithValue("@IdAccion", 15);
                     cmd.Parameters.AddWithValue("@FechaBaja", DateTime.Now.ToString("yyyy-MM-dd"));
                     cmd.Parameters.AddWithValue("@Id", id);
 
@@ -283,10 +279,9 @@ namespace ControlInventario.Database
                         var mov = new Movimiento
                         {
                             ArticuloId = id,
-                            IdAccion = 15, // BAJA
+                            IdAccion = 5,
                             FechaMovimiento = DateTime.Now,
-                            Observacion = "El artículo fue dado de baja / eliminado del sistema.",
-                            UsuarioResponsable = UsuarioSesion.NombreUsuario ?? "Sistema"
+                            Observacion = "El artículo fue dado de baja / eliminado del sistema."
                         };
                         MovimientoRepository.InsertarMovimiento(mov, con);
                     }
@@ -541,8 +536,7 @@ namespace ControlInventario.Database
                 string query = @"SELECT Id, Codigo, Modelo, RutaFotoPrincipal, RutaFotoSecundaria, PrecioAdquisicion 
                                  FROM vw_Articulos 
                                  WHERE InventarioId = @InvId 
-                                   AND EstadoTexto = 'Operativo' 
-                                   AND EmpleadoActualId IS NULL;";
+                                   AND IdAccion IN (1, 8, 11, 12);";
 
                 using (var cmd = new SQLiteCommand(query, con))
                 {
@@ -633,17 +627,17 @@ namespace ControlInventario.Database
             using (var con = ConexionGlobal.ObtenerConexion())
             {
                 con.Open();
-
-                string query = @"SELECT Id, Codigo, Modelo, RutaFotoPrincipal, RutaFotoSecundaria, 
-                                EmpleadoActualTexto, EmpleadoActualAreaTexto, EstadoTexto
+                // Agregamos MarcaTexto, Serie, EmpleadoActualCargoTexto, FechaAdquisicion y Caracteristicas
+                string query = @"SELECT Id, Codigo, Modelo, MarcaTexto, Serie, RutaFotoPrincipal, RutaFotoSecundaria, 
+                                EmpleadoActualTexto, EmpleadoActualAreaTexto, EmpleadoActualCargoTexto, 
+                                FechaAdquisicion, Caracteristicas, EstadoTexto
                          FROM vw_Articulos 
                          WHERE InventarioId = @InvId 
-                           AND EmpleadoActualId IS NOT NULL;";
+                           AND IdAccion IN (2, 4, 5, 6, 9, 10);";
 
                 using (var cmd = new SQLiteCommand(query, con))
                 {
                     cmd.Parameters.AddWithValue("@InvId", inventarioId);
-
                     using (var adapter = new SQLiteDataAdapter(cmd))
                     {
                         adapter.Fill(dt);

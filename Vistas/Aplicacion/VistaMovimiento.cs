@@ -219,8 +219,7 @@ namespace ControlInventario.Vistas.Aplicacion
                     MovimientoRepository.RegistrarAsignacionLote(
                         listaIds,
                         idEmpleadoSeleccionado,
-                        TxtObservacion.Text.Trim(),
-                        UsuarioSesion.NombreUsuario
+                        TxtObservacion.Text.Trim()
                     );
 
                     MessageBox.Show("Asignación completada con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);

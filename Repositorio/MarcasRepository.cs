@@ -94,11 +94,10 @@ namespace ControlInventario.Database
             return dt;
         }
 
-        public static DataTable BuscarMarcasPorArticulosPorCategoria(SQLiteConnection con, int categoriaId, int inventarioId)
+        public static DataTable BuscarMarcasPorArticulosPorCategoria(SQLiteConnection con, int categoriaId, int inventarioId, bool esIngreso)
         {
             var dt = new DataTable();
-
-            // El DISTINCT evita que si hay 10 Laptops HP, la marca "HP" salga 10 veces en el combo.
+            string filtroAcciones = esIngreso ? "(1, 8, 11, 12)" : "(2, 4, 5, 6, 9, 10)";
             string query = @"
             SELECT DISTINCT m.Id, m.Nombre 
             FROM Articulos a

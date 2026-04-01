@@ -117,90 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="TabIngresos.Text" xml:space="preserve">
-    <value>Stock In</value>
-  </data>
-  <data name="TabSalidas.Text" xml:space="preserve">
-    <value>Stock Out</value>
-  </data>
-  <data name="CodigoArticulo.Text" xml:space="preserve">
-    <value>Code</value>
-  </data>
-  <data name="ModeloArticulo.Text" xml:space="preserve">
-    <value>Model</value>
-  </data>
-  <data name="SerieArticulo.Text" xml:space="preserve">
-    <value>Series</value>
-  </data>
-  <data name="MarcaArticulo.Text" xml:space="preserve">
-    <value>Brand</value>
-  </data>
-  <data name="FechaAdquisicionArticulo.Text" xml:space="preserve">
-    <value>Date of acquisition</value>
-  </data>
-  <data name="FechaBajaArticulo.Text" xml:space="preserve">
-    <value>Removal Date</value>
-  </data>
-  <data name="FechaFinGarantiaArticulo.Text" xml:space="preserve">
-    <value>Warranty Expiration</value>
-  </data>
-  <data name="DniUsuarioActualArticulo.Text" xml:space="preserve">
-    <value>Current User ID</value>
-  </data>
-  <data name="NombreUsuarioActualArticulo.Text" xml:space="preserve">
-    <value>Current User</value>
-  </data>
-  <data name="AreaUsuarioActualArticulo.Text" xml:space="preserve">
-    <value>Current User Department</value>
-  </data>
-  <data name="CargoUsuarioActualArticulo.Text" xml:space="preserve">
-    <value>Current User Position</value>
-  </data>
-  <data name="DniUsuarioAnteriorArticulo.Text" xml:space="preserve">
-    <value>Previous User ID</value>
-  </data>
-  <data name="NombreUsuarioAnteriorArticulo.Text" xml:space="preserve">
-    <value>Previous User</value>
-  </data>
-  <data name="AreaUsuarioAnteriorArticulo.Text" xml:space="preserve">
-    <value>Previos User Department</value>
-  </data>
-  <data name="CargoUsuarioAnteriorArticulo.Text" xml:space="preserve">
-    <value>Previous User Position</value>
-  </data>
-  <data name="EstadoArticulo.Text" xml:space="preserve">
-    <value>Status</value>
-  </data>
-  <data name="UbicacionArticulo.Text" xml:space="preserve">
-    <value>Location</value>
-  </data>
-  <data name="CondicionArticulo.Text" xml:space="preserve">
-    <value>Condition</value>
-  </data>
-  <data name="RucArticulo.Text" xml:space="preserve">
-    <value>Vendor Tax ID</value>
-  </data>
-  <data name="ProveedorArticulo.Text" xml:space="preserve">
-    <value>Legal Name</value>
-  </data>
-  <data name="PrecioArticulo.Text" xml:space="preserve">
-    <value>Purchase Price</value>
-  </data>
-  <data name="ActivoFijoArticulo.Text" xml:space="preserve">
-    <value>Fixed Asset</value>
-  </data>
-  <data name="ObservacionArticulo.Text" xml:space="preserve">
-    <value>Notes</value>
-  </data>
-  <data name="ImagenArticulo.Text" xml:space="preserve">
-    <value>Asset Photo</value>
-  </data>
-  <data name="ComprobanteArticulo.Text" xml:space="preserve">
-    <value>Voucher </value>
-  </data>
-  <data name="groupBox2.Text" xml:space="preserve">
-    <value>Search article</value>
-  </data>
   <data name="BtnLimpiar.Text" xml:space="preserve">
     <value>Clean</value>
   </data>
@@ -209,31 +125,34 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>23, 13</value>
+    <value>31, 20</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
     <value>To:</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>33, 13</value>
+    <value>50, 20</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
     <value>From:</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>38, 13</value>
+    <value>56, 20</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
     <value>Brand:</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>66, 13</value>
+    <value>96, 20</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>Article code:</value>
   </data>
-  <data name="groupBox3.Text" xml:space="preserve">
+  <data name="groupBox2.Text" xml:space="preserve">
     <value>Search article</value>
+  </data>
+  <data name="TabIngresos.Text" xml:space="preserve">
+    <value>Stock In</value>
   </data>
   <data name="button1.Text" xml:space="preserve">
     <value>Clean</value>
@@ -242,31 +161,34 @@
     <value>Search</value>
   </data>
   <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>23, 13</value>
+    <value>31, 20</value>
   </data>
   <data name="label6.Text" xml:space="preserve">
     <value>To:</value>
   </data>
   <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
-    <value>33, 13</value>
+    <value>50, 20</value>
   </data>
   <data name="label8.Text" xml:space="preserve">
     <value>From:</value>
   </data>
   <data name="label9.Size" type="System.Drawing.Size, System.Drawing">
-    <value>38, 13</value>
+    <value>56, 20</value>
   </data>
   <data name="label9.Text" xml:space="preserve">
     <value>Brand:</value>
   </data>
   <data name="label10.Size" type="System.Drawing.Size, System.Drawing">
-    <value>66, 13</value>
+    <value>96, 20</value>
   </data>
   <data name="label10.Text" xml:space="preserve">
     <value>Article code:</value>
   </data>
-  <data name="groupBox1.Text" xml:space="preserve">
-    <value>Actions</value>
+  <data name="groupBox3.Text" xml:space="preserve">
+    <value>Search article</value>
+  </data>
+  <data name="TabSalidas.Text" xml:space="preserve">
+    <value>Stock Out</value>
   </data>
   <data name="BtnDevolucion.Text" xml:space="preserve">
     <value>Return article</value>
@@ -291,6 +213,9 @@
   </data>
   <data name="BtnAgregarArticulo.Text" xml:space="preserve">
     <value>Add article</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>Actions</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Inventory</value>

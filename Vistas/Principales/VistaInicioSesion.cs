@@ -18,6 +18,7 @@ namespace ControlInventario
         // Variables en memoria
         public string codigoGenerado;
         public DateTime fechaGeneracion;
+        private GestorVoz _gestorVoz;
 
         //Varible para el overlay
         private OverlayCarga overlay;
@@ -25,6 +26,7 @@ namespace ControlInventario
         public VistaInicioSesion()
         {
             InitializeComponent();
+            _gestorVoz = new GestorVoz();
         }
 
         private void lnkRegistro_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -93,6 +95,7 @@ namespace ControlInventario
             }
             ClassHelper.AplicarTema(this);
             ClassHelper.AplicarIdiomaGlobal();
+            _gestorVoz.HablarAsincrono("Bienvenido al sistema de control de inventario.");
         }
 
         private async void btnIngresar_Click(object sender, EventArgs e)

@@ -297,7 +297,7 @@ namespace ControlInventario.Database
             using (var con = ConexionGlobal.ObtenerConexion())
             {
                 con.Open();
-                string query = "SELECT * FROM vw_Articulos WHERE CategoriaId = @CategoriaId;";
+                string query = "SELECT * FROM vw_Articulos WHERE CategoriaId = @CategoriaId AND IdAccion IN (1, 8, 11, 12);";
 
                 using (var cmd = new SQLiteCommand(query, con))
                 {
@@ -363,6 +363,7 @@ namespace ControlInventario.Database
                 SELECT * FROM vw_Articulos 
                 WHERE InventarioId = @InventarioId 
                   AND CategoriaId = @CategoriaId
+                  AND IdAccion IN (1, 8, 11, 12) -- ¡AGREGAMOS ESTE FILTRO AQUÍ TAMBIÉN!
                   AND (@Codigo IS NULL OR Codigo LIKE @CodigoBusqueda)
                   AND (@IdMarca = 0 OR IdMarca = @IdMarca)
                   AND (@FechaInicio IS NULL OR FechaAdquisicion >= @FechaInicio)

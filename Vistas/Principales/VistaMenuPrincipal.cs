@@ -12,6 +12,7 @@ namespace ControlInventario.Vistas
     public partial class VistaMenuPrincipal : Form
     {
         string nombreUsusario = UsuarioSesion.NombreUsuario;
+        string nombrePersonal = UsuarioSesion.NombrePersonal;
         string rol = UsuarioSesion.Rol;
 
         public VistaMenuPrincipal()
@@ -29,7 +30,7 @@ namespace ControlInventario.Vistas
 
         private void VistaInicio_Load(object sender, EventArgs e)
         {
-            string mensajeBienvenida = string.Format(Idiomas.MensajeMenuPrincipalBienvenida, nombreUsusario);
+            string mensajeBienvenida = string.Format(Idiomas.MensajeMenuPrincipalBienvenida, nombrePersonal);
             string mensajeRol = string.Format(Idiomas.MensajeMenuPrincipalRol, rol);
             string mensajeFecha = string.Format(Idiomas.MensajeMenuPrincipalFecha, DateTime.Now.ToString("dd/MM/yyyy"));
             string mensajeUsuario = string.Format(Idiomas.MensajeMenuPrincipalUsuario, nombreUsusario);

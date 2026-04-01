@@ -64,11 +64,12 @@ namespace ControlInventario.Servicios
             Button btn = new Button();
             btn.Text = nombreCategoria;
             btn.Tag = idCategoria;
-            btn.Width = 75;
-            btn.Height = 23;
+            btn.Height = 35;
+            btn.Width = inventario.FlCategorias.ClientSize.Width - 6;
+            btn.Cursor = Cursors.Hand;
+            btn.TextAlign = ContentAlignment.MiddleCenter;
 
             btn.Click += BtnCategoria_Click;
-
             inventario.FlCategorias.Controls.Add(btn);
         }
 
@@ -148,6 +149,7 @@ namespace ControlInventario.Servicios
 
                 dataGrdi.Rows[rowIndex].Tag = Convert.ToInt32(row["Id"]);
             }
+            dataGrdi.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
         }
 
         public static string NormalizarCombo(ComboBox combo)
@@ -612,6 +614,15 @@ namespace ControlInventario.Servicios
 
         public static void AplicarEstilosGrillas(DataGridView grid)
         {
+            typeof(DataGridView).InvokeMember(
+                "DoubleBuffered",
+                System.Reflection.BindingFlags.NonPublic |
+                System.Reflection.BindingFlags.Instance |
+                System.Reflection.BindingFlags.SetProperty,
+                null,
+                grid,
+                new object[] { true }
+            );
             grid.BackgroundColor = Color.FromArgb(240, 244, 248);
             grid.BorderStyle = BorderStyle.None;
             grid.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
@@ -621,6 +632,7 @@ namespace ControlInventario.Servicios
             grid.AllowUserToResizeRows = false;
             grid.AllowUserToResizeColumns = false;
             grid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            grid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
 
             grid.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(245, 247, 250);
             grid.ColumnHeadersDefaultCellStyle.ForeColor = Color.FromArgb(70, 70, 70);

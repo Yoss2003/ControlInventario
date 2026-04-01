@@ -21,7 +21,7 @@ namespace ControlInventario.Vistas
         public string categoriaSeleccionadaNombre;
         public int articuloID;
         public static bool isEdit = false;
-        public ComboBox CbMarcasPublic => CbBuscarMarcaArticulo;
+        public ComboBox CbMarcasPublic => CbBuscarMarcaArticuloIngreso;
 
         private ClassHelper helper;
         private int _articuloId;
@@ -48,22 +48,24 @@ namespace ControlInventario.Vistas
             this.Click += Fondo_Click;
             ConfigurarPerdidaDeFoco(this);
 
-            TxtBuscarCodArticulo.Enabled = false;
-            CbBuscarMarcaArticulo.Enabled = false;
-            ChkUsarFechas.Enabled = false;
+            TxtBuscarCodArticuloIngreso.Enabled = false;
+            CbBuscarMarcaArticuloIngreso.Enabled = false;
+            ChkUsarFechasIngreso.Enabled = false;
             DvgIngresos.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.ColumnHeader);
             LblAccionDecription.Text = "EXCEL";
             CargarCategorias();
 
             ClassHelper.AplicarTema(this);
-            ClassHelper.AplicarFormatoFecha(DtBuscarFechaFin);
-            ClassHelper.AplicarFormatoFecha(DtBuscarFechaInicio);
+            ClassHelper.AplicarFormatoFecha(DtBuscarFechaFinIngreso);
+            ClassHelper.AplicarFormatoFecha(DtBuscarFechaInicioIngreso);
             ActualizarVistaBotones();
 
             this.BeginInvoke(new MethodInvoker(() => {
                 DvgIngresos.ClearSelection();
             }));
             CargarTabSalidas();
+            ClassHelper.AplicarEstilosGrillas(DvgIngresos);
+            ClassHelper.AplicarEstilosGrillas(DvgSalidas);
         }
 
         private void BtnNuevaCategoria_Click(object sender, EventArgs e)
@@ -80,6 +82,16 @@ namespace ControlInventario.Vistas
                 ClassHelper.RefrescarDvgIngresos(DvgIngresos, articulosCategoria);
                 DvgIngresos.ClearSelection();
                 DvgIngresos.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.ColumnHeader);
+
+                using (var con = ConexionGlobal.ObtenerConexion())
+                {
+                    con.Open();
+                    var dtMarcasIngresos = MarcasRepository.BuscarMarcasPorArticulosPorCategoria(con, this.categoriaSeleccionadaId, UsuarioSesion.InventarioId, true);
+                    RefreshService.RefrescarComboDT(CbBuscarMarcaArticuloIngreso, dtMarcasIngresos, "Nombre", "Id", "SELECCIONE");
+
+                    var dtMarcasSalidas = MarcasRepository.BuscarMarcasPorArticulosPorCategoria(con, this.categoriaSeleccionadaId, UsuarioSesion.InventarioId, false);
+                    RefreshService.RefrescarComboDT(CbBuscarMarcaArticuloSalida, dtMarcasSalidas, "Nombre", "Id", "SELECCIONE");
+                }
             }
         }
 
@@ -93,8 +105,11 @@ namespace ControlInventario.Vistas
             using (var con = ConexionGlobal.ObtenerConexion())
             {
                 con.Open();
-                var dtMarcas = MarcasRepository.BuscarMarcasPorArticulosPorCategoria(con, this.categoriaSeleccionadaId, UsuarioSesion.InventarioId);
-                RefreshService.RefrescarComboDT(CbMarcasPublic, dtMarcas, "Nombre", "Id", "SELECCIONE");
+                var dtMarcasIngresos = MarcasRepository.BuscarMarcasPorArticulosPorCategoria(con, this.categoriaSeleccionadaId, UsuarioSesion.InventarioId, true);
+                RefreshService.RefrescarComboDT(CbBuscarMarcaArticuloIngreso, dtMarcasIngresos, "Nombre", "Id", "SELECCIONE");
+
+                var dtMarcasSalidas = MarcasRepository.BuscarMarcasPorArticulosPorCategoria(con, this.categoriaSeleccionadaId, UsuarioSesion.InventarioId, false);
+                RefreshService.RefrescarComboDT(CbBuscarMarcaArticuloSalida, dtMarcasSalidas, "Nombre", "Id", "SELECCIONE");
             }
 
             RefrescarArticulos();
@@ -105,9 +120,9 @@ namespace ControlInventario.Vistas
             botonActivar.Enabled = false;
             botonSeleccionado = botonActivar;
 
-            TxtBuscarCodArticulo.Enabled = true;
-            CbBuscarMarcaArticulo.Enabled = true;
-            ChkUsarFechas.Enabled = true;
+            TxtBuscarCodArticuloIngreso.Enabled = true;
+            CbBuscarMarcaArticuloIngreso.Enabled = true;
+            ChkUsarFechasIngreso.Enabled = true;
 
             DvgIngresos.Focus();
         }
@@ -135,9 +150,11 @@ namespace ControlInventario.Vistas
                 {
                     Text = nombreCategoria,
                     Tag = idCategoria,
-                    Width = 75,
-                    Height = 23,
-                    Cursor = Cursors.Hand
+                    Height = 35,
+                    Width = FlCategorias.ClientSize.Width - 6,
+                    Cursor = Cursors.Hand,
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    FlatStyle = FlatStyle.Standard
                 };
 
                 btn.Click += (s, e) =>
@@ -507,17 +524,17 @@ namespace ControlInventario.Vistas
                 return;
             }
 
-            if(TxtBuscarCodArticulo.Text == "" || CbBuscarMarcaArticulo.SelectedIndex == 0 || ChkUsarFechas.Checked == false)
+            if(TxtBuscarCodArticuloIngreso.Text == "" || CbBuscarMarcaArticuloIngreso.SelectedIndex == 0 || ChkUsarFechasIngreso.Checked == false)
             {
                 MessageBox.Show("Por favor, debe ingresar datos en los campos de búqueda.",
                                 "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
-            string codigo = TxtBuscarCodArticulo.Text.Trim();
+            string codigo = TxtBuscarCodArticuloIngreso.Text.Trim();
 
             int idMarca = 0;
-            if (CbBuscarMarcaArticulo.SelectedValue != null && int.TryParse(CbBuscarMarcaArticulo.SelectedValue.ToString(), out int marcaParsed))
+            if (CbBuscarMarcaArticuloIngreso.SelectedValue != null && int.TryParse(CbBuscarMarcaArticuloIngreso.SelectedValue.ToString(), out int marcaParsed))
             {
                 idMarca = marcaParsed;
             }
@@ -525,13 +542,13 @@ namespace ControlInventario.Vistas
             DateTime? fechaInicio = null;
             DateTime? fechaFin = null;
 
-            if (ChkUsarFechas.Checked)
+            if (ChkUsarFechasIngreso.Checked)
             {
-                DtBuscarFechaInicio.Enabled = true;
-                DtBuscarFechaFin.Enabled = true;
+                DtBuscarFechaInicioIngreso.Enabled = true;
+                DtBuscarFechaFinIngreso.Enabled = true;
 
-                fechaInicio = DtBuscarFechaInicio.Value.Date;
-                fechaFin = DtBuscarFechaFin.Value.Date;
+                fechaInicio = DtBuscarFechaInicioIngreso.Value.Date;
+                fechaFin = DtBuscarFechaFinIngreso.Value.Date;
 
                 // Validación de lógica de fechas
                 if (fechaInicio > fechaFin)
@@ -543,8 +560,8 @@ namespace ControlInventario.Vistas
             }
             else
             {
-                DtBuscarFechaInicio.Enabled = false;
-                DtBuscarFechaFin.Enabled = false;
+                DtBuscarFechaInicioIngreso.Enabled = false;
+                DtBuscarFechaFinIngreso.Enabled = false;
             }
 
             // 5. Llamamos a tu repositorio con todos los datos recolectados
@@ -563,24 +580,24 @@ namespace ControlInventario.Vistas
 
         private void ValidarBtnLimpiar()
         {
-            bool tieneTexto = !string.IsNullOrWhiteSpace(TxtBuscarCodArticulo.Text);
+            bool tieneTexto = !string.IsNullOrWhiteSpace(TxtBuscarCodArticuloIngreso.Text);
 
-            bool tieneMarca = CbBuscarMarcaArticulo.SelectedIndex > 0;
+            bool tieneMarca = CbBuscarMarcaArticuloIngreso.SelectedIndex > 0;
 
-            bool tieneFecha = ChkUsarFechas.Checked;
+            bool tieneFecha = ChkUsarFechasIngreso.Checked;
 
-            BtnLimpiar.Enabled = (tieneTexto || tieneMarca || tieneFecha);
+            BtnLimpiarIngreso.Enabled = (tieneTexto || tieneMarca || tieneFecha);
         }
 
         private void BtnLimpiar_Click(object sender, EventArgs e)
         {
-            TxtBuscarCodArticulo.Text = "";
-            CbBuscarMarcaArticulo.SelectedIndex = 0;
-            DtBuscarFechaInicio.Value = DateTime.Now;
-            DtBuscarFechaFin.Value = DateTime.Now;
-            ChkUsarFechas.Checked = false;
+            TxtBuscarCodArticuloIngreso.Text = "";
+            CbBuscarMarcaArticuloIngreso.SelectedIndex = 0;
+            DtBuscarFechaInicioIngreso.Value = DateTime.Now;
+            DtBuscarFechaFinIngreso.Value = DateTime.Now;
+            ChkUsarFechasIngreso.Checked = false;
 
-            TxtBuscarCodArticulo.Focus();
+            TxtBuscarCodArticuloIngreso.Focus();
             CargarCategorias();
         }
 
@@ -596,15 +613,15 @@ namespace ControlInventario.Vistas
 
         private void ChkUsarFechas_CheckedChanged(object sender, EventArgs e)
         {
-            if (ChkUsarFechas.Checked)
+            if (ChkUsarFechasIngreso.Checked)
             {
-                DtBuscarFechaInicio.Enabled = true;
-                DtBuscarFechaFin.Enabled = true;
+                DtBuscarFechaInicioIngreso.Enabled = true;
+                DtBuscarFechaFinIngreso.Enabled = true;
             }
             else
             {
-                DtBuscarFechaInicio.Enabled = false;
-                DtBuscarFechaFin.Enabled = false;
+                DtBuscarFechaInicioIngreso.Enabled = false;
+                DtBuscarFechaFinIngreso.Enabled = false;
             }
 
             ValidarBtnLimpiar();
@@ -612,7 +629,7 @@ namespace ControlInventario.Vistas
 
         private void CbBuscarMarcaArticulo_TextUpdate(object sender, EventArgs e)
         {
-            ClassHelper.NormalizarTexto(CbBuscarMarcaArticulo);
+            ClassHelper.NormalizarTexto(CbBuscarMarcaArticuloIngreso);
         }
 
         private void TbPrincipal_SelectedIndexChanged(object sender, EventArgs e)
@@ -637,14 +654,23 @@ namespace ControlInventario.Vistas
         private void BtnNuevaAsignacion_Click(object sender, EventArgs e)
         {
             VistaMovimiento vistaMovimiento = new VistaMovimiento();
-            vistaMovimiento.ShowDialog();
 
             if (vistaMovimiento.ShowDialog() == DialogResult.OK)
             {
                 var articulosCategoria = ArticuloRepository.ListarArticulos(categoriaSeleccionadaId);
-                DataTable articulosAsignados = ArticuloRepository.ListarArticulosAsignados(UsuarioSesion.InventarioId); 
+                DataTable articulosAsignados = ArticuloRepository.ListarArticulosAsignados(UsuarioSesion.InventarioId);
                 ClassHelper.RefrescarDvgIngresos(DvgIngresos, articulosCategoria);
                 ClassHelper.RefrescarDvgSalidas(DvgSalidas, articulosAsignados);
+
+                using (var con = ConexionGlobal.ObtenerConexion())
+                {
+                    con.Open();
+                    var dtMarcasIngresos = MarcasRepository.BuscarMarcasPorArticulosPorCategoria(con, this.categoriaSeleccionadaId, UsuarioSesion.InventarioId, true);
+                    RefreshService.RefrescarComboDT(CbBuscarMarcaArticuloIngreso, dtMarcasIngresos, "Nombre", "Id", "SELECCIONE");
+
+                    var dtMarcasSalidas = MarcasRepository.BuscarMarcasPorArticulosPorCategoria(con, this.categoriaSeleccionadaId, UsuarioSesion.InventarioId, false);
+                    RefreshService.RefrescarComboDT(CbBuscarMarcaArticuloSalida, dtMarcasSalidas, "Nombre", "Id", "SELECCIONE");
+                }
             }
         }
 
@@ -862,23 +888,23 @@ namespace ControlInventario.Vistas
         private void CargarTabSalidas()
         {
             DataTable tablaBD = ArticuloRepository.ListarArticulosAsignados(UsuarioSesion.InventarioId);
+            ClassHelper.RefrescarDvgSalidas(DvgSalidas, tablaBD);
 
-            foreach (DataRow row in tablaBD.Rows)
-            {
-                int idArt = Convert.ToInt32(row["Id"]);
-                string codigo = row["Codigo"].ToString();
-                string modelo = row["Modelo"].ToString();
-                string marca = row["MarcaTexto"].ToString();
-                string serie = row["Serie"].ToString();
-                string responsable = row["EmpleadoActualTexto"].ToString();
-                string area = row["EmpleadoActualAreaTexto"].ToString();
-                string cargo = row["EmpleadoActualCargoTexto"].ToString();
-                string fechaAsignacion = row["FechaModificacion"].ToString();
-                string rutaFoto = row["RutaFotoPrincipal"].ToString();
-                if (!File.Exists(rutaFoto)) rutaFoto = row["RutaFotoSecundaria"].ToString();
+            //foreach (DataRow row in tablaBD.Rows)
+            //{
+            //    int idArt = Convert.ToInt32(row["Id"]);
+            //    string codigo = row["Codigo"].ToString();
+            //    string modelo = row["Modelo"].ToString();
+            //    string marca = row["MarcaTexto"].ToString();
+            //    string serie = row["Serie"].ToString();
+            //    string responsable = row["EmpleadoActualTexto"].ToString();
+            //    string area = row["EmpleadoActualAreaTexto"].ToString();
+            //    string cargo = row["EmpleadoActualCargoTexto"].ToString();
+            //    string rutaFoto = row["RutaFotoPrincipal"].ToString();
+            //    if (!File.Exists(rutaFoto)) rutaFoto = row["RutaFotoSecundaria"].ToString();
 
-                Image fotoVisual = (File.Exists(rutaFoto)) ? Image.FromFile(rutaFoto) : null;
-            }
+            //    Image fotoVisual = (File.Exists(rutaFoto)) ? Image.FromFile(rutaFoto) : null;
+            //}
         }
     }
 }

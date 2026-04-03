@@ -384,6 +384,9 @@
   <data name="ChkUsarFechasIngreso.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="ChkUsarFechasIngreso.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="ChkUsarFechasIngreso.Location" type="System.Drawing.Point, System.Drawing">
     <value>753, 63</value>
   </data>
@@ -639,6 +642,9 @@
   <data name="&gt;&gt;CbBuscarMarcaArticuloIngreso.ZOrder" xml:space="preserve">
     <value>8</value>
   </data>
+  <data name="TxtBuscarCodArticuloIngreso.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="TxtBuscarCodArticuloIngreso.Location" type="System.Drawing.Point, System.Drawing">
     <value>14, 58</value>
   </data>
@@ -810,6 +816,108 @@
   <data name="&gt;&gt;TabIngresos.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="&gt;&gt;DvgSalidas.Name" xml:space="preserve">
+    <value>DvgSalidas</value>
+  </data>
+  <data name="&gt;&gt;DvgSalidas.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;DvgSalidas.Parent" xml:space="preserve">
+    <value>TabSalidas</value>
+  </data>
+  <data name="&gt;&gt;DvgSalidas.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;LstDefault2.Name" xml:space="preserve">
+    <value>LstDefault2</value>
+  </data>
+  <data name="&gt;&gt;LstDefault2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ListView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LstDefault2.Parent" xml:space="preserve">
+    <value>TabSalidas</value>
+  </data>
+  <data name="&gt;&gt;LstDefault2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;groupBox3.Name" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;groupBox3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox3.Parent" xml:space="preserve">
+    <value>TabSalidas</value>
+  </data>
+  <data name="&gt;&gt;groupBox3.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;FlAcciones.Name" xml:space="preserve">
+    <value>FlAcciones</value>
+  </data>
+  <data name="&gt;&gt;FlAcciones.Type" xml:space="preserve">
+    <value>System.Windows.Forms.FlowLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;FlAcciones.Parent" xml:space="preserve">
+    <value>TabSalidas</value>
+  </data>
+  <data name="&gt;&gt;FlAcciones.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="TabSalidas.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 29</value>
+  </data>
+  <data name="TabSalidas.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
+  </data>
+  <data name="TabSalidas.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
+  </data>
+  <data name="TabSalidas.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1154, 621</value>
+  </data>
+  <data name="TabSalidas.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="TabSalidas.Text" xml:space="preserve">
+    <value>Salidas</value>
+  </data>
+  <data name="&gt;&gt;TabSalidas.Name" xml:space="preserve">
+    <value>TabSalidas</value>
+  </data>
+  <data name="&gt;&gt;TabSalidas.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TabSalidas.Parent" xml:space="preserve">
+    <value>TbPrincipal</value>
+  </data>
+  <data name="&gt;&gt;TabSalidas.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="TbPrincipal.Location" type="System.Drawing.Point, System.Drawing">
+    <value>20, 20</value>
+  </data>
+  <data name="TbPrincipal.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
+  </data>
+  <data name="TbPrincipal.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1162, 654</value>
+  </data>
+  <data name="TbPrincipal.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;TbPrincipal.Name" xml:space="preserve">
+    <value>TbPrincipal</value>
+  </data>
+  <data name="&gt;&gt;TbPrincipal.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TbPrincipal.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;TbPrincipal.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
   <data name="DvgSalidas.ColumnHeadersHeight" type="System.Int32, mscorlib">
     <value>34</value>
   </data>
@@ -909,6 +1017,42 @@
   <data name="CargoArticuloSalida.Width" type="System.Int32, mscorlib">
     <value>90</value>
   </data>
+  <metadata name="PrecioVentaSalida.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="PrecioVentaSalida.HeaderText" xml:space="preserve">
+    <value>Precio venta</value>
+  </data>
+  <data name="PrecioVentaSalida.MinimumWidth" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="PrecioVentaSalida.Width" type="System.Int32, mscorlib">
+    <value>150</value>
+  </data>
+  <metadata name="MotivoBajaSalida.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="MotivoBajaSalida.HeaderText" xml:space="preserve">
+    <value>Motivo baja</value>
+  </data>
+  <data name="MotivoBajaSalida.MinimumWidth" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="MotivoBajaSalida.Width" type="System.Int32, mscorlib">
+    <value>150</value>
+  </data>
+  <metadata name="ClienteArticuloSalida.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="ClienteArticuloSalida.HeaderText" xml:space="preserve">
+    <value>Cliente</value>
+  </data>
+  <data name="ClienteArticuloSalida.MinimumWidth" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="ClienteArticuloSalida.Width" type="System.Int32, mscorlib">
+    <value>150</value>
+  </data>
   <metadata name="FechaSalida.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -948,6 +1092,9 @@
   <data name="DvgSalidas.TabIndex" type="System.Int32, mscorlib">
     <value>14</value>
   </data>
+  <data name="DvgSalidas.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="&gt;&gt;DvgSalidas.Name" xml:space="preserve">
     <value>DvgSalidas</value>
   </data>
@@ -983,6 +1130,180 @@
   </data>
   <data name="&gt;&gt;LstDefault2.ZOrder" xml:space="preserve">
     <value>1</value>
+  </data>
+  <data name="&gt;&gt;ChkUsarFechasSalida.Name" xml:space="preserve">
+    <value>ChkUsarFechasSalida</value>
+  </data>
+  <data name="&gt;&gt;ChkUsarFechasSalida.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ChkUsarFechasSalida.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;ChkUsarFechasSalida.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;BtnLimpiarSalida.Name" xml:space="preserve">
+    <value>BtnLimpiarSalida</value>
+  </data>
+  <data name="&gt;&gt;BtnLimpiarSalida.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;BtnLimpiarSalida.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;BtnLimpiarSalida.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;BtnBuscarSalida.Name" xml:space="preserve">
+    <value>BtnBuscarSalida</value>
+  </data>
+  <data name="&gt;&gt;BtnBuscarSalida.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;BtnBuscarSalida.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;BtnBuscarSalida.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;label6.Name" xml:space="preserve">
+    <value>label6</value>
+  </data>
+  <data name="&gt;&gt;label6.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label6.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;label7.Name" xml:space="preserve">
+    <value>label7</value>
+  </data>
+  <data name="&gt;&gt;label7.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label7.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;label7.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;label8.Name" xml:space="preserve">
+    <value>label8</value>
+  </data>
+  <data name="&gt;&gt;label8.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label8.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;label8.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;label9.Name" xml:space="preserve">
+    <value>label9</value>
+  </data>
+  <data name="&gt;&gt;label9.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label9.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;label9.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;label10.Name" xml:space="preserve">
+    <value>label10</value>
+  </data>
+  <data name="&gt;&gt;label10.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label10.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;label10.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;CbBuscarMarcaArticuloSalida.Name" xml:space="preserve">
+    <value>CbBuscarMarcaArticuloSalida</value>
+  </data>
+  <data name="&gt;&gt;CbBuscarMarcaArticuloSalida.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CbBuscarMarcaArticuloSalida.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;CbBuscarMarcaArticuloSalida.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;TxtBuscarCodArticuloSalida.Name" xml:space="preserve">
+    <value>TxtBuscarCodArticuloSalida</value>
+  </data>
+  <data name="&gt;&gt;TxtBuscarCodArticuloSalida.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TxtBuscarCodArticuloSalida.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;TxtBuscarCodArticuloSalida.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;DtBuscarFechaInicioSalida.Name" xml:space="preserve">
+    <value>DtBuscarFechaInicioSalida</value>
+  </data>
+  <data name="&gt;&gt;DtBuscarFechaInicioSalida.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DateTimePicker, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;DtBuscarFechaInicioSalida.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;DtBuscarFechaInicioSalida.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;DtBuscarFechaFinSalida.Name" xml:space="preserve">
+    <value>DtBuscarFechaFinSalida</value>
+  </data>
+  <data name="&gt;&gt;DtBuscarFechaFinSalida.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DateTimePicker, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;DtBuscarFechaFinSalida.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;DtBuscarFechaFinSalida.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="groupBox3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>147, 11</value>
+  </data>
+  <data name="groupBox3.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
+  </data>
+  <data name="groupBox3.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
+  </data>
+  <data name="groupBox3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>994, 114</value>
+  </data>
+  <data name="groupBox3.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="groupBox3.Text" xml:space="preserve">
+    <value>Buscar Articulo</value>
+  </data>
+  <data name="&gt;&gt;groupBox3.Name" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;groupBox3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox3.Parent" xml:space="preserve">
+    <value>TabSalidas</value>
+  </data>
+  <data name="&gt;&gt;groupBox3.ZOrder" xml:space="preserve">
+    <value>2</value>
   </data>
   <data name="ChkUsarFechasSalida.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1353,122 +1674,188 @@
   <data name="&gt;&gt;DtBuscarFechaFinSalida.ZOrder" xml:space="preserve">
     <value>11</value>
   </data>
-  <data name="groupBox3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>147, 11</value>
-  </data>
-  <data name="groupBox3.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 5, 4, 5</value>
-  </data>
-  <data name="groupBox3.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 5, 4, 5</value>
-  </data>
-  <data name="groupBox3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>994, 114</value>
-  </data>
-  <data name="groupBox3.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
-  </data>
-  <data name="groupBox3.Text" xml:space="preserve">
-    <value>Buscar Articulo</value>
-  </data>
-  <data name="&gt;&gt;groupBox3.Name" xml:space="preserve">
-    <value>groupBox3</value>
-  </data>
-  <data name="&gt;&gt;groupBox3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupBox3.Parent" xml:space="preserve">
-    <value>TabSalidas</value>
-  </data>
-  <data name="&gt;&gt;groupBox3.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="flowLayoutPanel1.AutoScroll" type="System.Boolean, mscorlib">
+  <data name="FlAcciones.AutoScroll" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="flowLayoutPanel1.FlowDirection" type="System.Windows.Forms.FlowDirection, System.Windows.Forms">
+  <data name="FlAcciones.FlowDirection" type="System.Windows.Forms.FlowDirection, System.Windows.Forms">
     <value>TopDown</value>
   </data>
-  <data name="flowLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="FlAcciones.Location" type="System.Drawing.Point, System.Drawing">
     <value>9, 11</value>
   </data>
-  <data name="flowLayoutPanel1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+  <data name="FlAcciones.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 5, 4, 5</value>
   </data>
-  <data name="flowLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="FlAcciones.Size" type="System.Drawing.Size, System.Drawing">
     <value>128, 593</value>
   </data>
-  <data name="flowLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
+  <data name="FlAcciones.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
   </data>
-  <data name="flowLayoutPanel1.WrapContents" type="System.Boolean, mscorlib">
+  <data name="FlAcciones.WrapContents" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="&gt;&gt;flowLayoutPanel1.Name" xml:space="preserve">
-    <value>flowLayoutPanel1</value>
+  <data name="&gt;&gt;FlAcciones.Name" xml:space="preserve">
+    <value>FlAcciones</value>
   </data>
-  <data name="&gt;&gt;flowLayoutPanel1.Type" xml:space="preserve">
+  <data name="&gt;&gt;FlAcciones.Type" xml:space="preserve">
     <value>System.Windows.Forms.FlowLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;flowLayoutPanel1.Parent" xml:space="preserve">
+  <data name="&gt;&gt;FlAcciones.Parent" xml:space="preserve">
     <value>TabSalidas</value>
   </data>
-  <data name="&gt;&gt;flowLayoutPanel1.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;FlAcciones.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="TabSalidas.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 29</value>
+  <data name="&gt;&gt;BtnDevolucion.Name" xml:space="preserve">
+    <value>BtnDevolucion</value>
   </data>
-  <data name="TabSalidas.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 5, 4, 5</value>
+  <data name="&gt;&gt;BtnDevolucion.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="TabSalidas.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 5, 4, 5</value>
+  <data name="&gt;&gt;BtnDevolucion.Parent" xml:space="preserve">
+    <value>groupBox1</value>
   </data>
-  <data name="TabSalidas.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1154, 621</value>
-  </data>
-  <data name="TabSalidas.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="TabSalidas.Text" xml:space="preserve">
-    <value>Salidas</value>
-  </data>
-  <data name="&gt;&gt;TabSalidas.Name" xml:space="preserve">
-    <value>TabSalidas</value>
-  </data>
-  <data name="&gt;&gt;TabSalidas.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TabSalidas.Parent" xml:space="preserve">
-    <value>TbPrincipal</value>
-  </data>
-  <data name="&gt;&gt;TabSalidas.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="TbPrincipal.Location" type="System.Drawing.Point, System.Drawing">
-    <value>20, 20</value>
-  </data>
-  <data name="TbPrincipal.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 5, 4, 5</value>
-  </data>
-  <data name="TbPrincipal.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1162, 654</value>
-  </data>
-  <data name="TbPrincipal.TabIndex" type="System.Int32, mscorlib">
+  <data name="&gt;&gt;BtnDevolucion.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;TbPrincipal.Name" xml:space="preserve">
-    <value>TbPrincipal</value>
+  <data name="&gt;&gt;NuAccionInventario.Name" xml:space="preserve">
+    <value>NuAccionInventario</value>
   </data>
-  <data name="&gt;&gt;TbPrincipal.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;NuAccionInventario.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;TbPrincipal.Parent" xml:space="preserve">
+  <data name="&gt;&gt;NuAccionInventario.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;NuAccionInventario.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;LblAccionDecription.Name" xml:space="preserve">
+    <value>LblAccionDecription</value>
+  </data>
+  <data name="&gt;&gt;LblAccionDecription.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LblAccionDecription.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;LblAccionDecription.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;BtnNuevaCategoria.Name" xml:space="preserve">
+    <value>BtnNuevaCategoria</value>
+  </data>
+  <data name="&gt;&gt;BtnNuevaCategoria.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;BtnNuevaCategoria.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;BtnNuevaCategoria.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;BtnExportar.Name" xml:space="preserve">
+    <value>BtnExportar</value>
+  </data>
+  <data name="&gt;&gt;BtnExportar.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;BtnExportar.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;BtnExportar.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;BtnVenta.Name" xml:space="preserve">
+    <value>BtnVenta</value>
+  </data>
+  <data name="&gt;&gt;BtnVenta.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;BtnVenta.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;BtnVenta.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;BtnEliminarArticulo.Name" xml:space="preserve">
+    <value>BtnEliminarArticulo</value>
+  </data>
+  <data name="&gt;&gt;BtnEliminarArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;BtnEliminarArticulo.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;BtnEliminarArticulo.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;BtnEditarArticulo.Name" xml:space="preserve">
+    <value>BtnEditarArticulo</value>
+  </data>
+  <data name="&gt;&gt;BtnEditarArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;BtnEditarArticulo.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;BtnEditarArticulo.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;BtnNuevaAsignacion.Name" xml:space="preserve">
+    <value>BtnNuevaAsignacion</value>
+  </data>
+  <data name="&gt;&gt;BtnNuevaAsignacion.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;BtnNuevaAsignacion.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;BtnNuevaAsignacion.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;BtnAgregarArticulo.Name" xml:space="preserve">
+    <value>BtnAgregarArticulo</value>
+  </data>
+  <data name="&gt;&gt;BtnAgregarArticulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;BtnAgregarArticulo.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;BtnAgregarArticulo.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>26, 683</value>
+  </data>
+  <data name="groupBox1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
+  </data>
+  <data name="groupBox1.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
+  </data>
+  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1156, 86</value>
+  </data>
+  <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>Acciones</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;TbPrincipal.ZOrder" xml:space="preserve">
-    <value>1</value>
+  <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="BtnDevolucion.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1749,36 +2136,6 @@
   <data name="&gt;&gt;BtnAgregarArticulo.ZOrder" xml:space="preserve">
     <value>9</value>
   </data>
-  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>26, 683</value>
-  </data>
-  <data name="groupBox1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 5, 4, 5</value>
-  </data>
-  <data name="groupBox1.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 5, 4, 5</value>
-  </data>
-  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1156, 86</value>
-  </data>
-  <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="groupBox1.Text" xml:space="preserve">
-    <value>Acciones</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -1796,66 +2153,6 @@
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Inventario</value>
-  </data>
-  <data name="&gt;&gt;IdArticuloSalida.Name" xml:space="preserve">
-    <value>IdArticuloSalida</value>
-  </data>
-  <data name="&gt;&gt;IdArticuloSalida.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CodigoArticuloSalida.Name" xml:space="preserve">
-    <value>CodigoArticuloSalida</value>
-  </data>
-  <data name="&gt;&gt;CodigoArticuloSalida.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ModeloArticuloSalida.Name" xml:space="preserve">
-    <value>ModeloArticuloSalida</value>
-  </data>
-  <data name="&gt;&gt;ModeloArticuloSalida.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;SerieArticuloSalida.Name" xml:space="preserve">
-    <value>SerieArticuloSalida</value>
-  </data>
-  <data name="&gt;&gt;SerieArticuloSalida.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;MarcaArtiucloSalida.Name" xml:space="preserve">
-    <value>MarcaArtiucloSalida</value>
-  </data>
-  <data name="&gt;&gt;MarcaArtiucloSalida.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ResponsableArticuloSalida.Name" xml:space="preserve">
-    <value>ResponsableArticuloSalida</value>
-  </data>
-  <data name="&gt;&gt;ResponsableArticuloSalida.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;AreaArticuloSalida.Name" xml:space="preserve">
-    <value>AreaArticuloSalida</value>
-  </data>
-  <data name="&gt;&gt;AreaArticuloSalida.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CargoArticuloSalida.Name" xml:space="preserve">
-    <value>CargoArticuloSalida</value>
-  </data>
-  <data name="&gt;&gt;CargoArticuloSalida.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;FechaSalida.Name" xml:space="preserve">
-    <value>FechaSalida</value>
-  </data>
-  <data name="&gt;&gt;FechaSalida.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;FotoArticuloSalida.Name" xml:space="preserve">
-    <value>FotoArticuloSalida</value>
-  </data>
-  <data name="&gt;&gt;FotoArticuloSalida.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;IdArticulo.Name" xml:space="preserve">
     <value>IdArticulo</value>
@@ -1958,6 +2255,84 @@
   </data>
   <data name="&gt;&gt;CaracteristicasArticulo.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewButtonColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;IdArticuloSalida.Name" xml:space="preserve">
+    <value>IdArticuloSalida</value>
+  </data>
+  <data name="&gt;&gt;IdArticuloSalida.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CodigoArticuloSalida.Name" xml:space="preserve">
+    <value>CodigoArticuloSalida</value>
+  </data>
+  <data name="&gt;&gt;CodigoArticuloSalida.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ModeloArticuloSalida.Name" xml:space="preserve">
+    <value>ModeloArticuloSalida</value>
+  </data>
+  <data name="&gt;&gt;ModeloArticuloSalida.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SerieArticuloSalida.Name" xml:space="preserve">
+    <value>SerieArticuloSalida</value>
+  </data>
+  <data name="&gt;&gt;SerieArticuloSalida.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;MarcaArtiucloSalida.Name" xml:space="preserve">
+    <value>MarcaArtiucloSalida</value>
+  </data>
+  <data name="&gt;&gt;MarcaArtiucloSalida.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ResponsableArticuloSalida.Name" xml:space="preserve">
+    <value>ResponsableArticuloSalida</value>
+  </data>
+  <data name="&gt;&gt;ResponsableArticuloSalida.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;AreaArticuloSalida.Name" xml:space="preserve">
+    <value>AreaArticuloSalida</value>
+  </data>
+  <data name="&gt;&gt;AreaArticuloSalida.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CargoArticuloSalida.Name" xml:space="preserve">
+    <value>CargoArticuloSalida</value>
+  </data>
+  <data name="&gt;&gt;CargoArticuloSalida.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;PrecioVentaSalida.Name" xml:space="preserve">
+    <value>PrecioVentaSalida</value>
+  </data>
+  <data name="&gt;&gt;PrecioVentaSalida.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;MotivoBajaSalida.Name" xml:space="preserve">
+    <value>MotivoBajaSalida</value>
+  </data>
+  <data name="&gt;&gt;MotivoBajaSalida.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ClienteArticuloSalida.Name" xml:space="preserve">
+    <value>ClienteArticuloSalida</value>
+  </data>
+  <data name="&gt;&gt;ClienteArticuloSalida.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;FechaSalida.Name" xml:space="preserve">
+    <value>FechaSalida</value>
+  </data>
+  <data name="&gt;&gt;FechaSalida.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;FotoArticuloSalida.Name" xml:space="preserve">
+    <value>FotoArticuloSalida</value>
+  </data>
+  <data name="&gt;&gt;FotoArticuloSalida.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>VistaInventario</value>

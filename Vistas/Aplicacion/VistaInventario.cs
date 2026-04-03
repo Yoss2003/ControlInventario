@@ -32,7 +32,8 @@ namespace ControlInventario.Vistas
 
         private ToolStripDropDown burbujaActual = null;
         private int filaBurbujaAbierta = -1;
-
+        private DataTable dtSalidasOriginal;
+        private int accionSalidaSeleccionada = 0;
         public VistaInventario()
         {
             InitializeComponent();
@@ -51,9 +52,14 @@ namespace ControlInventario.Vistas
             TxtBuscarCodArticuloIngreso.Enabled = false;
             CbBuscarMarcaArticuloIngreso.Enabled = false;
             ChkUsarFechasIngreso.Enabled = false;
+            DataTable dtVacia = new DataTable();
+            RefreshService.RefrescarComboDT(CbBuscarMarcaArticuloIngreso, dtVacia, "Nombre", "Id", "SELECCIONE");
+            RefreshService.RefrescarComboDT(CbBuscarMarcaArticuloSalida, dtVacia, "Nombre", "Id", "SELECCIONE");
+
             DvgIngresos.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.ColumnHeader);
             LblAccionDecription.Text = "EXCEL";
             CargarCategorias();
+            CargarMenuSalidas();
 
             ClassHelper.AplicarTema(this);
             ClassHelper.AplicarFormatoFecha(DtBuscarFechaFinIngreso);
@@ -89,7 +95,7 @@ namespace ControlInventario.Vistas
                     var dtMarcasIngresos = MarcasRepository.BuscarMarcasPorArticulosPorCategoria(con, this.categoriaSeleccionadaId, UsuarioSesion.InventarioId, true);
                     RefreshService.RefrescarComboDT(CbBuscarMarcaArticuloIngreso, dtMarcasIngresos, "Nombre", "Id", "SELECCIONE");
 
-                    var dtMarcasSalidas = MarcasRepository.BuscarMarcasPorArticulosPorCategoria(con, this.categoriaSeleccionadaId, UsuarioSesion.InventarioId, false);
+                    var dtMarcasSalidas = MarcasRepository.BuscarMarcasPorArticulosPorCategoria(con, this.categoriaSeleccionadaId, UsuarioSesion.InventarioId, false, accionSalidaSeleccionada);
                     RefreshService.RefrescarComboDT(CbBuscarMarcaArticuloSalida, dtMarcasSalidas, "Nombre", "Id", "SELECCIONE");
                 }
             }
@@ -98,6 +104,8 @@ namespace ControlInventario.Vistas
         private void ActivarBotonCategoria(Button botonActivar, int idCat, string nombreCat)
         {
             DvgIngresos.Visible = true;
+            ChkUsarFechasIngreso.Enabled = true;
+            TxtBuscarCodArticuloIngreso.Enabled = true;
 
             this.categoriaSeleccionadaId = idCat;
             this.categoriaSeleccionadaNombre = nombreCat;
@@ -108,7 +116,7 @@ namespace ControlInventario.Vistas
                 var dtMarcasIngresos = MarcasRepository.BuscarMarcasPorArticulosPorCategoria(con, this.categoriaSeleccionadaId, UsuarioSesion.InventarioId, true);
                 RefreshService.RefrescarComboDT(CbBuscarMarcaArticuloIngreso, dtMarcasIngresos, "Nombre", "Id", "SELECCIONE");
 
-                var dtMarcasSalidas = MarcasRepository.BuscarMarcasPorArticulosPorCategoria(con, this.categoriaSeleccionadaId, UsuarioSesion.InventarioId, false);
+                var dtMarcasSalidas = MarcasRepository.BuscarMarcasPorArticulosPorCategoria(con, this.categoriaSeleccionadaId, UsuarioSesion.InventarioId, false, accionSalidaSeleccionada);
                 RefreshService.RefrescarComboDT(CbBuscarMarcaArticuloSalida, dtMarcasSalidas, "Nombre", "Id", "SELECCIONE");
             }
 
@@ -668,7 +676,7 @@ namespace ControlInventario.Vistas
                     var dtMarcasIngresos = MarcasRepository.BuscarMarcasPorArticulosPorCategoria(con, this.categoriaSeleccionadaId, UsuarioSesion.InventarioId, true);
                     RefreshService.RefrescarComboDT(CbBuscarMarcaArticuloIngreso, dtMarcasIngresos, "Nombre", "Id", "SELECCIONE");
 
-                    var dtMarcasSalidas = MarcasRepository.BuscarMarcasPorArticulosPorCategoria(con, this.categoriaSeleccionadaId, UsuarioSesion.InventarioId, false);
+                    var dtMarcasSalidas = MarcasRepository.BuscarMarcasPorArticulosPorCategoria(con, this.categoriaSeleccionadaId, UsuarioSesion.InventarioId, false, accionSalidaSeleccionada);
                     RefreshService.RefrescarComboDT(CbBuscarMarcaArticuloSalida, dtMarcasSalidas, "Nombre", "Id", "SELECCIONE");
                 }
             }
@@ -887,24 +895,128 @@ namespace ControlInventario.Vistas
 
         private void CargarTabSalidas()
         {
-            DataTable tablaBD = ArticuloRepository.ListarArticulosAsignados(UsuarioSesion.InventarioId);
-            ClassHelper.RefrescarDvgSalidas(DvgSalidas, tablaBD);
+            dtSalidasOriginal = ArticuloRepository.ListarArticulosAsignados(UsuarioSesion.InventarioId);
+            ClassHelper.RefrescarDvgSalidas(DvgSalidas, dtSalidasOriginal);
+        }
+        private void CargarMenuSalidas()
+        {
+            FlAcciones.Controls.Clear();
 
-            //foreach (DataRow row in tablaBD.Rows)
-            //{
-            //    int idArt = Convert.ToInt32(row["Id"]);
-            //    string codigo = row["Codigo"].ToString();
-            //    string modelo = row["Modelo"].ToString();
-            //    string marca = row["MarcaTexto"].ToString();
-            //    string serie = row["Serie"].ToString();
-            //    string responsable = row["EmpleadoActualTexto"].ToString();
-            //    string area = row["EmpleadoActualAreaTexto"].ToString();
-            //    string cargo = row["EmpleadoActualCargoTexto"].ToString();
-            //    string rutaFoto = row["RutaFotoPrincipal"].ToString();
-            //    if (!File.Exists(rutaFoto)) rutaFoto = row["RutaFotoSecundaria"].ToString();
+            string[] opciones = { "Todo", "Asignaciones", "Ventas", "Bajas" };
+            int[] acciones = { 0, 2, 4, 5 };
+            int altoTotal = 0;
 
-            //    Image fotoVisual = (File.Exists(rutaFoto)) ? Image.FromFile(rutaFoto) : null;
-            //}
+            for (int i = 0; i < opciones.Length; i++)
+            {
+                Button btn = new Button
+                {
+                    Text = opciones[i],
+                    Tag = acciones[i],
+                    Height = 40,
+                    Width = FlAcciones.Width - 6,
+                    Cursor = Cursors.Hand,
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    FlatStyle = FlatStyle.Standard,
+                    Margin = new Padding(3) 
+                };
+
+                btn.Click += BtnFiltroSalida_Click;
+                FlAcciones.Controls.Add(btn);
+                altoTotal += btn.Height + 6;
+            }
+            FlAcciones.Height = altoTotal;
+            FlAcciones.BorderStyle = BorderStyle.None;
+        }
+
+        private void BtnFiltroSalida_Click(object sender, EventArgs e)
+        {
+            DvgSalidas.Visible = true;
+            CbBuscarMarcaArticuloSalida.Enabled = true;
+            ChkUsarFechasSalida.Enabled = true;
+            TxtBuscarCodArticuloSalida.Enabled = true;
+            Button btn = sender as Button;
+            int idAccion = (int)btn.Tag;
+
+            accionSalidaSeleccionada = idAccion;
+
+            if (dtSalidasOriginal != null)
+            {
+                DataView vistaFiltrada = dtSalidasOriginal.DefaultView;
+
+                if (idAccion == 0)
+                    vistaFiltrada.RowFilter = "";
+                else
+                    vistaFiltrada.RowFilter = $"IdAccion = {idAccion}"; 
+
+                ClassHelper.RefrescarDvgSalidas(DvgSalidas, vistaFiltrada.ToTable());
+                DvgSalidas.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
+
+                DvgSalidas.Columns["ResponsableArticuloSalida"].Visible = false;
+                DvgSalidas.Columns["AreaArticuloSalida"].Visible = false;
+                DvgSalidas.Columns["CargoArticuloSalida"].Visible = false;
+
+                DvgSalidas.Columns["ClienteArticuloSalida"].Visible = false;
+                DvgSalidas.Columns["PrecioVentaSalida"].Visible = false;
+
+                DvgSalidas.Columns["MotivoBajaSalida"].Visible = false;
+
+                switch (idAccion)
+                {
+                    case 2:
+                        DvgSalidas.Columns["ResponsableArticuloSalida"].Visible = true;
+                        DvgSalidas.Columns["AreaArticuloSalida"].Visible = true;
+                        DvgSalidas.Columns["CargoArticuloSalida"].Visible = true;
+                        break;
+
+                    case 4:
+                        DvgSalidas.Columns["ClienteArticuloSalida"].Visible = true;
+                        DvgSalidas.Columns["PrecioVentaSalida"].Visible = true;
+                        break;
+
+                    case 5:
+                        DvgSalidas.Columns["MotivoBajaSalida"].Visible = true;
+                        break;
+
+                    case 0:
+                        DvgSalidas.Columns["ResponsableArticuloSalida"].Visible = true;
+                        DvgSalidas.Columns["ClienteArticuloSalida"].Visible = true;
+                        DvgSalidas.Columns["MotivoBajaSalida"].Visible = true;
+                        break;
+                }
+                DvgSalidas.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
+            }
+
+            if (this.categoriaSeleccionadaId > 0)
+            {
+                using (var con = ConexionGlobal.ObtenerConexion())
+                {
+                    con.Open();
+                    var dtMarcasSalidas = MarcasRepository.BuscarMarcasPorArticulosPorCategoria(con, this.categoriaSeleccionadaId, UsuarioSesion.InventarioId, false, accionSalidaSeleccionada);
+
+                    RefreshService.RefrescarComboDT(CbBuscarMarcaArticuloSalida, dtMarcasSalidas, "Nombre", "Id", "SELECCIONE");
+                }
+            }
+        }
+
+        private void DvgIngresos_SelectionChanged(object sender, EventArgs e)
+        {
+            bool haySeleccion = DvgIngresos.SelectedRows.Count > 0;
+
+            BtnEditarArticulo.Enabled = haySeleccion;
+            BtnEliminarArticulo.Enabled = haySeleccion;
+        }
+
+        private void DvgSalidas_SelectionChanged(object sender, EventArgs e)
+        {
+            bool haySeleccion = DvgSalidas.SelectedRows.Count > 0;
+            if (haySeleccion && (accionSalidaSeleccionada == 2 || accionSalidaSeleccionada == 0))
+            {
+                BtnDevolucion.Enabled = true;
+            }
+            else
+            {
+                BtnDevolucion.Enabled = false;
+            }
         }
     }
 }

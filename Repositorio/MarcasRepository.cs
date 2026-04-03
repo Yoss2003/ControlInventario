@@ -94,16 +94,30 @@ namespace ControlInventario.Database
             return dt;
         }
 
-        public static DataTable BuscarMarcasPorArticulosPorCategoria(SQLiteConnection con, int categoriaId, int inventarioId, bool esIngreso)
+        public static DataTable BuscarMarcasPorArticulosPorCategoria(SQLiteConnection con, int categoriaId, int inventarioId, bool esIngreso, int idAccionFiltro = 0)
         {
             var dt = new DataTable();
-            string filtroAcciones = esIngreso ? "(1, 8, 11, 12)" : "(2, 4, 5, 6, 9, 10)";
-            string query = @"
+            string filtroAcciones;
+
+            if (esIngreso)
+            {
+                filtroAcciones = "(1, 8, 11, 12)";
+            }
+            else
+            {
+                if (idAccionFiltro == 0)
+                    filtroAcciones = "(2, 4, 5, 6, 9, 10)";
+                else
+                    filtroAcciones = $"({idAccionFiltro})";
+            }
+
+            string query = $@"
             SELECT DISTINCT m.Id, m.Nombre 
             FROM Articulos a
             INNER JOIN Marcas m ON a.IdMarca = m.Id
             WHERE a.CategoriaId = @CategoriaId
               AND a.InventarioId = @InventarioId
+              AND a.IdAccion IN {filtroAcciones}
             ORDER BY m.Nombre ASC;";
 
             using (var cmd = new SQLiteCommand(query, con))

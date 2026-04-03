@@ -9,6 +9,12 @@ namespace ControlInventario.Servicios
     {
         public static void RefrescarComboDT(ComboBox combo, DataTable dt, string displayMember, string valueMember, string textoInicial)
         {
+            if (dt.Columns.Count == 0)
+            {
+                dt.Columns.Add(valueMember, typeof(int));
+                dt.Columns.Add(displayMember, typeof(string));
+            }
+
             object valorSeleccionado = combo.SelectedValue;
 
             DataRow row = dt.NewRow();
@@ -18,24 +24,22 @@ namespace ControlInventario.Servicios
 
             combo.BeginUpdate();
 
-            combo.DataSource = dt;
+            combo.DataSource = null;
+            combo.Items.Clear();
+
             combo.DisplayMember = displayMember;
             combo.ValueMember = valueMember;
+            combo.DataSource = dt;
 
-            if (valorSeleccionado != null)
+            if (valorSeleccionado != null && valorSeleccionado.ToString() != "0")
             {
-                combo.SelectedValue = valorSeleccionado;
-
-                if(combo.SelectedIndex == -1)
-                {
-                    combo.SelectedIndex = 0;
-                }
+                try { combo.SelectedValue = valorSeleccionado; } catch { }
             }
-            else
+
+            if (combo.SelectedIndex <= -1)
             {
                 combo.SelectedIndex = 0;
             }
-
             combo.EndUpdate();
         }
     }

@@ -133,20 +133,28 @@ namespace ControlInventario.Servicios
                                     ? Convert.ToDateTime(row["FechaAdquisicion"])
                                     : DateTime.MinValue;
 
+                decimal? precio = row["PrecioVenta"] != DBNull.Value ? Convert.ToDecimal(row["PrecioVenta"]) : (decimal?)null;
+                string precioFormateado = precio.HasValue ? ClassHelper.FormatearMoneda(precio) : "";
+
                 int rowIndex = dataGrdi.Rows.Add(
                     row["Id"],
                     row["Codigo"]?.ToString(),
                     row["Modelo"]?.ToString(),
                     row["MarcaTexto"]?.ToString(),
                     row["Serie"]?.ToString(),
+
                     row["EmpleadoActualTexto"]?.ToString(),
                     row["EmpleadoActualAreaTexto"]?.ToString(),
                     row["EmpleadoActualCargoTexto"]?.ToString(),
+
+                    row["DestinatarioTexto"]?.ToString(),
+                    precioFormateado,
+                    row["MotivoBajaTexto"]?.ToString(),
+
                     ClassHelper.FormatearFecha(fechaAdq),
                     row["RutaFotoPrincipal"]?.ToString(),
                     textoBoton
                 );
-
                 dataGrdi.Rows[rowIndex].Tag = Convert.ToInt32(row["Id"]);
             }
             dataGrdi.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);

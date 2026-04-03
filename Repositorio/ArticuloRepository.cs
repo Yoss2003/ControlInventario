@@ -628,13 +628,21 @@ namespace ControlInventario.Database
             using (var con = ConexionGlobal.ObtenerConexion())
             {
                 con.Open();
-                // Agregamos MarcaTexto, Serie, EmpleadoActualCargoTexto, FechaAdquisicion y Caracteristicas
-                string query = @"SELECT Id, Codigo, Modelo, MarcaTexto, Serie, RutaFotoPrincipal, RutaFotoSecundaria, 
-                                EmpleadoActualTexto, EmpleadoActualAreaTexto, EmpleadoActualCargoTexto, 
-                                FechaAdquisicion, Caracteristicas, EstadoTexto
-                         FROM vw_Articulos 
-                         WHERE InventarioId = @InvId 
-                           AND IdAccion IN (2, 4, 5, 6, 9, 10);";
+                string query = @"
+                SELECT a.Id, a.Codigo, a.Modelo, a.MarcaTexto, a.Serie, a.RutaFotoPrincipal, a.RutaFotoSecundaria, 
+                       a.EmpleadoActualTexto, a.EmpleadoActualAreaTexto, a.EmpleadoActualCargoTexto, 
+                       a.FechaAdquisicion, a.Caracteristicas, a.EstadoTexto, a.IdAccion,
+                       '' AS DestinatarioTexto, -- Lo dejamos vacío por ahora, o puedes guardar el cliente en el campo 'Observación'
+                       m.Monto AS PrecioVenta, 
+                       m.Observacion AS MotivoBajaTexto
+                FROM vw_Articulos a
+                LEFT JOIN (
+                    SELECT ArticuloId, Monto, Observacion 
+                    FROM Movimientos 
+                    WHERE Id IN (SELECT MAX(Id) FROM Movimientos GROUP BY ArticuloId)
+                ) m ON a.Id = m.ArticuloId
+                WHERE a.InventarioId = @InvId 
+                  AND a.IdAccion IN (2, 4, 5, 6, 9, 10);";
 
                 using (var cmd = new SQLiteCommand(query, con))
                 {

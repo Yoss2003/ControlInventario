@@ -141,6 +141,7 @@
       <HintPath>packages\System.Threading.Tasks.Extensions.4.6.3\lib\net462\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Idiomas.Designer.cs">
@@ -198,6 +199,18 @@
     <Compile Include="Vistas\Aplicacion\VistaArticulos.Designer.cs">
       <DependentUpon>VistaArticulos.cs</DependentUpon>
     </Compile>
+    <Compile Include="Vistas\Aplicacion\VistaAsignacion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Vistas\Aplicacion\VistaAsignacion.Designer.cs">
+      <DependentUpon>VistaAsignacion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Vistas\Aplicacion\VistaBaja.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Vistas\Aplicacion\VistaBaja.Designer.cs">
+      <DependentUpon>VistaBaja.cs</DependentUpon>
+    </Compile>
     <Compile Include="Vistas\Aplicacion\VistaMovimiento.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -209,6 +222,12 @@
     </Compile>
     <Compile Include="Vistas\Aplicacion\VistaRegistros.Designer.cs">
       <DependentUpon>VistaRegistros.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Vistas\Aplicacion\VistaVentas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Vistas\Aplicacion\VistaVentas.Designer.cs">
+      <DependentUpon>VistaVentas.cs</DependentUpon>
     </Compile>
     <Compile Include="Vistas\Extras\VistaAgregarComponentes.cs">
       <SubType>Form</SubType>
@@ -233,6 +252,12 @@
     </Compile>
     <Compile Include="Vistas\Extras\VistaRutaExportacion.Designer.cs">
       <DependentUpon>VistaRutaExportacion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Vistas\Extras\VistaVentaAvanzado.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Vistas\Extras\VistaVentaAvanzado.Designer.cs">
+      <DependentUpon>VistaVentaAvanzado.cs</DependentUpon>
     </Compile>
     <Compile Include="Vistas\Form1.cs">
       <SubType>Form</SubType>
@@ -311,6 +336,12 @@
     <EmbeddedResource Include="Vistas\Aplicacion\VistaArticulos.resx">
       <DependentUpon>VistaArticulos.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Vistas\Aplicacion\VistaAsignacion.resx">
+      <DependentUpon>VistaAsignacion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Vistas\Aplicacion\VistaBaja.resx">
+      <DependentUpon>VistaBaja.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Vistas\Aplicacion\VistaInventario.en-US.resx">
       <DependentUpon>VistaInventario.cs</DependentUpon>
     </EmbeddedResource>
@@ -319,6 +350,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Vistas\Aplicacion\VistaRegistros.resx">
       <DependentUpon>VistaRegistros.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Vistas\Aplicacion\VistaVentas.resx">
+      <DependentUpon>VistaVentas.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Vistas\Extras\VistaAgregarComponentes.resx">
       <DependentUpon>VistaAgregarComponentes.cs</DependentUpon>
@@ -331,6 +365,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Vistas\Extras\VistaRutaExportacion.resx">
       <DependentUpon>VistaRutaExportacion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Vistas\Extras\VistaVentaAvanzado.resx">
+      <DependentUpon>VistaVentaAvanzado.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Vistas\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

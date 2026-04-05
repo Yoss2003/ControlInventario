@@ -100,30 +100,30 @@ namespace ControlInventario.Database
             string filtroAcciones;
 
             if (esIngreso)
-            {
                 filtroAcciones = "(1, 8, 11, 12)";
-            }
             else
-            {
-                if (idAccionFiltro == 0)
-                    filtroAcciones = "(2, 4, 5, 6, 9, 10)";
-                else
-                    filtroAcciones = $"({idAccionFiltro})";
-            }
+                filtroAcciones = (idAccionFiltro == 0) ? "(2, 4, 5, 6, 9, 10)" : $"({idAccionFiltro})";
 
             string query = $@"
             SELECT DISTINCT m.Id, m.Nombre 
             FROM Articulos a
             INNER JOIN Marcas m ON a.IdMarca = m.Id
-            WHERE a.CategoriaId = @CategoriaId
-              AND a.InventarioId = @InventarioId
-              AND a.IdAccion IN {filtroAcciones}
-            ORDER BY m.Nombre ASC;";
+            WHERE a.InventarioId = @InventarioId
+              AND a.IdAccion IN {filtroAcciones}";
+
+            if (esIngreso)
+            {
+                query += " AND a.CategoriaId = @CategoriaId";
+            }
+
+            query += " ORDER BY m.Nombre ASC;";
 
             using (var cmd = new SQLiteCommand(query, con))
             {
-                cmd.Parameters.AddWithValue("@CategoriaId", categoriaId);
                 cmd.Parameters.AddWithValue("@InventarioId", inventarioId);
+
+                if (esIngreso)
+                    cmd.Parameters.AddWithValue("@CategoriaId", categoriaId);
 
                 using (var adapter = new SQLiteDataAdapter(cmd))
                 {

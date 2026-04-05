@@ -52,9 +52,12 @@ namespace ControlInventario.Vistas
             TxtBuscarCodArticuloIngreso.Enabled = false;
             CbBuscarMarcaArticuloIngreso.Enabled = false;
             ChkUsarFechasIngreso.Enabled = false;
-            DataTable dtVacia = new DataTable();
-            RefreshService.RefrescarComboDT(CbBuscarMarcaArticuloIngreso, dtVacia, "Nombre", "Id", "SELECCIONE");
-            RefreshService.RefrescarComboDT(CbBuscarMarcaArticuloSalida, dtVacia, "Nombre", "Id", "SELECCIONE");
+
+            DataTable dtVaciaIngresos = new DataTable();
+            RefreshService.RefrescarComboDT(CbBuscarMarcaArticuloIngreso, dtVaciaIngresos, "Nombre", "Id", "SELECCIONE");
+
+            DataTable dtVaciaSalidas = new DataTable();
+            RefreshService.RefrescarComboDT(CbBuscarMarcaArticuloSalida, dtVaciaSalidas, "Nombre", "Id", "SELECCIONE");
 
             DvgIngresos.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.ColumnHeader);
             LblAccionDecription.Text = "EXCEL";
@@ -94,9 +97,6 @@ namespace ControlInventario.Vistas
                     con.Open();
                     var dtMarcasIngresos = MarcasRepository.BuscarMarcasPorArticulosPorCategoria(con, this.categoriaSeleccionadaId, UsuarioSesion.InventarioId, true);
                     RefreshService.RefrescarComboDT(CbBuscarMarcaArticuloIngreso, dtMarcasIngresos, "Nombre", "Id", "SELECCIONE");
-
-                    var dtMarcasSalidas = MarcasRepository.BuscarMarcasPorArticulosPorCategoria(con, this.categoriaSeleccionadaId, UsuarioSesion.InventarioId, false, accionSalidaSeleccionada);
-                    RefreshService.RefrescarComboDT(CbBuscarMarcaArticuloSalida, dtMarcasSalidas, "Nombre", "Id", "SELECCIONE");
                 }
             }
         }
@@ -109,16 +109,6 @@ namespace ControlInventario.Vistas
 
             this.categoriaSeleccionadaId = idCat;
             this.categoriaSeleccionadaNombre = nombreCat;
-
-            using (var con = ConexionGlobal.ObtenerConexion())
-            {
-                con.Open();
-                var dtMarcasIngresos = MarcasRepository.BuscarMarcasPorArticulosPorCategoria(con, this.categoriaSeleccionadaId, UsuarioSesion.InventarioId, true);
-                RefreshService.RefrescarComboDT(CbBuscarMarcaArticuloIngreso, dtMarcasIngresos, "Nombre", "Id", "SELECCIONE");
-
-                var dtMarcasSalidas = MarcasRepository.BuscarMarcasPorArticulosPorCategoria(con, this.categoriaSeleccionadaId, UsuarioSesion.InventarioId, false, accionSalidaSeleccionada);
-                RefreshService.RefrescarComboDT(CbBuscarMarcaArticuloSalida, dtMarcasSalidas, "Nombre", "Id", "SELECCIONE");
-            }
 
             RefrescarArticulos();
 
@@ -666,9 +656,15 @@ namespace ControlInventario.Vistas
             if (vistaMovimiento.ShowDialog() == DialogResult.OK)
             {
                 var articulosCategoria = ArticuloRepository.ListarArticulos(categoriaSeleccionadaId);
-                DataTable articulosAsignados = ArticuloRepository.ListarArticulosAsignados(UsuarioSesion.InventarioId);
+                dtSalidasOriginal = ArticuloRepository.ListarArticulosAsignados(UsuarioSesion.InventarioId, categoriaSeleccionadaId);
+
                 ClassHelper.RefrescarDvgIngresos(DvgIngresos, articulosCategoria);
-                ClassHelper.RefrescarDvgSalidas(DvgSalidas, articulosAsignados);
+
+                DataView vistaFiltrada = dtSalidasOriginal.DefaultView;
+                if (accionSalidaSeleccionada > 0)
+                    vistaFiltrada.RowFilter = $"IdAccion = {accionSalidaSeleccionada}";
+
+                ClassHelper.RefrescarDvgSalidas(DvgSalidas, vistaFiltrada.ToTable());
 
                 using (var con = ConexionGlobal.ObtenerConexion())
                 {
@@ -897,6 +893,13 @@ namespace ControlInventario.Vistas
         {
             dtSalidasOriginal = ArticuloRepository.ListarArticulosAsignados(UsuarioSesion.InventarioId);
             ClassHelper.RefrescarDvgSalidas(DvgSalidas, dtSalidasOriginal);
+
+            using (var con = ConexionGlobal.ObtenerConexion())
+            {
+                con.Open();
+                var dtMarcasSalidas = MarcasRepository.BuscarMarcasPorArticulosPorCategoria(con, 0, UsuarioSesion.InventarioId, false, 0);
+                RefreshService.RefrescarComboDT(CbBuscarMarcaArticuloSalida, dtMarcasSalidas, "Nombre", "Id", "SELECCIONE");
+            }
         }
         private void CargarMenuSalidas()
         {
@@ -986,15 +989,11 @@ namespace ControlInventario.Vistas
                 DvgSalidas.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
             }
 
-            if (this.categoriaSeleccionadaId > 0)
+            using (var con = ConexionGlobal.ObtenerConexion())
             {
-                using (var con = ConexionGlobal.ObtenerConexion())
-                {
-                    con.Open();
-                    var dtMarcasSalidas = MarcasRepository.BuscarMarcasPorArticulosPorCategoria(con, this.categoriaSeleccionadaId, UsuarioSesion.InventarioId, false, accionSalidaSeleccionada);
-
-                    RefreshService.RefrescarComboDT(CbBuscarMarcaArticuloSalida, dtMarcasSalidas, "Nombre", "Id", "SELECCIONE");
-                }
+                con.Open();
+                var dtMarcasSalidas = MarcasRepository.BuscarMarcasPorArticulosPorCategoria(con, 0, UsuarioSesion.InventarioId, false, accionSalidaSeleccionada);
+                RefreshService.RefrescarComboDT(CbBuscarMarcaArticuloSalida, dtMarcasSalidas, "Nombre", "Id", "SELECCIONE");
             }
         }
 
@@ -1017,6 +1016,12 @@ namespace ControlInventario.Vistas
             {
                 BtnDevolucion.Enabled = false;
             }
+        }
+
+        private void BtnVenta_Click(object sender, EventArgs e)
+        {
+            VistaVentas vistaVentas = new VistaVentas();
+            vistaVentas.ShowDialog();
         }
     }
 }

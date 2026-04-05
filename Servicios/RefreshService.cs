@@ -22,8 +22,6 @@ namespace ControlInventario.Servicios
             row[displayMember] = textoInicial;
             dt.Rows.InsertAt(row, 0);
 
-            combo.BeginUpdate();
-
             combo.DataSource = null;
             combo.Items.Clear();
 
@@ -40,7 +38,6 @@ namespace ControlInventario.Servicios
             {
                 combo.SelectedIndex = 0;
             }
-            combo.EndUpdate();
         }
     }
 }

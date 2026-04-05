@@ -622,28 +622,28 @@ namespace ControlInventario.Database
             return $"{prefijo}{ahora.ToString("MM")}-{ahora.ToString("mmss")}";
         }
 
-        public static DataTable ListarArticulosAsignados(int inventarioId)
+        public static DataTable ListarArticulosAsignados(int inventarioId, int categoriaId = 0)
         {
-            DataTable dt = new DataTable();
+            var dt = new DataTable();
+            string query = @"
+            SELECT a.Id, a.Codigo, a.Modelo, a.MarcaTexto, a.Serie, a.RutaFotoPrincipal, a.RutaFotoSecundaria, 
+                   a.EmpleadoActualTexto, a.EmpleadoActualAreaTexto, a.EmpleadoActualCargoTexto, 
+                   a.FechaAdquisicion, a.Caracteristicas, a.EstadoTexto, a.IdAccion,
+                   '' AS DestinatarioTexto, 
+                   m.Monto AS PrecioVenta, 
+                   m.Observacion AS MotivoBajaTexto
+            FROM vw_Articulos a
+            LEFT JOIN (
+                SELECT ArticuloId, Monto, Observacion 
+                FROM Movimientos 
+                WHERE Id IN (SELECT MAX(Id) FROM Movimientos GROUP BY ArticuloId)
+            ) m ON a.Id = m.ArticuloId
+            WHERE a.InventarioId = @InvId 
+              AND a.IdAccion IN (2, 4, 5, 6, 9, 10);";
+
             using (var con = ConexionGlobal.ObtenerConexion())
             {
                 con.Open();
-                string query = @"
-                SELECT a.Id, a.Codigo, a.Modelo, a.MarcaTexto, a.Serie, a.RutaFotoPrincipal, a.RutaFotoSecundaria, 
-                       a.EmpleadoActualTexto, a.EmpleadoActualAreaTexto, a.EmpleadoActualCargoTexto, 
-                       a.FechaAdquisicion, a.Caracteristicas, a.EstadoTexto, a.IdAccion,
-                       '' AS DestinatarioTexto, -- Lo dejamos vacío por ahora, o puedes guardar el cliente en el campo 'Observación'
-                       m.Monto AS PrecioVenta, 
-                       m.Observacion AS MotivoBajaTexto
-                FROM vw_Articulos a
-                LEFT JOIN (
-                    SELECT ArticuloId, Monto, Observacion 
-                    FROM Movimientos 
-                    WHERE Id IN (SELECT MAX(Id) FROM Movimientos GROUP BY ArticuloId)
-                ) m ON a.Id = m.ArticuloId
-                WHERE a.InventarioId = @InvId 
-                  AND a.IdAccion IN (2, 4, 5, 6, 9, 10);";
-
                 using (var cmd = new SQLiteCommand(query, con))
                 {
                     cmd.Parameters.AddWithValue("@InvId", inventarioId);

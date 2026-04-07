@@ -534,10 +534,9 @@ namespace ControlInventario.Database
             {
                 con.Open();
 
-                string query = @"SELECT Id, Codigo, Modelo, RutaFotoPrincipal, RutaFotoSecundaria, PrecioAdquisicion 
-                                 FROM vw_Articulos 
-                                 WHERE InventarioId = @InvId 
-                                   AND IdAccion IN (1, 8, 11, 12);";
+                string query = @"SELECT * FROM vw_Articulos 
+                         WHERE InventarioId = @InvId 
+                           AND IdAccion IN (1, 8, 11, 12);";
 
                 using (var cmd = new SQLiteCommand(query, con))
                 {

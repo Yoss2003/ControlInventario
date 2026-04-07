@@ -651,16 +651,19 @@ namespace ControlInventario.Vistas
 
         private void BtnNuevaAsignacion_Click(object sender, EventArgs e)
         {
-            VistaMovimiento vistaMovimiento = new VistaMovimiento();
+            VistaAsignacion vistaAsignacion = new VistaAsignacion();
 
-            if (vistaMovimiento.ShowDialog() == DialogResult.OK)
+            if (vistaAsignacion.ShowDialog() == DialogResult.OK)
             {
-                var articulosCategoria = ArticuloRepository.ListarArticulos(categoriaSeleccionadaId);
-                dtSalidasOriginal = ArticuloRepository.ListarArticulosAsignados(UsuarioSesion.InventarioId, categoriaSeleccionadaId);
+                if (categoriaSeleccionadaId > 0)
+                {
+                    var articulosCategoria = ArticuloRepository.ListarArticulos(categoriaSeleccionadaId);
+                    ClassHelper.RefrescarDvgIngresos(DvgIngresos, articulosCategoria);
+                }
 
-                ClassHelper.RefrescarDvgIngresos(DvgIngresos, articulosCategoria);
-
+                dtSalidasOriginal = ArticuloRepository.ListarArticulosAsignados(UsuarioSesion.InventarioId);
                 DataView vistaFiltrada = dtSalidasOriginal.DefaultView;
+
                 if (accionSalidaSeleccionada > 0)
                     vistaFiltrada.RowFilter = $"IdAccion = {accionSalidaSeleccionada}";
 
@@ -672,7 +675,7 @@ namespace ControlInventario.Vistas
                     var dtMarcasIngresos = MarcasRepository.BuscarMarcasPorArticulosPorCategoria(con, this.categoriaSeleccionadaId, UsuarioSesion.InventarioId, true);
                     RefreshService.RefrescarComboDT(CbBuscarMarcaArticuloIngreso, dtMarcasIngresos, "Nombre", "Id", "SELECCIONE");
 
-                    var dtMarcasSalidas = MarcasRepository.BuscarMarcasPorArticulosPorCategoria(con, this.categoriaSeleccionadaId, UsuarioSesion.InventarioId, false, accionSalidaSeleccionada);
+                    var dtMarcasSalidas = MarcasRepository.BuscarMarcasPorArticulosPorCategoria(con, 0, UsuarioSesion.InventarioId, false, accionSalidaSeleccionada);
                     RefreshService.RefrescarComboDT(CbBuscarMarcaArticuloSalida, dtMarcasSalidas, "Nombre", "Id", "SELECCIONE");
                 }
             }

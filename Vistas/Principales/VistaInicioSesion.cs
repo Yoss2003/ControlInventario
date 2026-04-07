@@ -95,7 +95,7 @@ namespace ControlInventario
             }
             ClassHelper.AplicarTema(this);
             ClassHelper.AplicarIdiomaGlobal();
-            _gestorVoz.HablarAsincrono("Bienvenido al sistema de control de inventario.");
+            //_gestorVoz.HablarAsincrono("Bienvenido al sistema de control de inventario.");
         }
 
         private async void btnIngresar_Click(object sender, EventArgs e)

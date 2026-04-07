@@ -1,6 +1,6 @@
 ﻿namespace ControlInventario.Vistas.Extras
 {
-    partial class VistaVentaAvanzado
+    partial class VistaBusquedaAvanzada
     {
         /// <summary>
         /// Required designer variable.
@@ -28,14 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.DgvArticulosBusquedaAvanzada = new System.Windows.Forms.DataGridView();
             this.CodigoArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DescripcionArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -46,12 +46,12 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.CbBuscarPorMarca = new System.Windows.Forms.ComboBox();
             this.CbBuscarPorCategoria = new System.Windows.Forms.ComboBox();
+            this.TxtBuscarPorDescripcion = new System.Windows.Forms.TextBox();
             this.TxtBuscarPorNombre = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.TxtBuscarPorDescripcion = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.DgvArticulosBusquedaAvanzada)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -60,14 +60,14 @@
             // 
             this.DgvArticulosBusquedaAvanzada.AllowUserToAddRows = false;
             this.DgvArticulosBusquedaAvanzada.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.DgvArticulosBusquedaAvanzada.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.DgvArticulosBusquedaAvanzada.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.DgvArticulosBusquedaAvanzada.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DgvArticulosBusquedaAvanzada.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.CodigoArticulo,
@@ -76,35 +76,38 @@
             this.PrecioArticulo,
             this.StockArticulo,
             this.AcciónArticulo});
-            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle15.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle15.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle15.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle15.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.DgvArticulosBusquedaAvanzada.DefaultCellStyle = dataGridViewCellStyle15;
-            this.DgvArticulosBusquedaAvanzada.Location = new System.Drawing.Point(12, 119);
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.DgvArticulosBusquedaAvanzada.DefaultCellStyle = dataGridViewCellStyle7;
+            this.DgvArticulosBusquedaAvanzada.Location = new System.Drawing.Point(8, 77);
+            this.DgvArticulosBusquedaAvanzada.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.DgvArticulosBusquedaAvanzada.Name = "DgvArticulosBusquedaAvanzada";
             this.DgvArticulosBusquedaAvanzada.ReadOnly = true;
-            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle16.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle16.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle16.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle16.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle16.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle16.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.DgvArticulosBusquedaAvanzada.RowHeadersDefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.DgvArticulosBusquedaAvanzada.RowHeadersDefaultCellStyle = dataGridViewCellStyle8;
             this.DgvArticulosBusquedaAvanzada.RowHeadersVisible = false;
             this.DgvArticulosBusquedaAvanzada.RowHeadersWidth = 62;
             this.DgvArticulosBusquedaAvanzada.RowTemplate.Height = 28;
-            this.DgvArticulosBusquedaAvanzada.Size = new System.Drawing.Size(776, 261);
+            this.DgvArticulosBusquedaAvanzada.Size = new System.Drawing.Size(517, 170);
             this.DgvArticulosBusquedaAvanzada.TabIndex = 5;
+            this.DgvArticulosBusquedaAvanzada.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvArticulosBusquedaAvanzada_CellContentClick);
+            this.DgvArticulosBusquedaAvanzada.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvArticulosBusquedaAvanzada_CellDoubleClick);
             // 
             // CodigoArticulo
             // 
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.CodigoArticulo.DefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.CodigoArticulo.DefaultCellStyle = dataGridViewCellStyle2;
             this.CodigoArticulo.HeaderText = "Código";
             this.CodigoArticulo.MinimumWidth = 8;
             this.CodigoArticulo.Name = "CodigoArticulo";
@@ -113,8 +116,8 @@
             // 
             // DescripcionArticulo
             // 
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.DescripcionArticulo.DefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.DescripcionArticulo.DefaultCellStyle = dataGridViewCellStyle3;
             this.DescripcionArticulo.HeaderText = "Descripción";
             this.DescripcionArticulo.MinimumWidth = 8;
             this.DescripcionArticulo.Name = "DescripcionArticulo";
@@ -123,8 +126,8 @@
             // 
             // MarcaArticulo
             // 
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.MarcaArticulo.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.MarcaArticulo.DefaultCellStyle = dataGridViewCellStyle4;
             this.MarcaArticulo.HeaderText = "Marca";
             this.MarcaArticulo.MinimumWidth = 8;
             this.MarcaArticulo.Name = "MarcaArticulo";
@@ -133,8 +136,8 @@
             // 
             // PrecioArticulo
             // 
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.PrecioArticulo.DefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.PrecioArticulo.DefaultCellStyle = dataGridViewCellStyle5;
             this.PrecioArticulo.HeaderText = "Precio";
             this.PrecioArticulo.MinimumWidth = 8;
             this.PrecioArticulo.Name = "PrecioArticulo";
@@ -143,8 +146,8 @@
             // 
             // StockArticulo
             // 
-            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.StockArticulo.DefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.StockArticulo.DefaultCellStyle = dataGridViewCellStyle6;
             this.StockArticulo.HeaderText = "Stock";
             this.StockArticulo.MinimumWidth = 8;
             this.StockArticulo.Name = "StockArticulo";
@@ -171,9 +174,11 @@
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(13, 13);
+            this.groupBox1.Location = new System.Drawing.Point(9, 8);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(775, 100);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Size = new System.Drawing.Size(517, 65);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Buscar por:";
@@ -181,84 +186,94 @@
             // CbBuscarPorMarca
             // 
             this.CbBuscarPorMarca.FormattingEnabled = true;
-            this.CbBuscarPorMarca.Location = new System.Drawing.Point(591, 48);
+            this.CbBuscarPorMarca.Location = new System.Drawing.Point(394, 31);
+            this.CbBuscarPorMarca.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.CbBuscarPorMarca.Name = "CbBuscarPorMarca";
-            this.CbBuscarPorMarca.Size = new System.Drawing.Size(172, 28);
+            this.CbBuscarPorMarca.Size = new System.Drawing.Size(116, 21);
             this.CbBuscarPorMarca.TabIndex = 12;
             // 
             // CbBuscarPorCategoria
             // 
             this.CbBuscarPorCategoria.FormattingEnabled = true;
-            this.CbBuscarPorCategoria.Location = new System.Drawing.Point(396, 48);
+            this.CbBuscarPorCategoria.Location = new System.Drawing.Point(264, 31);
+            this.CbBuscarPorCategoria.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.CbBuscarPorCategoria.Name = "CbBuscarPorCategoria";
-            this.CbBuscarPorCategoria.Size = new System.Drawing.Size(172, 28);
+            this.CbBuscarPorCategoria.Size = new System.Drawing.Size(116, 21);
             this.CbBuscarPorCategoria.TabIndex = 11;
+            // 
+            // TxtBuscarPorDescripcion
+            // 
+            this.TxtBuscarPorDescripcion.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TxtBuscarPorDescripcion.Location = new System.Drawing.Point(134, 32);
+            this.TxtBuscarPorDescripcion.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.TxtBuscarPorDescripcion.Name = "TxtBuscarPorDescripcion";
+            this.TxtBuscarPorDescripcion.Size = new System.Drawing.Size(115, 20);
+            this.TxtBuscarPorDescripcion.TabIndex = 10;
             // 
             // TxtBuscarPorNombre
             // 
             this.TxtBuscarPorNombre.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TxtBuscarPorNombre.Location = new System.Drawing.Point(6, 49);
+            this.TxtBuscarPorNombre.Location = new System.Drawing.Point(4, 32);
+            this.TxtBuscarPorNombre.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.TxtBuscarPorNombre.Name = "TxtBuscarPorNombre";
-            this.TxtBuscarPorNombre.Size = new System.Drawing.Size(172, 26);
+            this.TxtBuscarPorNombre.Size = new System.Drawing.Size(115, 20);
             this.TxtBuscarPorNombre.TabIndex = 10;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(587, 25);
+            this.label3.Location = new System.Drawing.Point(391, 16);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(53, 20);
+            this.label3.Size = new System.Drawing.Size(37, 13);
             this.label3.TabIndex = 7;
             this.label3.Text = "Marca";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(2, 25);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(65, 20);
-            this.label1.TabIndex = 9;
-            this.label1.Text = "Nombre";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(392, 25);
+            this.label2.Location = new System.Drawing.Point(261, 16);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(82, 20);
+            this.label2.Size = new System.Drawing.Size(55, 13);
             this.label2.TabIndex = 8;
             this.label2.Text = "Categoria:";
-            // 
-            // TxtBuscarPorDescripcion
-            // 
-            this.TxtBuscarPorDescripcion.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TxtBuscarPorDescripcion.Location = new System.Drawing.Point(201, 49);
-            this.TxtBuscarPorDescripcion.Name = "TxtBuscarPorDescripcion";
-            this.TxtBuscarPorDescripcion.Size = new System.Drawing.Size(172, 26);
-            this.TxtBuscarPorDescripcion.TabIndex = 10;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(197, 25);
+            this.label4.Location = new System.Drawing.Point(131, 16);
+            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(92, 20);
+            this.label4.Size = new System.Drawing.Size(63, 13);
             this.label4.TabIndex = 9;
             this.label4.Text = "Descripción";
             // 
-            // VistaVentaAvanzado
+            // label1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(1, 16);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(44, 13);
+            this.label1.TabIndex = 9;
+            this.label1.Text = "Nombre";
+            // 
+            // VistaBusquedaAvanzada
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 400);
+            this.ClientSize = new System.Drawing.Size(533, 260);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.DgvArticulosBusquedaAvanzada);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "VistaVentaAvanzado";
+            this.Name = "VistaBusquedaAvanzada";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Búsqueda avanzada";
+            this.Load += new System.EventHandler(this.VistaBusquedaAvanzada_Load);
             ((System.ComponentModel.ISupportInitialize)(this.DgvArticulosBusquedaAvanzada)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

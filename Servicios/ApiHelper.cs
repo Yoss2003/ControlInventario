@@ -54,5 +54,24 @@ namespace ControlInventario.Servicios
                 return null;
             }
         }
+
+        // Agrégalo en tu clase ApiHelper (si no existe)
+        public static async Task<RequestReniec> ConsultarDniAsync(string dni)
+        {
+            if (string.IsNullOrWhiteSpace(dni) || dni.Length != 8) return null;
+            string url = $"https://api.apis.net.pe/v1/dni?numero={dni}";
+            try
+            {
+                HttpResponseMessage response = await httpClient.GetAsync(url);
+                if (response.IsSuccessStatusCode)
+                {
+                    string jsonResponse = await response.Content.ReadAsStringAsync();
+                    var opciones = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                    return JsonSerializer.Deserialize<RequestReniec>(jsonResponse, opciones);
+                }
+                return null;
+            }
+            catch { return null; }
+        }
     }
 }

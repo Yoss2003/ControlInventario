@@ -1,11 +1,12 @@
 ﻿using ControlInventario.Database;
 using ControlInventario.Modelo;
-using ControlInventario.Modelos;
 using ControlInventario.Modelo.API;
+using ControlInventario.Modelos;
 using ControlInventario.Repositorio;
 using ControlInventario.Servicios;
 using ControlInventario.Vistas.Extras;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
 using System.Drawing;
@@ -17,6 +18,7 @@ namespace ControlInventario.Vistas.Aplicacion
     {
         private DataTable dtStockDisponible;
         private decimal totalVenta = 0m;
+        public EdicionArticulo DatosEdicion { get; set; }
         public VistaVentas()
         {
             InitializeComponent();
@@ -65,30 +67,16 @@ namespace ControlInventario.Vistas.Aplicacion
 
             dtStockDisponible = ArticuloRepository.ListarArticulosDisponibles(UsuarioSesion.InventarioId);
 
-            LblVuelto.Text = $"{ObtenerSimboloMoneda()} 0,00";
-            TxtMontoRecibido.Text = $"{ObtenerSimboloMoneda()} 0,00";
+            LblVuelto.Text = $"{ClassHelper.ObtenerSimboloMoneda()} 0,00";
+            TxtMontoRecibido.Text = $"{ClassHelper.ObtenerSimboloMoneda()} 0,00";
 
             this.Click += Fondo_Click;
             ConfigurarPerdidaDeFoco(this);
         }
 
-        private string ObtenerSimboloMoneda()
-        {
-            // Reutilizamos tu lógica exacta
-            string monedaCompleta = UsuarioSesion.Configuracion?.Moneda ?? "PEN - Soles";
-            string codigoMoneda = monedaCompleta.Split('-')[0].Trim();
-            switch (codigoMoneda)
-            {
-                case "PEN": return "S/";
-                case "USD": return "$";
-                case "EUR": return "€";
-                case "MXN": return "$";
-                default: return codigoMoneda;
-            }
-        }
         private void ActualizarLabelTotal()
         {
-            LblTotal.Text = $"TOTAL: {ObtenerSimboloMoneda()} {totalVenta:N2}";
+            LblTotal.Text = $"TOTAL: {ClassHelper.ObtenerSimboloMoneda()} {totalVenta:N2}";
         }
 
         private void BtnBuscar_Click(object sender, EventArgs e)
@@ -101,39 +89,39 @@ namespace ControlInventario.Vistas.Aplicacion
             string codigo = TxtBuscarArticulo.Text.Trim();
             if (string.IsNullOrEmpty(codigo)) return;
 
-            // Evitar duplicados en la misma venta
+            bool existeEnCarrito = false;
             foreach (DataGridViewRow fila in DgvArticulos.Rows)
             {
                 if (fila.Cells["CodigoArticulo"].Value?.ToString() == codigo)
                 {
-                    MessageBox.Show("Este equipo ya fue escaneado.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    int cantActual = Convert.ToInt32(fila.Cells["CantidadArticulo"].Value);
+                    fila.Cells["CantidadArticulo"].Value = cantActual + 1;
+                    existeEnCarrito = true;
                     TxtBuscarArticulo.Clear();
-                    return;
+                    break;
                 }
             }
 
-            // Buscar en caché
-            DataRow[] resultados = dtStockDisponible.Select($"Codigo = '{codigo}'");
-
-            if (resultados.Length > 0)
+            if (!existeEnCarrito)
             {
-                DataRow art = resultados[0];
-                int idArticulo = Convert.ToInt32(art["Id"]);
-                decimal precio = art["PrecioAdquisicion"] != DBNull.Value ? Convert.ToDecimal(art["PrecioAdquisicion"]) : 0m;
+                DataRow[] resultados = dtStockDisponible.Select($"Codigo = '{codigo}'");
+                if (resultados.Length > 0)
+                {
+                    DataRow art = resultados[0];
+                    int idArticulo = Convert.ToInt32(art["Id"]);
+                    decimal precioBD = art["PrecioAdquisicion"] != DBNull.Value ? Convert.ToDecimal(art["PrecioAdquisicion"]) : 0m;
+                    decimal precioLocal = ClassHelper.ConvertirBDAMonedaLocal(precioBD, DatosEdicion.MonedaAdquisicion) ?? 0m;
+                    int rowIndex = DgvArticulos.Rows.Add(art["Codigo"], art["Modelo"], precioLocal, 1, precioLocal);
+                    DgvArticulos.Rows[rowIndex].Tag = idArticulo;
 
-                int rowIndex = DgvArticulos.Rows.Add(art["Codigo"], art["Modelo"], precio);
-
-                DgvArticulos.Rows[rowIndex].Tag = idArticulo;
-
-                TxtBuscarArticulo.Clear();
-                TxtBuscarArticulo.Focus();
-
-                CalcularTotales();
-            }
-            else
-            {
-                MessageBox.Show("Equipo no encontrado o no disponible para venta.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                TxtBuscarArticulo.SelectAll();
+                    TxtBuscarArticulo.Clear();
+                    CalcularTotalesGlobales();
+                }
+                else
+                {
+                    MessageBox.Show("Equipo no disponible.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    TxtBuscarArticulo.SelectAll();
+                }
             }
         }
 
@@ -163,23 +151,6 @@ namespace ControlInventario.Vistas.Aplicacion
             CalcularVuelto();
         }
 
-        private void CalcularTotales()
-        {
-            totalVenta = 0m;
-            foreach (DataGridViewRow row in DgvArticulos.Rows)
-            {
-                if (row.Cells["PrecioArticulo"].Value != null)
-                {
-                    totalVenta += Convert.ToDecimal(row.Cells["PrecioArticulo"].Value);
-                }
-            }
-
-            LblTotal.Text = $"TOTAL: {totalVenta.ToString("C2")}";
-            BtnCompletarVenta.Enabled = (DgvArticulos.Rows.Count > 0);
-
-            CalcularVuelto();
-        }
-
         private void CalcularVuelto()
         {
             decimal? montoRecibido = ClassHelper.LimpiarTextoParaEdicion(TxtMontoRecibido.Text);
@@ -189,18 +160,18 @@ namespace ControlInventario.Vistas.Aplicacion
                 decimal vuelto = montoRecibido.Value - totalVenta;
                 if (vuelto < 0)
                 {
-                    LblVuelto.Text = $"Faltan: {ObtenerSimboloMoneda()} {Math.Abs(vuelto):N2}";
+                    LblVuelto.Text = $"Faltan: {ClassHelper.ObtenerSimboloMoneda()} {Math.Abs(vuelto):N2}";
                     LblVuelto.ForeColor = Color.Red;
                 }
                 else
                 {
-                    LblVuelto.Text = $"{ObtenerSimboloMoneda()} {vuelto:N2}";
+                    LblVuelto.Text = $"{ClassHelper.ObtenerSimboloMoneda()} {vuelto:N2}";
                     LblVuelto.ForeColor = Color.Green;
                 }
             }
             else
             {
-                LblVuelto.Text = $"{ObtenerSimboloMoneda()} 0,00";
+                LblVuelto.Text = $"{ClassHelper.ObtenerSimboloMoneda()} 0,00";
                 LblVuelto.ForeColor = Color.Black;
             }
         }
@@ -219,12 +190,14 @@ namespace ControlInventario.Vistas.Aplicacion
                 return;
             }
 
-            // Validar que el pago cubra el total (Solo si es en efectivo)
             if (CbMetodoPago.Text == "Efectivo")
             {
-                if (!decimal.TryParse(TxtMontoRecibido.Text, out decimal pago) || pago < totalVenta)
+                decimal? pago = ClassHelper.LimpiarTextoParaEdicion(TxtMontoRecibido.Text);
+
+                if (!pago.HasValue || Math.Round(pago.Value, 2) < Math.Round(totalVenta, 2))
                 {
-                    MessageBox.Show("El monto recibido no cubre el total de la venta.", "Caja", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    decimal falta = Math.Round(totalVenta, 2) - Math.Round((pago ?? 0), 2);
+                    MessageBox.Show($"El monto recibido no cubre el total de la venta.\n\nFalta: {ClassHelper.ObtenerSimboloMoneda()} {falta:N2}", "Caja", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     TxtMontoRecibido.Focus();
                     return;
                 }
@@ -245,63 +218,45 @@ namespace ControlInventario.Vistas.Aplicacion
             string metodoPago = CbMetodoPago.Text;
             string obsGeneral = TxtObservaciones.Text.Trim();
 
-            // Formamos una observación detallada para el historial
             string observacionFinal = $"VENTA ({comprobante}): {cliente} [Doc:{doc}] | Pago: {metodoPago} | Obs: {obsGeneral}";
 
-            using (var con = ConexionGlobal.ObtenerConexion())
+            List<Movimiento> movimientosVenta = new List<Movimiento>();
+
+            foreach (DataGridViewRow row in DgvArticulos.Rows)
             {
-                con.Open();
-                using (var transaction = con.BeginTransaction())
+                string codigoArt = row.Cells["CodigoArticulo"].Value.ToString();
+                int cantidadVendida = Convert.ToInt32(row.Cells["CantidadArticulo"].Value);
+                decimal precioUnitario = Convert.ToDecimal(row.Cells["PrecioArticulo"].Value);
+
+                DataRow[] articulosDisponibles = dtStockDisponible.Select($"Codigo = '{codigoArt}'");
+
+                for (int i = 0; i < cantidadVendida; i++)
                 {
-                    try
+                    int idFisicoReal = Convert.ToInt32(articulosDisponibles[i]["Id"]);
+
+                    movimientosVenta.Add(new Movimiento
                     {
-                        foreach (DataGridViewRow row in DgvArticulos.Rows)
-                        {
-                            int idArticulo = (int)row.Tag;
-                            decimal precioVendido = Convert.ToDecimal(row.Cells["PrecioArticulo"].Value);
-
-                            // 1. Insertamos el movimiento (Acción 4 = Venta. Verifica en tu tabla de Acciones que el 4 sea Venta)
-                            MovimientoRepository.InsertarMovimiento(new Movimiento
-                            {
-                                ArticuloId = idArticulo,
-                                EmpleadoId = null, // Se va fuera de la empresa
-                                IdAccion = 4,
-                                FechaMovimiento = DtpFecha.Value,
-                                Observacion = observacionFinal,
-                                Monto = precioVendido
-                            }, con);
-
-                            // 2. Actualizamos el Artículo (Lo marcamos como vendido/inactivo)
-                            // Supongamos que IdEstado 3 es "Vendido". Acción 4. Empleados quedan en NULL.
-                            string updateArticulo = @"
-                                UPDATE Articulos 
-                                SET IdEstado = 3, 
-                                    IdAccion = 4, 
-                                    EmpleadoAnteriorId = EmpleadoActualId,
-                                    EmpleadoActualId = NULL,
-                                    FechaSalida = @FechaSalida
-                                WHERE Id = @Id;";
-
-                            using (var cmd = new SQLiteCommand(updateArticulo, con, transaction))
-                            {
-                                cmd.Parameters.AddWithValue("@FechaSalida", DtpFecha.Value.ToString("yyyy-MM-dd HH:mm:ss"));
-                                cmd.Parameters.AddWithValue("@Id", idArticulo);
-                                cmd.ExecuteNonQuery();
-                            }
-                        }
-
-                        transaction.Commit();
-                        MessageBox.Show("¡Venta procesada y registrada con éxito!", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                        this.DialogResult = DialogResult.OK;
-                        this.Close();
-                    }
-                    catch (Exception ex)
-                    {
-                        transaction.Rollback();
-                        MessageBox.Show("Error crítico al procesar la venta: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                        ArticuloId = idFisicoReal,
+                        IdAccion = 2,
+                        FechaMovimiento = DtpFecha.Value,
+                        Observacion = observacionFinal,
+                        Monto = precioUnitario
+                    });
                 }
+            }
+
+            try
+            {
+                MovimientoRepository.RegistrarVenta(movimientosVenta);
+
+                MessageBox.Show("¡Venta procesada y registrada con éxito!", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error Crítico", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -309,44 +264,8 @@ namespace ControlInventario.Vistas.Aplicacion
         {
             if (e.KeyCode == Keys.Enter)
             {
-                string codigo = TxtBuscarArticulo.Text.Trim();
-                if (string.IsNullOrEmpty(codigo)) return;
                 e.SuppressKeyPress = true;
-
-                bool existeEnCarrito = false;
-                foreach (DataGridViewRow fila in DgvArticulos.Rows)
-                {
-                    if (fila.Cells["CodigoArticulo"].Value?.ToString() == codigo)
-                    {
-                        int cantActual = Convert.ToInt32(fila.Cells["CantidadArticulo"].Value);
-                        fila.Cells["CantidadArticulo"].Value = cantActual + 1;
-                        existeEnCarrito = true;
-                        TxtBuscarArticulo.Clear();
-                        break;
-                    }
-                }
-
-                if (!existeEnCarrito)
-                {
-                    DataRow[] resultados = dtStockDisponible.Select($"Codigo = '{codigo}'");
-                    if (resultados.Length > 0)
-                    {
-                        DataRow art = resultados[0];
-                        int idArticulo = Convert.ToInt32(art["Id"]);
-                        decimal precio = art["PrecioAdquisicion"] != DBNull.Value ? Convert.ToDecimal(art["PrecioAdquisicion"]) : 0m;
-
-                        int rowIndex = DgvArticulos.Rows.Add(art["Codigo"], art["Modelo"], precio, 1, precio);
-                        DgvArticulos.Rows[rowIndex].Tag = idArticulo;
-
-                        TxtBuscarArticulo.Clear();
-                        CalcularTotalesGlobales();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Equipo no disponible.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        TxtBuscarArticulo.SelectAll();
-                    }
-                }
+                BuscarYAgregarAlCarrito();
             }
         }
 
@@ -356,7 +275,7 @@ namespace ControlInventario.Vistas.Aplicacion
             {
                 if (e.Value != null && decimal.TryParse(e.Value.ToString(), out decimal valor))
                 {
-                    e.Value = $"{ObtenerSimboloMoneda()} {valor:N2}";
+                    e.Value = $"{ClassHelper.ObtenerSimboloMoneda()} {valor:N2}";
                     e.FormattingApplied = true;
                 }
             }
@@ -510,9 +429,9 @@ namespace ControlInventario.Vistas.Aplicacion
             decimal? numeroPuro = ClassHelper.LimpiarTextoParaEdicion(TxtMontoRecibido.Text);
 
             if (numeroPuro.HasValue)
-                TxtMontoRecibido.Text = $"{ObtenerSimboloMoneda()} {numeroPuro.Value:N2}";
+                TxtMontoRecibido.Text = $"{ClassHelper.ObtenerSimboloMoneda()} {numeroPuro.Value:N2}";
             else
-                TxtMontoRecibido.Text = $"{ObtenerSimboloMoneda()} 0,00";
+                TxtMontoRecibido.Text = $"{ClassHelper.ObtenerSimboloMoneda()} 0,00";
 
             CalcularVuelto();
         }

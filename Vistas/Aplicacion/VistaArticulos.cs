@@ -205,6 +205,9 @@ namespace ControlInventario.Vistas
             PbFotoArticulo.Image = null;
             PanelComprobante.Controls.Clear();
 
+            caracteristicasTemporales = new Dictionary<string, string>();
+            ActualizarBotonCaracteristicas();
+
             serieAutomaticaGenerada = "";
 
             if (ChkAutoSerie != null && ChkAutoSerie.Checked) ActualizarSerie();
@@ -227,6 +230,11 @@ namespace ControlInventario.Vistas
                     }
                 }
                 ActualizarModelo();
+            }
+
+            if (ChkAutoCodigo != null && ChkAutoCodigo.Checked)
+            {
+                ActualizarCodigo();
             }
         }
 
@@ -316,6 +324,7 @@ namespace ControlInventario.Vistas
                                 RucProveedor = string.IsNullOrWhiteSpace(TxtRuc.Text) ? null : TxtRuc.Text,
                                 Proveedor = string.IsNullOrWhiteSpace(TxtRazonSocial.Text) ? null : TxtRazonSocial.Text,
                                 PrecioAdquisicion = precioFinal,
+                                MonedaAdquisicion = UsuarioSesion.Configuracion?.Moneda,
                                 Caracteristicas = jsonCaracteristicas,
 
                                 FechaRegistro = DateTime.Now,
@@ -478,7 +487,6 @@ namespace ControlInventario.Vistas
                 string precioTexto = TxtPrecio.Text.Trim();
                 decimal? precioFinal = ClassHelper.ConvertirTextoAMoneda(precioTexto);              
 
-                // Mapear Codigo automatico
                 if (generarCodigoAutomatico)
                 {
                     string prefijo = nombreCategoriaActual.Length >= 3 ?
@@ -501,17 +509,22 @@ namespace ControlInventario.Vistas
                         con.Open();
                         Articulos art = new Articulos
                         {
-                            Codigo = TxtCodigo.Text,
+                            InventarioId = UsuarioSesion.InventarioId,
+                            Codigo = codigoFinal,
                             Modelo = TxtModelo.Text,
                             Serie = TxtSerie.Text,
                             IdMarca = Convert.ToInt32(CbMarcas.SelectedValue),
+                            Marca = ClassHelper.NormalizarCombo(CbMarcas),
 
                             FechaAdquisicion = DtpFechaAdquisicion.Value,
                             FechaFinGarantia = ChkFechaGarantia.Checked ? DtpFechaFinGarantia.Value.Date : (DateTime?)null,
 
                             IdEstado = Convert.ToInt32(CbEstadoArticulo.SelectedValue),
+                            Estado = string.IsNullOrWhiteSpace(CbEstadoArticulo.Text) ? null : CbEstadoArticulo.Text,
                             IdUbicacion = Convert.ToInt32(CbUbicacion.SelectedValue),
+                            Ubicacion = ClassHelper.NormalizarCombo(CbUbicacion),
                             IdCondicion = Convert.ToInt32(CbCondicion.SelectedValue),
+                            Condicion = ClassHelper.NormalizarCombo(CbCondicion),
 
                             Observacion = string.IsNullOrWhiteSpace(TxtObservaciones.Text) ? null : TxtObservaciones.Text,
 
@@ -525,6 +538,17 @@ namespace ControlInventario.Vistas
                             Categoria = _categoria,
                             FechaRegistro = DateTime.Now
                         };
+
+                        // guardar foto
+                        if (!string.IsNullOrWhiteSpace(TxtDireccionImagen.Text) && File.Exists(TxtDireccionImagen.Text))
+                        {
+                            string nombreImagen = Path.GetFileName(TxtDireccionImagen.Text);
+                            string destinoImagen = Path.Combine(carpetaImagenes, nombreImagen);
+
+                            File.Copy(TxtDireccionImagen.Text, destinoImagen, true);
+                            art.FotoPrincipal = TxtDireccionImagen.Text;
+                            art.FotoSecundaria = destinoImagen;
+                        }
 
                         // guardar comprobante
                         if (!string.IsNullOrWhiteSpace(TxtRutaComprobante.Text) && File.Exists(TxtRutaComprobante.Text))
@@ -671,6 +695,14 @@ namespace ControlInventario.Vistas
                     CbUbicacion.SelectedValue = DatosEdicion.IdUbicacion;
                     CbCondicion.SelectedValue = DatosEdicion.IdCondicion;
 
+                    decimal precioBD = Convert.ToDecimal(DatosEdicion.PrecioAdquisicion);
+
+                    if (precioBD > 0)
+                    {
+                        decimal? precioConvertido = ClassHelper.ConvertirBDAMonedaLocal(precioBD, DatosEdicion.MonedaAdquisicion);
+                        TxtPrecio.Text = $"{ClassHelper.ObtenerSimboloMoneda()} {precioConvertido.Value:N2}";
+                    }
+
                     if (!string.IsNullOrEmpty(DatosEdicion.Caracteristicas))
                     {
                         try
@@ -806,14 +838,44 @@ namespace ControlInventario.Vistas
 
         private void TxtPrecio_Enter(object sender, EventArgs e)
         {
+            // OJO: Aquí sí usamos LimpiarTextoParaEdicion directo, porque solo queremos quitarle el símbolo visual para editar, no queremos calcular tipos de cambio.
             decimal? numeroPuro = ClassHelper.LimpiarTextoParaEdicion(TxtPrecio.Text);
-            TxtPrecio.Text = numeroPuro.HasValue ? numeroPuro.Value.ToString("0.00") : "";
+
+            if (numeroPuro.HasValue)
+            {
+                if (numeroPuro.Value == 0)
+                {
+                    TxtPrecio.Text = "";
+                }
+                else if (numeroPuro.Value % 1 == 0) // Si es un número cerrado (Ej: 1000.00)
+                {
+                    TxtPrecio.Text = numeroPuro.Value.ToString("0"); // Te deja el 1000 listo para borrar
+                }
+                else
+                {
+                    TxtPrecio.Text = numeroPuro.Value.ToString("0.00"); // Te deja el 1000.50
+                }
+            }
+            else
+            {
+                TxtPrecio.Text = "";
+            }
         }
 
         private void TxtPrecio_Leave(object sender, EventArgs e)
         {
             decimal? numeroPuro = ClassHelper.LimpiarTextoParaEdicion(TxtPrecio.Text);
-            TxtPrecio.Text = ClassHelper.AgregarSimboloVisual(numeroPuro);
+
+            // Le pone el separador de miles y los 2 decimales estéticos
+            if (numeroPuro.HasValue)
+            {
+                // Asegúrate de tener tu método ObtenerSimboloMoneda() en esta vista
+                TxtPrecio.Text = $"{ClassHelper.ObtenerSimboloMoneda()} {numeroPuro.Value:N2}";
+            }
+            else
+            {
+                TxtPrecio.Text = $"{ClassHelper.ObtenerSimboloMoneda()} 0.00";
+            }
         }
 
         private void Fondo_Click(object sender, EventArgs e)

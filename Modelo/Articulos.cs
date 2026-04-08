@@ -60,6 +60,7 @@ namespace ControlInventario.Modelos
         public string RucProveedor { get; set; } // Identificador del proveedor
         public string Proveedor { get; set; } // Lugar de origen
         public decimal? PrecioAdquisicion { get; set; } // Precio inicial
+        public string MonedaAdquisicion { get; set; }
         public int? VidaUtilMeses { get; set; } // RAngo de uso
 
         // Relación con Categoria

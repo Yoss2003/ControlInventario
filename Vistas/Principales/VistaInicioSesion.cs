@@ -54,6 +54,9 @@ namespace ControlInventario
             string usuarioGuardado = Properties.Settings.Default.UsuarioGuardado;
             string contraseñaGuardada = Properties.Settings.Default.ContraseñaGuardada;
 
+            string nombreRegion = System.Globalization.RegionInfo.CurrentRegion.NativeName;
+            string monedaRegion = System.Globalization.RegionInfo.CurrentRegion.ISOCurrencySymbol;
+
             // Si hay credenciales guardadas, rellenar los campos y marcar el checkbox
             if (!string.IsNullOrEmpty(usuarioGuardado))
             {
@@ -96,6 +99,16 @@ namespace ControlInventario
             ClassHelper.AplicarTema(this);
             ClassHelper.AplicarIdiomaGlobal();
             //_gestorVoz.HablarAsincrono("Bienvenido al sistema de control de inventario.");
+
+            MessageBox.Show(
+                $"¡Inicio de sesión exitoso!\n\n" +
+                $"📍 Región detectada: {nombreRegion}\n" +
+                $"💰 Moneda sugerida: {monedaRegion}\n\n" +
+                $"El sistema adaptará los precios a esta configuración.",
+                "Entorno de Trabajo",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information
+            );
         }
 
         private async void btnIngresar_Click(object sender, EventArgs e)

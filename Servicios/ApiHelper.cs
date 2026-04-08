@@ -55,7 +55,6 @@ namespace ControlInventario.Servicios
             }
         }
 
-        // Agrégalo en tu clase ApiHelper (si no existe)
         public static async Task<RequestReniec> ConsultarDniAsync(string dni)
         {
             if (string.IsNullOrWhiteSpace(dni) || dni.Length != 8) return null;
@@ -72,6 +71,6 @@ namespace ControlInventario.Servicios
                 return null;
             }
             catch { return null; }
-        }
+        }        
     }
 }

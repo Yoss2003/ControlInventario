@@ -29,6 +29,8 @@ namespace ControlInventario.Modelo
         public string Area2 { get; set; }
         public string Cargo1 { get; set; }
         public string Cargo2 { get; set; }
+        public decimal PrecioAdquisicion { get; set; }
+        public string MonedaAdquisicion { get; set; }
         public string Caracteristicas { get; set; }
     }
 }

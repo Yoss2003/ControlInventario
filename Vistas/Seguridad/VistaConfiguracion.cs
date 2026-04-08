@@ -67,7 +67,7 @@ namespace ControlInventario.Vistas
                     con.Open();
 
                     var perfil = PerfilRepository.ObtenerPerfilUsuario(nombreUsuario, con);
-                    if(perfil != null)
+                    if (perfil != null)
                     {
                         CbIdioma.SelectedValue = perfil.IdIdioma;
                         CbIdioma.SelectedItem = perfil.Idioma;
@@ -88,21 +88,48 @@ namespace ControlInventario.Vistas
                         CbUniMedida.SelectedItem = perfil.UnidadMedida;
 
                         CbZonaHoraria.SelectedValue = perfil.IdZonaHoraria;
-                        CbZonaHoraria.SelectedItem = perfil.ZonaHoraria; 
+                        CbZonaHoraria.SelectedItem = perfil.ZonaHoraria;
 
-                        ChkAutenticacion2FA.Checked = perfil.Autenticacion; 
-                        ChkCompartirActividad.Checked = perfil.ActividadCompartida; 
+                        ChkAutenticacion2FA.Checked = perfil.Autenticacion;
+                        ChkCompartirActividad.Checked = perfil.ActividadCompartida;
                         ChkCodigoBarras.Checked = perfil.CodigoBarras;
-                        ChkCalcularDevaluacion.Checked = perfil.CalcularDevaluacion; 
+                        ChkCalcularDevaluacion.Checked = perfil.CalcularDevaluacion;
                         ChkGeneracionCodigo.Checked = perfil.GeneracionCodigos;
-                    };
+                    }
+                    ;
                 }
             }
             catch
             {
-                MessageBox.Show(Idiomas.MensajeErrorConfiguracionPerfil, "Error", 
-                    MessageBoxButtons.OK, 
+                MessageBox.Show(Idiomas.MensajeErrorConfiguracionPerfil, "Error",
+                    MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
+            }
+
+            if (CbMoneda.SelectedIndex == -1 || CbMoneda.Text == "SELECCIONE")
+            {
+                try
+                {
+                    string isoRegion = System.Globalization.RegionInfo.CurrentRegion.ISOCurrencySymbol;
+
+                    for (int i = 0; i < CbMoneda.Items.Count; i++)
+                    {
+                        string textoItem = CbMoneda.GetItemText(CbMoneda.Items[i]);
+
+                        if (textoItem.StartsWith(isoRegion))
+                        {
+                            CbMoneda.SelectedIndex = i;
+                            break;
+                        }
+                    }
+                }
+                catch
+                {
+                    if (CbMoneda.Items.Count > 0 && CbMoneda.SelectedIndex == -1)
+                    {
+                        CbMoneda.SelectedIndex = 0;
+                    }
+                }
             }
 
             ClassHelper.AplicarTema(this);

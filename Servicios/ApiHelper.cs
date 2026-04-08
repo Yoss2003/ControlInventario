@@ -1,5 +1,6 @@
 ﻿using ControlInventario.Modelo.API;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ namespace ControlInventario.Servicios
     public static class ApiHelper
     {
         private static readonly HttpClient httpClient = new HttpClient();
+        public static Dictionary<string, decimal> TasasDeCambioCache = new Dictionary<string, decimal>();
 
         public static int MapearEstadoSunat(string estadoSunat)
         {
@@ -71,6 +73,40 @@ namespace ControlInventario.Servicios
                 return null;
             }
             catch { return null; }
-        }        
+        }
+
+        public static async Task CargarTasasDeCambioDesdeAPI()
+        {
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    string url = "https://open.er-api.com/v6/latest/USD";
+
+                    HttpResponseMessage response = await client.GetAsync(url);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string jsonString = await response.Content.ReadAsStringAsync();
+
+                        using (JsonDocument doc = JsonDocument.Parse(jsonString))
+                        {
+                            JsonElement rates = doc.RootElement.GetProperty("rates");
+                            TasasDeCambioCache.Clear();
+
+                            foreach (JsonProperty moneda in rates.EnumerateObject())
+                            {
+                                TasasDeCambioCache[moneda.Name] = moneda.Value.GetDecimal();
+                            }
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                TasasDeCambioCache["USD"] = 1.00m;
+                TasasDeCambioCache["PEN"] = 3.75m;
+                TasasDeCambioCache["EUR"] = 0.92m;
+            }
+        }
     }
 }

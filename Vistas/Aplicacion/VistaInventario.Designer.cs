@@ -206,7 +206,6 @@
             this.DgvArticulos.RowHeadersVisible = false;
             this.DgvArticulos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.DgvArticulos.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DvgIngresos_CellContentClick);
-            this.DgvArticulos.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.DvgIngresos_CellFormatting);
             // 
             // IdArticulo
             // 

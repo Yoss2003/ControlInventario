@@ -68,26 +68,26 @@ namespace ControlInventario.Vistas.Extras
             dtArticulosAgrupados.Columns.Add("MarcaTexto", typeof(string));
             dtArticulosAgrupados.Columns.Add("Precio", typeof(decimal));
             dtArticulosAgrupados.Columns.Add("Stock", typeof(int));
-                        
-            var diccionarioAgrupado = new System.Collections.Generic.Dictionary<string, DataRow>();
+
+            var diccionarioAgrupado = new Dictionary<string, DataRow>();
 
             foreach (DataRow row in dtCrudo.Rows)
             {
                 string codigo = row["Codigo"].ToString();
 
                 if (diccionarioAgrupado.ContainsKey(codigo))
-                {                    
+                {
                     DataRow filaExistente = diccionarioAgrupado[codigo];
                     filaExistente["Stock"] = Convert.ToInt32(filaExistente["Stock"]) + 1;
                 }
                 else
-                {                   
+                {
                     DataRow nuevaFila = dtArticulosAgrupados.NewRow();
                     nuevaFila["Codigo"] = codigo;
                     nuevaFila["Modelo"] = row["Modelo"].ToString();
                     nuevaFila["MarcaTexto"] = row["MarcaTexto"].ToString();
                     nuevaFila["Precio"] = row["PrecioAdquisicion"] != DBNull.Value ? Convert.ToDecimal(row["PrecioAdquisicion"]) : 0m;
-                    nuevaFila["Stock"] = 1;
+                    nuevaFila["Stock"] = row["Stock"].ToString();
 
                     dtArticulosAgrupados.Rows.Add(nuevaFila);
                     diccionarioAgrupado.Add(codigo, nuevaFila);

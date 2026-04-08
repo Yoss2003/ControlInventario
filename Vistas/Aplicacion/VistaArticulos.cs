@@ -276,7 +276,7 @@ namespace ControlInventario.Vistas
                 string carpetaImagenes = ConexionGlobal.ObtenerCarpetaImagenes();
 
                 string precioTexto = TxtPrecio.Text.Trim();
-                decimal? precioFinal = ClassHelper.ConvertirTextoAMoneda(precioTexto);
+                decimal? precioFinal = ClassHelper.ExtraerNumero(precioTexto);
 
                 // Mapear Codigo automatico
                 if (generarCodigoAutomatico)
@@ -324,7 +324,7 @@ namespace ControlInventario.Vistas
                                 RucProveedor = string.IsNullOrWhiteSpace(TxtRuc.Text) ? null : TxtRuc.Text,
                                 Proveedor = string.IsNullOrWhiteSpace(TxtRazonSocial.Text) ? null : TxtRazonSocial.Text,
                                 PrecioAdquisicion = precioFinal,
-                                MonedaAdquisicion = UsuarioSesion.Configuracion?.Moneda,
+                                MonedaAdquisicion = UsuarioSesion.Configuracion?.Moneda ?? "PEN",
                                 Caracteristicas = jsonCaracteristicas,
 
                                 FechaRegistro = DateTime.Now,

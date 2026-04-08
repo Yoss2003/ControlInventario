@@ -33,6 +33,7 @@ namespace ControlInventario.Vistas
         private ToolStripDropDown burbujaActual = null;
         private int filaBurbujaAbierta = -1;
         private DataTable dtSalidasOriginal;
+        private bool salidasCargadas = false;
         private int accionSalidaSeleccionada = 0;
         public EdicionArticulo DatosEdicion { get; set; }
         public VistaInventario()
@@ -73,7 +74,6 @@ namespace ControlInventario.Vistas
             this.BeginInvoke(new MethodInvoker(() => {
                 DgvArticulos.ClearSelection();
             }));
-            CargarTabSalidas();
             ClassHelper.AplicarEstilosGrillas(DgvArticulos);
             ClassHelper.AplicarEstilosGrillas(DvgSalidas);
         }
@@ -96,8 +96,11 @@ namespace ControlInventario.Vistas
                 using (var con = ConexionGlobal.ObtenerConexion())
                 {
                     con.Open();
-                    var dtMarcasIngresos = MarcasRepository.BuscarMarcasPorArticulosPorCategoria(con, this.categoriaSeleccionadaId, UsuarioSesion.InventarioId, true);
-                    RefreshService.RefrescarComboDT(CbBuscarMarcaArticuloIngreso, dtMarcasIngresos, "Nombre", "Id", "SELECCIONE");
+                    // Obtenemos los datos puros del repositorio
+                    DataTable dtMarcas = MarcasRepository.BuscarMarcasPorArticulosPorCategoria(con, categoriaSeleccionadaId, UsuarioSesion.InventarioId, true);
+
+                    // Tu método se encarga de todo lo visual
+                    RefreshService.RefrescarComboDT(CbBuscarMarcaArticuloIngreso, dtMarcas, "Nombre", "Id", "SELECCIONE");
                 }
             }
         }
@@ -634,6 +637,11 @@ namespace ControlInventario.Vistas
         private void TbPrincipal_SelectedIndexChanged(object sender, EventArgs e)
         {
             ActualizarVistaBotones();
+            if (TbPrincipal.SelectedIndex == 1 && !salidasCargadas)
+            {
+                CargarTabSalidas();
+                salidasCargadas = true;
+            }
         }
 
         private void ActualizarVistaBotones()
@@ -1026,25 +1034,6 @@ namespace ControlInventario.Vistas
         {
             VistaVentas vistaVentas = new VistaVentas();
             vistaVentas.ShowDialog();
-        }
-
-        private void DvgIngresos_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
-        {
-            if (e.RowIndex >= 0 && DgvArticulos.Columns[e.ColumnIndex].Name == "PrecioAdquisicion")
-            {
-                if (e.Value != null && decimal.TryParse(e.Value.ToString(), out decimal valorSolesBD))
-                {
-                    decimal? valorLocal = ClassHelper.ConvertirBDAMonedaLocal(valorSolesBD, DatosEdicion.MonedaAdquisicion);
-
-                    string simbolo = UsuarioSesion.Configuracion?.Moneda.Split('-')[0].Trim() ?? "S/";
-                    if (simbolo == "PEN") simbolo = "S/";
-                    if (simbolo == "EUR") simbolo = "€";
-                    if (simbolo == "USD") simbolo = "$";
-
-                    e.Value = $"{simbolo} {valorLocal:N2}";
-                    e.FormattingApplied = true;
-                }
-            }
         }
     }
 }

@@ -541,9 +541,20 @@ namespace ControlInventario.Database
             {
                 con.Open();
 
-                string query = @"SELECT * FROM vw_Articulos 
-                         WHERE InventarioId = @InvId 
-                           AND IdAccion IN (1, 4, 12, 13);";
+                string query = @"
+                SELECT 
+                    MIN(Id) AS Id, 
+                    MIN(Codigo) AS Codigo, 
+                    Modelo, 
+                    MarcaTexto, 
+                    PrecioAdquisicion, 
+                    MonedaAdquisicion,
+                    COUNT(*) AS Stock 
+                FROM vw_Articulos 
+                WHERE InventarioId = @InvId 
+                  AND IdAccion IN (1, 4, 12, 13) 
+                GROUP BY Modelo, MarcaTexto, PrecioAdquisicion, MonedaAdquisicion
+                ORDER BY Modelo ASC;";
 
                 using (var cmd = new SQLiteCommand(query, con))
                 {

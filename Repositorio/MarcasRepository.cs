@@ -97,21 +97,20 @@ namespace ControlInventario.Database
         public static DataTable BuscarMarcasPorArticulosPorCategoria(SQLiteConnection con, int categoriaId, int inventarioId, bool esIngreso, int idAccionFiltro = 0)
         {
             var dt = new DataTable();
-            string filtroAcciones;
 
-            if (esIngreso)
-                filtroAcciones = "(1, 8, 11, 12)";
-            else
-                filtroAcciones = (idAccionFiltro == 0) ? "(2, 4, 5, 6, 9, 10)" : $"({idAccionFiltro})";
+            string filtroAcciones = esIngreso ? "(1, 8, 11, 12, 13)" : "(2, 4, 5, 6, 9, 10)";
+
+            if (!esIngreso && idAccionFiltro != 0)
+                filtroAcciones = $"({idAccionFiltro})";
 
             string query = $@"
             SELECT DISTINCT m.Id, m.Nombre 
             FROM Articulos a
             INNER JOIN Marcas m ON a.IdMarca = m.Id
             WHERE a.InventarioId = @InventarioId
-              AND a.IdAccion IN {filtroAcciones}";
+                AND a.IdAccion IN {filtroAcciones}";
 
-            if (esIngreso)
+            if (categoriaId > 0)
             {
                 query += " AND a.CategoriaId = @CategoriaId";
             }
@@ -121,8 +120,7 @@ namespace ControlInventario.Database
             using (var cmd = new SQLiteCommand(query, con))
             {
                 cmd.Parameters.AddWithValue("@InventarioId", inventarioId);
-
-                if (esIngreso)
+                if (categoriaId > 0)
                     cmd.Parameters.AddWithValue("@CategoriaId", categoriaId);
 
                 using (var adapter = new SQLiteDataAdapter(cmd))
@@ -130,6 +128,7 @@ namespace ControlInventario.Database
                     adapter.Fill(dt);
                 }
             }
+
             return dt;
         }
     }

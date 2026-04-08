@@ -110,7 +110,7 @@ namespace ControlInventario.Servicios
 
                     art.RucProveedor ?? "",
                     art.Proveedor ?? "",
-                    ClassHelper.FormatearMoneda(art.PrecioAdquisicion),
+                    ClassHelper.FormatearMoneda(art.PrecioAdquisicion, art.MonedaAdquisicion),
                     art.Observacion ?? "",
                     art.FotoPrincipal ?? "",
                     art.ComprobantePrincipal ?? "",
@@ -342,7 +342,7 @@ namespace ControlInventario.Servicios
         {
             string idiomaSeleccionado = UsuarioSesion.Configuracion?.Idioma ?? "Español";
 
-            string codigoCultura = "es-ES";
+            string codigoCultura = "es-PE";
 
             switch (idiomaSeleccionado)
             {
@@ -407,32 +407,13 @@ namespace ControlInventario.Servicios
             return fecha.Value.ToString(formato);
         }
 
-        public static string FormatearMoneda(decimal? monto)
+        public static string FormatearMoneda(decimal? monto, string monedaBaseDeDatos = "PEN")
         {
-            if (!monto.HasValue) return "";
+            if (!monto.HasValue) return string.Empty;
+            decimal? montoConvertido = ConvertirBDAMonedaLocal(monto, monedaBaseDeDatos);
+            string simbolo = ObtenerSimboloMoneda();
 
-            string monedaCompleta = UsuarioSesion.Configuracion?.Moneda ?? "USD";
-            string isoCode = (!string.IsNullOrEmpty(monedaCompleta) && monedaCompleta.Length >= 3)
-                     ? monedaCompleta.Substring(0, 3)
-                     : "PEN";
-
-            decimal tasaPEN = TasasDeCambioCache.ContainsKey("PEN") ? TasasDeCambioCache["PEN"] : 3.75m;
-            decimal tasaDestino = TasasDeCambioCache.ContainsKey(isoCode) ? TasasDeCambioCache[isoCode] : 1.00m;
-
-            decimal montoEnUSD = monto.Value / tasaPEN;
-            decimal montoConvertido = montoEnUSD * tasaDestino;
-
-            string simboloVisual;
-            switch (isoCode)
-            {
-                case "PEN": simboloVisual = "S/"; break;
-                case "USD": simboloVisual = "$"; break;
-                case "EUR": simboloVisual = "€"; break;
-                case "MXN": simboloVisual = "$"; break;
-                default: simboloVisual = isoCode; break;
-            }
-
-            return $"{simboloVisual} {montoConvertido.ToString("N2")}";
+            return $"{simbolo} {montoConvertido.Value:N2}";
         }
 
         public static decimal? ConvertirTextoAMoneda(string textoMoneda)
@@ -455,40 +436,6 @@ namespace ControlInventario.Servicios
             decimal montoParaBD = montoEnUSD * tasaPEN;
 
             return Math.Round(montoParaBD, 2);
-        }
-
-        public static async Task CargarTasasDeCambioDesdeAPI()
-        {
-            try
-            {
-                using (HttpClient client = new HttpClient())
-                {
-                    string url = "https://open.er-api.com/v6/latest/USD";
-
-                    HttpResponseMessage response = await client.GetAsync(url);
-                    if (response.IsSuccessStatusCode)
-                    {
-                        string jsonString = await response.Content.ReadAsStringAsync();
-
-                        using (JsonDocument doc = JsonDocument.Parse(jsonString))
-                        {
-                            JsonElement rates = doc.RootElement.GetProperty("rates");
-                            TasasDeCambioCache.Clear();
-
-                            foreach (JsonProperty moneda in rates.EnumerateObject())
-                            {
-                                TasasDeCambioCache[moneda.Name] = moneda.Value.GetDecimal();
-                            }
-                        }
-                    }
-                }
-            }
-            catch
-            {
-                TasasDeCambioCache["USD"] = 1.00m;
-                TasasDeCambioCache["PEN"] = 3.75m;
-                TasasDeCambioCache["EUR"] = 0.92m;
-            }
         }
 
         public static decimal? LimpiarTextoParaEdicion(string textoMoneda)
@@ -615,10 +562,9 @@ namespace ControlInventario.Servicios
         {
             if (!montoOriginal.HasValue) return null;
 
-            string isoOriginal = (!string.IsNullOrEmpty(monedaOriginal) && monedaOriginal.Length >= 3) ? monedaOriginal.Substring(0, 3) : "PEN";
-
+            string isoOriginal = ObtenerIsoCodeSeguro(monedaOriginal);
             string monedaUsuario = UsuarioSesion.Configuracion?.Moneda ?? "PEN";
-            string isoUsuario = (!string.IsNullOrEmpty(monedaUsuario) && monedaUsuario.Length >= 3) ? monedaUsuario.Substring(0, 3) : "PEN";
+            string isoUsuario = ObtenerIsoCodeSeguro(monedaUsuario);
 
             if (isoOriginal == isoUsuario) return Math.Round(montoOriginal.Value, 2);
 
@@ -629,6 +575,39 @@ namespace ControlInventario.Servicios
             decimal montoFinal = montoEnUSD * tasaUsuario;
 
             return Math.Round(montoFinal, 2);
+        }
+
+        public static string ObtenerIsoCodeSeguro(string textoMoneda)
+        {
+            if (string.IsNullOrEmpty(textoMoneda)) return "PEN";
+
+            string text = textoMoneda.ToUpper();
+
+            if (text.Contains("PEN") || text.Contains("SOL")) return "PEN";
+            if (text.Contains("USD") || text.Contains("DÓL") || text.Contains("DOL")) return "USD";
+            if (text.Contains("EUR") || text.Contains("EURO")) return "EUR";
+
+            return "PEN"; // Fallback por seguridad
+        }
+
+        public static decimal? ExtraerNumero(string textoMoneda)
+        {
+            if (string.IsNullOrWhiteSpace(textoMoneda)) return null;
+
+            string textoLimpio = textoMoneda.Replace("S/", "")
+                                            .Replace("€", "")
+                                            .Replace("$", "")
+                                            .Replace("PEN", "")
+                                            .Replace("EUR", "")
+                                            .Replace("USD", "")
+                                            .Trim();
+
+            if (decimal.TryParse(textoLimpio, System.Globalization.NumberStyles.Any, null, out decimal montoPuro))
+            {
+                return montoPuro;
+            }
+
+            return null;
         }
     }
 }

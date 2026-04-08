@@ -258,18 +258,40 @@ namespace ControlInventario.Database
 
         public static Perfiles GenerarPerfilPorDefecto(string nombreUsuario, SQLiteConnection con)
         {
+            string idiomaAbreviado = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+            string textoBusquedaIdioma = "Español"; 
 
-            string idiomaWindows = CultureInfo.CurrentUICulture.Parent.NativeName;
-            if (!string.IsNullOrEmpty(idiomaWindows))
-                idiomaWindows = char.ToUpper(idiomaWindows[0]) + idiomaWindows.Substring(1);
+            if (idiomaAbreviado == "en")
+            {
+                textoBusquedaIdioma = "Inglés";
+            }
+            else if (idiomaAbreviado == "es")
+            {
+                textoBusquedaIdioma = "Español";
+            }
+
+            string monedaWindows = RegionInfo.CurrentRegion.ISOCurrencySymbol;
+            string textoBusquedaMoneda = "Soles"; // Fallback por defecto
+
+            if (monedaWindows == "PEN")
+            {
+                textoBusquedaMoneda = "Soles";
+            }
+            else if (monedaWindows == "USD")
+            {
+                textoBusquedaMoneda = "Dólar";
+            }
+            else if (monedaWindows == "EUR")
+            {
+                textoBusquedaMoneda = "Euro";
+            }
 
             string zonaHorariaWindows = TimeZoneInfo.Local.DisplayName;
-            string monedaWindows = RegionInfo.CurrentRegion.ISOCurrencySymbol;
             string fechaWindows = CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern;
 
-            var dbMoneda = BuscarEnCatalogo(con, "Moneda", "Moneda", monedaWindows);
+            var dbIdioma = BuscarEnCatalogo(con, "Idioma", "Idioma", textoBusquedaIdioma);
+            var dbMoneda = BuscarEnCatalogo(con, "Moneda", "Moneda", textoBusquedaMoneda);
             var dbFecha = BuscarEnCatalogo(con, "FormatoFecha", "FormatoFecha", fechaWindows);
-            var dbIdioma = BuscarEnCatalogo(con, "Idioma", "Idioma", idiomaWindows);
             var dbZona = BuscarEnCatalogo(con, "ZonaHoraria", "ZonaHoraria", zonaHorariaWindows);
 
             return new Perfiles

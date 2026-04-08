@@ -45,7 +45,7 @@ namespace ControlInventario
             );
         }
 
-        private void VistaSesion_Load(object sender, EventArgs e)
+        private async void VistaSesion_Load(object sender, EventArgs e)
         {
             // Inicializar el overlay de carga
             overlay = new OverlayCarga(this);
@@ -53,9 +53,6 @@ namespace ControlInventario
             // Cargar credenciales guardadas
             string usuarioGuardado = Properties.Settings.Default.UsuarioGuardado;
             string contraseñaGuardada = Properties.Settings.Default.ContraseñaGuardada;
-
-            string nombreRegion = System.Globalization.RegionInfo.CurrentRegion.NativeName;
-            string monedaRegion = System.Globalization.RegionInfo.CurrentRegion.ISOCurrencySymbol;
 
             // Si hay credenciales guardadas, rellenar los campos y marcar el checkbox
             if (!string.IsNullOrEmpty(usuarioGuardado))
@@ -83,7 +80,6 @@ namespace ControlInventario
                 try
                 {
                     con.Open();
-
                     lblConexion.Visible = true;
                     lblConexion.Text = Idiomas.MensajeConexionBdExitosa;
                     lblConexion.ForeColor = Color.Green;
@@ -95,20 +91,22 @@ namespace ControlInventario
                     lblConexion.Text = mensajeError;
                     lblConexion.ForeColor = Color.Red;
                 }
+
+                try
+                {
+                    await ApiHelper.CargarTasasDeCambioDesdeAPI();
+                }
+                catch
+                {
+                    MessageBox.Show("No se pudo conectar a la API de Monedas. Se usarán las tasas locales.",
+                                    "Advertencia",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Warning);
+                }
             }
             ClassHelper.AplicarTema(this);
             ClassHelper.AplicarIdiomaGlobal();
             //_gestorVoz.HablarAsincrono("Bienvenido al sistema de control de inventario.");
-
-            MessageBox.Show(
-                $"¡Inicio de sesión exitoso!\n\n" +
-                $"📍 Región detectada: {nombreRegion}\n" +
-                $"💰 Moneda sugerida: {monedaRegion}\n\n" +
-                $"El sistema adaptará los precios a esta configuración.",
-                "Entorno de Trabajo",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information
-            );
         }
 
         private async void btnIngresar_Click(object sender, EventArgs e)
@@ -198,7 +196,7 @@ namespace ControlInventario
 
             var repo = new InventarioRepository();
             var inventario = repo.ObtenerOCrearInventarioPorUsuario(user.NombreUsuario); 
-            await ClassHelper.CargarTasasDeCambioDesdeAPI();
+            await ApiHelper.CargarTasasDeCambioDesdeAPI();
 
             UsuarioSesion.InventarioId = inventario.Id;
 

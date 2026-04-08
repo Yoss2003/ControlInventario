@@ -114,12 +114,12 @@ namespace ControlInventario.Repositorio
                         string fechaActual = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
                         string queryMov = @"INSERT INTO Movimientos (ArticuloId, EmpleadoId, IdAccion, FechaMovimiento, Observacion) 
-                                                            VALUES (@ArtId, @EmpId, 2, @Fecha, @Obs);";
+                                                            VALUES (@ArtId, @EmpId, 3, @Fecha, @Obs);";
 
                         string queryArt = @"UPDATE Articulos 
                         SET EmpleadoAnteriorId = EmpleadoActualId, 
                             EmpleadoActualId = @EmpId,
-                            IdAccion = 2,
+                            IdAccion = 3,
                             FechaModificacion = @Fecha
                         WHERE Id = @ArtId;";
 
@@ -148,6 +148,56 @@ namespace ControlInventario.Repositorio
                     {
                         transaction.Rollback();
                         throw new Exception("Error al registrar la asignación en lote: " + ex.Message);
+                    }
+                }
+            }
+        }
+
+        public static void RegistrarVenta(List<Movimiento> listaVentas)
+        {
+            using (var con = ConexionGlobal.ObtenerConexion())
+            {
+                con.Open();
+                using (var transaction = con.BeginTransaction())
+                {
+                    try
+                    {
+                        string queryMov = @"INSERT INTO Movimientos (ArticuloId, EmpleadoId, IdAccion, FechaMovimiento, Observacion, Monto) 
+                                            VALUES (@ArtId, NULL, @IdAccion, @Fecha, @Obs, @Monto);";
+
+                        string queryArt = @"UPDATE Articulos 
+                                            SET IdEstado = 3, 
+                                                IdAccion = 2, 
+                                                EmpleadoAnteriorId = EmpleadoActualId,
+                                                EmpleadoActualId = NULL,
+                                                FechaModificacion = @Fecha
+                                            WHERE Id = @ArtId;";
+
+                        using (var cmdMov = new SQLiteCommand(queryMov, con, transaction))
+                        using (var cmdArt = new SQLiteCommand(queryArt, con, transaction))
+                        {
+                            foreach (var venta in listaVentas)
+                            {
+                                cmdMov.Parameters.Clear();
+                                cmdMov.Parameters.AddWithValue("@ArtId", venta.ArticuloId);
+                                cmdMov.Parameters.AddWithValue("@IdAccion", venta.IdAccion);
+                                cmdMov.Parameters.AddWithValue("@Fecha", venta.FechaMovimiento.ToString("yyyy-MM-dd HH:mm:ss"));
+                                cmdMov.Parameters.AddWithValue("@Obs", string.IsNullOrWhiteSpace(venta.Observacion) ? (object)DBNull.Value : venta.Observacion);
+                                cmdMov.Parameters.AddWithValue("@Monto", venta.Monto);
+                                cmdMov.ExecuteNonQuery();
+
+                                cmdArt.Parameters.Clear();
+                                cmdArt.Parameters.AddWithValue("@ArtId", venta.ArticuloId);
+                                cmdArt.Parameters.AddWithValue("@Fecha", venta.FechaMovimiento.ToString("yyyy-MM-dd HH:mm:ss"));
+                                cmdArt.ExecuteNonQuery();
+                            }
+                        }
+                        transaction.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        throw new Exception("Error al registrar la venta en la base de datos: " + ex.Message);
                     }
                 }
             }

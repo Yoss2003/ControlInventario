@@ -34,6 +34,7 @@ namespace ControlInventario.Vistas
         private int filaBurbujaAbierta = -1;
         private DataTable dtSalidasOriginal;
         private int accionSalidaSeleccionada = 0;
+        public EdicionArticulo DatosEdicion { get; set; }
         public VistaInventario()
         {
             InitializeComponent();
@@ -59,7 +60,7 @@ namespace ControlInventario.Vistas
             DataTable dtVaciaSalidas = new DataTable();
             RefreshService.RefrescarComboDT(CbBuscarMarcaArticuloSalida, dtVaciaSalidas, "Nombre", "Id", "SELECCIONE");
 
-            DvgIngresos.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.ColumnHeader);
+            DgvArticulos.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.ColumnHeader);
             LblAccionDecription.Text = "EXCEL";
             CargarCategorias();
             CargarMenuSalidas();
@@ -70,10 +71,10 @@ namespace ControlInventario.Vistas
             ActualizarVistaBotones();
 
             this.BeginInvoke(new MethodInvoker(() => {
-                DvgIngresos.ClearSelection();
+                DgvArticulos.ClearSelection();
             }));
             CargarTabSalidas();
-            ClassHelper.AplicarEstilosGrillas(DvgIngresos);
+            ClassHelper.AplicarEstilosGrillas(DgvArticulos);
             ClassHelper.AplicarEstilosGrillas(DvgSalidas);
         }
 
@@ -88,9 +89,9 @@ namespace ControlInventario.Vistas
             if (categoriaSeleccionadaId > 0)
             {
                 var articulosCategoria = ArticuloRepository.ListarArticulos(categoriaSeleccionadaId);
-                ClassHelper.RefrescarDvgIngresos(DvgIngresos, articulosCategoria);
-                DvgIngresos.ClearSelection();
-                DvgIngresos.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.ColumnHeader);
+                ClassHelper.RefrescarDvgIngresos(DgvArticulos, articulosCategoria);
+                DgvArticulos.ClearSelection();
+                DgvArticulos.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.ColumnHeader);
 
                 using (var con = ConexionGlobal.ObtenerConexion())
                 {
@@ -103,7 +104,7 @@ namespace ControlInventario.Vistas
 
         private void ActivarBotonCategoria(Button botonActivar, int idCat, string nombreCat)
         {
-            DvgIngresos.Visible = true;
+            DgvArticulos.Visible = true;
             ChkUsarFechasIngreso.Enabled = true;
             TxtBuscarCodArticuloIngreso.Enabled = true;
 
@@ -122,7 +123,7 @@ namespace ControlInventario.Vistas
             CbBuscarMarcaArticuloIngreso.Enabled = true;
             ChkUsarFechasIngreso.Enabled = true;
 
-            DvgIngresos.Focus();
+            DgvArticulos.Focus();
         }
 
         public void CargarCategorias()
@@ -240,13 +241,13 @@ namespace ControlInventario.Vistas
                 return;
             }
 
-            if (DvgIngresos == null || DvgIngresos.SelectedRows.Count == 0)
+            if (DgvArticulos == null || DgvArticulos.SelectedRows.Count == 0)
             {
                 MessageBox.Show("Seleccione un artículo para editar.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
-            DataGridViewRow filaSeleccionada = DvgIngresos.SelectedRows[0];
+            DataGridViewRow filaSeleccionada = DgvArticulos.SelectedRows[0];
             _articuloId = Convert.ToInt32(filaSeleccionada.Cells[0].Value);
 
             var art = ArticuloRepository.ObtenerArticuloPorId(_articuloId);
@@ -348,7 +349,7 @@ namespace ControlInventario.Vistas
                 return;
             }
 
-            if (DvgIngresos == null || DvgIngresos.SelectedRows.Count == 0)
+            if (DgvArticulos == null || DgvArticulos.SelectedRows.Count == 0)
             {
                 MessageBox.Show("Seleccione un artículo para eliminar.", "Información",
                     MessageBoxButtons.OK,
@@ -358,7 +359,7 @@ namespace ControlInventario.Vistas
             }
             else
             {
-                DataGridViewRow filaSeleccionada = DvgIngresos.SelectedRows[0];
+                DataGridViewRow filaSeleccionada = DgvArticulos.SelectedRows[0];
                 _articuloId = Convert.ToInt32(filaSeleccionada.Cells[0].Value);
 
                 DialogResult result = MessageBox.Show(
@@ -403,7 +404,7 @@ namespace ControlInventario.Vistas
                 return;
             }
 
-            if (DvgIngresos.SelectedRows.Count == 0)
+            if (DgvArticulos.SelectedRows.Count == 0)
             {
                 MessageBox.Show("No hay articulos para exportar.", "Advertencia",
                     MessageBoxButtons.OK,
@@ -423,13 +424,13 @@ namespace ControlInventario.Vistas
             var rutas = rutRepo.ObtenerRutas(usuarioId);
 
             // Crear UNA sola instancia de la vista
-            VistaRutaExportacion vistaRuta = new VistaRutaExportacion(nombreArchivo, DvgIngresos, categoria);
+            VistaRutaExportacion vistaRuta = new VistaRutaExportacion(nombreArchivo, DgvArticulos, categoria);
             if (rutas.EsPredeterminado1 == true)
             {
                 if (extension == ".xlsx")
                 {
                     filePath = rutas.RutaPredeterminada1;
-                    vistaRuta.ExportarAExcel(DvgIngresos, categoria, filePath);
+                    vistaRuta.ExportarAExcel(DgvArticulos, categoria, filePath);
                 }
 
                 MessageBox.Show($"Archivo exportado correctamente en: {filePath}", "Éxito",
@@ -443,7 +444,7 @@ namespace ControlInventario.Vistas
                 if (extension == ".csv")
                 {
                     filePath = rutas.RutaPredeterminada2;
-                    vistaRuta.ExportarACsv(DvgIngresos, categoria, filePath);
+                    vistaRuta.ExportarACsv(DgvArticulos, categoria, filePath);
                 }
 
                 MessageBox.Show($"Archivo exportado correctamente en: {filePath}", "Éxito",
@@ -486,14 +487,14 @@ namespace ControlInventario.Vistas
 
         private void BusquedaArticulos(DataTable dt)
         {
-            DvgIngresos.Rows.Clear();
+            DgvArticulos.Rows.Clear();
 
             foreach (DataRow row in dt.Rows)
             {
                 string json = row["Caracteristicas"]?.ToString();
                 string textoBoton = (!string.IsNullOrEmpty(json) && json != "{}") ? "Ver Detalles" : "N/A";
 
-                int rowIndex = DvgIngresos.Rows.Add(
+                int rowIndex = DgvArticulos.Rows.Add(
                     row["Id"], row["Codigo"], row["Modelo"], row["Serie"], row["Marca"],
                     row["FechaAdquisicion"], row["FechaBaja"], row["FechaFinGarantia"],
                     row["DniUsuarioActual"], row["NombreUsuarioActual"], row["AreaUsuarioActual"], row["CargoUsuarioActual"],
@@ -509,7 +510,7 @@ namespace ControlInventario.Vistas
                     Id = Convert.ToInt32(row["Id"]),
                     Caracteristicas = json
                 };
-                DvgIngresos.Rows[rowIndex].Tag = art;
+                DgvArticulos.Rows[rowIndex].Tag = art;
             }
         }
 
@@ -658,7 +659,7 @@ namespace ControlInventario.Vistas
                 if (categoriaSeleccionadaId > 0)
                 {
                     var articulosCategoria = ArticuloRepository.ListarArticulos(categoriaSeleccionadaId);
-                    ClassHelper.RefrescarDvgIngresos(DvgIngresos, articulosCategoria);
+                    ClassHelper.RefrescarDvgIngresos(DgvArticulos, articulosCategoria);
                 }
 
                 dtSalidasOriginal = ArticuloRepository.ListarArticulosAsignados(UsuarioSesion.InventarioId);
@@ -683,9 +684,9 @@ namespace ControlInventario.Vistas
 
         private void DvgIngresos_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex >= 0 && DvgIngresos.Columns[e.ColumnIndex].Name == "CaracteristicasArticulo")
+            if (e.RowIndex >= 0 && DgvArticulos.Columns[e.ColumnIndex].Name == "CaracteristicasArticulo")
             {
-                string valorBoton = DvgIngresos.Rows[e.RowIndex].Cells[e.ColumnIndex].Value?.ToString();
+                string valorBoton = DgvArticulos.Rows[e.RowIndex].Cells[e.ColumnIndex].Value?.ToString();
 
                 if (valorBoton != null && valorBoton.Contains("Ver Detalles"))
                 {
@@ -695,7 +696,7 @@ namespace ControlInventario.Vistas
                         return;
                     }
 
-                    Articulos art = (Articulos)DvgIngresos.Rows[e.RowIndex].Tag;
+                    Articulos art = (Articulos)DgvArticulos.Rows[e.RowIndex].Tag;
                     MostrarDetallesBurbuja(art.Caracteristicas, e.ColumnIndex, e.RowIndex);
                 }
             }
@@ -811,8 +812,8 @@ namespace ControlInventario.Vistas
 
                 contenedorInterno.Controls.Add(dgvDetalles, 0, 1);
 
-                string codigoArt = DvgIngresos.Rows[rowIndex].Cells[1].Value?.ToString();
-                string modeloArt = DvgIngresos.Rows[rowIndex].Cells[2].Value?.ToString();
+                string codigoArt = DgvArticulos.Rows[rowIndex].Cells[1].Value?.ToString();
+                string modeloArt = DgvArticulos.Rows[rowIndex].Cells[2].Value?.ToString();
                 string cod = string.IsNullOrWhiteSpace(codigoArt) ? "N/A" : codigoArt;
                 string mod = string.IsNullOrWhiteSpace(modeloArt) ? "N/A" : modeloArt;
 
@@ -857,7 +858,7 @@ namespace ControlInventario.Vistas
                     burbujaActual.Region = new Region(path);
                 };
 
-                Rectangle rectCelda = DvgIngresos.GetCellDisplayRectangle(colIndex, rowIndex, false);
+                Rectangle rectCelda = DgvArticulos.GetCellDisplayRectangle(colIndex, rowIndex, false);
                 filaBurbujaAbierta = rowIndex;
 
                 Point ubicacion = new Point(
@@ -865,7 +866,7 @@ namespace ControlInventario.Vistas
                     rectCelda.Bottom + 2
                 );
 
-                burbujaActual.Show(DvgIngresos, ubicacion);
+                burbujaActual.Show(DgvArticulos, ubicacion);
             }
             catch (Exception ex)
             {
@@ -875,7 +876,7 @@ namespace ControlInventario.Vistas
 
         private void Fondo_Click(object sender, EventArgs e)
         {
-            DvgIngresos.ClearSelection();
+            DgvArticulos.ClearSelection();
 
             this.ActiveControl = null;
         }
@@ -1002,7 +1003,7 @@ namespace ControlInventario.Vistas
 
         private void DvgIngresos_SelectionChanged(object sender, EventArgs e)
         {
-            bool haySeleccion = DvgIngresos.SelectedRows.Count > 0;
+            bool haySeleccion = DgvArticulos.SelectedRows.Count > 0;
 
             BtnEditarArticulo.Enabled = haySeleccion;
             BtnEliminarArticulo.Enabled = haySeleccion;
@@ -1025,6 +1026,25 @@ namespace ControlInventario.Vistas
         {
             VistaVentas vistaVentas = new VistaVentas();
             vistaVentas.ShowDialog();
+        }
+
+        private void DvgIngresos_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex >= 0 && DgvArticulos.Columns[e.ColumnIndex].Name == "PrecioAdquisicion")
+            {
+                if (e.Value != null && decimal.TryParse(e.Value.ToString(), out decimal valorSolesBD))
+                {
+                    decimal? valorLocal = ClassHelper.ConvertirBDAMonedaLocal(valorSolesBD, DatosEdicion.MonedaAdquisicion);
+
+                    string simbolo = UsuarioSesion.Configuracion?.Moneda.Split('-')[0].Trim() ?? "S/";
+                    if (simbolo == "PEN") simbolo = "S/";
+                    if (simbolo == "EUR") simbolo = "€";
+                    if (simbolo == "USD") simbolo = "$";
+
+                    e.Value = $"{simbolo} {valorLocal:N2}";
+                    e.FormattingApplied = true;
+                }
+            }
         }
     }
 }

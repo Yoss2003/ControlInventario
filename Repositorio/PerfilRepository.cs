@@ -200,7 +200,7 @@ namespace ControlInventario.Database
                     }
                 }
             }
-            return null; // si no existe
+            return null;
         }
 
         public static void GuardarPerfilUsuario(Perfiles perfil, SQLiteConnection con)

@@ -59,7 +59,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle28 = new System.Windows.Forms.DataGridViewCellStyle();
             this.TbPrincipal = new System.Windows.Forms.TabControl();
             this.TabIngresos = new System.Windows.Forms.TabPage();
-            this.DvgIngresos = new System.Windows.Forms.DataGridView();
+            this.DgvArticulos = new System.Windows.Forms.DataGridView();
             this.IdArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CodigoArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ModeloArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -135,7 +135,7 @@
             this.BtnAgregarArticulo = new System.Windows.Forms.Button();
             this.TbPrincipal.SuspendLayout();
             this.TabIngresos.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.DvgIngresos)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DgvArticulos)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.TabSalidas.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DvgSalidas)).BeginInit();
@@ -156,7 +156,7 @@
             // 
             // TabIngresos
             // 
-            this.TabIngresos.Controls.Add(this.DvgIngresos);
+            this.TabIngresos.Controls.Add(this.DgvArticulos);
             this.TabIngresos.Controls.Add(this.LstDefault1);
             this.TabIngresos.Controls.Add(this.groupBox2);
             this.TabIngresos.Controls.Add(this.FlCategorias);
@@ -165,24 +165,24 @@
             this.TabIngresos.Name = "TabIngresos";
             this.TabIngresos.UseVisualStyleBackColor = true;
             // 
-            // DvgIngresos
+            // DgvArticulos
             // 
-            this.DvgIngresos.AllowUserToAddRows = false;
-            this.DvgIngresos.AllowUserToDeleteRows = false;
-            this.DvgIngresos.AllowUserToResizeColumns = false;
-            this.DvgIngresos.AllowUserToResizeRows = false;
+            this.DgvArticulos.AllowUserToAddRows = false;
+            this.DgvArticulos.AllowUserToDeleteRows = false;
+            this.DgvArticulos.AllowUserToResizeColumns = false;
+            this.DgvArticulos.AllowUserToResizeRows = false;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.DvgIngresos.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.DvgIngresos.BackgroundColor = System.Drawing.Color.White;
+            this.DgvArticulos.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.DgvArticulos.BackgroundColor = System.Drawing.Color.White;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
             dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            this.DvgIngresos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
-            resources.ApplyResources(this.DvgIngresos, "DvgIngresos");
-            this.DvgIngresos.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.DgvArticulos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            resources.ApplyResources(this.DgvArticulos, "DgvArticulos");
+            this.DgvArticulos.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.IdArticulo,
             this.CodigoArticulo,
             this.ModeloArticulo,
@@ -200,12 +200,13 @@
             this.ImagenArticulo,
             this.ComprobanteArticulo,
             this.CaracteristicasArticulo});
-            this.DvgIngresos.MultiSelect = false;
-            this.DvgIngresos.Name = "DvgIngresos";
-            this.DvgIngresos.ReadOnly = true;
-            this.DvgIngresos.RowHeadersVisible = false;
-            this.DvgIngresos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.DvgIngresos.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DvgIngresos_CellContentClick);
+            this.DgvArticulos.MultiSelect = false;
+            this.DgvArticulos.Name = "DgvArticulos";
+            this.DgvArticulos.ReadOnly = true;
+            this.DgvArticulos.RowHeadersVisible = false;
+            this.DgvArticulos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.DgvArticulos.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DvgIngresos_CellContentClick);
+            this.DgvArticulos.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.DvgIngresos_CellFormatting);
             // 
             // IdArticulo
             // 
@@ -806,7 +807,7 @@
             this.Load += new System.EventHandler(this.VistaInventario_Load);
             this.TbPrincipal.ResumeLayout(false);
             this.TabIngresos.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.DvgIngresos)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DgvArticulos)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.TabSalidas.ResumeLayout(false);
@@ -866,7 +867,7 @@
         private System.Windows.Forms.DateTimePicker DtBuscarFechaFinSalida;
         public System.Windows.Forms.FlowLayoutPanel FlAcciones;
         private System.Windows.Forms.ListView LstDefault2;
-        public System.Windows.Forms.DataGridView DvgIngresos;
+        public System.Windows.Forms.DataGridView DgvArticulos;
         private System.Windows.Forms.DataGridView DvgSalidas;
         private System.Windows.Forms.DataGridViewTextBoxColumn IdArticulo;
         private System.Windows.Forms.DataGridViewTextBoxColumn CodigoArticulo;

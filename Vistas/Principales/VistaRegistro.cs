@@ -232,7 +232,6 @@ namespace ControlInventario.Vistas
             ClassHelper.AplicarTema(this);
             ClassHelper.AplicarFormatoFecha(dtFechaIngre);
             ClassHelper.AplicarFormatoFecha(dtFechaNac);
-
         }
 
         private void btnGuardar_Click(object sender, EventArgs e)

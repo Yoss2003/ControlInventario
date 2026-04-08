@@ -27,25 +27,26 @@ namespace ControlInventario.Servicios
         {
             inventario = vista;
         }
+
         public void EliminarBotonCategoria(int idCategoria)
         {
-            foreach (Control control in inventario.DvgIngresos.Controls)
+            foreach (Control control in inventario.DgvArticulos.Controls)
             {
                 if (control is Button btn && btn.Tag != null && Convert.ToInt32(btn.Tag) == idCategoria)
                 {
-                    inventario.DvgIngresos.Controls.Remove(btn);
+                    inventario.DgvArticulos.Controls.Remove(btn);
                     btn.Dispose();
                     break;
                 }
             }
 
-            if (inventario.DvgIngresos.Controls.Count == 0)
+            if (inventario.DgvArticulos.Controls.Count == 0)
             {
-                inventario.DvgIngresos.Visible = false;
+                inventario.DgvArticulos.Visible = false;
             }
             else
             {
-                Button primerBoton = (Button)inventario.DvgIngresos.Controls[0];
+                Button primerBoton = (Button)inventario.DgvArticulos.Controls[0];
                 primerBoton.PerformClick();
             }
         }
@@ -83,7 +84,7 @@ namespace ControlInventario.Servicios
             inventario.categoriaSeleccionadaNombre = nombreCategoria;
 
             var articulos = ArticuloRepository.ListarArticulos(idCategoria);
-            RefrescarDvgIngresos(inventario.DvgIngresos, articulos);
+            RefrescarDvgIngresos(inventario.DgvArticulos, articulos);
         }
 
         public static void RefrescarDvgIngresos(DataGridView dataGrdi, IEnumerable<Articulos> articulos)
@@ -120,6 +121,7 @@ namespace ControlInventario.Servicios
                 dataGrdi.Rows[rowIndex].Tag = art;
             }
         }
+
         public static void RefrescarDvgSalidas(DataGridView dataGrdi, DataTable dtArticulos)
         {
             dataGrdi.Rows.Clear();
@@ -360,16 +362,6 @@ namespace ControlInventario.Servicios
             CultureInfo.DefaultThreadCurrentUICulture = culturaSeleccionada;
         }
 
-        public static void ActualizarIdiomaGlobal()
-        {
-            AplicarIdiomaGlobal();
-
-            foreach (Form form in Application.OpenForms)
-            {
-                AplicarIdiomaAControles(form, form);
-            }
-        }
-
         private static void AplicarIdiomaAControles(Control controlPrincipal, Form formOriginal)
         {
             ComponentResourceManager resManager = new ComponentResourceManager(formOriginal.GetType());
@@ -445,32 +437,24 @@ namespace ControlInventario.Servicios
 
         public static decimal? ConvertirTextoAMoneda(string textoMoneda)
         {
-            // Usamos el extractor blindado
-            decimal? montoPantalla = ExtraerNumero(textoMoneda);
+            // Usamos el extractor que diseñamos antes para que no se maree con el símbolo "€" o "S/"
+            decimal? montoPantalla = LimpiarTextoParaEdicion(textoMoneda);
             if (!montoPantalla.HasValue) return null;
 
             string monedaCompleta = UsuarioSesion.Configuracion?.Moneda ?? "PEN";
             string isoCode = (!string.IsNullOrEmpty(monedaCompleta) && monedaCompleta.Length >= 3) ? monedaCompleta.Substring(0, 3) : "PEN";
 
+            // Si ya está en soles, lo dejamos tranquilo
+            if (isoCode == "PEN") return Math.Round(montoPantalla.Value, 2);
+
             decimal tasaPEN = TasasDeCambioCache.ContainsKey("PEN") ? TasasDeCambioCache["PEN"] : 3.75m;
             decimal tasaOrigen = TasasDeCambioCache.ContainsKey(isoCode) ? TasasDeCambioCache[isoCode] : 1.00m;
 
+            // La magia: Pasamos de Local -> Dólar -> Soles(BD)
             decimal montoEnUSD = montoPantalla.Value / tasaOrigen;
             decimal montoParaBD = montoEnUSD * tasaPEN;
 
-            // LA MAGIA ESTÁ AQUÍ: Redondeamos a 2 decimales para evitar los .999999999M
             return Math.Round(montoParaBD, 2);
-        }
-
-        public static decimal ObtenerTipoCambio(string codigoISODestino)
-        {
-            if (TasasDeCambioCache == null || TasasDeCambioCache.Count == 0)
-                return 1.00m;
-
-            decimal valorSolEnUSD = TasasDeCambioCache.ContainsKey("PEN") ? TasasDeCambioCache["PEN"] : 3.75m;
-            decimal valorDestinoEnUSD = TasasDeCambioCache.ContainsKey(codigoISODestino) ? TasasDeCambioCache[codigoISODestino] : 1.00m;
-
-            return valorDestinoEnUSD / valorSolEnUSD;
         }
 
         public static async Task CargarTasasDeCambioDesdeAPI()
@@ -509,48 +493,21 @@ namespace ControlInventario.Servicios
 
         public static decimal? LimpiarTextoParaEdicion(string textoMoneda)
         {
-            return ExtraerNumero(textoMoneda);
-        }
+            if (string.IsNullOrWhiteSpace(textoMoneda)) return null;
 
-        private static decimal? ExtraerNumero(string texto)
-        {
-            if (string.IsNullOrWhiteSpace(texto)) return null;
+            // 1. Quitamos todos los símbolos de moneda posibles, letras y espacios
+            string textoLimpio = textoMoneda.Replace("S/", "")
+                                      .Replace("€", "")
+                                      .Replace("$", "")
+                                      .Replace("PEN", "")
+                                      .Replace("USD", "")
+                                      .Replace("EUR", "")
+                                      .Trim();
 
-            // 1. Quitar símbolos conocidos (Lo pasamos a mayúsculas para atrapar el "s/." aunque lo escriban en minúscula)
-            string t = texto.ToUpper().Replace("S/.", "").Replace("S/", "").Replace("$", "").Replace("€", "").Trim();
-
-            // 2. Dejar puramente números, comas y puntos
-            t = Regex.Replace(t, @"[^\d.,]", "");
-            if (string.IsNullOrWhiteSpace(t)) return null;
-
-            // 3. Inteligencia para detectar qué es el separador de miles y cuál el decimal
-            int ultimaComa = t.LastIndexOf(',');
-            int ultimoPunto = t.LastIndexOf('.');
-
-            if (ultimaComa > -1 && ultimoPunto > -1)
+            // 2. Extraemos solo la parte numérica (Soportando comas o puntos según la región del PC)
+            if (decimal.TryParse(textoLimpio, NumberStyles.Any, null, out decimal resultado))
             {
-                // Si tiene ambos (ej: 1,500.50 o 1.500,50), el que está al final es el decimal real
-                if (ultimaComa > ultimoPunto)
-                    t = t.Replace(".", "").Replace(",", "."); // Formato europeo a invariante
-                else
-                    t = t.Replace(",", ""); // Formato americano a invariante
-            }
-            else if (ultimaComa > -1)
-            {
-                // Si solo hay comas, la convertimos en un punto decimal
-                t = t.Replace(",", ".");
-            }
-
-            // 4. Si por algún error de tipeo (o al borrar el S/.) quedaron varios puntos (ej: .150.00), limpiamos los sobrantes
-            while (t.IndexOf('.') != t.LastIndexOf('.'))
-            {
-                t = t.Remove(t.IndexOf('.'), 1);
-            }
-
-            // 5. Convertimos a decimal de forma 100% segura usando cultura Invariante
-            if (decimal.TryParse(t, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal result))
-            {
-                return result;
+                return resultado; // Retorna el número PURO, sin conversiones de tipo de cambio
             }
 
             return null;
@@ -599,27 +556,6 @@ namespace ControlInventario.Servicios
             return v1[t.Length];
         }
 
-        public static string FormatearNombreCorto(string nombres, string apellidos)
-        {
-            if (string.IsNullOrWhiteSpace(nombres) || string.IsNullOrWhiteSpace(apellidos))
-                return nombres ?? "" + " " + apellidos ?? "";
-
-            // Obtener primer nombre
-            string primerNombre = nombres.Trim().Split(' ')[0];
-
-            // Procesar apellidos
-            string[] listaApellidos = apellidos.Trim().Split(' ');
-            string primerApellido = listaApellidos[0];
-            string inicialSegundo = "";
-
-            if (listaApellidos.Length > 1)
-            {
-                inicialSegundo = " " + listaApellidos[1].Substring(0, 1).ToUpper() + ".";
-            }
-
-            return $"{primerNombre} {primerApellido}{inicialSegundo}";
-        }
-
         public static void AplicarEstilosGrillas(DataGridView grid)
         {
             typeof(DataGridView).InvokeMember(
@@ -658,6 +594,41 @@ namespace ControlInventario.Servicios
 
             grid.RowTemplate.Height = 50;
             grid.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(250, 250, 250);
+        }
+
+        public static string ObtenerSimboloMoneda()
+        {
+            // Reutilizamos tu lógica exacta
+            string monedaCompleta = UsuarioSesion.Configuracion?.Moneda ?? "PEN - Soles";
+            string codigoMoneda = monedaCompleta.Split('-')[0].Trim();
+            switch (codigoMoneda)
+            {
+                case "PEN": return "S/";
+                case "USD": return "$";
+                case "EUR": return "€";
+                case "MXN": return "$";
+                default: return codigoMoneda;
+            }
+        }
+
+        public static decimal? ConvertirBDAMonedaLocal(decimal? montoOriginal, string monedaOriginal)
+        {
+            if (!montoOriginal.HasValue) return null;
+
+            string isoOriginal = (!string.IsNullOrEmpty(monedaOriginal) && monedaOriginal.Length >= 3) ? monedaOriginal.Substring(0, 3) : "PEN";
+
+            string monedaUsuario = UsuarioSesion.Configuracion?.Moneda ?? "PEN";
+            string isoUsuario = (!string.IsNullOrEmpty(monedaUsuario) && monedaUsuario.Length >= 3) ? monedaUsuario.Substring(0, 3) : "PEN";
+
+            if (isoOriginal == isoUsuario) return Math.Round(montoOriginal.Value, 2);
+
+            decimal tasaOriginal = TasasDeCambioCache.ContainsKey(isoOriginal) ? TasasDeCambioCache[isoOriginal] : 1.00m;
+            decimal tasaUsuario = TasasDeCambioCache.ContainsKey(isoUsuario) ? TasasDeCambioCache[isoUsuario] : 1.00m;
+
+            decimal montoEnUSD = montoOriginal.Value / tasaOriginal;
+            decimal montoFinal = montoEnUSD * tasaUsuario;
+
+            return Math.Round(montoFinal, 2);
         }
     }
 }

@@ -129,22 +129,7 @@ namespace ControlInventario.Vistas.Aplicacion
 
         private void BtnBuscar_Click(object sender, EventArgs e)
         {
-            string codigo = TxtBuscarArticulo.Text.Trim();
-            if (string.IsNullOrEmpty(codigo)) return;
-
-            DataTable dtArticulo = ArticuloRepository.ListarArticulosDisponibles(UsuarioSesion.InventarioId);
-
-            DataRow[] filas = dtArticulo.Select($"Codigo = '{codigo}'");
-
-            if (filas.Length > 0)
-            {
-                DgvArticulos.Rows.Add(filas[0]["Codigo"], filas[0]["Modelo"], "Disponible", "Quitar");
-                TxtBuscarArticulo.Clear();
-            }
-            else
-            {
-                MessageBox.Show("Artículo no encontrado o no disponible.");
-            }
+            BuscarYAgregarArticulo();
         }
 
         private void BuscarYAgregarArticulo()

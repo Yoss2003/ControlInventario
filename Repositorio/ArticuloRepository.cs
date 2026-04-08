@@ -43,6 +43,7 @@ namespace ControlInventario.Database
                 RucProveedor TEXT,
                 Proveedor TEXT,
                 PrecioAdquisicion REAL,
+                MonedaAdquisicion TEXT,
                 VidaUtilMeses INTEGER,
                 Caracteristicas TEXT,
 
@@ -128,13 +129,15 @@ namespace ControlInventario.Database
                 InventarioId, Codigo, Modelo, Serie, IdMarca, FechaAdquisicion, FechaBaja, FechaFinGarantia,
                 EmpleadoActualId, EmpleadoAnteriorId,
                 IdEstado, IdUbicacion, IdCondicion, ActivoFijo, Observacion, RutaFotoPrincipal, RutaFotoSecundaria, 
-                RutaComprobantePrincipal, RutaComprobanteSecundaria, RucProveedor, Proveedor, PrecioAdquisicion, VidaUtilMeses, Caracteristicas,
+                RutaComprobantePrincipal, RutaComprobanteSecundaria, RucProveedor, Proveedor, PrecioAdquisicion, 
+                MonedaAdquisicion, VidaUtilMeses, Caracteristicas,
                 CategoriaId, FechaRegistro, IdAccion
             ) VALUES (
                 @InventarioId, @Codigo, @Modelo, @Serie, @IdMarca, @FechaAdquisicion, @FechaBaja, @FechaFinGarantia,
                 @EmpleadoActualId, @EmpleadoAnteriorId,
                 @IdEstado, @IdUbicacion, @IdCondicion, @ActivoFijo, @Observacion, @RutaFotoPrincipal, @RutaFotoSecundaria, 
-                @RutaComprobantePrincipal, @RutaComprobanteSecundaria, @RucProveedor, @Proveedor, @PrecioAdquisicion, @VidaUtilMeses, @Caracteristicas,
+                @RutaComprobantePrincipal, @RutaComprobanteSecundaria, @RucProveedor, @Proveedor, @PrecioAdquisicion,
+                @MonedaAdquisicion, @VidaUtilMeses, @Caracteristicas,
                 @CategoriaId, @FechaRegistro, 1
             );";
 
@@ -168,6 +171,7 @@ namespace ControlInventario.Database
                 cmd.Parameters.AddWithValue("@RucProveedor", (object)art.RucProveedor ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@Proveedor", (object)art.Proveedor ?? DBNull.Value);
                 cmd.Parameters.Add(new SQLiteParameter("@PrecioAdquisicion", DbType.Decimal) { Value = art.PrecioAdquisicion ?? (object)DBNull.Value });
+                cmd.Parameters.AddWithValue("@MonedaAdquisicion", (object)art.MonedaAdquisicion ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@VidaUtilMeses", art.VidaUtilMeses ?? (object)DBNull.Value);
                 cmd.Parameters.AddWithValue("@Caracteristicas", art.Caracteristicas ?? (object)DBNull.Value);
 
@@ -207,8 +211,9 @@ namespace ControlInventario.Database
                     Observacion = @Observacion, RutaFotoPrincipal = @RutaFotoPrincipal, RutaFotoSecundaria = @RutaFotoSecundaria, 
                     RutaComprobantePrincipal = @RutaComprobantePrincipal, RutaComprobanteSecundaria = @RutaComprobanteSecundaria,
                     RucProveedor = @RucProveedor, Proveedor = @Proveedor, PrecioAdquisicion = @PrecioAdquisicion, 
-                    VidaUtilMeses = @VidaUtilMeses, Caracteristicas = @Caracteristicas, FechaModificacion = @FechaModificacion,
-                    IdAccion = 12
+                    MonedaAdquisicion= @MonedaAdquisicion, VidaUtilMeses = @VidaUtilMeses, Caracteristicas = @Caracteristicas, 
+                    FechaModificacion = @FechaModificacion,
+                    IdAccion = 13
                 WHERE Id = @Id;";
 
                 using (var cmd = new SQLiteCommand(query, con))
@@ -235,6 +240,7 @@ namespace ControlInventario.Database
                     cmd.Parameters.AddWithValue("@RucProveedor", (object)art.RucProveedor ?? DBNull.Value);
                     cmd.Parameters.AddWithValue("@Proveedor", (object)art.Proveedor ?? DBNull.Value);
                     cmd.Parameters.Add(new SQLiteParameter("@PrecioAdquisicion", DbType.Decimal) { Value = art.PrecioAdquisicion ?? (object)DBNull.Value });
+                    cmd.Parameters.AddWithValue("@MonedaAdquisicion", (object)art.MonedaAdquisicion ?? DBNull.Value);
                     cmd.Parameters.AddWithValue("@VidaUtilMeses", art.VidaUtilMeses ?? (object)DBNull.Value);
                     cmd.Parameters.AddWithValue("@Caracteristicas", art.Caracteristicas ?? (object)DBNull.Value);
 
@@ -247,7 +253,7 @@ namespace ControlInventario.Database
                 {
                     ArticuloId = art.Id,
                     EmpleadoId = art.EmpleadoActualId,
-                    IdAccion = 2,
+                    IdAccion = 13,
                     FechaMovimiento = DateTime.Now,
                     Observacion = "Se editaron los datos del equipo."
                 };
@@ -262,7 +268,7 @@ namespace ControlInventario.Database
                 con.Open();
 
                 string query = @"UPDATE Articulos 
-                         SET IdAccion = 5, 
+                         SET IdAccion = 6, 
                              FechaBaja = @FechaBaja,
                              EmpleadoActualId = NULL
                          WHERE Id = @Id;";
@@ -279,7 +285,7 @@ namespace ControlInventario.Database
                         var mov = new Movimiento
                         {
                             ArticuloId = id,
-                            IdAccion = 5,
+                            IdAccion = 6,
                             FechaMovimiento = DateTime.Now,
                             Observacion = "El artículo fue dado de baja / eliminado del sistema."
                         };
@@ -297,7 +303,7 @@ namespace ControlInventario.Database
             using (var con = ConexionGlobal.ObtenerConexion())
             {
                 con.Open();
-                string query = "SELECT * FROM vw_Articulos WHERE CategoriaId = @CategoriaId AND IdAccion IN (1, 8, 11, 12);";
+                string query = "SELECT * FROM vw_Articulos WHERE CategoriaId = @CategoriaId AND IdAccion IN (1, 4, 12, 13);";
 
                 using (var cmd = new SQLiteCommand(query, con))
                 {
@@ -363,7 +369,7 @@ namespace ControlInventario.Database
                 SELECT * FROM vw_Articulos 
                 WHERE InventarioId = @InventarioId 
                   AND CategoriaId = @CategoriaId
-                  AND IdAccion IN (1, 8, 11, 12) -- ¡AGREGAMOS ESTE FILTRO AQUÍ TAMBIÉN!
+                  AND IdAccion IN (1, 4, 12, 13)
                   AND (@Codigo IS NULL OR Codigo LIKE @CodigoBusqueda)
                   AND (@IdMarca = 0 OR IdMarca = @IdMarca)
                   AND (@FechaInicio IS NULL OR FechaAdquisicion >= @FechaInicio)
@@ -444,6 +450,7 @@ namespace ControlInventario.Database
                 RucProveedor = reader["RucProveedor"]?.ToString(),
                 Proveedor = reader["Proveedor"]?.ToString(),
                 PrecioAdquisicion = reader["PrecioAdquisicion"] != DBNull.Value ? Convert.ToDecimal(reader["PrecioAdquisicion"]) : (decimal?)null,
+                MonedaAdquisicion = reader["MonedaAdquisicion"]?.ToString(),
                 VidaUtilMeses = reader["VidaUtilMeses"] != DBNull.Value ? Convert.ToInt32(reader["VidaUtilMeses"]) : (int?)null,
                 Caracteristicas = reader["Caracteristicas"] != DBNull.Value ? reader["Caracteristicas"].ToString() : null,
 
@@ -536,7 +543,7 @@ namespace ControlInventario.Database
 
                 string query = @"SELECT * FROM vw_Articulos 
                          WHERE InventarioId = @InvId 
-                           AND IdAccion IN (1, 8, 11, 12);";
+                           AND IdAccion IN (1, 4, 12, 13);";
 
                 using (var cmd = new SQLiteCommand(query, con))
                 {
@@ -638,8 +645,7 @@ namespace ControlInventario.Database
                 WHERE Id IN (SELECT MAX(Id) FROM Movimientos GROUP BY ArticuloId)
             ) m ON a.Id = m.ArticuloId
             WHERE a.InventarioId = @InvId 
-              AND a.IdAccion IN (2, 4, 5, 6, 9, 10);";
-
+            AND a.IdAccion IN (2, 3, 5, 6, 7, 8, 10, 11);";
             using (var con = ConexionGlobal.ObtenerConexion())
             {
                 con.Open();

@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="DvgIngresos.ColumnHeadersHeight" type="System.Int32, mscorlib">
+  <data name="DgvArticulos.ColumnHeadersHeight" type="System.Int32, mscorlib">
     <value>34</value>
   </data>
   <metadata name="IdArticulo.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
@@ -326,35 +326,35 @@
     <value>58</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="DvgIngresos.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="DgvArticulos.Location" type="System.Drawing.Point, System.Drawing">
     <value>147, 134</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="DvgIngresos.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+  <data name="DgvArticulos.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 5, 4, 5</value>
   </data>
-  <data name="DvgIngresos.RowHeadersWidth" type="System.Int32, mscorlib">
+  <data name="DgvArticulos.RowHeadersWidth" type="System.Int32, mscorlib">
     <value>62</value>
   </data>
-  <data name="DvgIngresos.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="DgvArticulos.Size" type="System.Drawing.Size, System.Drawing">
     <value>994, 471</value>
   </data>
-  <data name="DvgIngresos.TabIndex" type="System.Int32, mscorlib">
+  <data name="DgvArticulos.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
   </data>
-  <data name="DvgIngresos.Visible" type="System.Boolean, mscorlib">
+  <data name="DgvArticulos.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="&gt;&gt;DvgIngresos.Name" xml:space="preserve">
-    <value>DvgIngresos</value>
+  <data name="&gt;&gt;DgvArticulos.Name" xml:space="preserve">
+    <value>DgvArticulos</value>
   </data>
-  <data name="&gt;&gt;DvgIngresos.Type" xml:space="preserve">
+  <data name="&gt;&gt;DgvArticulos.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;DvgIngresos.Parent" xml:space="preserve">
+  <data name="&gt;&gt;DgvArticulos.Parent" xml:space="preserve">
     <value>TabIngresos</value>
   </data>
-  <data name="&gt;&gt;DvgIngresos.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;DgvArticulos.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="LstDefault1.Location" type="System.Drawing.Point, System.Drawing">

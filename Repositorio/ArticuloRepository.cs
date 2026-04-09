@@ -401,6 +401,57 @@ namespace ControlInventario.Database
             return dt;
         }
 
+        public static DataTable BuscarArticulosPorAccion(int inventarioId, string codigo, int idMarca, DateTime? fechaInicio, DateTime? fechaFin, params int[] acciones)
+        {
+            DataTable dt = new DataTable();
+
+            if (acciones == null || acciones.Length == 0) return dt;
+
+            string accionesIn = string.Join(",", acciones);
+
+            using (var con = ConexionGlobal.ObtenerConexion())
+            {
+                con.Open();
+
+                string query = $@"
+                SELECT a.Id, a.Codigo, a.Modelo, a.MarcaTexto, a.Serie, a.IdMarca,
+                       a.RutaFotoPrincipal, a.RutaFotoSecundaria, 
+                       a.EmpleadoActualTexto, a.EmpleadoActualAreaTexto, a.EmpleadoActualCargoTexto, 
+                       a.FechaAdquisicion, a.Caracteristicas, a.EstadoTexto, a.IdAccion,
+                       COALESCE(m.Destinatario, '') AS DestinatarioTexto, 
+                       m.PrecioVenta, 
+                       m.Observacion AS MotivoBajaTexto
+                FROM vw_Articulos a
+                LEFT JOIN (
+                    SELECT ArticuloId, Monto, Observacion, Destinatario, PrecioVenta 
+                    FROM Movimientos 
+                    WHERE Id IN (SELECT MAX(Id) FROM Movimientos GROUP BY ArticuloId)
+                ) m ON a.Id = m.ArticuloId
+                WHERE a.InventarioId = @InvId 
+                  AND a.IdAccion IN ({accionesIn})
+                  AND (@Codigo IS NULL OR a.Codigo LIKE @CodigoBusqueda)
+                  AND (@IdMarca = 0 OR a.IdMarca = @IdMarca)
+                  AND (@FechaInicio IS NULL OR a.FechaAdquisicion >= @FechaInicio)
+                  AND (@FechaFin IS NULL OR a.FechaAdquisicion <= @FechaFin);";
+
+                using (var cmd = new SQLiteCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@InvId", inventarioId);
+                    cmd.Parameters.AddWithValue("@Codigo", string.IsNullOrWhiteSpace(codigo) ? (object)DBNull.Value : codigo);
+                    cmd.Parameters.AddWithValue("@CodigoBusqueda", $"%{codigo}%");
+                    cmd.Parameters.AddWithValue("@IdMarca", idMarca);
+                    cmd.Parameters.AddWithValue("@FechaInicio", fechaInicio.HasValue ? fechaInicio.Value.ToString("yyyy-MM-dd") : (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@FechaFin", fechaFin.HasValue ? fechaFin.Value.ToString("yyyy-MM-dd") : (object)DBNull.Value);
+
+                    using (var adapter = new SQLiteDataAdapter(cmd))
+                    {
+                        adapter.Fill(dt);
+                    }
+                }
+            }
+            return dt;
+        }
+
         private static Articulos MapearArticulos(SQLiteDataReader reader)
         {
             return new Articulos
@@ -534,41 +585,6 @@ namespace ControlInventario.Database
             return fechaUltimoRegistro;
         }
 
-        public static DataTable ListarArticulosDisponibles(int inventarioId)
-        {
-            DataTable dt = new DataTable();
-            using (var con = ConexionGlobal.ObtenerConexion())
-            {
-                con.Open();
-
-                string query = @"
-                SELECT 
-                    MIN(Id) AS Id, 
-                    MIN(Codigo) AS Codigo, 
-                    Modelo, 
-                    MarcaTexto, 
-                    PrecioAdquisicion, 
-                    MonedaAdquisicion,
-                    COUNT(*) AS Stock 
-                FROM vw_Articulos 
-                WHERE InventarioId = @InvId 
-                  AND IdAccion IN (1, 4, 12, 13) 
-                GROUP BY Modelo, MarcaTexto, PrecioAdquisicion, MonedaAdquisicion
-                ORDER BY Modelo ASC;";
-
-                using (var cmd = new SQLiteCommand(query, con))
-                {
-                    cmd.Parameters.AddWithValue("@InvId", inventarioId);
-
-                    using (var adapter = new SQLiteDataAdapter(cmd))
-                    {
-                        adapter.Fill(dt);
-                    }
-                }
-            }
-            return dt;
-        }
-
         public static string GenerarSerieAutomatica(string nombreCategoria, int idUsuario)
         {
             Random rnd = new Random();
@@ -639,27 +655,88 @@ namespace ControlInventario.Database
             return $"{prefijo}{ahora.ToString("MM")}-{ahora.ToString("mmss")}";
         }
 
-        public static DataTable ListarArticulosAsignados(int inventarioId, int categoriaId = 0)
+        public static DataTable ListarArticulosDisponibles(int inventarioId)
         {
-            var dt = new DataTable();
-            string query = @"
-            SELECT a.Id, a.Codigo, a.Modelo, a.MarcaTexto, a.Serie, a.RutaFotoPrincipal, a.RutaFotoSecundaria, 
-                   a.EmpleadoActualTexto, a.EmpleadoActualAreaTexto, a.EmpleadoActualCargoTexto, 
-                   a.FechaAdquisicion, a.Caracteristicas, a.EstadoTexto, a.IdAccion,
-                   '' AS DestinatarioTexto, 
-                   m.Monto AS PrecioVenta, 
-                   m.Observacion AS MotivoBajaTexto
-            FROM vw_Articulos a
-            LEFT JOIN (
-                SELECT ArticuloId, Monto, Observacion 
-                FROM Movimientos 
-                WHERE Id IN (SELECT MAX(Id) FROM Movimientos GROUP BY ArticuloId)
-            ) m ON a.Id = m.ArticuloId
-            WHERE a.InventarioId = @InvId 
-            AND a.IdAccion IN (2, 3, 5, 6, 7, 8, 10, 11);";
+            DataTable dt = new DataTable();
             using (var con = ConexionGlobal.ObtenerConexion())
             {
                 con.Open();
+
+                string query = @"
+                SELECT 
+                    MIN(Id) AS Id, 
+                    MIN(Codigo) AS Codigo, 
+                    Modelo, 
+                    MarcaTexto, 
+                    PrecioAdquisicion, 
+                    MonedaAdquisicion,
+                    COUNT(*) AS Stock 
+                FROM vw_Articulos 
+                WHERE InventarioId = @InvId 
+                  AND IdAccion IN (1, 4, 12, 13) 
+                GROUP BY Modelo, MarcaTexto, PrecioAdquisicion, MonedaAdquisicion
+                ORDER BY Modelo ASC;";
+
+                using (var cmd = new SQLiteCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@InvId", inventarioId);
+
+                    using (var adapter = new SQLiteDataAdapter(cmd))
+                    {
+                        adapter.Fill(dt);
+                    }
+                }
+            }
+            return dt;
+        }
+
+        public static DataTable ListarArticulosPorAccion(int inventarioId, params int[] acciones)
+        {
+            DataTable dt = new DataTable();
+
+            if (acciones == null || acciones.Length == 0) return dt;
+
+            string accionesIn = string.Join(",", acciones);
+
+            using (var con = ConexionGlobal.ObtenerConexion())
+            {
+                con.Open();
+
+                string query = $@"
+                SELECT a.Id, a.Codigo, a.Modelo, a.MarcaTexto, a.Serie, a.RutaFotoPrincipal, a.RutaFotoSecundaria, 
+                       a.EmpleadoActualTexto, a.EmpleadoActualAreaTexto, a.EmpleadoActualCargoTexto, 
+                       a.FechaAdquisicion, a.Caracteristicas, a.EstadoTexto, a.IdAccion,
+                       COALESCE(m.Destinatario, '') AS DestinatarioTexto, 
+                       m.PrecioVenta, 
+                       m.Observacion AS MotivoBajaTexto
+                FROM vw_Articulos a
+                LEFT JOIN (
+                    SELECT ArticuloId, Monto, Observacion, Destinatario, PrecioVenta 
+                    FROM Movimientos 
+                    WHERE Id IN (SELECT MAX(Id) FROM Movimientos GROUP BY ArticuloId)
+                ) m ON a.Id = m.ArticuloId
+                WHERE a.InventarioId = @InvId 
+                AND a.IdAccion IN ({accionesIn});";
+
+                using (var cmd = new SQLiteCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@InvId", inventarioId);
+                    using (var adapter = new SQLiteDataAdapter(cmd))
+                    {
+                        adapter.Fill(dt);
+                    }
+                }
+            }
+            return dt;
+        }
+
+        public static DataTable ListarInventarioCompleto(int inventarioId)
+        {
+            DataTable dt = new DataTable();
+            using (var con = ConexionGlobal.ObtenerConexion())
+            {
+                con.Open();
+                string query = "SELECT * FROM vw_Articulos WHERE InventarioId = @InvId AND IdAccion IN (1, 4, 12, 13);";
                 using (var cmd = new SQLiteCommand(query, con))
                 {
                     cmd.Parameters.AddWithValue("@InvId", inventarioId);

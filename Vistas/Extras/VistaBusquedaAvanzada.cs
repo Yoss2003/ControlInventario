@@ -17,7 +17,9 @@ namespace ControlInventario.Vistas.Extras
         }
         private void SeleccionarArticulo(int rowIndex)
         {
-            CodigoSeleccionado = DgvArticulosBusquedaAvanzada.Rows[rowIndex].Cells["CodigoArticulo"].Value.ToString();
+            DataRowView filaDatos = (DataRowView)DgvArticulosBusquedaAvanzada.Rows[rowIndex].DataBoundItem;
+
+            CodigoSeleccionado = filaDatos["Codigo"].ToString();
 
             this.DialogResult = DialogResult.OK;
             this.Close();
@@ -51,48 +53,15 @@ namespace ControlInventario.Vistas.Extras
         {
             DgvArticulosBusquedaAvanzada.AutoGenerateColumns = false;
 
-            CodigoArticulo.DataPropertyName = "Codigo";
-            DescripcionArticulo.DataPropertyName = "Modelo";
+            ModeloArticulo.DataPropertyName = "Modelo";
             MarcaArticulo.DataPropertyName = "MarcaTexto";
-            PrecioArticulo.DataPropertyName = "Precio";
+            PrecioArticulo.DataPropertyName = "PrecioAdquisicion";
             StockArticulo.DataPropertyName = "Stock";
 
             AcciónArticulo.Text = "Añadir";
             AcciónArticulo.UseColumnTextForButtonValue = true;
-                        
-            DataTable dtCrudo = ArticuloRepository.ListarArticulosDisponibles(UsuarioSesion.InventarioId);
 
-            dtArticulosAgrupados = new DataTable();
-            dtArticulosAgrupados.Columns.Add("Codigo", typeof(string));
-            dtArticulosAgrupados.Columns.Add("Modelo", typeof(string));
-            dtArticulosAgrupados.Columns.Add("MarcaTexto", typeof(string));
-            dtArticulosAgrupados.Columns.Add("Precio", typeof(decimal));
-            dtArticulosAgrupados.Columns.Add("Stock", typeof(int));
-
-            var diccionarioAgrupado = new Dictionary<string, DataRow>();
-
-            foreach (DataRow row in dtCrudo.Rows)
-            {
-                string codigo = row["Codigo"].ToString();
-
-                if (diccionarioAgrupado.ContainsKey(codigo))
-                {
-                    DataRow filaExistente = diccionarioAgrupado[codigo];
-                    filaExistente["Stock"] = Convert.ToInt32(filaExistente["Stock"]) + 1;
-                }
-                else
-                {
-                    DataRow nuevaFila = dtArticulosAgrupados.NewRow();
-                    nuevaFila["Codigo"] = codigo;
-                    nuevaFila["Modelo"] = row["Modelo"].ToString();
-                    nuevaFila["MarcaTexto"] = row["MarcaTexto"].ToString();
-                    nuevaFila["Precio"] = row["PrecioAdquisicion"] != DBNull.Value ? Convert.ToDecimal(row["PrecioAdquisicion"]) : 0m;
-                    nuevaFila["Stock"] = row["Stock"].ToString();
-
-                    dtArticulosAgrupados.Rows.Add(nuevaFila);
-                    diccionarioAgrupado.Add(codigo, nuevaFila);
-                }
-            }
+            dtArticulosAgrupados = ArticuloRepository.ListarArticulosDisponibles(UsuarioSesion.InventarioId);
 
             DgvArticulosBusquedaAvanzada.DataSource = dtArticulosAgrupados;
 

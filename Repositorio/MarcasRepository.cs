@@ -94,14 +94,20 @@ namespace ControlInventario.Database
             return dt;
         }
 
-        public static DataTable BuscarMarcasPorArticulosPorCategoria(SQLiteConnection con, int categoriaId, int inventarioId, bool esIngreso, int idAccionFiltro = 0)
+        public static DataTable BuscarMarcasPorArticulosPorCategoria(SQLiteConnection con, int categoriaId, int inventarioId, bool esIngreso, params int[] accionesFiltro)
         {
             var dt = new DataTable();
 
-            string filtroAcciones = esIngreso ? "(1, 8, 11, 12, 13)" : "(2, 4, 5, 6, 9, 10)";
+            string filtroAcciones;
 
-            if (!esIngreso && idAccionFiltro != 0)
-                filtroAcciones = $"({idAccionFiltro})";
+            if (accionesFiltro != null && accionesFiltro.Length > 0 && accionesFiltro[0] != 0)
+            {
+                filtroAcciones = $"({string.Join(",", accionesFiltro)})";
+            }
+            else
+            {
+                filtroAcciones = esIngreso ? "(1, 4, 12, 13)" : "(2, 3, 5, 6, 8, 10, 11)";
+            }
 
             string query = $@"
             SELECT DISTINCT m.Id, m.Nombre 

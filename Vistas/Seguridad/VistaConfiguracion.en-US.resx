@@ -119,15 +119,18 @@
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>30, 130</value>
+    <value>45, 200</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="label2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>68, 13</value>
+    <value>103, 20</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
     <value>Date Format:</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="label1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
   </data>
@@ -135,22 +138,73 @@
     <value>NoControl</value>
   </data>
   <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>40, 22</value>
+    <value>60, 34</value>
+  </data>
+  <data name="label1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>58, 13</value>
+    <value>85, 20</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>Language:</value>
   </data>
+  <data name="GrpGeneral.Location" type="System.Drawing.Point, System.Drawing">
+    <value>306, 18</value>
+  </data>
+  <data name="GrpGeneral.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
+  </data>
+  <data name="GrpGeneral.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
+  </data>
+  <data name="GrpGeneral.Size" type="System.Drawing.Size, System.Drawing">
+    <value>432, 548</value>
+  </data>
+  <data name="CbFormatoFecha.Location" type="System.Drawing.Point, System.Drawing">
+    <value>170, 195</value>
+  </data>
+  <data name="CbFormatoFecha.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
+  </data>
+  <data name="CbFormatoFecha.Size" type="System.Drawing.Size, System.Drawing">
+    <value>226, 28</value>
+  </data>
   <data name="CbFormatoFecha.Text" xml:space="preserve">
     <value>SELECT</value>
+  </data>
+  <data name="CbZonaHoraria.Location" type="System.Drawing.Point, System.Drawing">
+    <value>170, 362</value>
+  </data>
+  <data name="CbZonaHoraria.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
+  </data>
+  <data name="CbZonaHoraria.Size" type="System.Drawing.Size, System.Drawing">
+    <value>226, 28</value>
   </data>
   <data name="CbZonaHoraria.Text" xml:space="preserve">
     <value>SELECT</value>
   </data>
+  <data name="CbNotificaciones.Location" type="System.Drawing.Point, System.Drawing">
+    <value>170, 140</value>
+  </data>
+  <data name="CbNotificaciones.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
+  </data>
+  <data name="CbNotificaciones.Size" type="System.Drawing.Size, System.Drawing">
+    <value>226, 28</value>
+  </data>
   <data name="CbNotificaciones.Text" xml:space="preserve">
     <value>SELECT</value>
+  </data>
+  <data name="CbMoneda.Location" type="System.Drawing.Point, System.Drawing">
+    <value>170, 251</value>
+  </data>
+  <data name="CbMoneda.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
+  </data>
+  <data name="CbMoneda.Size" type="System.Drawing.Size, System.Drawing">
+    <value>226, 28</value>
   </data>
   <data name="CbMoneda.Text" xml:space="preserve">
     <value>SELECT</value>
@@ -159,92 +213,203 @@
   <data name="CbUniMedida.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
+  <data name="CbUniMedida.Location" type="System.Drawing.Point, System.Drawing">
+    <value>170, 306</value>
+  </data>
+  <data name="CbUniMedida.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
+  </data>
+  <data name="CbUniMedida.Size" type="System.Drawing.Size, System.Drawing">
+    <value>226, 28</value>
+  </data>
   <data name="CbUniMedida.Text" xml:space="preserve">
     <value>SELECT</value>
+  </data>
+  <data name="CbIdioma.Location" type="System.Drawing.Point, System.Drawing">
+    <value>170, 29</value>
+  </data>
+  <data name="CbIdioma.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
+  </data>
+  <data name="CbIdioma.Size" type="System.Drawing.Size, System.Drawing">
+    <value>226, 28</value>
   </data>
   <data name="CbIdioma.Text" xml:space="preserve">
     <value>SELECT</value>
   </data>
+  <data name="CbTema.Location" type="System.Drawing.Point, System.Drawing">
+    <value>170, 85</value>
+  </data>
+  <data name="CbTema.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
+  </data>
+  <data name="CbTema.Size" type="System.Drawing.Size, System.Drawing">
+    <value>226, 28</value>
+  </data>
   <data name="CbTema.Text" xml:space="preserve">
     <value>SELECT</value>
   </data>
+  <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>45, 145</value>
+  </data>
+  <data name="label4.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
+  </data>
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>68, 13</value>
+    <value>100, 20</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
     <value>Notifications:</value>
   </data>
   <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>55, 58</value>
+    <value>82, 89</value>
+  </data>
+  <data name="label5.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>43, 13</value>
+    <value>62, 20</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
     <value>Theme:</value>
   </data>
   <data name="label7.Location" type="System.Drawing.Point, System.Drawing">
-    <value>39, 238</value>
+    <value>58, 366</value>
+  </data>
+  <data name="label7.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 13</value>
+    <value>86, 20</value>
   </data>
   <data name="label7.Text" xml:space="preserve">
     <value>Time zone:</value>
   </data>
   <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>14, 202</value>
+    <value>21, 311</value>
+  </data>
+  <data name="label3.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>84, 13</value>
+    <value>126, 20</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
     <value>Unit of measure:</value>
   </data>
   <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>67, 166</value>
+    <value>100, 255</value>
+  </data>
+  <data name="label6.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 13</value>
+    <value>45, 20</value>
   </data>
   <data name="label6.Text" xml:space="preserve">
     <value>Coin:</value>
   </data>
+  <data name="GrpSeguridad.Location" type="System.Drawing.Point, System.Drawing">
+    <value>306, 18</value>
+  </data>
+  <data name="GrpSeguridad.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
+  </data>
+  <data name="GrpSeguridad.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
+  </data>
+  <data name="GrpSeguridad.Size" type="System.Drawing.Size, System.Drawing">
+    <value>432, 548</value>
+  </data>
   <data name="label13.Location" type="System.Drawing.Point, System.Drawing">
-    <value>97, 76</value>
+    <value>146, 117</value>
+  </data>
+  <data name="label13.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="label13.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 13</value>
+    <value>107, 20</value>
   </data>
   <data name="label13.Text" xml:space="preserve">
     <value>Share activity:</value>
   </data>
   <data name="ChkCompartirActividad.Location" type="System.Drawing.Point, System.Drawing">
-    <value>212, 75</value>
+    <value>318, 115</value>
+  </data>
+  <data name="ChkCompartirActividad.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
+  </data>
+  <data name="ChkCompartirActividad.Size" type="System.Drawing.Size, System.Drawing">
+    <value>22, 21</value>
   </data>
   <data name="label12.Location" type="System.Drawing.Point, System.Drawing">
-    <value>71, 45</value>
+    <value>106, 69</value>
+  </data>
+  <data name="label12.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="label12.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 13</value>
+    <value>150, 20</value>
   </data>
   <data name="label12.Text" xml:space="preserve">
     <value>2FA Authentication:</value>
   </data>
   <data name="ChkAutenticacion2FA.Location" type="System.Drawing.Point, System.Drawing">
-    <value>212, 45</value>
+    <value>318, 69</value>
+  </data>
+  <data name="ChkAutenticacion2FA.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
+  </data>
+  <data name="ChkAutenticacion2FA.Size" type="System.Drawing.Size, System.Drawing">
+    <value>22, 21</value>
+  </data>
+  <data name="GrpInventario.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="GrpInventario.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
+  </data>
+  <data name="GrpInventario.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
+  </data>
+  <data name="GrpInventario.Size" type="System.Drawing.Size, System.Drawing">
+    <value>432, 548</value>
   </data>
   <data name="ChkGeneracionCodigo.Location" type="System.Drawing.Point, System.Drawing">
-    <value>212, 105</value>
+    <value>318, 162</value>
+  </data>
+  <data name="ChkGeneracionCodigo.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
+  </data>
+  <data name="ChkGeneracionCodigo.Size" type="System.Drawing.Size, System.Drawing">
+    <value>22, 21</value>
   </data>
   <data name="ChkCalcularDevaluacion.Location" type="System.Drawing.Point, System.Drawing">
-    <value>212, 75</value>
+    <value>318, 115</value>
+  </data>
+  <data name="ChkCalcularDevaluacion.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
+  </data>
+  <data name="ChkCalcularDevaluacion.Size" type="System.Drawing.Size, System.Drawing">
+    <value>22, 21</value>
+  </data>
+  <data name="ChkCodigoBarras.Location" type="System.Drawing.Point, System.Drawing">
+    <value>318, 69</value>
+  </data>
+  <data name="ChkCodigoBarras.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
+  </data>
+  <data name="ChkCodigoBarras.Size" type="System.Drawing.Size, System.Drawing">
+    <value>22, 21</value>
   </data>
   <data name="label11.Location" type="System.Drawing.Point, System.Drawing">
-    <value>86, 107</value>
+    <value>129, 165</value>
+  </data>
+  <data name="label11.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="label11.Size" type="System.Drawing.Size, System.Drawing">
-    <value>88, 13</value>
+    <value>131, 20</value>
   </data>
   <data name="label11.Text" xml:space="preserve">
     <value>Code generation:</value>
@@ -253,31 +418,79 @@
     <value>NoControl</value>
   </data>
   <data name="label10.Location" type="System.Drawing.Point, System.Drawing">
-    <value>62, 76</value>
+    <value>93, 117</value>
+  </data>
+  <data name="label10.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="label10.Size" type="System.Drawing.Size, System.Drawing">
-    <value>112, 13</value>
+    <value>164, 20</value>
   </data>
   <data name="label10.Text" xml:space="preserve">
     <value>Calculate devaluation:</value>
   </data>
   <data name="label8.Location" type="System.Drawing.Point, System.Drawing">
-    <value>89, 45</value>
+    <value>134, 69</value>
+  </data>
+  <data name="label8.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
-    <value>85, 13</value>
+    <value>125, 20</value>
   </data>
   <data name="label8.Text" xml:space="preserve">
     <value>Enable barcode:</value>
   </data>
+  <data name="BtnGuardar.Location" type="System.Drawing.Point, System.Drawing">
+    <value>550, 575</value>
+  </data>
+  <data name="BtnGuardar.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
+  </data>
+  <data name="BtnGuardar.Size" type="System.Drawing.Size, System.Drawing">
+    <value>112, 35</value>
+  </data>
   <data name="BtnGuardar.Text" xml:space="preserve">
     <value>Save</value>
   </data>
+  <data name="GrpPreview.Location" type="System.Drawing.Point, System.Drawing">
+    <value>746, 18</value>
+  </data>
+  <data name="GrpPreview.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
+  </data>
+  <data name="GrpPreview.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
+  </data>
+  <data name="GrpPreview.Size" type="System.Drawing.Size, System.Drawing">
+    <value>471, 548</value>
+  </data>
+  <data name="label9.Location" type="System.Drawing.Point, System.Drawing">
+    <value>183, 255</value>
+  </data>
+  <data name="label9.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
+  </data>
   <data name="label9.Size" type="System.Drawing.Size, System.Drawing">
-    <value>70, 13</value>
+    <value>105, 20</value>
   </data>
   <data name="label9.Text" xml:space="preserve">
     <value>Coming Soon</value>
+  </data>
+  <data name="pictureBox1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 29</value>
+  </data>
+  <data name="pictureBox1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
+  </data>
+  <data name="pictureBox1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>453, 509</value>
+  </data>
+  <data name="TreeMenu.Location" type="System.Drawing.Point, System.Drawing">
+    <value>18, 18</value>
+  </data>
+  <data name="TreeMenu.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
   </data>
   <data name="TreeMenu.Nodes" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
@@ -312,6 +525,27 @@
         aWxkQ291bnQBAQEAAAEAAQABCAgIAgAAAAYDAAAACFNlY3VyaXR5BgQAAAAABgUAAAANTm9kZVNlZ3Vy
         aWRhZAD/////CQQAAAD/////CQQAAAAAAAAACw==
 </value>
+  </data>
+  <data name="TreeMenu.Size" type="System.Drawing.Size, System.Drawing">
+    <value>276, 546</value>
+  </data>
+  <data name="GrpDefault.Location" type="System.Drawing.Point, System.Drawing">
+    <value>306, 18</value>
+  </data>
+  <data name="GrpDefault.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
+  </data>
+  <data name="GrpDefault.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
+  </data>
+  <data name="GrpDefault.Size" type="System.Drawing.Size, System.Drawing">
+    <value>432, 548</value>
+  </data>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>9, 20</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>1234, 632</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Configuration</value>

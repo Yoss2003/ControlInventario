@@ -59,6 +59,7 @@ namespace ControlInventario.Vistas
             ClassHelper.LlenarDesdeTabla(CbMoneda, "Moneda", "Moneda");
             ClassHelper.LlenarDesdeTabla(CbUniMedida, "UnidadMedida", "UnidadMedida");
             ClassHelper.LlenarDesdeTabla(CbZonaHoraria, "ZonaHoraria", "ZonaHoraria");
+            ClassHelper.LlenarDesdeTabla(CbModoVentas, "ModoVentas", "ModoVentas");
 
             try
             {
@@ -95,6 +96,9 @@ namespace ControlInventario.Vistas
                         ChkCodigoBarras.Checked = perfil.CodigoBarras;
                         ChkCalcularDevaluacion.Checked = perfil.CalcularDevaluacion;
                         ChkGeneracionCodigo.Checked = perfil.GeneracionCodigos;
+
+                        CbModoVentas.SelectedValue = perfil.IdModoVentas;
+                        CbModoVentas.SelectedItem = perfil.ModoVentas;
                     }
                     ;
                 }
@@ -136,41 +140,44 @@ namespace ControlInventario.Vistas
         }
 
         private void BtnGuardar_Click(object sender, EventArgs e)
-        {            
+        {
             try
-            {                
+            {
                 using (var con = ConexionGlobal.ObtenerConexion())
-                {    
+                {
                     con.Open();
                     Perfiles perf = new Perfiles
                     {
                         NombreUsuario = nombreUsuario,
                         IdIdioma = Convert.ToInt32(CbIdioma.SelectedValue),
-                        Idioma = CbIdioma.Text,
+                        Idioma = CbIdioma.GetItemText(CbIdioma.SelectedItem),
 
                         IdTema = Convert.ToInt32(CbTema.SelectedValue),
-                        Tema = CbTema.Text,
+                        Tema = CbTema.GetItemText(CbTema.SelectedItem),
 
                         IdNotificaciones = Convert.ToInt32(CbNotificaciones.SelectedValue),
-                        Notificaciones = CbNotificaciones.Text,
+                        Notificaciones = CbNotificaciones.GetItemText(CbNotificaciones.SelectedItem),
 
                         IdFormatoFecha = Convert.ToInt32(CbFormatoFecha.SelectedValue),
-                        FormatoFecha = CbFormatoFecha.Text,
+                        FormatoFecha = CbFormatoFecha.GetItemText(CbFormatoFecha.SelectedItem),
 
                         IdMoneda = Convert.ToInt32(CbMoneda.SelectedValue),
-                        Moneda = CbMoneda.Text,
+                        Moneda = CbMoneda.GetItemText(CbMoneda.SelectedItem),
 
                         IdUnidadMedida = Convert.ToInt32(CbUniMedida.SelectedValue),
-                        UnidadMedida = CbUniMedida.Text,
+                        UnidadMedida = CbUniMedida.GetItemText(CbUniMedida.SelectedItem),
 
                         IdZonaHoraria = Convert.ToInt32(CbZonaHoraria.SelectedValue),
-                        ZonaHoraria = CbZonaHoraria.Text,
+                        ZonaHoraria = CbZonaHoraria.GetItemText(CbZonaHoraria.SelectedItem),
 
                         Autenticacion = ChkAutenticacion2FA.Checked,
                         ActividadCompartida = ChkCompartirActividad.Checked,
                         CodigoBarras = ChkCodigoBarras.Checked,
                         CalcularDevaluacion = ChkCalcularDevaluacion.Checked,
-                        GeneracionCodigos = ChkGeneracionCodigo.Checked
+                        GeneracionCodigos = ChkGeneracionCodigo.Checked,
+
+                        IdModoVentas = Convert.ToInt32(CbModoVentas.SelectedValue),
+                        ModoVentas = CbModoVentas.GetItemText(CbModoVentas.SelectedItem),
                     };
 
                     LogsRepository.InsertarLogs("Perfil", "Modificar", $"Se modificó el perfil del usuario: {nombreUsuario}");
@@ -179,7 +186,7 @@ namespace ControlInventario.Vistas
 
                     ClassHelper.ActualizarTemaGlobal();
                     ClassHelper.AplicarIdiomaGlobal();
-                    
+
                     string mensajeExito = string.Format(Idiomas.MensajeExitoConfiguracionGuardar, nombreUsuario);
                     MessageBox.Show(
                         mensajeExito,
@@ -244,6 +251,11 @@ namespace ControlInventario.Vistas
                 UsuarioSesion.Configuracion.Tema = CbTema.Text;
             }
             ClassHelper.AplicarTema(this);
+        }
+
+        private void CbModoVentas_TextChanged(object sender, EventArgs e)
+        {
+            ClassHelper.NormalizarTexto(CbModoVentas);
         }
     }
 }

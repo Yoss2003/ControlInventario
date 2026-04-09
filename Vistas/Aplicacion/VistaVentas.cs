@@ -65,8 +65,7 @@ namespace ControlInventario.Vistas.Aplicacion
                 }
             }
 
-            dtStockDisponible = ArticuloRepository.ListarArticulosDisponibles(UsuarioSesion.InventarioId);
-
+            dtStockDisponible = ArticuloRepository.ListarInventarioCompleto(UsuarioSesion.InventarioId);
             LblVuelto.Text = $"{ClassHelper.ObtenerSimboloMoneda()} 0,00";
             TxtMontoRecibido.Text = $"{ClassHelper.ObtenerSimboloMoneda()} 0,00";
 
@@ -86,43 +85,45 @@ namespace ControlInventario.Vistas.Aplicacion
 
         private void BuscarYAgregarAlCarrito()
         {
-            string codigo = TxtBuscarArticulo.Text.Trim();
-            if (string.IsNullOrEmpty(codigo)) return;
+            string codigoBuscado = TxtBuscarArticulo.Text.Trim();
+            if (string.IsNullOrEmpty(codigoBuscado)) return;
+
+            DataRow[] resultados = dtStockDisponible.Select($"Codigo = '{codigoBuscado}'");
+            if (resultados.Length == 0)
+            {
+                MessageBox.Show("Equipo no disponible.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                TxtBuscarArticulo.SelectAll();
+                return;
+            }
+
+            DataRow art = resultados[0];
+            string modeloArticulo = art["Modelo"].ToString();
 
             bool existeEnCarrito = false;
             foreach (DataGridViewRow fila in DgvArticulos.Rows)
             {
-                if (fila.Cells["CodigoArticulo"].Value?.ToString() == codigo)
+                if (fila.Cells["ModeloArticulo"].Value?.ToString() == modeloArticulo)
                 {
                     int cantActual = Convert.ToInt32(fila.Cells["CantidadArticulo"].Value);
                     fila.Cells["CantidadArticulo"].Value = cantActual + 1;
                     existeEnCarrito = true;
-                    TxtBuscarArticulo.Clear();
                     break;
                 }
             }
 
             if (!existeEnCarrito)
             {
-                DataRow[] resultados = dtStockDisponible.Select($"Codigo = '{codigo}'");
-                if (resultados.Length > 0)
-                {
-                    DataRow art = resultados[0];
-                    int idArticulo = Convert.ToInt32(art["Id"]);
-                    decimal precioBD = art["PrecioAdquisicion"] != DBNull.Value ? Convert.ToDecimal(art["PrecioAdquisicion"]) : 0m;
-                    decimal precioLocal = ClassHelper.ConvertirBDAMonedaLocal(precioBD, DatosEdicion.MonedaAdquisicion) ?? 0m;
-                    int rowIndex = DgvArticulos.Rows.Add(art["Codigo"], art["Modelo"], precioLocal, 1, precioLocal);
-                    DgvArticulos.Rows[rowIndex].Tag = idArticulo;
+                int idArticulo = Convert.ToInt32(art["Id"]);
+                decimal precioBD = art["PrecioAdquisicion"] != DBNull.Value ? Convert.ToDecimal(art["PrecioAdquisicion"]) : 0m;
 
-                    TxtBuscarArticulo.Clear();
-                    CalcularTotalesGlobales();
-                }
-                else
-                {
-                    MessageBox.Show("Equipo no disponible.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    TxtBuscarArticulo.SelectAll();
-                }
+                string monedaBD = art["MonedaAdquisicion"] != DBNull.Value ? art["MonedaAdquisicion"].ToString() : "Soles";
+                decimal precioLocal = ClassHelper.ConvertirBDAMonedaLocal(precioBD, monedaBD) ?? 0m;
+                int rowIndex = DgvArticulos.Rows.Add(modeloArticulo, precioLocal, 1, precioLocal);
+                DgvArticulos.Rows[rowIndex].Tag = idArticulo;
             }
+
+            TxtBuscarArticulo.Clear();
+            CalcularTotalesGlobales();
         }
 
         private void DgvArticulos_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -218,29 +219,36 @@ namespace ControlInventario.Vistas.Aplicacion
             string metodoPago = CbMetodoPago.Text;
             string obsGeneral = TxtObservaciones.Text.Trim();
 
-            string observacionFinal = $"VENTA ({comprobante}): {cliente} [Doc:{doc}] | Pago: {metodoPago} | Obs: {obsGeneral}";
-
             List<Movimiento> movimientosVenta = new List<Movimiento>();
 
             foreach (DataGridViewRow row in DgvArticulos.Rows)
             {
-                string codigoArt = row.Cells["CodigoArticulo"].Value.ToString();
+                string modeloArt = row.Cells["ModeloArticulo"].Value.ToString();
                 int cantidadVendida = Convert.ToInt32(row.Cells["CantidadArticulo"].Value);
                 decimal precioUnitario = Convert.ToDecimal(row.Cells["PrecioArticulo"].Value);
 
-                DataRow[] articulosDisponibles = dtStockDisponible.Select($"Codigo = '{codigoArt}'");
+                List<int> idsFisicosSeleccionados = MostrarSelectorDeCodigos(modeloArt, cantidadVendida);
 
-                for (int i = 0; i < cantidadVendida; i++)
+                if (idsFisicosSeleccionados == null)
                 {
-                    int idFisicoReal = Convert.ToInt32(articulosDisponibles[i]["Id"]);
+                    MessageBox.Show("Venta cancelada. Debe seleccionar los códigos a entregar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
 
+                foreach (int idFisico in idsFisicosSeleccionados)
+                {
                     movimientosVenta.Add(new Movimiento
                     {
-                        ArticuloId = idFisicoReal,
+                        ArticuloId = idFisico,
                         IdAccion = 2,
                         FechaMovimiento = DtpFecha.Value,
-                        Observacion = observacionFinal,
-                        Monto = precioUnitario
+                        Observacion = obsGeneral,
+                        Monto = precioUnitario,
+                        Destinatario = cliente,
+                        PrecioVenta = precioUnitario,
+                        Documento = doc,
+                        MetodoPago = metodoPago,
+                        TipoComprobante = comprobante
                     });
                 }
             }
@@ -248,9 +256,7 @@ namespace ControlInventario.Vistas.Aplicacion
             try
             {
                 MovimientoRepository.RegistrarVenta(movimientosVenta);
-
                 MessageBox.Show("¡Venta procesada y registrada con éxito!", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
@@ -286,9 +292,8 @@ namespace ControlInventario.Vistas.Aplicacion
             if (e.RowIndex >= 0 && DgvArticulos.Columns[e.ColumnIndex].Name == "CantidadArticulo")
             {
                 var row = DgvArticulos.Rows[e.RowIndex];
-                string codigoActual = row.Cells["CodigoArticulo"].Value?.ToString();
-
-                int stockMaximo = dtStockDisponible.Select($"Codigo = '{codigoActual}'").Length;
+                string modeloActual = row.Cells["ModeloArticulo"].Value?.ToString();
+                int stockMaximo = dtStockDisponible.Select($"Modelo = '{modeloActual}'").Length;
 
                 if (int.TryParse(row.Cells["CantidadArticulo"].Value?.ToString(), out int cantidad))
                 {
@@ -456,6 +461,68 @@ namespace ControlInventario.Vistas.Aplicacion
         private void TxtMontoRecibido_KeyDown(object sender, KeyEventArgs e)
         {
 
+        }
+
+        private List<int> MostrarSelectorDeCodigos(string modelo, int cantidadRequerida)
+        {
+            List<int> idsSeleccionados = new List<int>();
+            DataRow[] disponibles = dtStockDisponible.Select($"Modelo = '{modelo}'");
+
+            Form selector = new Form()
+            {
+                Text = $"Seleccione {cantidadRequerida} código(s) para: {modelo}",
+                Size = new Size(400, 300),
+                StartPosition = FormStartPosition.CenterParent,
+                FormBorderStyle = FormBorderStyle.FixedDialog,
+                MaximizeBox = false,
+                MinimizeBox = false
+            };
+
+            CheckedListBox checklist = new CheckedListBox()
+            {
+                Dock = DockStyle.Top,
+                Height = 200,
+                CheckOnClick = true
+            };
+
+            foreach (DataRow fila in disponibles)
+            {
+                string serie = fila["Serie"] != DBNull.Value ? fila["Serie"].ToString() : "N/A";
+                checklist.Items.Add(new KeyValuePair<int, string>(
+                    Convert.ToInt32(fila["Id"]),
+                    $"{fila["Codigo"]} - Serie: {serie}"
+                ));
+            }
+
+            checklist.DisplayMember = "Value";
+            checklist.ValueMember = "Key";
+
+            Button btnConfirmar = new Button() { Text = "Confirmar Selección", Dock = DockStyle.Bottom, Height = 40, BackColor = Color.LightGreen };
+
+            btnConfirmar.Click += (s, ev) =>
+            {
+                if (checklist.CheckedItems.Count != cantidadRequerida)
+                {
+                    MessageBox.Show($"Debe marcar exactamente {cantidadRequerida} artículos de la lista.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                foreach (var item in checklist.CheckedItems)
+                {
+                    var articuloSeleccionado = (KeyValuePair<int, string>)item;
+                    idsSeleccionados.Add(articuloSeleccionado.Key);
+                }
+
+                selector.DialogResult = DialogResult.OK;
+            };
+
+            selector.Controls.Add(checklist);
+            selector.Controls.Add(btnConfirmar);
+
+            if (selector.ShowDialog() == DialogResult.OK)
+                return idsSeleccionados;
+            else
+                return null;
         }
     }
 }

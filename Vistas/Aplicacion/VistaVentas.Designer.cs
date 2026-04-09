@@ -28,15 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle28 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle34 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle35 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle36 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle29 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle30 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle31 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle32 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle33 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.button1 = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
@@ -53,12 +52,6 @@
             this.CbMetodoPago = new System.Windows.Forms.ComboBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.DgvArticulos = new System.Windows.Forms.DataGridView();
-            this.CodigoArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DescripcionArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.PrecioArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CantidadArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SubtotalArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AccionArticulo = new System.Windows.Forms.DataGridViewButtonColumn();
             this.BtnBusquedaAvanzada = new System.Windows.Forms.Button();
             this.BtnBuscar = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
@@ -71,6 +64,11 @@
             this.label7 = new System.Windows.Forms.Label();
             this.BtnCompletarVenta = new System.Windows.Forms.Button();
             this.LblTotal = new System.Windows.Forms.Label();
+            this.ModeloArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PrecioArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CantidadArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SubtotalArticulo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AccionArticulo = new System.Windows.Forms.DataGridViewButtonColumn();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvArticulos)).BeginInit();
@@ -233,104 +231,49 @@
             this.DgvArticulos.AllowUserToAddRows = false;
             this.DgvArticulos.AllowUserToDeleteRows = false;
             this.DgvArticulos.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridViewCellStyle28.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle28.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle28.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle28.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle28.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle28.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle28.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.DgvArticulos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle28;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.DgvArticulos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.DgvArticulos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DgvArticulos.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.CodigoArticulo,
-            this.DescripcionArticulo,
+            this.ModeloArticulo,
             this.PrecioArticulo,
             this.CantidadArticulo,
             this.SubtotalArticulo,
             this.AccionArticulo});
-            dataGridViewCellStyle34.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle34.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle34.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle34.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle34.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle34.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle34.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.DgvArticulos.DefaultCellStyle = dataGridViewCellStyle34;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.DgvArticulos.DefaultCellStyle = dataGridViewCellStyle6;
             this.DgvArticulos.Location = new System.Drawing.Point(18, 108);
             this.DgvArticulos.Name = "DgvArticulos";
             this.DgvArticulos.ReadOnly = true;
-            dataGridViewCellStyle35.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle35.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle35.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle35.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle35.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle35.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle35.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.DgvArticulos.RowHeadersDefaultCellStyle = dataGridViewCellStyle35;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.DgvArticulos.RowHeadersDefaultCellStyle = dataGridViewCellStyle7;
             this.DgvArticulos.RowHeadersWidth = 62;
-            dataGridViewCellStyle36.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.DgvArticulos.RowsDefaultCellStyle = dataGridViewCellStyle36;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.DgvArticulos.RowsDefaultCellStyle = dataGridViewCellStyle8;
             this.DgvArticulos.RowTemplate.Height = 28;
             this.DgvArticulos.Size = new System.Drawing.Size(986, 148);
             this.DgvArticulos.TabIndex = 4;
             this.DgvArticulos.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvArticulos_CellContentClick);
             this.DgvArticulos.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.DgvArticulos_CellFormatting);
             this.DgvArticulos.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvArticulos_CellValueChanged);
-            // 
-            // CodigoArticulo
-            // 
-            dataGridViewCellStyle29.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.CodigoArticulo.DefaultCellStyle = dataGridViewCellStyle29;
-            this.CodigoArticulo.HeaderText = "CÓDIGO";
-            this.CodigoArticulo.MinimumWidth = 8;
-            this.CodigoArticulo.Name = "CodigoArticulo";
-            this.CodigoArticulo.ReadOnly = true;
-            // 
-            // DescripcionArticulo
-            // 
-            dataGridViewCellStyle30.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.DescripcionArticulo.DefaultCellStyle = dataGridViewCellStyle30;
-            this.DescripcionArticulo.HeaderText = "DESCRIPCIÓN";
-            this.DescripcionArticulo.MinimumWidth = 8;
-            this.DescripcionArticulo.Name = "DescripcionArticulo";
-            this.DescripcionArticulo.ReadOnly = true;
-            // 
-            // PrecioArticulo
-            // 
-            dataGridViewCellStyle31.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.PrecioArticulo.DefaultCellStyle = dataGridViewCellStyle31;
-            this.PrecioArticulo.HeaderText = "PRECIO";
-            this.PrecioArticulo.MinimumWidth = 8;
-            this.PrecioArticulo.Name = "PrecioArticulo";
-            this.PrecioArticulo.ReadOnly = true;
-            // 
-            // CantidadArticulo
-            // 
-            dataGridViewCellStyle32.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.CantidadArticulo.DefaultCellStyle = dataGridViewCellStyle32;
-            this.CantidadArticulo.HeaderText = "CANTIDAD";
-            this.CantidadArticulo.MinimumWidth = 8;
-            this.CantidadArticulo.Name = "CantidadArticulo";
-            this.CantidadArticulo.ReadOnly = true;
-            // 
-            // SubtotalArticulo
-            // 
-            dataGridViewCellStyle33.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.SubtotalArticulo.DefaultCellStyle = dataGridViewCellStyle33;
-            this.SubtotalArticulo.HeaderText = "SUBTOTAL";
-            this.SubtotalArticulo.MinimumWidth = 8;
-            this.SubtotalArticulo.Name = "SubtotalArticulo";
-            this.SubtotalArticulo.ReadOnly = true;
-            // 
-            // AccionArticulo
-            // 
-            this.AccionArticulo.HeaderText = "ACCIÓN";
-            this.AccionArticulo.MinimumWidth = 8;
-            this.AccionArticulo.Name = "AccionArticulo";
-            this.AccionArticulo.ReadOnly = true;
-            this.AccionArticulo.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.AccionArticulo.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
             // BtnBusquedaAvanzada
             // 
@@ -457,6 +400,51 @@
             this.LblTotal.TabIndex = 0;
             this.LblTotal.Text = "Total: 0,00";
             // 
+            // ModeloArticulo
+            // 
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ModeloArticulo.DefaultCellStyle = dataGridViewCellStyle2;
+            this.ModeloArticulo.HeaderText = "MODELO";
+            this.ModeloArticulo.MinimumWidth = 8;
+            this.ModeloArticulo.Name = "ModeloArticulo";
+            this.ModeloArticulo.ReadOnly = true;
+            // 
+            // PrecioArticulo
+            // 
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.PrecioArticulo.DefaultCellStyle = dataGridViewCellStyle3;
+            this.PrecioArticulo.HeaderText = "PRECIO";
+            this.PrecioArticulo.MinimumWidth = 8;
+            this.PrecioArticulo.Name = "PrecioArticulo";
+            this.PrecioArticulo.ReadOnly = true;
+            // 
+            // CantidadArticulo
+            // 
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.CantidadArticulo.DefaultCellStyle = dataGridViewCellStyle4;
+            this.CantidadArticulo.HeaderText = "CANTIDAD";
+            this.CantidadArticulo.MinimumWidth = 8;
+            this.CantidadArticulo.Name = "CantidadArticulo";
+            this.CantidadArticulo.ReadOnly = true;
+            // 
+            // SubtotalArticulo
+            // 
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.SubtotalArticulo.DefaultCellStyle = dataGridViewCellStyle5;
+            this.SubtotalArticulo.HeaderText = "SUBTOTAL";
+            this.SubtotalArticulo.MinimumWidth = 8;
+            this.SubtotalArticulo.Name = "SubtotalArticulo";
+            this.SubtotalArticulo.ReadOnly = true;
+            // 
+            // AccionArticulo
+            // 
+            this.AccionArticulo.HeaderText = "ACCIÓN";
+            this.AccionArticulo.MinimumWidth = 8;
+            this.AccionArticulo.Name = "AccionArticulo";
+            this.AccionArticulo.ReadOnly = true;
+            this.AccionArticulo.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.AccionArticulo.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
             // VistaVentas
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -504,12 +492,6 @@
         private System.Windows.Forms.Label LblTotal;
         private System.Windows.Forms.Button BtnCompletarVenta;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.DataGridViewTextBoxColumn CodigoArticulo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DescripcionArticulo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn PrecioArticulo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn CantidadArticulo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn SubtotalArticulo;
-        private System.Windows.Forms.DataGridViewButtonColumn AccionArticulo;
         private System.Windows.Forms.Label LblVuelto;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label7;
@@ -519,5 +501,10 @@
         private System.Windows.Forms.ComboBox CbTipoComprobante;
         private System.Windows.Forms.TextBox TxtMontoRecibido;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ModeloArticulo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PrecioArticulo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CantidadArticulo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SubtotalArticulo;
+        private System.Windows.Forms.DataGridViewButtonColumn AccionArticulo;
     }
 }

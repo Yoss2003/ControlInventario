@@ -32,7 +32,9 @@ namespace ControlInventario.Database
                     ActividadCompartida BOOL,
                     CodigoBarras BOOL,
                     CalcularDevaluacion BOOL,
-                    GeneracionCodigos BOOL
+                    GeneracionCodigos BOOL,
+                    IdModoVentas INT,
+                    ModoVentas TEXT
                 );";
             using (var cmd = new SQLiteCommand(sql, con))
             {
@@ -62,7 +64,9 @@ namespace ControlInventario.Database
                 ActividadCompartida,
                 CodigoBarras,
                 CalcularDevaluacion,
-                GeneracionCodigos
+                GeneracionCodigos,
+                IdModoVentas,
+                ModoVentas  
             )VALUES(
                 @NombreUsuario,
                 @IdIdioma,
@@ -83,7 +87,9 @@ namespace ControlInventario.Database
                 @ActividadCompartida,
                 @CodigoBarras,
                 @CalcularDevaluacion,
-                @GeneracionCodigos
+                @GeneracionCodigos,
+                @IdModoVentas,
+                @ModoVentas
             );";
             using (var cmd = new SQLiteCommand(query, con))
             {
@@ -107,6 +113,8 @@ namespace ControlInventario.Database
                 cmd.Parameters.AddWithValue("@CodigoBarras", perf.CodigoBarras);
                 cmd.Parameters.AddWithValue("@CalcularDevaluacion", perf.CalcularDevaluacion);
                 cmd.Parameters.AddWithValue("@GeneracionCodigos", perf.GeneracionCodigos);
+                cmd.Parameters.AddWithValue("@IdModoVentas", perf.IdModoVentas);
+                cmd.Parameters.AddWithValue("@ModoVentas", perf.ModoVentas);
 
                 cmd.ExecuteNonQuery();
             }
@@ -134,7 +142,9 @@ namespace ControlInventario.Database
                 ActividadCompartida = @ActividadCompartida,
                 CodigoBarras = @CodigoBarras,
                 CalcularDevaluacion = @CalcularDevaluacion,
-                GeneracionCodigos = @GeneracionCodigos
+                GeneracionCodigos = @GeneracionCodigos,
+                IdModoVentas = @IdModoVentas,
+                ModoVentas = @ModoVentas
             WHERE IdPerfil = @IdPerfil;";
             using (var cmd = new SQLiteCommand(query, con))
             {
@@ -158,6 +168,8 @@ namespace ControlInventario.Database
                 cmd.Parameters.AddWithValue("@CodigoBarras", perf.CodigoBarras);
                 cmd.Parameters.AddWithValue("@CalcularDevaluacion", perf.CalcularDevaluacion);
                 cmd.Parameters.AddWithValue("@GeneracionCodigos", perf.GeneracionCodigos);
+                cmd.Parameters.AddWithValue("@IdModoVentas", perf.IdModoVentas);
+                cmd.Parameters.AddWithValue("@ModoVentas", perf.ModoVentas);
                 cmd.Parameters.AddWithValue("@IdPerfil", perf.IdPerfil);
                 cmd.ExecuteNonQuery();
             }
@@ -195,7 +207,9 @@ namespace ControlInventario.Database
                             ActividadCompartida = Convert.ToBoolean(reader["ActividadCompartida"]),
                             CodigoBarras = Convert.ToBoolean(reader["CodigoBarras"]),
                             CalcularDevaluacion = Convert.ToBoolean(reader["CalcularDevaluacion"]),
-                            GeneracionCodigos = Convert.ToBoolean(reader["GeneracionCodigos"])
+                            GeneracionCodigos = Convert.ToBoolean(reader["GeneracionCodigos"]),
+                            IdModoVentas = reader["IdModoVentas"] != DBNull.Value ? Convert.ToInt32(reader["IdModoVentas"]) : 1,
+                            ModoVentas = reader["ModoVentas"] != DBNull.Value ? reader["ModoVentas"].ToString() : "No mostrar"
                         };
                     }
                 }
@@ -322,7 +336,9 @@ namespace ControlInventario.Database
                 CodigoBarras = false,
                 CategoriaPersonalizada = false,
                 CalcularDevaluacion = false,
-                GeneracionCodigos = false
+                GeneracionCodigos = false,
+                IdModoVentas = 1,
+                ModoVentas = "No mostrar"
             };
         }
     }

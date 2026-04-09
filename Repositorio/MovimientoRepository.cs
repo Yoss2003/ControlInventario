@@ -19,6 +19,11 @@ namespace ControlInventario.Repositorio
                 FechaMovimiento TEXT NOT NULL,
                 Observacion TEXT,
                 Monto REAL,
+                Destinatario TEXT,
+                PrecioVenta REAL,
+                Documento TEXT,
+                MetodoPago TEXT,
+                TipoComprobante TEXT,
                 FOREIGN KEY (ArticuloId) REFERENCES Articulos(Id),
                 FOREIGN KEY (EmpleadoId) REFERENCES Empleados(Id),
                 FOREIGN KEY (IdAccion) REFERENCES Acciones(Id)
@@ -50,8 +55,10 @@ namespace ControlInventario.Repositorio
         public static void InsertarMovimiento(Movimiento mov, SQLiteConnection con)
         {
             string query = @"
-            INSERT INTO Movimientos (ArticuloId, EmpleadoId, IdAccion, FechaMovimiento, Observacion, Monto) 
-            VALUES (@ArticuloId, @EmpleadoId, @IdAccion, @FechaMovimiento, @Observacion, @Monto);";
+            INSERT INTO Movimientos (ArticuloId, EmpleadoId, IdAccion, FechaMovimiento, Observacion, Monto,
+                                     Destinatario, PrecioVenta, Documento, MetodoPago, TipoComprobante) 
+            VALUES (@ArticuloId, @EmpleadoId, @IdAccion, @FechaMovimiento, @Observacion, @Monto,
+                    @Destinatario, @PrecioVenta, @Documento, @MetodoPago, @TipoComprobante);";
 
             using (var cmd = new SQLiteCommand(query, con))
             {
@@ -60,7 +67,12 @@ namespace ControlInventario.Repositorio
                 cmd.Parameters.AddWithValue("@IdAccion", mov.IdAccion);
                 cmd.Parameters.AddWithValue("@FechaMovimiento", mov.FechaMovimiento.ToString("yyyy-MM-dd HH:mm:ss"));
                 cmd.Parameters.AddWithValue("@Observacion", string.IsNullOrWhiteSpace(mov.Observacion) ? (object)DBNull.Value : mov.Observacion);
-                cmd.Parameters.AddWithValue("@Monto", mov.Monto);
+                cmd.Parameters.AddWithValue("@Monto", mov.Monto ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@Destinatario", string.IsNullOrWhiteSpace(mov.Destinatario) ? (object)DBNull.Value : mov.Destinatario);
+                cmd.Parameters.AddWithValue("@PrecioVenta", mov.PrecioVenta ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@Documento", string.IsNullOrWhiteSpace(mov.Documento) ? (object)DBNull.Value : mov.Documento);
+                cmd.Parameters.AddWithValue("@MetodoPago", string.IsNullOrWhiteSpace(mov.MetodoPago) ? (object)DBNull.Value : mov.MetodoPago);
+                cmd.Parameters.AddWithValue("@TipoComprobante", string.IsNullOrWhiteSpace(mov.TipoComprobante) ? (object)DBNull.Value : mov.TipoComprobante);
 
                 cmd.ExecuteNonQuery();
             }
@@ -90,7 +102,12 @@ namespace ControlInventario.Repositorio
                                 NombreAccion = reader["NombreAccion"]?.ToString(),
                                 FechaMovimiento = DateTime.Parse(reader["FechaMovimiento"].ToString()),
                                 Observacion = reader["Observacion"]?.ToString(),
-                                Monto = reader["Monto"] != DBNull.Value ? Convert.ToInt32(reader["Monto"]) : (int?)null,
+                                Monto = reader["Monto"] != DBNull.Value ? Convert.ToDecimal(reader["Monto"]) : (decimal?)null,
+                                Destinatario = reader["Destinatario"]?.ToString(),
+                                PrecioVenta = reader["PrecioVenta"] != DBNull.Value ? Convert.ToDecimal(reader["PrecioVenta"]) : (decimal?)null,
+                                Documento = reader["Documento"]?.ToString(),
+                                MetodoPago = reader["MetodoPago"]?.ToString(),
+                                TipoComprobante = reader["TipoComprobante"]?.ToString(),
                                 ArticuloCodigo = reader["ArticuloCodigo"]?.ToString(),
                                 EmpleadoNombre = reader["EmpleadoNombre"]?.ToString()
                             });
@@ -162,11 +179,14 @@ namespace ControlInventario.Repositorio
                 {
                     try
                     {
-                        string queryMov = @"INSERT INTO Movimientos (ArticuloId, EmpleadoId, IdAccion, FechaMovimiento, Observacion, Monto) 
-                                            VALUES (@ArtId, NULL, @IdAccion, @Fecha, @Obs, @Monto);";
+                        string queryMov = @"INSERT INTO Movimientos 
+                                            (ArticuloId, EmpleadoId, IdAccion, FechaMovimiento, Observacion, Monto,
+                                             Destinatario, PrecioVenta, Documento, MetodoPago, TipoComprobante) 
+                                            VALUES (@ArtId, NULL, @IdAccion, @Fecha, @Obs, @Monto,
+                                                    @Destinatario, @PrecioVenta, @Documento, @MetodoPago, @TipoComprobante);";
 
                         string queryArt = @"UPDATE Articulos 
-                                            SET IdEstado = 3, 
+                                            SET
                                                 IdAccion = 2, 
                                                 EmpleadoAnteriorId = EmpleadoActualId,
                                                 EmpleadoActualId = NULL,
@@ -183,7 +203,12 @@ namespace ControlInventario.Repositorio
                                 cmdMov.Parameters.AddWithValue("@IdAccion", venta.IdAccion);
                                 cmdMov.Parameters.AddWithValue("@Fecha", venta.FechaMovimiento.ToString("yyyy-MM-dd HH:mm:ss"));
                                 cmdMov.Parameters.AddWithValue("@Obs", string.IsNullOrWhiteSpace(venta.Observacion) ? (object)DBNull.Value : venta.Observacion);
-                                cmdMov.Parameters.AddWithValue("@Monto", venta.Monto);
+                                cmdMov.Parameters.AddWithValue("@Monto", venta.Monto ?? (object)DBNull.Value);
+                                cmdMov.Parameters.AddWithValue("@Destinatario", string.IsNullOrWhiteSpace(venta.Destinatario) ? (object)DBNull.Value : venta.Destinatario);
+                                cmdMov.Parameters.AddWithValue("@PrecioVenta", venta.PrecioVenta ?? (object)DBNull.Value);
+                                cmdMov.Parameters.AddWithValue("@Documento", string.IsNullOrWhiteSpace(venta.Documento) ? (object)DBNull.Value : venta.Documento);
+                                cmdMov.Parameters.AddWithValue("@MetodoPago", string.IsNullOrWhiteSpace(venta.MetodoPago) ? (object)DBNull.Value : venta.MetodoPago);
+                                cmdMov.Parameters.AddWithValue("@TipoComprobante", string.IsNullOrWhiteSpace(venta.TipoComprobante) ? (object)DBNull.Value : venta.TipoComprobante);
                                 cmdMov.ExecuteNonQuery();
 
                                 cmdArt.Parameters.Clear();
@@ -199,6 +224,35 @@ namespace ControlInventario.Repositorio
                         transaction.Rollback();
                         throw new Exception("Error al registrar la venta en la base de datos: " + ex.Message);
                     }
+                }
+            }
+        }
+
+        public static decimal ObtenerTotalVentas(int inventarioId, bool soloDiaActual)
+        {
+            using (var con = ConexionGlobal.ObtenerConexion())
+            {
+                con.Open();
+
+                string query = @"
+                    SELECT COALESCE(SUM(m.PrecioVenta), 0)
+                    FROM Movimientos m
+                    INNER JOIN Articulos a ON m.ArticuloId = a.Id
+                    WHERE a.InventarioId = @InvId
+                      AND m.IdAccion = 2";
+
+                if (soloDiaActual)
+                {
+                    query += " AND DATE(m.FechaMovimiento) = DATE('now', 'localtime')";
+                }
+
+                query += ";";
+
+                using (var cmd = new SQLiteCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@InvId", inventarioId);
+                    var result = cmd.ExecuteScalar();
+                    return result != DBNull.Value ? Convert.ToDecimal(result) : 0m;
                 }
             }
         }

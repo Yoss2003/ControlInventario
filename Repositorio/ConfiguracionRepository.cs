@@ -41,6 +41,11 @@ namespace ControlInventario.Repositorio
                     Id INTEGER PRIMARY KEY AUTOINCREMENT,
                     ZonaHoraria TEXT
                 );
+
+                CREATE TABLE IF NOT EXISTS ModoVentas (
+                    Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    ModoVentas TEXT
+                );
             ";
 
             using (var cmd = new SQLiteCommand(scriptTablas, con))
@@ -60,6 +65,7 @@ namespace ControlInventario.Repositorio
             string[] monedas = { "PEN - Soles", "USD - Dólares", "EUR - Euros", "MXN - Pesos" };
             string[] medidas = { "Unidades", "Cajas", "Kg", "Litros" };
             string[] zonas = { "UTC-5 (Lima/Bogotá)", "UTC-6 (CDMX)", "UTC-3 (Buenos Aires)" };
+            string[] modoVentas = { "No mostrar", "Ventas por día", "Ventas totales" };
 
             LlenarCatalogoSiEstaVacio(con, "Idioma", "Idioma", idiomas);
             LlenarCatalogoSiEstaVacio(con, "Tema", "Tema", temas);
@@ -68,6 +74,7 @@ namespace ControlInventario.Repositorio
             LlenarCatalogoSiEstaVacio(con, "Moneda", "Moneda", monedas);
             LlenarCatalogoSiEstaVacio(con, "UnidadMedida", "UnidadMedida", medidas);
             LlenarCatalogoSiEstaVacio(con, "ZonaHoraria", "ZonaHoraria", zonas);
+            LlenarCatalogoSiEstaVacio(con, "ModoVentas", "ModoVentas", modoVentas);
         }
 
         private static void LlenarCatalogoSiEstaVacio(SQLiteConnection con, string nombreTabla, string nombreColumna, string[] valoresFijos)

@@ -25,5 +25,8 @@
         public bool CategoriaPersonalizada { get; set; }
         public bool CalcularDevaluacion { get; set; }
         public bool GeneracionCodigos { get; set; }
+
+        public int IdModoVentas { get; set; }
+        public string ModoVentas { get; set; }
     }
 }

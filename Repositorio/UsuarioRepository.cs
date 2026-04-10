@@ -226,5 +226,20 @@ namespace ControlInventario.Database
             }
             return null;
         }
+
+        public static string ObtenerCorreoUsuario(string nombreUsuario)
+        {
+            using (var con = ConexionGlobal.ObtenerConexion())
+            {
+                con.Open();
+                string query = "SELECT Correo FROM Usuario WHERE Usuario = @User LIMIT 1;";
+                using (var cmd = new SQLiteCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@User", nombreUsuario);
+                    var result = cmd.ExecuteScalar();
+                    return result != null && result != DBNull.Value ? result.ToString() : "";
+                }
+            }
+        }
     }
 }

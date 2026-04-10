@@ -152,19 +152,22 @@
     <Compile Include="Modelo\API\RequestReniec.cs" />
     <Compile Include="Modelo\API\RequestSunat.cs" />
     <Compile Include="Modelo\Acciones.cs" />
+    <Compile Include="Modelo\Cliente.cs" />
+    <Compile Include="Modelo\CuentaPorCobrar.cs" />
     <Compile Include="Modelo\EdicionArticulo.cs" />
     <Compile Include="Modelo\Empleados.cs" />
     <Compile Include="Modelo\Interface\IRefrescable.cs" />
     <Compile Include="Modelo\Movimiento.cs" />
+    <Compile Include="Modelo\PagoCuota.cs" />
     <Compile Include="Modelo\Parametros.cs" />
     <Compile Include="Modelo\Proveedor.cs" />
-    <Compile Include="Modelo\SalidaArticulo.cs" />
     <Compile Include="Repositorio\AccionesRepository.cs" />
     <Compile Include="Repositorio\ArticuloRepository.cs" />
     <Compile Include="Repositorio\CategoriaRepository.cs" />
     <Compile Include="Database\ConexionGlobal.cs" />
+    <Compile Include="Repositorio\ClienteRepository.cs" />
     <Compile Include="Repositorio\ConfiguracionRepository.cs" />
-    <Compile Include="Repositorio\ControlSalidasRepository.cs" />
+    <Compile Include="Repositorio\CuentasPorCobrarRepository.cs" />
     <Compile Include="Repositorio\EmpleadoRepository.cs" />
     <Compile Include="Repositorio\LogsRepository.cs" />
     <Compile Include="Repositorio\MovimientoRepository.cs" />
@@ -254,6 +257,12 @@
     <Compile Include="Vistas\Extras\VistaCaracteristicas.Designer.cs">
       <DependentUpon>VistaCaracteristicas.cs</DependentUpon>
     </Compile>
+    <Compile Include="Vistas\Extras\VistaCuentasPorCobrar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Vistas\Extras\VistaCuentasPorCobrar.Designer.cs">
+      <DependentUpon>VistaCuentasPorCobrar.cs</DependentUpon>
+    </Compile>
     <Compile Include="Vistas\Extras\VistaRutaExportacion.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -265,6 +274,15 @@
     </Compile>
     <Compile Include="Vistas\Extras\VistaBusquedaAvanzada.Designer.cs">
       <DependentUpon>VistaBusquedaAvanzada.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Vistas\Extras\VistaSeleccionExportacion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Vistas\Extras\VistaSelecciónExportación.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Vistas\Extras\VistaSelecciónExportación.Designer.cs">
+      <DependentUpon>VistaSelecciónExportación.cs</DependentUpon>
     </Compile>
     <Compile Include="Vistas\Form1.cs">
       <SubType>Form</SubType>

@@ -28,5 +28,10 @@
 
         public int IdModoVentas { get; set; }
         public string ModoVentas { get; set; }
+
+        // Configuración de mora
+        public bool AplicarMora { get; set; }
+        public decimal PorcentajeMora { get; set; }
+        public int DiasGracia { get; set; }
     }
 }

@@ -24,6 +24,8 @@ namespace ControlInventario.Repositorio
                 Documento TEXT,
                 MetodoPago TEXT,
                 TipoComprobante TEXT,
+                TelefonoCliente TEXT,
+                CorreoCliente TEXT,
                 FOREIGN KEY (ArticuloId) REFERENCES Articulos(Id),
                 FOREIGN KEY (EmpleadoId) REFERENCES Empleados(Id),
                 FOREIGN KEY (IdAccion) REFERENCES Acciones(Id)
@@ -253,6 +255,86 @@ namespace ControlInventario.Repositorio
                     cmd.Parameters.AddWithValue("@InvId", inventarioId);
                     var result = cmd.ExecuteScalar();
                     return result != DBNull.Value ? Convert.ToDecimal(result) : 0m;
+                }
+            }
+        }
+
+        public static void RegistrarVentaCredito(List<Movimiento> listaVentas, decimal totalVenta, decimal enganche, int numCuotas, string frecuencia, DateTime fechaPrimeraCuota)
+        {
+            using (var con = ConexionGlobal.ObtenerConexion())
+            {
+                con.Open();
+                using (var transaction = con.BeginTransaction())
+                {
+                    try
+                    {
+                        string queryMov = @"INSERT INTO Movimientos 
+                                            (ArticuloId, EmpleadoId, IdAccion, FechaMovimiento, Observacion, Monto,
+                                             Destinatario, PrecioVenta, Documento, MetodoPago, TipoComprobante) 
+                                            VALUES (@ArtId, NULL, @IdAccion, @Fecha, @Obs, @Monto,
+                                                    @Destinatario, @PrecioVenta, @Documento, @MetodoPago, @TipoComprobante);
+                                            SELECT last_insert_rowid();";
+
+                        string queryArt = @"UPDATE Articulos 
+                                            SET IdAccion = 2, 
+                                                EmpleadoAnteriorId = EmpleadoActualId,
+                                                EmpleadoActualId = NULL,
+                                                FechaModificacion = @Fecha
+                                            WHERE Id = @ArtId;";
+
+                        List<long> movimientoIds = new List<long>();
+
+                        using (var cmdMov = new SQLiteCommand(queryMov, con, transaction))
+                        using (var cmdArt = new SQLiteCommand(queryArt, con, transaction))
+                        {
+                            foreach (var venta in listaVentas)
+                            {
+                                cmdMov.Parameters.Clear();
+                                cmdMov.Parameters.AddWithValue("@ArtId", venta.ArticuloId);
+                                cmdMov.Parameters.AddWithValue("@IdAccion", venta.IdAccion);
+                                cmdMov.Parameters.AddWithValue("@Fecha", venta.FechaMovimiento.ToString("yyyy-MM-dd HH:mm:ss"));
+                                cmdMov.Parameters.AddWithValue("@Obs", string.IsNullOrWhiteSpace(venta.Observacion) ? (object)DBNull.Value : venta.Observacion);
+                                cmdMov.Parameters.AddWithValue("@Monto", venta.Monto ?? (object)DBNull.Value);
+                                cmdMov.Parameters.AddWithValue("@Destinatario", string.IsNullOrWhiteSpace(venta.Destinatario) ? (object)DBNull.Value : venta.Destinatario);
+                                cmdMov.Parameters.AddWithValue("@PrecioVenta", venta.PrecioVenta ?? (object)DBNull.Value);
+                                cmdMov.Parameters.AddWithValue("@Documento", string.IsNullOrWhiteSpace(venta.Documento) ? (object)DBNull.Value : venta.Documento);
+                                cmdMov.Parameters.AddWithValue("@MetodoPago", string.IsNullOrWhiteSpace(venta.MetodoPago) ? (object)DBNull.Value : venta.MetodoPago);
+                                cmdMov.Parameters.AddWithValue("@TipoComprobante", string.IsNullOrWhiteSpace(venta.TipoComprobante) ? (object)DBNull.Value : venta.TipoComprobante);
+
+                                long movId = (long)cmdMov.ExecuteScalar();
+                                movimientoIds.Add(movId);
+
+                                cmdArt.Parameters.Clear();
+                                cmdArt.Parameters.AddWithValue("@ArtId", venta.ArticuloId);
+                                cmdArt.Parameters.AddWithValue("@Fecha", venta.FechaMovimiento.ToString("yyyy-MM-dd HH:mm:ss"));
+                                cmdArt.ExecuteNonQuery();
+                            }
+                        }
+
+                        foreach (long movId in movimientoIds)
+                        {
+                            decimal precioArticulo = totalVenta / listaVentas.Count;
+                            decimal engancheProporcional = enganche / listaVentas.Count;
+
+                            CuentasPorCobrarRepository.GenerarCuotas(
+                                (int)movId,
+                                precioArticulo,
+                                engancheProporcional,
+                                numCuotas,
+                                frecuencia,
+                                fechaPrimeraCuota,
+                                con,
+                                transaction
+                            );
+                        }
+
+                        transaction.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        throw new Exception("Error al registrar la venta a crédito: " + ex.Message);
+                    }
                 }
             }
         }

@@ -77,6 +77,7 @@ namespace ControlInventario.Vistas
             ActualizarVistaBotones();
 
             BtnVenta.Visible = false;
+            BtnCuotasPendientes.Visible = false;
             BtnNuevaAsignacion.Visible = false;
             BtnDevolucion.Visible = false;
 
@@ -403,82 +404,52 @@ namespace ControlInventario.Vistas
 
         private void btnExportar_Click(object sender, EventArgs e)
         {
-            int categoriaId = categoriaSeleccionadaId;
-            string categoria = categoriaSeleccionadaNombre;
             string usuario = nombreUusario;
-
-            if (categoriaId == 0)
-            {
-                MessageBox.Show("Seleccione una categoría para exportar.", "Información",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information
-                );
-                return;
-            }
-
-            if (DgvArticulos.SelectedRows.Count == 0)
-            {
-                MessageBox.Show("No hay articulos para exportar.", "Advertencia",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                );
-                return;
-            }
-
-            // Determinar extensión según el valor del NumericUpDown
             string extension = NuAccionInventario.Value == 1 ? "xlsx" : "csv";
-            string filePath = null;
 
-            // Generar nombre automático
-            string nombreArchivo = GenerarNombreArchivo(extension, usuario, categoria);
-
-            var rutRepo = new RutasRepository();
-            var rutas = rutRepo.ObtenerRutas(usuarioId);
-
-            // Crear UNA sola instancia de la vista
-            VistaRutaExportacion vistaRuta = new VistaRutaExportacion(nombreArchivo, DgvArticulos, categoria);
-            if (rutas.EsPredeterminado1 == true)
+            using (var seleccion = new Vistas.Extras.VistaSeleccionExportacion())
             {
-                if (extension == ".xlsx")
+                if (seleccion.ShowDialog() != DialogResult.OK) return;
+
+                DataTable datosExportar = seleccion.DatosExportar;
+                string seccion = seleccion.NombreSeccion;
+
+                string nombreArchivo = GenerarNombreArchivo(extension, usuario, seccion);
+
+                var rutRepo = new RutasRepository();
+                var rutas = rutRepo.ObtenerRutas(UsuarioSesion.UsuarioId);
+
+                // Usar el constructor con DataTable
+                VistaRutaExportacion vistaRuta = new VistaRutaExportacion(nombreArchivo, datosExportar, seccion);
+
+                if (extension == "xlsx" && rutas != null && rutas.EsPredeterminado1 == true)
                 {
-                    filePath = rutas.RutaPredeterminada1;
-                    vistaRuta.ExportarAExcel(DgvArticulos, categoria, filePath);
+                    string filePath = rutas.RutaPredeterminada1;
+                    vistaRuta.ExportarDataTableAExcel(datosExportar, seccion, filePath);
                 }
-
-                MessageBox.Show($"Archivo exportado correctamente en: {filePath}", "Éxito",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information
-                );
-            }
-            else if (rutas.EsPredeterminado2 == true)
-            {
-                // Exportar según extensión
-                if (extension == ".csv")
+                else if (extension == "csv" && rutas != null && rutas.EsPredeterminado2 == true)
                 {
-                    filePath = rutas.RutaPredeterminada2;
-                    vistaRuta.ExportarACsv(DgvArticulos, categoria, filePath);
-                }
-
-                MessageBox.Show($"Archivo exportado correctamente en: {filePath}", "Éxito",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information
-                );
-            }
-            else
-            {
-                // Asignar rutas según el inventario
-                if (NuAccionInventario.Value == 1)
-                {
-                    vistaRuta.TxtRutaPredeterminada.Text = rutas.RutaPredeterminada1;
-                    vistaRuta.TxtRutaPersonalizada.Text = rutas.RutaPersonalizada1;
+                    string filePath = rutas.RutaPredeterminada2;
+                    vistaRuta.ExportarDataTableACsv(datosExportar, filePath);
                 }
                 else
                 {
-                    vistaRuta.TxtRutaPredeterminada.Text = rutas.RutaPredeterminada2;
-                    vistaRuta.TxtRutaPersonalizada.Text = rutas.RutaPersonalizada2;
+                    if (rutas != null)
+                    {
+                        if (NuAccionInventario.Value == 1)
+                        {
+                            vistaRuta.TxtRutaPredeterminada.Text = rutas.RutaPredeterminada1;
+                            vistaRuta.TxtRutaPersonalizada.Text = rutas.RutaPersonalizada1;
+                        }
+                        else
+                        {
+                            vistaRuta.TxtRutaPredeterminada.Text = rutas.RutaPredeterminada2;
+                            vistaRuta.TxtRutaPersonalizada.Text = rutas.RutaPersonalizada2;
+                        }
+                    }
+
+                    vistaRuta.ShowDialog();
                 }
-                // Mostrar vista de exportación
-                vistaRuta.ShowDialog();
             }
         }
 
@@ -665,6 +636,7 @@ namespace ControlInventario.Vistas
                 BtnNuevaCategoria.Visible = true;
 
                 BtnVenta.Visible = false;
+                BtnCuotasPendientes.Visible = false;
                 BtnNuevaAsignacion.Visible = false;
                 BtnDevolucion.Visible = false;
             }
@@ -676,6 +648,7 @@ namespace ControlInventario.Vistas
                 BtnNuevaCategoria.Visible = false;
 
                 BtnVenta.Visible = false;
+                BtnCuotasPendientes.Visible = false;
                 BtnNuevaAsignacion.Visible = false;
                 BtnDevolucion.Visible = false;
             }               
@@ -997,6 +970,7 @@ namespace ControlInventario.Vistas
                     DvgSalidas.Columns["MotivoBajaSalida"].Visible = false;
 
                     BtnVenta.Visible = true;
+                    BtnCuotasPendientes.Visible = true;
                     BtnNuevaAsignacion.Visible = false;
                     BtnDevolucion.Visible = false;
                     break;
@@ -1012,6 +986,7 @@ namespace ControlInventario.Vistas
                     BtnNuevaAsignacion.Visible = true;
                     BtnDevolucion.Visible = true;
                     BtnVenta.Visible = false;
+                    BtnCuotasPendientes.Visible = false;
                     break;
 
                 case 3: // Bajas
@@ -1023,6 +998,7 @@ namespace ControlInventario.Vistas
                     DvgSalidas.Columns["MotivoBajaSalida"].Visible = true;
 
                     BtnVenta.Visible = false;
+                    BtnCuotasPendientes.Visible = false;
                     BtnNuevaAsignacion.Visible = false;
                     BtnDevolucion.Visible = false;
                     break;
@@ -1036,6 +1012,7 @@ namespace ControlInventario.Vistas
                     DvgSalidas.Columns["MotivoBajaSalida"].Visible = true;
 
                     BtnVenta.Visible = false;
+                    BtnCuotasPendientes.Visible = false;
                     BtnNuevaAsignacion.Visible = false;
                     BtnDevolucion.Visible = false;
                     break;
@@ -1252,28 +1229,112 @@ namespace ControlInventario.Vistas
 
             int idArticulo = Convert.ToInt32(DvgSalidas.CurrentRow.Cells["IdArticuloSalida"].Value);
             string codigoArticulo = DvgSalidas.CurrentRow.Cells["CodigoArticuloSalida"].Value.ToString();
+            string simbolo = ClassHelper.ObtenerSimboloMoneda();
+
+            // 1. Verificar si la categoría permite devolución
+            if (!ArticuloRepository.EsArticuloDevolvible(idArticulo))
+            {
+                MessageBox.Show(
+                    $"El artículo {codigoArticulo} pertenece a una categoría que no permite devoluciones.",
+                    "Devolución No Permitida",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // 2. Verificar si tiene cuotas pendientes (crédito activo)
+            if (CuentasPorCobrarRepository.TieneCuotasPendientes(idArticulo))
+            {
+                MessageBox.Show(
+                    $"El artículo {codigoArticulo} tiene cuotas pendientes de pago.\n\n" +
+                    "Gestione la deuda desde la vista de Cuentas por Cobrar\n" +
+                    "(Recuperar artículo / Renegociar / Marcar como pérdida).",
+                    "Deuda Activa",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            // 3. Obtener datos de la venta original
+            string metodoPago = ArticuloRepository.ObtenerMetodoPagoArticulo(idArticulo);
+            decimal precioVenta = ArticuloRepository.ObtenerPrecioVentaArticulo(idArticulo);
+            bool fueCredito = metodoPago == "Crédito";
+
+            // Si fue crédito, calcular cuánto pagó realmente el cliente
+            decimal montoReembolso = precioVenta;
+            if (fueCredito)
+            {
+                montoReembolso = CuentasPorCobrarRepository.ObtenerTotalPagadoPorArticulo(idArticulo);
+            }
+
+            // 4. Mostrar diálogo de confirmación con detalle
+            string mensajeConfirmacion;
+            if (montoReembolso > 0)
+            {
+                mensajeConfirmacion =
+                    $"¿Registrar la devolución del artículo {codigoArticulo}?\n\n" +
+                    $"Método de pago original: {metodoPago}\n" +
+                    $"Precio de venta: {simbolo} {precioVenta:N2}\n";
+
+                if (fueCredito)
+                {
+                    mensajeConfirmacion += $"Total pagado por el cliente: {simbolo} {montoReembolso:N2}\n";
+                }
+
+                mensajeConfirmacion += $"\nMonto a reembolsar: {simbolo} {montoReembolso:N2}";
+            }
+            else
+            {
+                mensajeConfirmacion = $"¿Registrar la devolución del artículo {codigoArticulo}?\n\nNo se generará reembolso.";
+            }
 
             DialogResult dialogResult = MessageBox.Show(
-                $"¿Está seguro de que desea registrar la devolución del artículo {codigoArticulo}?",
+                mensajeConfirmacion,
                 "Confirmar Devolución",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question);
 
-            if (dialogResult == DialogResult.Yes)
+            if (dialogResult != DialogResult.Yes) return;
+
+            try
             {
-                try
+                // 5. Si fue crédito pagado, cancelar las cuotas (marcar como Cancelada)
+                if (fueCredito)
                 {
-                    ArticuloRepository.RegistrarDevolucion(idArticulo, $"DEVOLUCIÓN: Artículo {codigoArticulo} retornado al inventario.");
-
-                    MessageBox.Show("El artículo ha sido devuelto exitosamente.", "Devolución Procesada", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                    CargarTabSalidas();
+                    CuentasPorCobrarRepository.CancelarCuotasPorArticulo(idArticulo, "Devolución de artículo");
                 }
-                catch (Exception ex)
+
+                // 6. Registrar la devolución con el monto de reembolso
+                string observacion = $"DEVOLUCIÓN: Artículo {codigoArticulo} retornado al inventario.";
+                if (montoReembolso > 0)
                 {
-                    MessageBox.Show("Error al procesar la devolución: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    observacion += $" Reembolso: {simbolo} {montoReembolso:N2} ({metodoPago}).";
                 }
+
+                ArticuloRepository.RegistrarDevolucion(idArticulo, observacion, montoReembolso);
+
+                string mensajeExito = $"El artículo {codigoArticulo} ha sido devuelto exitosamente.";
+                if (montoReembolso > 0)
+                {
+                    mensajeExito += $"\nReembolso registrado: {simbolo} {montoReembolso:N2}";
+                }
+
+                MessageBox.Show(mensajeExito, "Devolución Procesada", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                RefrescarTodo();
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al procesar la devolución: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void BtnCuotasPendientes_Click(object sender, EventArgs e)
+        {
+            using (VistaCuentasPorCobrar vista = new VistaCuentasPorCobrar())
+            {
+                vista.ShowDialog();
+            }
+
+            RefrescarTodo();
         }
     }
 }

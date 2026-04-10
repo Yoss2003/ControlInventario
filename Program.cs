@@ -21,6 +21,7 @@ namespace ControlInventario
                 {
                     con.Open();
                     DatabaseInitializer.CreateTables(con);
+                    CategoriaRepository.MigrarTablaCategorias(con); // <-- Agregar aquí
                     Console.WriteLine("Conexión exitosa a la base de datos.");
                 }
                 catch (Exception ex)

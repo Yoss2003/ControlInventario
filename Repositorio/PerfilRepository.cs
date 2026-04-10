@@ -14,27 +14,25 @@ namespace ControlInventario.Database
                 CREATE TABLE IF NOT EXISTS Perfil (
                     IdPerfil INTEGER PRIMARY KEY AUTOINCREMENT,
                     NombreUsuario TEXT,
-                    IdIdioma INT,
-                    Idioma TEXT,
-                    IdTema INT,
-                    Tema TEXT,
-                    IdNotificaciones INT,
-                    Notificaciones TEXT,
-                    IdFormatoFecha INT,
-                    FormatoFecha TEXT,
-                    IdMoneda INT,
-                    Moneda TEXT,
-                    IdUnidadMedida INT,
-                    UnidadMedida TEXT,
-                    IdZonaHoraria INT,
-                    ZonaHoraria TEXT,
+                    IdIdioma INT, Idioma TEXT,
+                    IdTema INT, Tema TEXT,
+                    IdNotificaciones INT, Notificaciones TEXT,
+                    IdFormatoFecha INT, FormatoFecha TEXT,
+                    IdMoneda INT, Moneda TEXT,
+                    IdUnidadMedida INT, UnidadMedida TEXT,
+                    IdZonaHoraria INT, ZonaHoraria TEXT,
                     Autenticacion BOOL,
                     ActividadCompartida BOOL,
                     CodigoBarras BOOL,
                     CalcularDevaluacion BOOL,
                     GeneracionCodigos BOOL,
                     IdModoVentas INT,
-                    ModoVentas TEXT
+                    ModoVentas TEXT,
+                    AplicarMora BOOL,
+                    PorcentajeMora REAL,
+                    DiasGracia INT,
+                    CorreoSMTP TEXT,
+                    ClaveSMTP TEXT
                 );";
             using (var cmd = new SQLiteCommand(sql, con))
             {
@@ -66,7 +64,10 @@ namespace ControlInventario.Database
                 CalcularDevaluacion,
                 GeneracionCodigos,
                 IdModoVentas,
-                ModoVentas  
+                ModoVentas ,            
+                AplicarMora,
+                PorcentajeMora,
+                DiasGracia
             )VALUES(
                 @NombreUsuario,
                 @IdIdioma,
@@ -89,7 +90,12 @@ namespace ControlInventario.Database
                 @CalcularDevaluacion,
                 @GeneracionCodigos,
                 @IdModoVentas,
-                @ModoVentas
+                @ModoVentas,
+                @AplicarMora,
+                @PorcentajeMora,
+                @DiasGracia,
+                @CorreoSMTP,
+                @ClaveSMTP
             );";
             using (var cmd = new SQLiteCommand(query, con))
             {
@@ -115,6 +121,9 @@ namespace ControlInventario.Database
                 cmd.Parameters.AddWithValue("@GeneracionCodigos", perf.GeneracionCodigos);
                 cmd.Parameters.AddWithValue("@IdModoVentas", perf.IdModoVentas);
                 cmd.Parameters.AddWithValue("@ModoVentas", perf.ModoVentas);
+                cmd.Parameters.AddWithValue("@AplicarMora", perf.AplicarMora);
+                cmd.Parameters.AddWithValue("@PorcentajeMora", perf.PorcentajeMora);
+                cmd.Parameters.AddWithValue("@DiasGracia", perf.DiasGracia);
 
                 cmd.ExecuteNonQuery();
             }
@@ -144,7 +153,12 @@ namespace ControlInventario.Database
                 CalcularDevaluacion = @CalcularDevaluacion,
                 GeneracionCodigos = @GeneracionCodigos,
                 IdModoVentas = @IdModoVentas,
-                ModoVentas = @ModoVentas
+                ModoVentas = @ModoVentas,
+                AplicarMora = @AplicarMora,
+                PorcentajeMora = @PorcentajeMora,
+                DiasGracia = @DiasGracia,
+                CorreoSMTP = @CorreoSMTP,
+                ClaveSMTP = @ClaveSMTP
             WHERE IdPerfil = @IdPerfil;";
             using (var cmd = new SQLiteCommand(query, con))
             {
@@ -170,6 +184,9 @@ namespace ControlInventario.Database
                 cmd.Parameters.AddWithValue("@GeneracionCodigos", perf.GeneracionCodigos);
                 cmd.Parameters.AddWithValue("@IdModoVentas", perf.IdModoVentas);
                 cmd.Parameters.AddWithValue("@ModoVentas", perf.ModoVentas);
+                cmd.Parameters.AddWithValue("@AplicarMora", perf.AplicarMora);
+                cmd.Parameters.AddWithValue("@PorcentajeMora", perf.PorcentajeMora);
+                cmd.Parameters.AddWithValue("@DiasGracia", perf.DiasGracia);
                 cmd.Parameters.AddWithValue("@IdPerfil", perf.IdPerfil);
                 cmd.ExecuteNonQuery();
             }
@@ -209,7 +226,10 @@ namespace ControlInventario.Database
                             CalcularDevaluacion = Convert.ToBoolean(reader["CalcularDevaluacion"]),
                             GeneracionCodigos = Convert.ToBoolean(reader["GeneracionCodigos"]),
                             IdModoVentas = reader["IdModoVentas"] != DBNull.Value ? Convert.ToInt32(reader["IdModoVentas"]) : 1,
-                            ModoVentas = reader["ModoVentas"] != DBNull.Value ? reader["ModoVentas"].ToString() : "No mostrar"
+                            ModoVentas = reader["ModoVentas"] != DBNull.Value ? reader["ModoVentas"].ToString() : "No mostrar",
+                            AplicarMora = reader["AplicarMora"] != DBNull.Value && Convert.ToBoolean(reader["AplicarMora"]),
+                            PorcentajeMora = reader["PorcentajeMora"] != DBNull.Value ? Convert.ToDecimal(reader["PorcentajeMora"]) : 0m,
+                            DiasGracia = reader["DiasGracia"] != DBNull.Value ? Convert.ToInt32(reader["DiasGracia"]) : 3
                         };
                     }
                 }
@@ -338,7 +358,10 @@ namespace ControlInventario.Database
                 CalcularDevaluacion = false,
                 GeneracionCodigos = false,
                 IdModoVentas = 1,
-                ModoVentas = "No mostrar"
+                ModoVentas = "No mostrar",
+                AplicarMora = false,
+                PorcentajeMora = 5m,
+                DiasGracia = 3
             };
         }
     }

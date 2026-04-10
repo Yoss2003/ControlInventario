@@ -9,12 +9,13 @@ namespace ControlInventario.Servicios
     {
         public static void CreateTables(SQLiteConnection con)
         {
-            // 1. PADRES: Tablas independientes (No dependen de otras)
+            // 1. PADRES: Tablas independientes
             ParametrosRepository.CrearTablaParametros(con);
             CategoriaRepository.CrearTablaCategorias(con);
             EmpleadoRepository.CrearTablaEmpleado(con);
             UsuarioRepository.CrearTablaUsuario(con);
             ProveedorRepository.CrearTablaProveedor(con);
+            ClienteRepository.CrearTablaClientes(con);
 
             // 2. INTERMEDIAS: Dependen de los padres
             MarcasRepository.CrearTablaMarcas(con);
@@ -22,6 +23,7 @@ namespace ControlInventario.Servicios
             // 3. HIJOS: Dependen de muchos padres
             ArticuloRepository.CrearTablaArticulos(con);
             MovimientoRepository.CrearTablaMovimientos(con);
+            CuentasPorCobrarRepository.CrearTablaCuentasPorCobrar(con);
 
             // 4. SISTEMA: Tablas operativas
             InventarioRepository.CrearTablaInventarios(con);

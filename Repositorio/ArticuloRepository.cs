@@ -778,7 +778,7 @@ namespace ControlInventario.Database
             }
         }
 
-        public static void RegistrarDevolucion(int idArticulo, string observacion)
+        public static void RegistrarDevolucion(int idArticulo, string observacion, decimal montoReembolso = 0)
         {
             using (var con = ConexionGlobal.ObtenerConexion())
             {
@@ -790,28 +790,91 @@ namespace ControlInventario.Database
                     SET 
                         EmpleadoAnteriorId = EmpleadoActualId, 
                         EmpleadoActualId = NULL, 
-                        IdAccion = 1 
+                        IdAccion = 1,
+                        FechaModificacion = @Fecha
                     WHERE Id = @Id";
 
                     using (var cmd = new SQLiteCommand(queryArticulo, con, transaction))
                     {
                         cmd.Parameters.AddWithValue("@Id", idArticulo);
+                        cmd.Parameters.AddWithValue("@Fecha", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                         cmd.ExecuteNonQuery();
                     }
 
                     string queryMovimiento = @"
                     INSERT INTO Movimientos (ArticuloId, IdAccion, FechaMovimiento, Observacion, Monto) 
-                    VALUES (@ArticuloId, 12, @Fecha, @Observacion, 0)";
+                    VALUES (@ArticuloId, 12, @Fecha, @Observacion, @Monto)";
 
                     using (var cmd = new SQLiteCommand(queryMovimiento, con, transaction))
                     {
                         cmd.Parameters.AddWithValue("@ArticuloId", idArticulo);
-                        cmd.Parameters.AddWithValue("@Fecha", DateTime.Now);
+                        cmd.Parameters.AddWithValue("@Fecha", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                         cmd.Parameters.AddWithValue("@Observacion", observacion);
+                        cmd.Parameters.AddWithValue("@Monto", montoReembolso);
                         cmd.ExecuteNonQuery();
                     }
 
                     transaction.Commit();
+                }
+            }
+        }
+
+        public static bool EsArticuloDevolvible(int articuloId)
+        {
+            using (var con = ConexionGlobal.ObtenerConexion())
+            {
+                con.Open();
+                string query = @"
+                SELECT COALESCE(cat.EsDevolvible, 1)
+                FROM Articulos a
+                INNER JOIN Categorias cat ON a.CategoriaId = cat.Id
+                WHERE a.Id = @ArtId;";
+
+                using (var cmd = new SQLiteCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@ArtId", articuloId);
+                    var result = cmd.ExecuteScalar();
+                    return result != null && Convert.ToInt32(result) == 1;
+                }
+            }
+        }
+
+        public static string ObtenerMetodoPagoArticulo(int articuloId)
+        {
+            using (var con = ConexionGlobal.ObtenerConexion())
+            {
+                con.Open();
+                string query = @"
+                SELECT MetodoPago 
+                FROM Movimientos 
+                WHERE ArticuloId = @ArtId AND IdAccion = 2
+                ORDER BY Id DESC LIMIT 1;";
+
+                using (var cmd = new SQLiteCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@ArtId", articuloId);
+                    var result = cmd.ExecuteScalar();
+                    return result != null && result != DBNull.Value ? result.ToString() : "";
+                }
+            }
+        }
+
+        public static decimal ObtenerPrecioVentaArticulo(int articuloId)
+        {
+            using (var con = ConexionGlobal.ObtenerConexion())
+            {
+                con.Open();
+                string query = @"
+                SELECT COALESCE(PrecioVenta, 0)
+                FROM Movimientos 
+                WHERE ArticuloId = @ArtId AND IdAccion = 2
+                ORDER BY Id DESC LIMIT 1;";
+
+                using (var cmd = new SQLiteCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@ArtId", articuloId);
+                    var result = cmd.ExecuteScalar();
+                    return result != null && result != DBNull.Value ? Convert.ToDecimal(result) : 0m;
                 }
             }
         }

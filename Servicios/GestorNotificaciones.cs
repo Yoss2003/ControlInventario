@@ -1,10 +1,8 @@
 ﻿using ControlInventario.Database;
+using ControlInventario.Repositorio;
 using System;
-using System.Collections.Generic;
 using System.Data.SQLite;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 namespace ControlInventario.Servicios
@@ -99,6 +97,105 @@ namespace ControlInventario.Servicios
             catch
             {
             }
+        }
+
+        public void EvaluarAlertasCuotasVencidas()
+        {
+            try
+            {
+                int inventarioId = UsuarioSesion.InventarioId;
+
+                // 1. Alerta interna (campanita)
+                int vencidas = CuentasPorCobrarRepository.ContarCuotasVencidas(inventarioId);
+                if (vencidas > 0)
+                {
+                    LanzarNotificacion(
+                        "Cuotas vencidas 💰",
+                        $"Tienes {vencidas} cuota(s) vencida(s) pendientes de cobro.",
+                        PrioridadNoti.Alta
+                    );
+                }
+
+                // 2. Notificar a los clientes (WhatsApp)
+                NotificarClientesCuotasPendientes(inventarioId);
+            }
+            catch { }
+        }
+
+        private void NotificarClientesCuotasPendientes(int inventarioId)
+        {
+            try
+            {
+                var cuotasPendientes = CuentasPorCobrarRepository.ListarCuotasParaNotificar(inventarioId);
+                if (cuotasPendientes == null || cuotasPendientes.Rows.Count == 0) return;
+
+                string simbolo = ClassHelper.ObtenerSimboloMoneda();
+
+                foreach (System.Data.DataRow row in cuotasPendientes.Rows)
+                {
+                    string cliente = row["Destinatario"]?.ToString() ?? "";
+                    string telefonoCliente = row["TelefonoCliente"]?.ToString() ?? "";
+                    int numCuota = Convert.ToInt32(row["NumeroCuota"]);
+                    decimal montoCuota = Convert.ToDecimal(row["MontoCuota"]);
+                    decimal montoMora = Convert.ToDecimal(row["MontoMora"]);
+                    DateTime fechaVenc = DateTime.Parse(row["FechaVencimiento"].ToString());
+
+                    // Solo WhatsApp para cuotas vencidas
+                    if (!string.IsNullOrWhiteSpace(telefonoCliente) && fechaVenc.Date < DateTime.Now.Date)
+                    {
+                        string mensaje = GenerarMensajeRecordatorio(cliente, numCuota, montoCuota, montoMora, fechaVenc, simbolo);
+                        EnviarWhatsApp(telefonoCliente, mensaje);
+                    }
+                }
+            }
+            catch { }
+        }
+
+        // --- UTILIDADES DE NOTIFICACIÓN AL CLIENTE ---
+
+        private string GenerarMensajeRecordatorio(string nombreCliente, int numeroCuota, decimal montoCuota, decimal montoMora, DateTime fechaVencimiento, string simboloMoneda)
+        {
+            decimal totalAPagar = montoCuota + montoMora;
+            string fecha = fechaVencimiento.ToString("dd/MM/yyyy");
+
+            string mensaje = $"Estimado/a {nombreCliente},\n\n" +
+                $"Le recordamos que tiene una cuota pendiente de pago:\n\n" +
+                $"• Cuota N°: {numeroCuota}\n" +
+                $"• Monto: {simboloMoneda} {montoCuota:N2}\n";
+
+            if (montoMora > 0)
+            {
+                mensaje += $"• Mora: {simboloMoneda} {montoMora:N2}\n" +
+                    $"• Total a pagar: {simboloMoneda} {totalAPagar:N2}\n";
+            }
+
+            mensaje += $"• Fecha de vencimiento: {fecha}\n\n" +
+                "⚠️ Esta cuota se encuentra VENCIDA. Le solicitamos regularizar su pago a la brevedad.\n\n" +
+                "Gracias por su preferencia.";
+
+            return mensaje;
+        }
+
+        private void EnviarWhatsApp(string telefono, string mensaje)
+        {
+            try
+            {
+                string numeroLimpio = System.Text.RegularExpressions.Regex.Replace(telefono, @"[^\d]", "");
+
+                // Si no tiene código de país, asumir Perú (+51)
+                if (numeroLimpio.Length == 9)
+                    numeroLimpio = "51" + numeroLimpio;
+
+                string mensajeCodificado = Uri.EscapeDataString(mensaje);
+                string url = $"https://wa.me/{numeroLimpio}?text={mensajeCodificado}";
+
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = url,
+                    UseShellExecute = true
+                });
+            }
+            catch { }
         }
     }
 }

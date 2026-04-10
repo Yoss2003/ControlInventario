@@ -28,11 +28,40 @@ namespace ControlInventario.Database
                 UsuarioModificacion TEXT,
                 FechaEliminacion TEXT,
                 UsuarioEliminacion TEXT,
+                EsDevolvible INTEGER NOT NULL DEFAULT 1,
             FOREIGN KEY (InventarioId) REFERENCES Inventarios(Id)
             );";
             using (var cmd = new SQLiteCommand(query, con))
             {
                 cmd.ExecuteNonQuery();
+            }
+        }
+
+        public static void MigrarTablaCategorias(SQLiteConnection con)
+        {
+            string queryVerificar = "PRAGMA table_info(Categorias);";
+            bool existeColumna = false;
+
+            using (var cmd = new SQLiteCommand(queryVerificar, con))
+            using (var reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    if (reader["name"].ToString() == "EsDevolvible")
+                    {
+                        existeColumna = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!existeColumna)
+            {
+                string queryAlter = "ALTER TABLE Categorias ADD COLUMN EsDevolvible INTEGER NOT NULL DEFAULT 1;";
+                using (var cmd = new SQLiteCommand(queryAlter, con))
+                {
+                    cmd.ExecuteNonQuery();
+                }
             }
         }
 

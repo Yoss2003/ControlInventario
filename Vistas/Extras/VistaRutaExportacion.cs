@@ -21,6 +21,7 @@ namespace ControlInventario.Vistas.Extras
     {
         private bool message= false;
         readonly private DataGridView dataViewInventario;
+        readonly private DataTable dataTableExportar;
         readonly private string categoria; 
         readonly private string nombreArchivo;
         readonly int UsuarioId = UsuarioSesion.UsuarioId;
@@ -29,6 +30,16 @@ namespace ControlInventario.Vistas.Extras
         {
             InitializeComponent();
             dataViewInventario = dataViewActivo; 
+            this.nombreArchivo = nombreArchivo;
+            this.categoria = categoria;
+
+            LblRutaArchivo.Text = nombreArchivo;
+        }
+
+        public VistaRutaExportacion(string nombreArchivo, DataTable datosExportar, string categoria)
+        {
+            InitializeComponent();
+            dataTableExportar = datosExportar;
             this.nombreArchivo = nombreArchivo;
             this.categoria = categoria;
 
@@ -266,14 +277,21 @@ namespace ControlInventario.Vistas.Extras
                     }
                 }
 
-                // Exportar según extensión
-                if (extension == ".csv")
-                    ExportarACsv(dataViewInventario, categoria, filePath);
-                else if (extension == ".xlsx")
-                    ExportarAExcel(dataViewInventario, categoria, filePath);
-
-                MessageBox.Show($"Archivo exportado correctamente en: {filePath}", "Éxito",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                // Exportar según la fuente de datos disponible
+                if (dataTableExportar != null)
+                {
+                    if (extension == ".csv")
+                        ExportarDataTableACsv(dataTableExportar, filePath);
+                    else if (extension == ".xlsx")
+                        ExportarDataTableAExcel(dataTableExportar, categoria, filePath);
+                }
+                else
+                {
+                    if (extension == ".csv")
+                        ExportarACsv(dataViewInventario, categoria, filePath);
+                    else if (extension == ".xlsx")
+                        ExportarAExcel(dataViewInventario, categoria, filePath);
+                }
             }
             catch
             {
@@ -313,7 +331,7 @@ namespace ControlInventario.Vistas.Extras
 
         private void BtnBuscarRutaPerso_Click(object sender, EventArgs e)
         {
-            BuscarRutas(TxtRutaPredeterminada);
+            BuscarRutas(TxtRutaPersonalizada);
         }
 
         private void BuscarRutas(TextBox textBox)
@@ -321,14 +339,11 @@ namespace ControlInventario.Vistas.Extras
             using (FolderBrowserDialog fbd = new FolderBrowserDialog())
             {
                 fbd.Description = "Seleccione la carpeta donde desea guardar los archivos";
-                fbd.ShowNewFolderButton = true; // permite crear nuevas carpetas
+                fbd.ShowNewFolderButton = true;
 
                 if (fbd.ShowDialog() == DialogResult.OK)
                 {
                     string carpetaSeleccionada = fbd.SelectedPath;
-
-                    // Detectar qué tipo de archivo se está configurando
-                    string extension = (LblRutaArchivo.Text.Contains("xlsx")) ? ".xlsx" : ".csv";
 
                     if (TxtRutaPredeterminada.Enabled == true)
                     {
@@ -343,6 +358,80 @@ namespace ControlInventario.Vistas.Extras
 
                     Properties.Settings.Default.Save();
                 }
+            }
+        }
+
+        public void ExportarDataTableAExcel(DataTable dt, string nombreHoja, string filePath)
+        {
+            if (string.IsNullOrWhiteSpace(filePath)) return;
+
+            string rutaFinal = Path.Combine(filePath, nombreArchivo);
+
+            try
+            {
+                using (var workbook = new XLWorkbook())
+                {
+                    var worksheet = workbook.Worksheets.Add(nombreHoja.Length > 31 ? nombreHoja.Substring(0, 31) : nombreHoja);
+
+                    for (int i = 0; i < dt.Columns.Count; i++)
+                    {
+                        worksheet.Cell(1, i + 1).Value = dt.Columns[i].ColumnName;
+                        worksheet.Cell(1, i + 1).Style.Font.Bold = true;
+                    }
+
+                    for (int r = 0; r < dt.Rows.Count; r++)
+                    {
+                        for (int c = 0; c < dt.Columns.Count; c++)
+                        {
+                            worksheet.Cell(r + 2, c + 1).Value = dt.Rows[r][c]?.ToString() ?? "";
+                        }
+                    }
+
+                    worksheet.Columns().AdjustToContents();
+                    workbook.SaveAs(rutaFinal);
+                }
+
+                MessageBox.Show("Exportación completada con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al exportar: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        public void ExportarDataTableACsv(DataTable dt, string filePath)
+        {
+            if (string.IsNullOrWhiteSpace(filePath)) return;
+
+            string rutaFinal = Path.Combine(filePath, nombreArchivo);
+
+            try
+            {
+                using (var writer = new StreamWriter(rutaFinal, false, Encoding.UTF8))
+                {
+                    var headers = new string[dt.Columns.Count];
+                    for (int i = 0; i < dt.Columns.Count; i++)
+                        headers[i] = dt.Columns[i].ColumnName;
+
+                    writer.WriteLine(string.Join(",", headers));
+
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        var values = new string[dt.Columns.Count];
+                        for (int i = 0; i < dt.Columns.Count; i++)
+                            values[i] = $"\"{row[i]?.ToString()?.Replace("\"", "\"\"") ?? ""}\"";
+
+                        writer.WriteLine(string.Join(",", values));
+                    }
+                }
+
+                MessageBox.Show("Exportación CSV completada con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al exportar: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

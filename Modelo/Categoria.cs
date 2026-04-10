@@ -10,10 +10,9 @@ namespace ControlInventario.Modelos
         public string Descripcion { get; set; }
         public string FechaCreacion { get; set; }
         public DateTime? FechaModificacion { get; set; }
-        //public DateTime? FechaEliminacion { get; set; }
         public string UsuarioCreacion { get; set; }
         public string UsuarioModificacion { get; set; }
-        //public string UsuarioEliminacion { get; set; }
+        public bool EsDevolvible { get; set; }
     }
 
 }

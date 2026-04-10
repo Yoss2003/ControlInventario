@@ -1965,6 +1965,36 @@
   <data name="&gt;&gt;FlAcciones.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
+  <data name="BtnCuotasPendientes.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BtnCuotasPendientes.Location" type="System.Drawing.Point, System.Drawing">
+    <value>860, 29</value>
+  </data>
+  <data name="BtnCuotasPendientes.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
+  </data>
+  <data name="BtnCuotasPendientes.Size" type="System.Drawing.Size, System.Drawing">
+    <value>136, 35</value>
+  </data>
+  <data name="BtnCuotasPendientes.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="BtnCuotasPendientes.Text" xml:space="preserve">
+    <value>Ver cuotas</value>
+  </data>
+  <data name="&gt;&gt;BtnCuotasPendientes.Name" xml:space="preserve">
+    <value>BtnCuotasPendientes</value>
+  </data>
+  <data name="&gt;&gt;BtnCuotasPendientes.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;BtnCuotasPendientes.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;BtnCuotasPendientes.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="BtnDevolucion.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -1993,7 +2023,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;BtnDevolucion.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="NuAccionInventario.Location" type="System.Drawing.Point, System.Drawing">
     <value>9, 34</value>
@@ -2017,7 +2047,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;NuAccionInventario.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="LblAccionDecription.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2047,7 +2077,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;LblAccionDecription.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="BtnNuevaCategoria.Location" type="System.Drawing.Point, System.Drawing">
     <value>430, 29</value>
@@ -2074,7 +2104,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;BtnNuevaCategoria.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="BtnExportar.Location" type="System.Drawing.Point, System.Drawing">
     <value>159, 29</value>
@@ -2101,7 +2131,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;BtnExportar.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="BtnVenta.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -2131,7 +2161,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;BtnVenta.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="BtnEliminarArticulo.Location" type="System.Drawing.Point, System.Drawing">
     <value>714, 29</value>
@@ -2158,7 +2188,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;BtnEliminarArticulo.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="BtnEditarArticulo.Location" type="System.Drawing.Point, System.Drawing">
     <value>860, 29</value>
@@ -2185,7 +2215,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;BtnEditarArticulo.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="BtnNuevaAsignacion.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -2215,7 +2245,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;BtnNuevaAsignacion.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
   </data>
   <data name="BtnAgregarArticulo.Location" type="System.Drawing.Point, System.Drawing">
     <value>1005, 29</value>
@@ -2242,7 +2272,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;BtnAgregarArticulo.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>10</value>
   </data>
   <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
     <value>26, 683</value>

@@ -18,6 +18,7 @@ namespace ControlInventario.Vistas.Aplicacion
     {
         private DataTable dtStockDisponible;
         private decimal totalVenta = 0m;
+
         public EdicionArticulo DatosEdicion { get; set; }
         public VistaVentas()
         {
@@ -44,8 +45,15 @@ namespace ControlInventario.Vistas.Aplicacion
             CbTipoComprobante.Items.AddRange(new string[] { "Boleta", "Factura" });
             CbTipoComprobante.SelectedIndex = 0;
 
-            CbMetodoPago.Items.AddRange(new string[] { "Efectivo", "Tarjeta", "Transferencia", "Yape/Plin" });
+            CbMetodoPago.Items.AddRange(new string[] { "Efectivo", "Tarjeta", "Transferencia", "Yape/Plin", "Crédito" });
             CbMetodoPago.SelectedIndex = 0;
+
+            CbFrecuencia.Items.AddRange(new string[] { "Semanal", "Quincenal", "Mensual" });
+            CbFrecuencia.SelectedIndex = 0;
+
+            DtpPrimeraCuota.Value = DateTime.Now.AddDays(30);
+            TxtEnganche.Text = $"{ClassHelper.ObtenerSimboloMoneda()} 0,00";
+            TxtEnganche.Enter += TxtEnganche_Enter;
 
             DgvArticulos.AutoGenerateColumns = false;
             DgvArticulos.AllowUserToAddRows = false;
@@ -76,6 +84,8 @@ namespace ControlInventario.Vistas.Aplicacion
         private void ActualizarLabelTotal()
         {
             LblTotal.Text = $"TOTAL: {ClassHelper.ObtenerSimboloMoneda()} {totalVenta:N2}";
+            if (CbMetodoPago.Text == "Crédito") RecalcularCuotas();
+
         }
 
         private void BtnBuscar_Click(object sender, EventArgs e)
@@ -177,11 +187,6 @@ namespace ControlInventario.Vistas.Aplicacion
             }
         }
 
-        private void LblVuelto_TextChanged(object sender, EventArgs e)
-        {
-            CalcularVuelto();
-        }
-
         private void BtnCompletarVenta_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(TxtCliente.Text))
@@ -191,7 +196,9 @@ namespace ControlInventario.Vistas.Aplicacion
                 return;
             }
 
-            if (CbMetodoPago.Text == "Efectivo")
+            bool esCredito = CbMetodoPago.Text == "Crédito";
+
+            if (!esCredito && CbMetodoPago.Text == "Efectivo")
             {
                 decimal? pago = ClassHelper.LimpiarTextoParaEdicion(TxtMontoRecibido.Text);
 
@@ -204,11 +211,57 @@ namespace ControlInventario.Vistas.Aplicacion
                 }
             }
 
-            DialogResult confirmacion = MessageBox.Show($"¿Desea completar la venta a {TxtCliente.Text} por {LblTotal.Text}?", "Confirmar Venta", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (confirmacion == DialogResult.Yes)
+            if (esCredito)
             {
-                GuardarVentaEnBD();
+                if (string.IsNullOrWhiteSpace(TxtDocumento.Text))
+                {
+                    MessageBox.Show("Para ventas a crédito es obligatorio el DNI/RUC del cliente.", "Dato Requerido", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    TxtDocumento.Focus();
+                    return;
+                }
+
+                if (DtpPrimeraCuota.Value.Date <= DateTime.Now.Date)
+                {
+                    MessageBox.Show("La fecha de la primera cuota debe ser posterior a hoy.", "Fecha Inválida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    DtpPrimeraCuota.Focus();
+                    return;
+                }
+
+                decimal enganche = ObtenerEnganche();
+
+                if (enganche >= totalVenta)
+                {
+                    MessageBox.Show("El enganche no puede ser igual o mayor al total de la venta.", "Dato Inválido", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    TxtEnganche.Focus();
+                    return;
+                }
+
+                int cuotas = (int)NudCuotas.Value;
+                string frecuencia = CbFrecuencia.Text;
+                string simbolo = ClassHelper.ObtenerSimboloMoneda();
+                decimal montoFinanciar = totalVenta - enganche;
+                decimal montoPorCuota = Math.Round(montoFinanciar / cuotas, 2);
+
+                string resumen = $"VENTA A CRÉDITO\n\n" +
+                    $"Cliente: {TxtCliente.Text}\n" +
+                    $"Total: {simbolo} {totalVenta:N2}\n" +
+                    $"Enganche: {simbolo} {enganche:N2}\n" +
+                    $"A financiar: {simbolo} {montoFinanciar:N2}\n" +
+                    $"Cuotas: {cuotas} ({frecuencia})\n" +
+                    $"Monto por cuota: {simbolo} {montoPorCuota:N2}\n" +
+                    $"1ra cuota: {DtpPrimeraCuota.Value:dd/MM/yyyy}\n\n" +
+                    $"¿Confirmar venta a crédito?";
+
+                if (MessageBox.Show(resumen, "Confirmar Crédito", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+                    return;
             }
+            else
+            {
+                if (MessageBox.Show($"¿Desea completar la venta a {TxtCliente.Text} por {LblTotal.Text}?", "Confirmar Venta", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+                    return;
+            }
+
+            GuardarVentaEnBD();
         }
 
         private void GuardarVentaEnBD()
@@ -218,6 +271,7 @@ namespace ControlInventario.Vistas.Aplicacion
             string comprobante = CbTipoComprobante.Text;
             string metodoPago = CbMetodoPago.Text;
             string obsGeneral = TxtObservaciones.Text.Trim();
+            bool esCredito = metodoPago == "Crédito";
 
             List<Movimiento> movimientosVenta = new List<Movimiento>();
 
@@ -255,8 +309,34 @@ namespace ControlInventario.Vistas.Aplicacion
 
             try
             {
-                MovimientoRepository.RegistrarVenta(movimientosVenta);
-                MessageBox.Show("¡Venta procesada y registrada con éxito!", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (esCredito)
+                {
+                    decimal enganche = ObtenerEnganche();
+                    int numCuotas = (int)NudCuotas.Value;
+                    string frecuencia = CbFrecuencia.Text;
+                    DateTime fechaPrimera = DtpPrimeraCuota.Value;
+
+                    MovimientoRepository.RegistrarVentaCredito(movimientosVenta, totalVenta, enganche, numCuotas, frecuencia, fechaPrimera);
+                    MessageBox.Show("¡Venta a crédito registrada con éxito!", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MovimientoRepository.RegistrarVenta(movimientosVenta);
+                    MessageBox.Show("¡Venta procesada y registrada con éxito!", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
+                if (!string.IsNullOrWhiteSpace(doc))
+                {
+                    var clienteGuardar = new Cliente
+                    {
+                        Documento = doc,
+                        Nombre = cliente,
+                        Telefono = TxtTelefonoCliente.Text.Trim(),
+                        Correo = TxtCorreoCliente.Text.Trim()
+                    };
+                    ClienteRepository.GuardarOActualizar(clienteGuardar);
+                }
+
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
@@ -325,6 +405,18 @@ namespace ControlInventario.Vistas.Aplicacion
                 string doc = TxtDocumento.Text.Trim();
                 if (string.IsNullOrEmpty(doc)) return;
 
+                // 1. Buscar en tabla Clientes
+                var cliente = ClienteRepository.ObtenerPorDocumento(doc);
+                if (cliente != null)
+                {
+                    TxtCliente.Text = cliente.Nombre;
+                    TxtTelefonoCliente.Text = cliente.Telefono ?? "";
+                    TxtCorreoCliente.Text = cliente.Correo ?? "";
+                    TxtBuscarArticulo.Focus();
+                    return;
+                }
+
+                // 2. Buscar en Empleados
                 if (doc.Length == 8)
                 {
                     var emp = EmpleadoRepository.ObtenerEmpleadoPorDni(doc);
@@ -335,6 +427,7 @@ namespace ControlInventario.Vistas.Aplicacion
                         return;
                     }
 
+                    // 3. Buscar en API RENIEC
                     var overlay = new OverlayCarga(this);
                     overlay.Mostrar();
                     try
@@ -468,7 +561,7 @@ namespace ControlInventario.Vistas.Aplicacion
             List<int> idsSeleccionados = new List<int>();
             DataRow[] disponibles = dtStockDisponible.Select($"Modelo = '{modelo}'");
 
-            Form selector = new Form()
+            using (Form selector = new Form()
             {
                 Text = $"Seleccione {cantidadRequerida} código(s) para: {modelo}",
                 Size = new Size(400, 300),
@@ -476,53 +569,210 @@ namespace ControlInventario.Vistas.Aplicacion
                 FormBorderStyle = FormBorderStyle.FixedDialog,
                 MaximizeBox = false,
                 MinimizeBox = false
-            };
-
-            CheckedListBox checklist = new CheckedListBox()
+            })
             {
-                Dock = DockStyle.Top,
-                Height = 200,
-                CheckOnClick = true
-            };
+                CheckedListBox checklist = new CheckedListBox()
+                {
+                    Dock = DockStyle.Top,
+                    Height = 200,
+                    CheckOnClick = true
+                };
 
-            foreach (DataRow fila in disponibles)
+                foreach (DataRow fila in disponibles)
+                {
+                    string serie = fila["Serie"] != DBNull.Value ? fila["Serie"].ToString() : "N/A";
+                    checklist.Items.Add(new KeyValuePair<int, string>(
+                        Convert.ToInt32(fila["Id"]),
+                        $"{fila["Codigo"]} - Serie: {serie}"
+                    ));
+                }
+
+                checklist.DisplayMember = "Value";
+                checklist.ValueMember = "Key";
+
+                Button btnConfirmar = new Button() { Text = "Confirmar Selección", Dock = DockStyle.Bottom, Height = 40, BackColor = Color.LightGreen };
+
+                btnConfirmar.Click += (s, ev) =>
+                {
+                    if (checklist.CheckedItems.Count != cantidadRequerida)
+                    {
+                        MessageBox.Show($"Debe marcar exactamente {cantidadRequerida} artículos de la lista.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    foreach (var item in checklist.CheckedItems)
+                    {
+                        var articuloSeleccionado = (KeyValuePair<int, string>)item;
+                        idsSeleccionados.Add(articuloSeleccionado.Key);
+                    }
+
+                    selector.DialogResult = DialogResult.OK;
+                };
+
+                selector.Controls.Add(checklist);
+                selector.Controls.Add(btnConfirmar);
+
+                if (selector.ShowDialog() == DialogResult.OK)
+                    return idsSeleccionados;
+                else
+                    return null;
+            }
+        }
+
+        private void CbMetodoPago_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            bool esCredito = CbMetodoPago.Text == "Crédito";
+
+            PnlCredito.Visible = esCredito;
+
+            // Controles de contado
+            TxtMontoRecibido.Visible = !esCredito;
+            LblVuelto.Visible = !esCredito;
+            label9.Visible = !esCredito;
+            label7.Visible = !esCredito;
+
+            // Campos de contacto del cliente (solo en crédito)
+            LblTelefono.Visible = esCredito;
+            TxtTelefonoCliente.Visible = esCredito;
+            LblCorreo.Visible = esCredito;
+            TxtCorreoCliente.Visible = esCredito;
+
+            if (esCredito)
             {
-                string serie = fila["Serie"] != DBNull.Value ? fila["Serie"].ToString() : "N/A";
-                checklist.Items.Add(new KeyValuePair<int, string>(
-                    Convert.ToInt32(fila["Id"]),
-                    $"{fila["Codigo"]} - Serie: {serie}"
-                ));
+                this.ClientSize = new Size(1016, 930);
+                RecalcularCuotas();
+            }
+            else
+            {
+                this.ClientSize = new Size(1038, 650);
+            }
+        }
+
+        private void RecalcularCuotas()
+        {
+            if (NudCuotas == null || TxtEnganche == null || CbFrecuencia == null || DtpPrimeraCuota == null) return;
+
+            decimal enganche = ObtenerEnganche();
+            int numCuotas = (int)NudCuotas.Value;
+            string frecuencia = CbFrecuencia.Text;
+            DateTime fechaPrimera = DtpPrimeraCuota.Value;
+
+            if (enganche > totalVenta)
+            {
+                TxtEnganche.Text = $"{ClassHelper.ObtenerSimboloMoneda()} {totalVenta:N2}";
+                enganche = totalVenta;
             }
 
-            checklist.DisplayMember = "Value";
-            checklist.ValueMember = "Key";
+            decimal montoFinanciar = totalVenta - enganche;
+            decimal montoPorCuota = numCuotas > 0 ? Math.Round(montoFinanciar / numCuotas, 2) : 0;
+            decimal diferencia = montoFinanciar - (montoPorCuota * numCuotas);
 
-            Button btnConfirmar = new Button() { Text = "Confirmar Selección", Dock = DockStyle.Bottom, Height = 40, BackColor = Color.LightGreen };
+            string simbolo = ClassHelper.ObtenerSimboloMoneda();
+            LblMontoFinanciar.Text = $"A financiar: {simbolo} {montoFinanciar:N2}";
+            LblMontoCuota.Text = $"Por cuota: {simbolo} {montoPorCuota:N2}";
 
-            btnConfirmar.Click += (s, ev) =>
+            DgvCuotas.Rows.Clear();
+            for (int i = 1; i <= numCuotas; i++)
             {
-                if (checklist.CheckedItems.Count != cantidadRequerida)
+                DateTime fechaVenc = CalcularFechaVencimiento(fechaPrimera, frecuencia, i - 1);
+                decimal monto = (i == numCuotas) ? montoPorCuota + diferencia : montoPorCuota;
+                string formato = UsuarioSesion.Configuracion?.FormatoFecha ?? "dd/MM/yyyy";
+
+                DgvCuotas.Rows.Add(i, $"{simbolo} {monto:N2}", fechaVenc.ToString(formato));
+            }
+        }
+
+        private DateTime CalcularFechaVencimiento(DateTime fechaBase, string frecuencia, int numeroPeriodo)
+        {
+            switch (frecuencia)
+            {
+                case "Semanal": return fechaBase.AddDays(7 * numeroPeriodo);
+                case "Quincenal": return fechaBase.AddDays(15 * numeroPeriodo);
+                case "Mensual": return fechaBase.AddMonths(numeroPeriodo);
+                default: return fechaBase.AddMonths(numeroPeriodo);
+            }
+        }
+
+        private void NudEnganche_ValueChanged(object sender, EventArgs e)
+        {
+            RecalcularCuotas();
+        }
+
+        private void NudCuotas_ValueChanged(object sender, EventArgs e)
+        {
+            RecalcularCuotas();
+        }
+
+        private void CbFrecuencia_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            RecalcularCuotas();
+        }
+
+        private void DtpPrimeraCuota_ValueChanged(object sender, EventArgs e)
+        {
+            RecalcularCuotas();
+        }
+
+        private decimal ObtenerEnganche()
+        {
+            decimal? valor = ClassHelper.LimpiarTextoParaEdicion(TxtEnganche.Text);
+            return valor ?? 0m;
+        }
+
+        private void TxtEnganche_Enter(object sender, EventArgs e)
+        {
+            decimal? numeroPuro = ClassHelper.LimpiarTextoParaEdicion(TxtEnganche.Text);
+
+            if (numeroPuro.HasValue)
+            {
+                if (numeroPuro.Value == 0)
                 {
-                    MessageBox.Show($"Debe marcar exactamente {cantidadRequerida} artículos de la lista.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
+                    TxtEnganche.Text = "";
                 }
-
-                foreach (var item in checklist.CheckedItems)
+                else if (numeroPuro.Value % 1 == 0)
                 {
-                    var articuloSeleccionado = (KeyValuePair<int, string>)item;
-                    idsSeleccionados.Add(articuloSeleccionado.Key);
+                    TxtEnganche.Text = numeroPuro.Value.ToString("0");
                 }
-
-                selector.DialogResult = DialogResult.OK;
-            };
-
-            selector.Controls.Add(checklist);
-            selector.Controls.Add(btnConfirmar);
-
-            if (selector.ShowDialog() == DialogResult.OK)
-                return idsSeleccionados;
+                else
+                {
+                    TxtEnganche.Text = numeroPuro.Value.ToString("0,00");
+                }
+            }
             else
-                return null;
+            {
+                TxtEnganche.Text = "";
+            }
+        }
+
+        private void TxtEnganche_Leave(object sender, EventArgs e)
+        {
+            decimal? numeroPuro = ClassHelper.LimpiarTextoParaEdicion(TxtEnganche.Text);
+
+            if (numeroPuro.HasValue)
+                TxtEnganche.Text = $"{ClassHelper.ObtenerSimboloMoneda()} {numeroPuro.Value:N2}";
+            else
+                TxtEnganche.Text = $"{ClassHelper.ObtenerSimboloMoneda()} 0,00";
+
+            RecalcularCuotas();
+        }
+
+        private void TxtEnganche_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.' && e.KeyChar != ',')
+            {
+                e.Handled = true;
+            }
+
+            TextBox txt = sender as TextBox;
+            if ((e.KeyChar == '.' || e.KeyChar == ',') && (txt.Text.IndexOf('.') > -1 || txt.Text.IndexOf(',') > -1))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void TxtEnganche_TextChanged(object sender, EventArgs e)
+        {
+            RecalcularCuotas();
         }
     }
 }

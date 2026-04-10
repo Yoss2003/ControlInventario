@@ -8,10 +8,11 @@ using ControlInventario.Vistas.Extras;
 using PdfiumViewer;
 using System;
 using System.Collections.Generic;
+using System.Data.SQLite;
 using System.Drawing;
 using System.IO;
-using System.Windows.Forms;
 using System.Text.Json;
+using System.Windows.Forms;
 
 namespace ControlInventario.Vistas
 {
@@ -478,115 +479,150 @@ namespace ControlInventario.Vistas
 
         private void BtnGuardarPlus_Click(object sender, EventArgs e)
         {
-            if (ValidarCampos())
+            if (VistaInventario.isEdit) // CAMINO A: Dar de Baja
             {
-                string codigoFinal = TxtCodigo.Text.Trim();
-                string carpetaComprobantes = ConexionGlobal.ObtenerCarpetaComprobantes();
-                string carpetaImagenes = ConexionGlobal.ObtenerCarpetaImagenes();
+                // Obtenemos el código del artículo de tu caja de texto visual
+                string codigo = TxtCodigo.Text;
 
-                string precioTexto = TxtPrecio.Text.Trim();
-                decimal? precioFinal = ClassHelper.ConvertirTextoAMoneda(precioTexto);              
-
-                if (generarCodigoAutomatico)
+                // Instanciamos tu nueva vista pasándole el código
+                using (var vistaBaja = new VistaBaja(codigo))
                 {
-                    string prefijo = nombreCategoriaActual.Length >= 3 ?
-                                     nombreCategoriaActual.Substring(0, 3).ToUpper() :
-                                     nombreCategoriaActual.ToUpper();
-
-                    codigoFinal = ArticuloRepository.GenerarCodigoArticulo(prefijo, UsuarioSesion.InventarioId);
-                }
-
-                string jsonCaracteristicas = null;
-                if (caracteristicasTemporales != null && caracteristicasTemporales.Count > 0)
-                {
-                    jsonCaracteristicas = JsonSerializer.Serialize(caracteristicasTemporales);
-                }
-
-                try
-                {
-                    using (var con = ConexionGlobal.ObtenerConexion())
+                    // Mostramos la ventana. Si el usuario hace clic en "Aceptar"...
+                    if (vistaBaja.ShowDialog() == DialogResult.OK)
                     {
-                        con.Open();
-                        Articulos art = new Articulos
+                        // Extraemos el motivo que se guardó en la propiedad pública
+                        string motivo = vistaBaja.MotivoBaja;
+
+                        try
                         {
-                            InventarioId = UsuarioSesion.InventarioId,
-                            Codigo = codigoFinal,
-                            Modelo = TxtModelo.Text,
-                            Serie = TxtSerie.Text,
-                            IdMarca = Convert.ToInt32(CbMarcas.SelectedValue),
-                            Marca = ClassHelper.NormalizarCombo(CbMarcas),
+                            // Llamamos a tu repositorio SQL (Asegúrate de que IdAccion sea 6 en tu repo)
+                            ArticuloRepository.DarDeBajaArticulo(DatosEdicion.Id, motivo);
 
-                            FechaAdquisicion = DtpFechaAdquisicion.Value,
-                            FechaFinGarantia = ChkFechaGarantia.Checked ? DtpFechaFinGarantia.Value.Date : (DateTime?)null,
+                            MessageBox.Show("El artículo ha sido dado de baja exitosamente.", "Baja Procesada", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                            IdEstado = Convert.ToInt32(CbEstadoArticulo.SelectedValue),
-                            Estado = string.IsNullOrWhiteSpace(CbEstadoArticulo.Text) ? null : CbEstadoArticulo.Text,
-                            IdUbicacion = Convert.ToInt32(CbUbicacion.SelectedValue),
-                            Ubicacion = ClassHelper.NormalizarCombo(CbUbicacion),
-                            IdCondicion = Convert.ToInt32(CbCondicion.SelectedValue),
-                            Condicion = ClassHelper.NormalizarCombo(CbCondicion),
-
-                            Observacion = string.IsNullOrWhiteSpace(TxtObservaciones.Text) ? null : TxtObservaciones.Text,
-
-                            RucProveedor = string.IsNullOrWhiteSpace(TxtRuc.Text) ? null : TxtRuc.Text,
-                            Proveedor = string.IsNullOrWhiteSpace(TxtRazonSocial.Text) ? null : TxtRazonSocial.Text,
-                            PrecioAdquisicion = precioFinal,
-
-                            Caracteristicas = jsonCaracteristicas,
-
-                            CategoriaId = _categoriaId,
-                            Categoria = _categoria,
-                            FechaRegistro = DateTime.Now
-                        };
-
-                        // guardar foto
-                        if (!string.IsNullOrWhiteSpace(TxtDireccionImagen.Text) && File.Exists(TxtDireccionImagen.Text))
-                        {
-                            string nombreImagen = Path.GetFileName(TxtDireccionImagen.Text);
-                            string destinoImagen = Path.Combine(carpetaImagenes, nombreImagen);
-
-                            File.Copy(TxtDireccionImagen.Text, destinoImagen, true);
-                            art.FotoPrincipal = TxtDireccionImagen.Text;
-                            art.FotoSecundaria = destinoImagen;
+                            // Cerramos la vista de edición para que la tabla principal se actualice
+                            this.DialogResult = DialogResult.OK;
+                            this.Close();
                         }
-
-                        // guardar comprobante
-                        if (!string.IsNullOrWhiteSpace(TxtRutaComprobante.Text) && File.Exists(TxtRutaComprobante.Text))
+                        catch (Exception ex)
                         {
-                            string nombreComprobate = Path.GetFileName(TxtRutaComprobante.Text);
-                            string destinoComprobante = Path.Combine(carpetaComprobantes, nombreComprobate);
-
-                            File.Copy(TxtRutaComprobante.Text, destinoComprobante, true);
-                            art.ComprobantePrincipal = TxtRutaComprobante.Text;
-                            art.ComprobanteSecundaria = destinoComprobante;
+                            MessageBox.Show("Error al procesar la baja: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
-
-                        // verificar fecha garantía y fecha baja
-                        if ((ChkFechaGarantia.Checked && DtpFechaFinGarantia.Value < DateTime.Now))
-                        {
-                            var result = MessageBox.Show(Idiomas.MensajeAdvertenciaAgregarFechasArticulo, Idiomas.TituloAdvertencia, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                            if (result == DialogResult.No)
-                                return;
-                        }
-
-                        ArticuloRepository.InsertarArticulo(art, con);
-                        LogsRepository.InsertarLogs("Artículos", "Crear", $"Se registró un nuevo artículo con el código: {art.Codigo}");
-
-                        MessageBox.Show(Idiomas.MensajeAgregarArticulo, Idiomas.TituloExito, MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                        LimpiarCampos();
                     }
                 }
-                catch (Exception ex)
+            }
+            else
+            {
+                if (ValidarCampos())
                 {
-                    MessageBox.Show(Idiomas.MensajeErrorAgregarArticulo + ex.Message, "Error",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error
-                    );
-                }
+                    string codigoFinal = TxtCodigo.Text.Trim();
+                    string carpetaComprobantes = ConexionGlobal.ObtenerCarpetaComprobantes();
+                    string carpetaImagenes = ConexionGlobal.ObtenerCarpetaImagenes();
 
-                VistaInventario vista = new VistaInventario();
-                vista.RefrescarArticulos();
+                    string precioTexto = TxtPrecio.Text.Trim();
+                    decimal? precioFinal = ClassHelper.ConvertirTextoAMoneda(precioTexto);
+
+                    if (generarCodigoAutomatico)
+                    {
+                        string prefijo = nombreCategoriaActual.Length >= 3 ?
+                                         nombreCategoriaActual.Substring(0, 3).ToUpper() :
+                                         nombreCategoriaActual.ToUpper();
+
+                        codigoFinal = ArticuloRepository.GenerarCodigoArticulo(prefijo, UsuarioSesion.InventarioId);
+                    }
+
+                    string jsonCaracteristicas = null;
+                    if (caracteristicasTemporales != null && caracteristicasTemporales.Count > 0)
+                    {
+                        jsonCaracteristicas = JsonSerializer.Serialize(caracteristicasTemporales);
+                    }
+
+                    try
+                    {
+                        using (var con = ConexionGlobal.ObtenerConexion())
+                        {
+                            con.Open();
+                            Articulos art = new Articulos
+                            {
+                                InventarioId = UsuarioSesion.InventarioId,
+                                Codigo = codigoFinal,
+                                Modelo = TxtModelo.Text,
+                                Serie = TxtSerie.Text,
+                                IdMarca = Convert.ToInt32(CbMarcas.SelectedValue),
+                                Marca = ClassHelper.NormalizarCombo(CbMarcas),
+
+                                FechaAdquisicion = DtpFechaAdquisicion.Value,
+                                FechaFinGarantia = ChkFechaGarantia.Checked ? DtpFechaFinGarantia.Value.Date : (DateTime?)null,
+
+                                IdEstado = Convert.ToInt32(CbEstadoArticulo.SelectedValue),
+                                Estado = string.IsNullOrWhiteSpace(CbEstadoArticulo.Text) ? null : CbEstadoArticulo.Text,
+                                IdUbicacion = Convert.ToInt32(CbUbicacion.SelectedValue),
+                                Ubicacion = ClassHelper.NormalizarCombo(CbUbicacion),
+                                IdCondicion = Convert.ToInt32(CbCondicion.SelectedValue),
+                                Condicion = ClassHelper.NormalizarCombo(CbCondicion),
+
+                                Observacion = string.IsNullOrWhiteSpace(TxtObservaciones.Text) ? null : TxtObservaciones.Text,
+
+                                RucProveedor = string.IsNullOrWhiteSpace(TxtRuc.Text) ? null : TxtRuc.Text,
+                                Proveedor = string.IsNullOrWhiteSpace(TxtRazonSocial.Text) ? null : TxtRazonSocial.Text,
+                                PrecioAdquisicion = precioFinal,
+
+                                Caracteristicas = jsonCaracteristicas,
+
+                                CategoriaId = _categoriaId,
+                                Categoria = _categoria,
+                                FechaRegistro = DateTime.Now
+                            };
+
+                            // guardar foto
+                            if (!string.IsNullOrWhiteSpace(TxtDireccionImagen.Text) && File.Exists(TxtDireccionImagen.Text))
+                            {
+                                string nombreImagen = Path.GetFileName(TxtDireccionImagen.Text);
+                                string destinoImagen = Path.Combine(carpetaImagenes, nombreImagen);
+
+                                File.Copy(TxtDireccionImagen.Text, destinoImagen, true);
+                                art.FotoPrincipal = TxtDireccionImagen.Text;
+                                art.FotoSecundaria = destinoImagen;
+                            }
+
+                            // guardar comprobante
+                            if (!string.IsNullOrWhiteSpace(TxtRutaComprobante.Text) && File.Exists(TxtRutaComprobante.Text))
+                            {
+                                string nombreComprobate = Path.GetFileName(TxtRutaComprobante.Text);
+                                string destinoComprobante = Path.Combine(carpetaComprobantes, nombreComprobate);
+
+                                File.Copy(TxtRutaComprobante.Text, destinoComprobante, true);
+                                art.ComprobantePrincipal = TxtRutaComprobante.Text;
+                                art.ComprobanteSecundaria = destinoComprobante;
+                            }
+
+                            // verificar fecha garantía y fecha baja
+                            if ((ChkFechaGarantia.Checked && DtpFechaFinGarantia.Value < DateTime.Now))
+                            {
+                                var result = MessageBox.Show(Idiomas.MensajeAdvertenciaAgregarFechasArticulo, Idiomas.TituloAdvertencia, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                                if (result == DialogResult.No)
+                                    return;
+                            }
+
+                            ArticuloRepository.InsertarArticulo(art, con);
+                            LogsRepository.InsertarLogs("Artículos", "Crear", $"Se registró un nuevo artículo con el código: {art.Codigo}");
+
+                            MessageBox.Show(Idiomas.MensajeAgregarArticulo, Idiomas.TituloExito, MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                            LimpiarCampos();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(Idiomas.MensajeErrorAgregarArticulo + ex.Message, "Error",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error
+                        );
+                    }
+
+                    VistaInventario vista = new VistaInventario();
+                    vista.RefrescarArticulos();
+                }
             }
         }
 
@@ -682,9 +718,17 @@ namespace ControlInventario.Vistas
                 RefreshService.RefrescarComboDT(CbMarcas, dtMarcas, "Nombre", "Id", Idiomas.OpcionSeleccione);
 
                 if (VistaInventario.isEdit == true)
-                    BtnGuardarPlus.Enabled = false;
+                {
+                    BtnGuardarPlus.Text = "Dar de Baja";
+                    BtnGuardarPlus.BackColor = Color.IndianRed;
+                    BtnGuardarPlus.ForeColor = Color.White;
+                }
                 else
-                    BtnGuardarPlus.Enabled = true;
+                {
+                    BtnGuardarPlus.Text = "Guardar +";
+                    BtnGuardarPlus.BackColor = Color.LightGray;
+                    BtnGuardarPlus.ForeColor = Color.Black;
+                }
 
                 Articulos art = new Articulos();
 

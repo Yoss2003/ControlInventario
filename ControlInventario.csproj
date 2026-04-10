@@ -242,6 +242,12 @@
     <Compile Include="Vistas\Extras\VistaAgregarEmpleado.Designer.cs">
       <DependentUpon>VistaAgregarEmpleado.cs</DependentUpon>
     </Compile>
+    <Compile Include="Vistas\Extras\VistaBaja.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Vistas\Extras\VistaBaja.Designer.cs">
+      <DependentUpon>VistaBaja.cs</DependentUpon>
+    </Compile>
     <Compile Include="Vistas\Extras\VistaCaracteristicas.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -360,6 +366,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Vistas\Extras\VistaAgregarEmpleado.resx">
       <DependentUpon>VistaAgregarEmpleado.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Vistas\Extras\VistaBaja.resx">
+      <DependentUpon>VistaBaja.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Vistas\Extras\VistaCaracteristicas.resx">
       <DependentUpon>VistaCaracteristicas.cs</DependentUpon>

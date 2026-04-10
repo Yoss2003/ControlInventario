@@ -28,35 +28,35 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle40 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle41 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle42 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle43 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle44 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle45 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle46 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle47 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle48 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle49 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle50 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle51 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle52 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle53 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle54 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle55 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle56 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle57 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle58 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VistaInventario));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle29 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle30 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle31 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle32 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle33 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle34 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle35 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle36 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle37 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle38 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle39 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle59 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle60 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle61 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle62 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle63 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle64 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle65 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle66 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle67 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle68 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle69 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle70 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle71 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle72 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle73 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle74 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle75 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle76 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle77 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle78 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle79 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle80 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle81 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle82 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle83 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle84 = new System.Windows.Forms.DataGridViewCellStyle();
             this.TbPrincipal = new System.Windows.Forms.TabControl();
             this.TabIngresos = new System.Windows.Forms.TabPage();
             this.DgvArticulos = new System.Windows.Forms.DataGridView();
@@ -172,16 +172,16 @@
             this.DgvArticulos.AllowUserToDeleteRows = false;
             this.DgvArticulos.AllowUserToResizeColumns = false;
             this.DgvArticulos.AllowUserToResizeRows = false;
-            dataGridViewCellStyle40.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.DgvArticulos.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle40;
+            dataGridViewCellStyle57.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.DgvArticulos.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle57;
             this.DgvArticulos.BackgroundColor = System.Drawing.Color.White;
-            dataGridViewCellStyle41.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle41.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle41.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle41.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle41.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle41.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            this.DgvArticulos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle41;
+            dataGridViewCellStyle58.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle58.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle58.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle58.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle58.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle58.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            this.DgvArticulos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle58;
             resources.ApplyResources(this.DgvArticulos, "DgvArticulos");
             this.DgvArticulos.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.IdArticulo,
@@ -210,112 +210,112 @@
             // 
             // IdArticulo
             // 
-            dataGridViewCellStyle42.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.IdArticulo.DefaultCellStyle = dataGridViewCellStyle42;
+            dataGridViewCellStyle59.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.IdArticulo.DefaultCellStyle = dataGridViewCellStyle59;
             resources.ApplyResources(this.IdArticulo, "IdArticulo");
             this.IdArticulo.Name = "IdArticulo";
             this.IdArticulo.ReadOnly = true;
             // 
             // CodigoArticulo
             // 
-            dataGridViewCellStyle43.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.CodigoArticulo.DefaultCellStyle = dataGridViewCellStyle43;
+            dataGridViewCellStyle60.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.CodigoArticulo.DefaultCellStyle = dataGridViewCellStyle60;
             resources.ApplyResources(this.CodigoArticulo, "CodigoArticulo");
             this.CodigoArticulo.Name = "CodigoArticulo";
             this.CodigoArticulo.ReadOnly = true;
             // 
             // ModeloArticulo
             // 
-            dataGridViewCellStyle44.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.ModeloArticulo.DefaultCellStyle = dataGridViewCellStyle44;
+            dataGridViewCellStyle61.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ModeloArticulo.DefaultCellStyle = dataGridViewCellStyle61;
             resources.ApplyResources(this.ModeloArticulo, "ModeloArticulo");
             this.ModeloArticulo.Name = "ModeloArticulo";
             this.ModeloArticulo.ReadOnly = true;
             // 
             // SerieArticulo
             // 
-            dataGridViewCellStyle45.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.SerieArticulo.DefaultCellStyle = dataGridViewCellStyle45;
+            dataGridViewCellStyle62.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.SerieArticulo.DefaultCellStyle = dataGridViewCellStyle62;
             resources.ApplyResources(this.SerieArticulo, "SerieArticulo");
             this.SerieArticulo.Name = "SerieArticulo";
             this.SerieArticulo.ReadOnly = true;
             // 
             // MarcaArticulo
             // 
-            dataGridViewCellStyle46.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.MarcaArticulo.DefaultCellStyle = dataGridViewCellStyle46;
+            dataGridViewCellStyle63.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.MarcaArticulo.DefaultCellStyle = dataGridViewCellStyle63;
             resources.ApplyResources(this.MarcaArticulo, "MarcaArticulo");
             this.MarcaArticulo.Name = "MarcaArticulo";
             this.MarcaArticulo.ReadOnly = true;
             // 
             // FechaAdquisicionArticulo
             // 
-            dataGridViewCellStyle47.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.FechaAdquisicionArticulo.DefaultCellStyle = dataGridViewCellStyle47;
+            dataGridViewCellStyle64.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.FechaAdquisicionArticulo.DefaultCellStyle = dataGridViewCellStyle64;
             resources.ApplyResources(this.FechaAdquisicionArticulo, "FechaAdquisicionArticulo");
             this.FechaAdquisicionArticulo.Name = "FechaAdquisicionArticulo";
             this.FechaAdquisicionArticulo.ReadOnly = true;
             // 
             // FechaFinGarantiaArticulo
             // 
-            dataGridViewCellStyle48.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.FechaFinGarantiaArticulo.DefaultCellStyle = dataGridViewCellStyle48;
+            dataGridViewCellStyle65.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.FechaFinGarantiaArticulo.DefaultCellStyle = dataGridViewCellStyle65;
             resources.ApplyResources(this.FechaFinGarantiaArticulo, "FechaFinGarantiaArticulo");
             this.FechaFinGarantiaArticulo.Name = "FechaFinGarantiaArticulo";
             this.FechaFinGarantiaArticulo.ReadOnly = true;
             // 
             // EstadoArticulo
             // 
-            dataGridViewCellStyle49.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.EstadoArticulo.DefaultCellStyle = dataGridViewCellStyle49;
+            dataGridViewCellStyle66.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.EstadoArticulo.DefaultCellStyle = dataGridViewCellStyle66;
             resources.ApplyResources(this.EstadoArticulo, "EstadoArticulo");
             this.EstadoArticulo.Name = "EstadoArticulo";
             this.EstadoArticulo.ReadOnly = true;
             // 
             // UbicacionArticulo
             // 
-            dataGridViewCellStyle50.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.UbicacionArticulo.DefaultCellStyle = dataGridViewCellStyle50;
+            dataGridViewCellStyle67.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.UbicacionArticulo.DefaultCellStyle = dataGridViewCellStyle67;
             resources.ApplyResources(this.UbicacionArticulo, "UbicacionArticulo");
             this.UbicacionArticulo.Name = "UbicacionArticulo";
             this.UbicacionArticulo.ReadOnly = true;
             // 
             // CondicionArticulo
             // 
-            dataGridViewCellStyle51.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.CondicionArticulo.DefaultCellStyle = dataGridViewCellStyle51;
+            dataGridViewCellStyle68.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.CondicionArticulo.DefaultCellStyle = dataGridViewCellStyle68;
             resources.ApplyResources(this.CondicionArticulo, "CondicionArticulo");
             this.CondicionArticulo.Name = "CondicionArticulo";
             this.CondicionArticulo.ReadOnly = true;
             // 
             // RucArticulo
             // 
-            dataGridViewCellStyle52.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.RucArticulo.DefaultCellStyle = dataGridViewCellStyle52;
+            dataGridViewCellStyle69.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.RucArticulo.DefaultCellStyle = dataGridViewCellStyle69;
             resources.ApplyResources(this.RucArticulo, "RucArticulo");
             this.RucArticulo.Name = "RucArticulo";
             this.RucArticulo.ReadOnly = true;
             // 
             // ProveedorArticulo
             // 
-            dataGridViewCellStyle53.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.ProveedorArticulo.DefaultCellStyle = dataGridViewCellStyle53;
+            dataGridViewCellStyle70.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ProveedorArticulo.DefaultCellStyle = dataGridViewCellStyle70;
             resources.ApplyResources(this.ProveedorArticulo, "ProveedorArticulo");
             this.ProveedorArticulo.Name = "ProveedorArticulo";
             this.ProveedorArticulo.ReadOnly = true;
             // 
             // PrecioArticulo
             // 
-            dataGridViewCellStyle54.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.PrecioArticulo.DefaultCellStyle = dataGridViewCellStyle54;
+            dataGridViewCellStyle71.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.PrecioArticulo.DefaultCellStyle = dataGridViewCellStyle71;
             resources.ApplyResources(this.PrecioArticulo, "PrecioArticulo");
             this.PrecioArticulo.Name = "PrecioArticulo";
             this.PrecioArticulo.ReadOnly = true;
             // 
             // ObservacionArticulo
             // 
-            dataGridViewCellStyle55.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.ObservacionArticulo.DefaultCellStyle = dataGridViewCellStyle55;
+            dataGridViewCellStyle72.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ObservacionArticulo.DefaultCellStyle = dataGridViewCellStyle72;
             resources.ApplyResources(this.ObservacionArticulo, "ObservacionArticulo");
             this.ObservacionArticulo.Name = "ObservacionArticulo";
             this.ObservacionArticulo.ReadOnly = true;
@@ -329,8 +329,8 @@
             // 
             // ComprobanteArticulo
             // 
-            dataGridViewCellStyle56.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.ComprobanteArticulo.DefaultCellStyle = dataGridViewCellStyle56;
+            dataGridViewCellStyle73.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ComprobanteArticulo.DefaultCellStyle = dataGridViewCellStyle73;
             resources.ApplyResources(this.ComprobanteArticulo, "ComprobanteArticulo");
             this.ComprobanteArticulo.Name = "ComprobanteArticulo";
             this.ComprobanteArticulo.ReadOnly = true;
@@ -466,17 +466,17 @@
             // 
             this.DvgSalidas.AllowUserToAddRows = false;
             this.DvgSalidas.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle29.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.DvgSalidas.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle29;
+            dataGridViewCellStyle74.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.DvgSalidas.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle74;
             this.DvgSalidas.BackgroundColor = System.Drawing.Color.White;
-            dataGridViewCellStyle30.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle30.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle30.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle30.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle30.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle30.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle30.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.DvgSalidas.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle30;
+            dataGridViewCellStyle75.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle75.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle75.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle75.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle75.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle75.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle75.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.DvgSalidas.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle75;
             resources.ApplyResources(this.DvgSalidas, "DvgSalidas");
             this.DvgSalidas.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.IdArticuloSalida,
@@ -499,64 +499,64 @@
             // 
             // IdArticuloSalida
             // 
-            dataGridViewCellStyle31.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.IdArticuloSalida.DefaultCellStyle = dataGridViewCellStyle31;
+            dataGridViewCellStyle76.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.IdArticuloSalida.DefaultCellStyle = dataGridViewCellStyle76;
             resources.ApplyResources(this.IdArticuloSalida, "IdArticuloSalida");
             this.IdArticuloSalida.Name = "IdArticuloSalida";
             this.IdArticuloSalida.ReadOnly = true;
             // 
             // CodigoArticuloSalida
             // 
-            dataGridViewCellStyle32.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.CodigoArticuloSalida.DefaultCellStyle = dataGridViewCellStyle32;
+            dataGridViewCellStyle77.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.CodigoArticuloSalida.DefaultCellStyle = dataGridViewCellStyle77;
             resources.ApplyResources(this.CodigoArticuloSalida, "CodigoArticuloSalida");
             this.CodigoArticuloSalida.Name = "CodigoArticuloSalida";
             this.CodigoArticuloSalida.ReadOnly = true;
             // 
             // ModeloArticuloSalida
             // 
-            dataGridViewCellStyle33.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.ModeloArticuloSalida.DefaultCellStyle = dataGridViewCellStyle33;
+            dataGridViewCellStyle78.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ModeloArticuloSalida.DefaultCellStyle = dataGridViewCellStyle78;
             resources.ApplyResources(this.ModeloArticuloSalida, "ModeloArticuloSalida");
             this.ModeloArticuloSalida.Name = "ModeloArticuloSalida";
             this.ModeloArticuloSalida.ReadOnly = true;
             // 
             // SerieArticuloSalida
             // 
-            dataGridViewCellStyle34.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.SerieArticuloSalida.DefaultCellStyle = dataGridViewCellStyle34;
+            dataGridViewCellStyle79.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.SerieArticuloSalida.DefaultCellStyle = dataGridViewCellStyle79;
             resources.ApplyResources(this.SerieArticuloSalida, "SerieArticuloSalida");
             this.SerieArticuloSalida.Name = "SerieArticuloSalida";
             this.SerieArticuloSalida.ReadOnly = true;
             // 
             // MarcaArtiucloSalida
             // 
-            dataGridViewCellStyle35.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.MarcaArtiucloSalida.DefaultCellStyle = dataGridViewCellStyle35;
+            dataGridViewCellStyle80.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.MarcaArtiucloSalida.DefaultCellStyle = dataGridViewCellStyle80;
             resources.ApplyResources(this.MarcaArtiucloSalida, "MarcaArtiucloSalida");
             this.MarcaArtiucloSalida.Name = "MarcaArtiucloSalida";
             this.MarcaArtiucloSalida.ReadOnly = true;
             // 
             // ResponsableArticuloSalida
             // 
-            dataGridViewCellStyle36.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.ResponsableArticuloSalida.DefaultCellStyle = dataGridViewCellStyle36;
+            dataGridViewCellStyle81.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ResponsableArticuloSalida.DefaultCellStyle = dataGridViewCellStyle81;
             resources.ApplyResources(this.ResponsableArticuloSalida, "ResponsableArticuloSalida");
             this.ResponsableArticuloSalida.Name = "ResponsableArticuloSalida";
             this.ResponsableArticuloSalida.ReadOnly = true;
             // 
             // AreaArticuloSalida
             // 
-            dataGridViewCellStyle37.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.AreaArticuloSalida.DefaultCellStyle = dataGridViewCellStyle37;
+            dataGridViewCellStyle82.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.AreaArticuloSalida.DefaultCellStyle = dataGridViewCellStyle82;
             resources.ApplyResources(this.AreaArticuloSalida, "AreaArticuloSalida");
             this.AreaArticuloSalida.Name = "AreaArticuloSalida";
             this.AreaArticuloSalida.ReadOnly = true;
             // 
             // CargoArticuloSalida
             // 
-            dataGridViewCellStyle38.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.CargoArticuloSalida.DefaultCellStyle = dataGridViewCellStyle38;
+            dataGridViewCellStyle83.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.CargoArticuloSalida.DefaultCellStyle = dataGridViewCellStyle83;
             resources.ApplyResources(this.CargoArticuloSalida, "CargoArticuloSalida");
             this.CargoArticuloSalida.Name = "CargoArticuloSalida";
             this.CargoArticuloSalida.ReadOnly = true;
@@ -581,8 +581,8 @@
             // 
             // FechaSalida
             // 
-            dataGridViewCellStyle39.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.FechaSalida.DefaultCellStyle = dataGridViewCellStyle39;
+            dataGridViewCellStyle84.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.FechaSalida.DefaultCellStyle = dataGridViewCellStyle84;
             resources.ApplyResources(this.FechaSalida, "FechaSalida");
             this.FechaSalida.Name = "FechaSalida";
             this.FechaSalida.ReadOnly = true;
@@ -719,7 +719,7 @@
             resources.ApplyResources(this.BtnDevolucion, "BtnDevolucion");
             this.BtnDevolucion.Name = "BtnDevolucion";
             this.BtnDevolucion.UseVisualStyleBackColor = true;
-            this.BtnDevolucion.Click += new System.EventHandler(this.BtnAgregarArticulo_Click);
+            this.BtnDevolucion.Click += new System.EventHandler(this.BtnDevolucion_Click);
             // 
             // NuAccionInventario
             // 

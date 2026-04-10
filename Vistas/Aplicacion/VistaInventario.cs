@@ -76,6 +76,10 @@ namespace ControlInventario.Vistas
             ClassHelper.AplicarFormatoFecha(DtBuscarFechaInicioIngreso);
             ActualizarVistaBotones();
 
+            BtnVenta.Visible = false;
+            BtnNuevaAsignacion.Visible = false;
+            BtnDevolucion.Visible = false;
+
             this.BeginInvoke(new MethodInvoker(() => {
                 DgvArticulos.ClearSelection();
             }));
@@ -653,14 +657,28 @@ namespace ControlInventario.Vistas
         {
             bool esTabIngresos = TbPrincipal.SelectedIndex == 0;
 
-            BtnAgregarArticulo.Visible = esTabIngresos;
-            BtnEditarArticulo.Visible = esTabIngresos;
-            BtnEliminarArticulo.Visible = esTabIngresos;
-            BtnNuevaCategoria.Visible = esTabIngresos;
+            if (esTabIngresos)
+            {
+                BtnAgregarArticulo.Visible = true;
+                BtnEditarArticulo.Visible = true;
+                BtnEliminarArticulo.Visible = true;
+                BtnNuevaCategoria.Visible = true;
 
-            BtnVenta.Visible = !esTabIngresos;
-            BtnNuevaAsignacion.Visible = !esTabIngresos;
-            BtnDevolucion.Visible = !esTabIngresos;
+                BtnVenta.Visible = false;
+                BtnNuevaAsignacion.Visible = false;
+                BtnDevolucion.Visible = false;
+            }
+            else
+            {
+                BtnAgregarArticulo.Visible = false;
+                BtnEditarArticulo.Visible = false;
+                BtnEliminarArticulo.Visible = false;
+                BtnNuevaCategoria.Visible = false;
+
+                BtnVenta.Visible = false;
+                BtnNuevaAsignacion.Visible = false;
+                BtnDevolucion.Visible = false;
+            }               
         }
 
         private void BtnNuevaAsignacion_Click(object sender, EventArgs e)
@@ -977,6 +995,10 @@ namespace ControlInventario.Vistas
                     DvgSalidas.Columns["ClienteArticuloSalida"].Visible = true;
                     DvgSalidas.Columns["PrecioVentaSalida"].Visible = true;
                     DvgSalidas.Columns["MotivoBajaSalida"].Visible = false;
+
+                    BtnVenta.Visible = true;
+                    BtnNuevaAsignacion.Visible = false;
+                    BtnDevolucion.Visible = false;
                     break;
 
                 case 2: // Asignaciones
@@ -986,6 +1008,10 @@ namespace ControlInventario.Vistas
                     DvgSalidas.Columns["ClienteArticuloSalida"].Visible = false;
                     DvgSalidas.Columns["PrecioVentaSalida"].Visible = false;
                     DvgSalidas.Columns["MotivoBajaSalida"].Visible = false;
+
+                    BtnNuevaAsignacion.Visible = true;
+                    BtnDevolucion.Visible = true;
+                    BtnVenta.Visible = false;
                     break;
 
                 case 3: // Bajas
@@ -995,6 +1021,10 @@ namespace ControlInventario.Vistas
                     DvgSalidas.Columns["ClienteArticuloSalida"].Visible = false;
                     DvgSalidas.Columns["PrecioVentaSalida"].Visible = false;
                     DvgSalidas.Columns["MotivoBajaSalida"].Visible = true;
+
+                    BtnVenta.Visible = false;
+                    BtnNuevaAsignacion.Visible = false;
+                    BtnDevolucion.Visible = false;
                     break;
 
                 default: // Todo
@@ -1004,6 +1034,10 @@ namespace ControlInventario.Vistas
                     DvgSalidas.Columns["ClienteArticuloSalida"].Visible = true;
                     DvgSalidas.Columns["PrecioVentaSalida"].Visible = true;
                     DvgSalidas.Columns["MotivoBajaSalida"].Visible = true;
+
+                    BtnVenta.Visible = false;
+                    BtnNuevaAsignacion.Visible = false;
+                    BtnDevolucion.Visible = false;
                     break;
             }
         }
@@ -1205,6 +1239,40 @@ namespace ControlInventario.Vistas
             else
             {
                 LblTotalVentas.Text = $"Ventas totales: {totalFormateado}";
+            }
+        }
+
+        private void BtnDevolucion_Click(object sender, EventArgs e)
+        {
+            if (DvgSalidas.CurrentRow == null)
+            {
+                MessageBox.Show("Por favor, seleccione un artículo para devolver.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            int idArticulo = Convert.ToInt32(DvgSalidas.CurrentRow.Cells["IdArticuloSalida"].Value);
+            string codigoArticulo = DvgSalidas.CurrentRow.Cells["CodigoArticuloSalida"].Value.ToString();
+
+            DialogResult dialogResult = MessageBox.Show(
+                $"¿Está seguro de que desea registrar la devolución del artículo {codigoArticulo}?",
+                "Confirmar Devolución",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
+            if (dialogResult == DialogResult.Yes)
+            {
+                try
+                {
+                    ArticuloRepository.RegistrarDevolucion(idArticulo, $"DEVOLUCIÓN: Artículo {codigoArticulo} retornado al inventario.");
+
+                    MessageBox.Show("El artículo ha sido devuelto exitosamente.", "Devolución Procesada", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    CargarTabSalidas();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al procesar la devolución: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
     }

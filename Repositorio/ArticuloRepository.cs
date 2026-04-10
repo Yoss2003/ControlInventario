@@ -748,5 +748,72 @@ namespace ControlInventario.Database
             }
             return dt;
         }
+
+        public static void DarDeBajaArticulo(int idArticulo, string motivo)
+        {
+            using (var con = ConexionGlobal.ObtenerConexion())
+            {
+                con.Open();
+                using (var transaction = con.BeginTransaction())
+                {
+                    string queryArticulo = "UPDATE Articulos SET IdAccion = 6 WHERE Id = @Id";
+                    using (var cmd = new SQLiteCommand(queryArticulo, con, transaction))
+                    {
+                        cmd.Parameters.AddWithValue("@Id", idArticulo);
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    string queryMovimiento = @"INSERT INTO Movimientos (ArticuloId, IdAccion, FechaMovimiento, Observacion, Monto) 
+                                       VALUES (@ArticuloId, 6, @Fecha, @Observacion, 0)";
+                    using (var cmd = new SQLiteCommand(queryMovimiento, con, transaction))
+                    {
+                        cmd.Parameters.AddWithValue("@ArticuloId", idArticulo);
+                        cmd.Parameters.AddWithValue("@Fecha", DateTime.Now);
+                        cmd.Parameters.AddWithValue("@Observacion", motivo);
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    transaction.Commit();
+                }
+            }
+        }
+
+        public static void RegistrarDevolucion(int idArticulo, string observacion)
+        {
+            using (var con = ConexionGlobal.ObtenerConexion())
+            {
+                con.Open();
+                using (var transaction = con.BeginTransaction())
+                {
+                    string queryArticulo = @"
+                    UPDATE Articulos 
+                    SET 
+                        EmpleadoAnteriorId = EmpleadoActualId, 
+                        EmpleadoActualId = NULL, 
+                        IdAccion = 1 
+                    WHERE Id = @Id";
+
+                    using (var cmd = new SQLiteCommand(queryArticulo, con, transaction))
+                    {
+                        cmd.Parameters.AddWithValue("@Id", idArticulo);
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    string queryMovimiento = @"
+                    INSERT INTO Movimientos (ArticuloId, IdAccion, FechaMovimiento, Observacion, Monto) 
+                    VALUES (@ArticuloId, 12, @Fecha, @Observacion, 0)";
+
+                    using (var cmd = new SQLiteCommand(queryMovimiento, con, transaction))
+                    {
+                        cmd.Parameters.AddWithValue("@ArticuloId", idArticulo);
+                        cmd.Parameters.AddWithValue("@Fecha", DateTime.Now);
+                        cmd.Parameters.AddWithValue("@Observacion", observacion);
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    transaction.Commit();
+                }
+            }
+        }
     }
 }

@@ -54,10 +54,14 @@ namespace ControlInventario.Database
                 FechaSalida TEXT,
                 IdAccion INTEGER NOT NULL,
 
+                UnidadMedida TEXT,
+                GrupoRegistroId INTEGER,
+
                 FOREIGN KEY (CategoriaId) REFERENCES Categorias(Id),
                 FOREIGN KEY (EmpleadoActualId) REFERENCES Empleados(Id),
                 FOREIGN KEY (EmpleadoAnteriorId) REFERENCES Empleados(Id),
-                FOREIGN KEY (IdAccion) REFERENCES Acciones(Id)
+                FOREIGN KEY (IdAccion) REFERENCES Acciones(Id),
+                FOREIGN KEY (GrupoRegistroId) REFERENCES GruposRegistro(Id)
             );";
 
             using (var cmd = new SQLiteCommand(queryTabla, con))
@@ -74,6 +78,7 @@ namespace ControlInventario.Database
                 e.Nombre AS EstadoTexto,
                 u.Nombre AS UbicacionTexto,
                 cond.Nombre AS CondicionTexto,
+                gr.Nombre AS GrupoRegistroNombre,
 
                 empAct.Nombres || ' ' || empAct.Apellidos AS EmpleadoActualTexto,
                 empAct.DNI AS EmpleadoActualDNI,
@@ -102,7 +107,8 @@ namespace ControlInventario.Database
             LEFT JOIN Empleados empAnt ON a.EmpleadoAnteriorId = empAnt.Id
             LEFT JOIN Parametros areaAnt ON empAnt.IdArea = areaAnt.Id
             LEFT JOIN Parametros cargoAnt ON empAnt.IdCargo = cargoAnt.Id
-            LEFT JOIN Acciones acc ON a.IdAccion = acc.Id;";
+            LEFT JOIN Acciones acc ON a.IdAccion = acc.Id
+            LEFT JOIN GruposRegistro gr ON a.GrupoRegistroId = gr.Id;";
 
             using (var cmdVista = new SQLiteCommand(queryVista, con))
             {
@@ -131,14 +137,14 @@ namespace ControlInventario.Database
                 IdEstado, IdUbicacion, IdCondicion, ActivoFijo, Observacion, RutaFotoPrincipal, RutaFotoSecundaria, 
                 RutaComprobantePrincipal, RutaComprobanteSecundaria, RucProveedor, Proveedor, PrecioAdquisicion, 
                 MonedaAdquisicion, VidaUtilMeses, Caracteristicas,
-                CategoriaId, FechaRegistro, IdAccion
+                CategoriaId, FechaRegistro, IdAccion, UnidadMedida, GrupoRegistroId
             ) VALUES (
                 @InventarioId, @Codigo, @Modelo, @Serie, @IdMarca, @FechaAdquisicion, @FechaBaja, @FechaFinGarantia,
                 @EmpleadoActualId, @EmpleadoAnteriorId,
                 @IdEstado, @IdUbicacion, @IdCondicion, @ActivoFijo, @Observacion, @RutaFotoPrincipal, @RutaFotoSecundaria, 
                 @RutaComprobantePrincipal, @RutaComprobanteSecundaria, @RucProveedor, @Proveedor, @PrecioAdquisicion,
                 @MonedaAdquisicion, @VidaUtilMeses, @Caracteristicas,
-                @CategoriaId, @FechaRegistro, 1
+                @CategoriaId, @FechaRegistro, 1, @UnidadMedida, @GrupoRegistroId
             );";
 
             using (var cmd = new SQLiteCommand(query, con))
@@ -177,6 +183,8 @@ namespace ControlInventario.Database
 
                 cmd.Parameters.AddWithValue("@CategoriaId", art.CategoriaId);
                 cmd.Parameters.AddWithValue("@FechaRegistro", art.FechaRegistro.ToString("yyyy-MM-dd"));
+                cmd.Parameters.AddWithValue("@UnidadMedida", (object)art.UnidadMedida ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@GrupoRegistroId", art.GrupoRegistroId ?? (object)DBNull.Value);
                 cmd.ExecuteNonQuery();
             }
 
@@ -188,8 +196,8 @@ namespace ControlInventario.Database
             var movimientoInicial = new Movimiento
             {
                 ArticuloId = art.Id,
-                EmpleadoId = null, 
-                IdAccion = 1, 
+                EmpleadoId = null,
+                IdAccion = 1,
                 FechaMovimiento = DateTime.Now,
                 Observacion = "Registro inicial en sistema.",
                 Monto = null
@@ -507,6 +515,10 @@ namespace ControlInventario.Database
 
                 CategoriaId = reader["CategoriaId"] != DBNull.Value ? Convert.ToInt32(reader["CategoriaId"]) : 0,
                 Categoria = reader["CategoriaTexto"]?.ToString(),
+
+                UnidadMedida = reader["UnidadMedida"] != DBNull.Value ? reader["UnidadMedida"].ToString() : null,
+                GrupoRegistroId = reader["GrupoRegistroId"] != DBNull.Value ? Convert.ToInt32(reader["GrupoRegistroId"]) : (int?)null,
+                GrupoRegistroNombre = reader["GrupoRegistroNombre"] != DBNull.Value ? reader["GrupoRegistroNombre"].ToString() : null
             };
         }
 
@@ -878,5 +890,90 @@ namespace ControlInventario.Database
                 }
             }
         }
+
+        public static void InsertarArticulosMasivo(List<Articulos> listaArticulos, SQLiteConnection con)
+        {
+            using (var transaction = con.BeginTransaction())
+            {
+                try
+                {
+                    string prefijo = "";
+                    if (listaArticulos.Count > 0)
+                    {
+                        string categoria = listaArticulos[0].Categoria;
+                        prefijo = categoria.Length >= 3
+                            ? categoria.Substring(0, 3).ToUpper()
+                            : categoria.ToUpper();
+                    }
+
+                    // Obtener el último número ANTES del loop
+                    string prefijoCompleto = $"{prefijo}-";
+                    int siguienteNumero = 1;
+
+                    string queryMax = @"
+                        SELECT MAX(Codigo) FROM Articulos 
+                        WHERE InventarioId = @InventarioId 
+                        AND Codigo LIKE @PrefijoBusqueda;";
+
+                    using (var cmdMax = new SQLiteCommand(queryMax, con, transaction))
+                    {
+                        cmdMax.Parameters.AddWithValue("@InventarioId", listaArticulos[0].InventarioId);
+                        cmdMax.Parameters.AddWithValue("@PrefijoBusqueda", prefijoCompleto + "%");
+                        object resultado = cmdMax.ExecuteScalar();
+
+                        if (resultado != DBNull.Value && resultado != null)
+                        {
+                            string codigoMaximo = resultado.ToString();
+                            string soloNumeroStr = codigoMaximo.Replace(prefijoCompleto, "");
+                            if (int.TryParse(soloNumeroStr, out int numeroActual))
+                                siguienteNumero = numeroActual + 1;
+                        }
+                    }
+
+                    // Asignar códigos secuenciales e insertar
+                    foreach (var art in listaArticulos)
+                    {
+                        art.Codigo = $"{prefijoCompleto}{siguienteNumero.ToString("D4")}";
+                        siguienteNumero++;
+                        InsertarArticulo(art, con);
+                    }
+
+                    transaction.Commit();
+                }
+                catch
+                {
+                    transaction.Rollback();
+                    throw;
+                }
+            }
+        }
+
+        public static List<Articulos> ListarArticulosPorGrupo(int grupoRegistroId, int categoriaId)
+        {
+            var lista = new List<Articulos>();
+            using (var con = ConexionGlobal.ObtenerConexion())
+            {
+                con.Open();
+                string query = @"SELECT * FROM vw_Articulos 
+                    WHERE GrupoRegistroId = @GrupoId 
+                    AND CategoriaId = @CategoriaId 
+                    AND IdAccion IN (1, 4, 12, 13);";
+
+                using (var cmd = new SQLiteCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@GrupoId", grupoRegistroId);
+                    cmd.Parameters.AddWithValue("@CategoriaId", categoriaId);
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            lista.Add(MapearArticulos(reader));
+                        }
+                    }
+                }
+            }
+            return lista;
+        }
+
     }
 }

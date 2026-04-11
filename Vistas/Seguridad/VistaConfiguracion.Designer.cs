@@ -32,13 +32,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.GrpGeneral = new System.Windows.Forms.GroupBox();
-            this.GrpInventario = new System.Windows.Forms.GroupBox();
-            this.ChkGeneracionCodigo = new System.Windows.Forms.CheckBox();
-            this.ChkCalcularDevaluacion = new System.Windows.Forms.CheckBox();
-            this.ChkCodigoBarras = new System.Windows.Forms.CheckBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
             this.CbFormatoFecha = new System.Windows.Forms.ComboBox();
             this.CbZonaHoraria = new System.Windows.Forms.ComboBox();
             this.CbNotificaciones = new System.Windows.Forms.ComboBox();
@@ -51,6 +44,15 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
+            this.GrpInventario = new System.Windows.Forms.GroupBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.CbModoVentas = new System.Windows.Forms.ComboBox();
+            this.ChkGeneracionCodigo = new System.Windows.Forms.CheckBox();
+            this.ChkCalcularDevaluacion = new System.Windows.Forms.CheckBox();
+            this.ChkCodigoBarras = new System.Windows.Forms.CheckBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
             this.GrpSeguridad = new System.Windows.Forms.GroupBox();
             this.label13 = new System.Windows.Forms.Label();
             this.ChkCompartirActividad = new System.Windows.Forms.CheckBox();
@@ -62,8 +64,10 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.TreeMenu = new System.Windows.Forms.TreeView();
             this.GrpDefault = new System.Windows.Forms.GroupBox();
-            this.CbModoVentas = new System.Windows.Forms.ComboBox();
-            this.label14 = new System.Windows.Forms.Label();
+            this.TxtCorreoSMTP = new System.Windows.Forms.TextBox();
+            this.TxtClaveSMTP = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
             this.GrpGeneral.SuspendLayout();
             this.GrpInventario.SuspendLayout();
             this.GrpSeguridad.SuspendLayout();
@@ -100,53 +104,6 @@
             resources.ApplyResources(this.GrpGeneral, "GrpGeneral");
             this.GrpGeneral.Name = "GrpGeneral";
             this.GrpGeneral.TabStop = false;
-            // 
-            // GrpInventario
-            // 
-            this.GrpInventario.Controls.Add(this.label14);
-            this.GrpInventario.Controls.Add(this.CbModoVentas);
-            this.GrpInventario.Controls.Add(this.ChkGeneracionCodigo);
-            this.GrpInventario.Controls.Add(this.ChkCalcularDevaluacion);
-            this.GrpInventario.Controls.Add(this.ChkCodigoBarras);
-            this.GrpInventario.Controls.Add(this.label11);
-            this.GrpInventario.Controls.Add(this.label10);
-            this.GrpInventario.Controls.Add(this.label8);
-            resources.ApplyResources(this.GrpInventario, "GrpInventario");
-            this.GrpInventario.Name = "GrpInventario";
-            this.GrpInventario.TabStop = false;
-            // 
-            // ChkGeneracionCodigo
-            // 
-            resources.ApplyResources(this.ChkGeneracionCodigo, "ChkGeneracionCodigo");
-            this.ChkGeneracionCodigo.Name = "ChkGeneracionCodigo";
-            this.ChkGeneracionCodigo.UseVisualStyleBackColor = true;
-            // 
-            // ChkCalcularDevaluacion
-            // 
-            resources.ApplyResources(this.ChkCalcularDevaluacion, "ChkCalcularDevaluacion");
-            this.ChkCalcularDevaluacion.Name = "ChkCalcularDevaluacion";
-            this.ChkCalcularDevaluacion.UseVisualStyleBackColor = true;
-            // 
-            // ChkCodigoBarras
-            // 
-            resources.ApplyResources(this.ChkCodigoBarras, "ChkCodigoBarras");
-            this.ChkCodigoBarras.Name = "ChkCodigoBarras";
-            this.ChkCodigoBarras.UseVisualStyleBackColor = true;
-            // 
-            // label11
-            // 
-            resources.ApplyResources(this.label11, "label11");
-            this.label11.Name = "label11";
-            // 
-            // label10
-            // 
-            resources.ApplyResources(this.label10, "label10");
-            this.label10.Name = "label10";
-            // 
-            // label8
-            // 
-            resources.ApplyResources(this.label8, "label8");
-            this.label8.Name = "label8";
             // 
             // CbFormatoFecha
             // 
@@ -223,8 +180,71 @@
             resources.ApplyResources(this.label6, "label6");
             this.label6.Name = "label6";
             // 
+            // GrpInventario
+            // 
+            this.GrpInventario.Controls.Add(this.label14);
+            this.GrpInventario.Controls.Add(this.CbModoVentas);
+            this.GrpInventario.Controls.Add(this.ChkGeneracionCodigo);
+            this.GrpInventario.Controls.Add(this.ChkCalcularDevaluacion);
+            this.GrpInventario.Controls.Add(this.ChkCodigoBarras);
+            this.GrpInventario.Controls.Add(this.label11);
+            this.GrpInventario.Controls.Add(this.label10);
+            this.GrpInventario.Controls.Add(this.label8);
+            resources.ApplyResources(this.GrpInventario, "GrpInventario");
+            this.GrpInventario.Name = "GrpInventario";
+            this.GrpInventario.TabStop = false;
+            // 
+            // label14
+            // 
+            resources.ApplyResources(this.label14, "label14");
+            this.label14.Name = "label14";
+            // 
+            // CbModoVentas
+            // 
+            this.CbModoVentas.FormattingEnabled = true;
+            resources.ApplyResources(this.CbModoVentas, "CbModoVentas");
+            this.CbModoVentas.Name = "CbModoVentas";
+            this.CbModoVentas.TextChanged += new System.EventHandler(this.CbModoVentas_TextChanged);
+            // 
+            // ChkGeneracionCodigo
+            // 
+            resources.ApplyResources(this.ChkGeneracionCodigo, "ChkGeneracionCodigo");
+            this.ChkGeneracionCodigo.Name = "ChkGeneracionCodigo";
+            this.ChkGeneracionCodigo.UseVisualStyleBackColor = true;
+            // 
+            // ChkCalcularDevaluacion
+            // 
+            resources.ApplyResources(this.ChkCalcularDevaluacion, "ChkCalcularDevaluacion");
+            this.ChkCalcularDevaluacion.Name = "ChkCalcularDevaluacion";
+            this.ChkCalcularDevaluacion.UseVisualStyleBackColor = true;
+            // 
+            // ChkCodigoBarras
+            // 
+            resources.ApplyResources(this.ChkCodigoBarras, "ChkCodigoBarras");
+            this.ChkCodigoBarras.Name = "ChkCodigoBarras";
+            this.ChkCodigoBarras.UseVisualStyleBackColor = true;
+            // 
+            // label11
+            // 
+            resources.ApplyResources(this.label11, "label11");
+            this.label11.Name = "label11";
+            // 
+            // label10
+            // 
+            resources.ApplyResources(this.label10, "label10");
+            this.label10.Name = "label10";
+            // 
+            // label8
+            // 
+            resources.ApplyResources(this.label8, "label8");
+            this.label8.Name = "label8";
+            // 
             // GrpSeguridad
             // 
+            this.GrpSeguridad.Controls.Add(this.label16);
+            this.GrpSeguridad.Controls.Add(this.label15);
+            this.GrpSeguridad.Controls.Add(this.TxtClaveSMTP);
+            this.GrpSeguridad.Controls.Add(this.TxtCorreoSMTP);
             this.GrpSeguridad.Controls.Add(this.label13);
             this.GrpSeguridad.Controls.Add(this.ChkCompartirActividad);
             this.GrpSeguridad.Controls.Add(this.label12);
@@ -297,25 +317,36 @@
             this.GrpDefault.Name = "GrpDefault";
             this.GrpDefault.TabStop = false;
             // 
-            // CbModoVentas
+            // TxtCorreoSMTP
             // 
-            this.CbModoVentas.FormattingEnabled = true;
-            resources.ApplyResources(this.CbModoVentas, "CbModoVentas");
-            this.CbModoVentas.Name = "CbModoVentas";
-            this.CbModoVentas.TextChanged += new System.EventHandler(this.CbModoVentas_TextChanged);
+            this.TxtCorreoSMTP.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            resources.ApplyResources(this.TxtCorreoSMTP, "TxtCorreoSMTP");
+            this.TxtCorreoSMTP.Name = "TxtCorreoSMTP";
             // 
-            // label14
+            // TxtClaveSMTP
             // 
-            resources.ApplyResources(this.label14, "label14");
-            this.label14.Name = "label14";
+            this.TxtClaveSMTP.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            resources.ApplyResources(this.TxtClaveSMTP, "TxtClaveSMTP");
+            this.TxtClaveSMTP.Name = "TxtClaveSMTP";
+            this.TxtClaveSMTP.UseSystemPasswordChar = true;
+            // 
+            // label15
+            // 
+            resources.ApplyResources(this.label15, "label15");
+            this.label15.Name = "label15";
+            // 
+            // label16
+            // 
+            resources.ApplyResources(this.label16, "label16");
+            this.label16.Name = "label16";
             // 
             // VistaConfiguracion
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.GrpSeguridad);
             this.Controls.Add(this.GrpInventario);
             this.Controls.Add(this.GrpGeneral);
-            this.Controls.Add(this.GrpSeguridad);
             this.Controls.Add(this.TreeMenu);
             this.Controls.Add(this.GrpPreview);
             this.Controls.Add(this.BtnGuardar);
@@ -374,5 +405,9 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.ComboBox CbModoVentas;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.TextBox TxtClaveSMTP;
+        private System.Windows.Forms.TextBox TxtCorreoSMTP;
     }
 }

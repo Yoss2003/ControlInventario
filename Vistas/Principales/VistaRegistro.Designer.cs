@@ -68,6 +68,8 @@
             this.btnGuardar = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.label14 = new System.Windows.Forms.Label();
+            this.TxtNumbCelular = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtEdad)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -80,11 +82,13 @@
             // 
             this.groupBox1.Controls.Add(this.txtEdad);
             this.groupBox1.Controls.Add(this.dtFechaNac);
+            this.groupBox1.Controls.Add(this.TxtNumbCelular);
             this.groupBox1.Controls.Add(this.txtCorreo);
             this.groupBox1.Controls.Add(this.txtApellido);
             this.groupBox1.Controls.Add(this.txtNombre);
             this.groupBox1.Controls.Add(this.label10);
             this.groupBox1.Controls.Add(this.label5);
+            this.groupBox1.Controls.Add(this.label14);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
@@ -335,6 +339,16 @@
             // 
             this.errorProvider1.ContainerControl = this;
             // 
+            // label14
+            // 
+            resources.ApplyResources(this.label14, "label14");
+            this.label14.Name = "label14";
+            // 
+            // TxtNumbCelular
+            // 
+            resources.ApplyResources(this.TxtNumbCelular, "TxtNumbCelular");
+            this.TxtNumbCelular.Name = "TxtNumbCelular";
+            // 
             // VistaRegistro
             // 
             resources.ApplyResources(this, "$this");
@@ -404,5 +418,7 @@
         private System.Windows.Forms.Button BtnAgregarTipoContrato;
         private System.Windows.Forms.Button BtnAgregarArea;
         private System.Windows.Forms.Button BtnAgregarCargo;
+        private System.Windows.Forms.TextBox TxtNumbCelular;
+        private System.Windows.Forms.Label label14;
     }
 }

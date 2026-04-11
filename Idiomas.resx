@@ -310,7 +310,7 @@
     <value>Usuario no encontrado.</value>
   </data>
   <data name="MensajeExitoEnvioCorreo" xml:space="preserve">
-    <value>Hemos enviado un código de seguridad a tu correo electrónico.</value>
+    <value>Hemos enviado un código de seguridad al administrador, por favor contactate con él.</value>
   </data>
   <data name="MensajeErrorEnviarCorreo" xml:space="preserve">
     <value>Error al enviar el correo electrónico: {0}</value>

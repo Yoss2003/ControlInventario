@@ -309,6 +309,8 @@ namespace ControlInventario.Vistas.Aplicacion
 
             try
             {
+                // En el método GuardarVentaEnBD, después de la línea 319:
+
                 if (esCredito)
                 {
                     decimal enganche = ObtenerEnganche();
@@ -317,6 +319,64 @@ namespace ControlInventario.Vistas.Aplicacion
                     DateTime fechaPrimera = DtpPrimeraCuota.Value;
 
                     MovimientoRepository.RegistrarVentaCredito(movimientosVenta, totalVenta, enganche, numCuotas, frecuencia, fechaPrimera);
+
+                    // Calcular variables comunes para correo y WhatsApp
+                    decimal montoFinanciar = totalVenta - enganche;
+                    decimal montoPorCuota = Math.Round(montoFinanciar / numCuotas, 2);
+
+                    // ENVIAR CORREO AL CLIENTE Y COPIA AL VENDEDOR
+                    string correoCliente = TxtCorreoCliente.Text.Trim();
+                    string telefonoCliente = TxtTelefonoCliente.Text.Trim();
+
+                    if (!string.IsNullOrEmpty(correoCliente))
+                    {
+                        string cuerpoHtml = EmailHelper.GenerarCorreoVentaCredito(
+                            TxtCliente.Text, totalVenta, enganche, numCuotas,
+                            montoPorCuota, fechaPrimera, frecuencia);
+
+                        // Enviar al cliente
+                        if (EmailHelper.EnviarCorreoDesdeUsuarioActual(correoCliente, "Confirmación de Venta a Crédito", cuerpoHtml, out string errorCorreo))
+                        {
+                            // Enviar copia al vendedor
+                            EmailHelper.EnviarCopiaAVendedor("Venta a Crédito Registrada", cuerpoHtml);
+                        }
+                        else
+                        {
+                            MessageBox.Show($"⚠️ Venta registrada, pero no se pudo enviar el correo:\n{errorCorreo}\n\nVerifique su configuración SMTP en: Configuración > Seguridad",
+                                "Advertencia de Correo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }
+                    }
+
+                    // ENVIAR WHATSAPP AL CLIENTE
+                    if (!string.IsNullOrEmpty(telefonoCliente))
+                    {
+                        string mensajeWhatsApp = $"Hola {TxtCliente.Text},\n\n" +
+                            $"Se registró su compra a crédito:\n" +
+                            $"• Total: {ClassHelper.ObtenerSimboloMoneda()} {totalVenta:N2}\n" +
+                            $"• Enganche: {ClassHelper.ObtenerSimboloMoneda()} {enganche:N2}\n" +
+                            $"• {numCuotas} cuotas de {ClassHelper.ObtenerSimboloMoneda()} {montoPorCuota:N2}\n" +
+                            $"• Primera cuota: {fechaPrimera:dd/MM/yyyy}\n\n" +
+                            $"Recibirá recordatorios automáticos. ¡Gracias por su compra!";
+
+                        // Abrir WhatsApp
+                        try
+                        {
+                            string numeroLimpio = System.Text.RegularExpressions.Regex.Replace(telefonoCliente, @"[^\d]", "");
+                            if (numeroLimpio.Length == 9)
+                                numeroLimpio = "51" + numeroLimpio;
+
+                            string mensajeCodificado = Uri.EscapeDataString(mensajeWhatsApp);
+                            string url = $"https://wa.me/{numeroLimpio}?text={mensajeCodificado}";
+
+                            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+                            {
+                                FileName = url,
+                                UseShellExecute = true
+                            });
+                        }
+                        catch { }
+                    }
+
                     MessageBox.Show("¡Venta a crédito registrada con éxito!", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else

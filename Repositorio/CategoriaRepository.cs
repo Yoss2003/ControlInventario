@@ -1,4 +1,5 @@
 ﻿using ControlInventario.Modelos;
+using System;
 using System.Data;
 using System.Data.SQLite;
 using System.Windows.Forms;
@@ -34,34 +35,6 @@ namespace ControlInventario.Database
             using (var cmd = new SQLiteCommand(query, con))
             {
                 cmd.ExecuteNonQuery();
-            }
-        }
-
-        public static void MigrarTablaCategorias(SQLiteConnection con)
-        {
-            string queryVerificar = "PRAGMA table_info(Categorias);";
-            bool existeColumna = false;
-
-            using (var cmd = new SQLiteCommand(queryVerificar, con))
-            using (var reader = cmd.ExecuteReader())
-            {
-                while (reader.Read())
-                {
-                    if (reader["name"].ToString() == "EsDevolvible")
-                    {
-                        existeColumna = true;
-                        break;
-                    }
-                }
-            }
-
-            if (!existeColumna)
-            {
-                string queryAlter = "ALTER TABLE Categorias ADD COLUMN EsDevolvible INTEGER NOT NULL DEFAULT 1;";
-                using (var cmd = new SQLiteCommand(queryAlter, con))
-                {
-                    cmd.ExecuteNonQuery();
-                }
             }
         }
 
@@ -136,49 +109,56 @@ namespace ControlInventario.Database
             }
         }
 
-        public static void EliminarCategoria(Categoria cat)
+        public static void EliminarCategoria(Categoria cat, bool eliminarArticulos)
         {
             using (var con = ConexionGlobal.ObtenerConexion())
             {
                 con.Open();
-                string query = "DELETE FROM Categorias WHERE Id = @Id; ";
-                using (var cmd = new SQLiteCommand(query, con))
+                using (var transaction = con.BeginTransaction())
                 {
-                    cmd.Parameters.AddWithValue("@Id", cat.Id);
-                    cmd.ExecuteNonQuery();
+                    if (eliminarArticulos)
+                    {
+                        // 1. Movimientos internos (solo ingresos, devoluciones, ajustes, retornos, modificaciones)
+                        string deleteMovimientos = @"DELETE FROM Movimientos WHERE ArticuloId IN (
+                            SELECT Id FROM Articulos WHERE CategoriaId = @CategoriaId
+                        );";
+                        using (var cmd = new SQLiteCommand(deleteMovimientos, con, transaction))
+                        {
+                            cmd.Parameters.AddWithValue("@CategoriaId", cat.Id);
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        // 2. Articulos
+                        string deleteArticulos = "DELETE FROM Articulos WHERE CategoriaId = @CategoriaId;";
+                        using (var cmd = new SQLiteCommand(deleteArticulos, con, transaction))
+                        {
+                            cmd.Parameters.AddWithValue("@CategoriaId", cat.Id);
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+
+                    // 3. Marcas (siempre se eliminan con la categoría)
+                    string deleteMarcas = "DELETE FROM Marcas WHERE CategoriaId = @CategoriaId;";
+                    using (var cmd = new SQLiteCommand(deleteMarcas, con, transaction))
+                    {
+                        cmd.Parameters.AddWithValue("@CategoriaId", cat.Id);
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    // 4. Categoría
+                    string deleteCategoria = "DELETE FROM Categorias WHERE Id = @Id;";
+                    using (var cmd = new SQLiteCommand(deleteCategoria, con, transaction))
+                    {
+                        cmd.Parameters.AddWithValue("@Id", cat.Id);
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    transaction.Commit();
                 }
                 con.Close();
             }
         }
-
-        public static bool ExisteCategoria(Categoria cat)
-        {
-            using (var con = ConexionGlobal.ObtenerConexion())
-            {
-                con.Open();
-
-                // Buscamos si el nombre existe ignorando mayúsculas/minúsculas (COLLATE NOCASE).
-                // Si estamos editando, excluimos el ID actual (Id != @IdActual) para no marcar error consigo mismo.
-                string query = @"
-                    SELECT COUNT(*) 
-                    FROM Categorias 
-                    WHERE TRIM(Nombre) = TRIM(@Nombre) COLLATE NOCASE 
-                    AND InventarioId = @InventarioId 
-                    AND Id != @Id;";
-
-                using (var cmd = new SQLiteCommand(query, con))
-                {
-                    cmd.Parameters.AddWithValue("@Nombre", cat.Nombre);
-                    cmd.Parameters.AddWithValue("@InventarioId", cat.InventarioId);
-                    cmd.Parameters.AddWithValue("@Id", cat.Id);
-
-                    long cantidad = (long)cmd.ExecuteScalar();
-                    return cantidad > 0;
-                }
-            }
-        }
-
-        /* Enlace a ComboBox*/
+        
         public static DataTable ListarCategorias(int inventarioId)
         {
             using (var con = ConexionGlobal.ObtenerConexion())
@@ -197,6 +177,38 @@ namespace ControlInventario.Database
                 }
 
                 return dt;
+            }
+        }
+
+        public static bool TieneArticulosAsociados(int categoriaId)
+        {
+            using (var con = ConexionGlobal.ObtenerConexion())
+            {
+                con.Open();
+                string query = "SELECT COUNT(*) FROM Articulos WHERE CategoriaId = @CategoriaId;";
+                using (var cmd = new SQLiteCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@CategoriaId", categoriaId);
+                    return Convert.ToInt64(cmd.ExecuteScalar()) > 0;
+                }
+            }
+        }
+
+        public static bool TieneMovimientosDeSalida(int categoriaId)
+        {
+            using (var con = ConexionGlobal.ObtenerConexion())
+            {
+                con.Open();
+                string query = @"
+                    SELECT COUNT(*) FROM Movimientos m
+                    INNER JOIN Articulos a ON m.ArticuloId = a.Id
+                    WHERE a.CategoriaId = @CategoriaId
+                    AND m.IdAccion IN (2, 3, 5, 6, 7, 8, 10, 11);";
+                using (var cmd = new SQLiteCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@CategoriaId", categoriaId);
+                    return Convert.ToInt64(cmd.ExecuteScalar()) > 0;
+                }
             }
         }
     }

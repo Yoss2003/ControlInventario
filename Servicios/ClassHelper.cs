@@ -1,5 +1,4 @@
 ﻿using ControlInventario.Database;
-using ControlInventario.Modelos;
 using ControlInventario.Vistas;
 using System;
 using System.ComponentModel;
@@ -8,12 +7,10 @@ using System.Data;
 using System.Data.SQLite;
 using System.Drawing;
 using System.Globalization;
-using System.Net.Http;
-using System.Text.Json;
-using System.Text.RegularExpressions;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using ControlInventario.Modelo;
+using ControlInventario.Modelos;
 
 namespace ControlInventario.Servicios
 {
@@ -40,13 +37,22 @@ namespace ControlInventario.Servicios
                 }
             }
 
-            if (inventario.DgvArticulos.Controls.Count == 0)
+            Button primerBoton = null;
+            foreach (Control control in inventario.DgvArticulos.Controls)
+            {
+                if (control is Button btn)
+                {
+                    primerBoton = btn;
+                    break;
+                }
+            }
+
+            if (primerBoton == null)
             {
                 inventario.DgvArticulos.Visible = false;
             }
             else
             {
-                Button primerBoton = (Button)inventario.DgvArticulos.Controls[0];
                 primerBoton.PerformClick();
             }
         }
@@ -87,15 +93,19 @@ namespace ControlInventario.Servicios
             RefrescarDvgIngresos(inventario.DgvArticulos, articulos);
         }
 
-        public static void RefrescarDvgIngresos(DataGridView dataGrdi, IEnumerable<Articulos> articulos)
+        public static void RefrescarDvgIngresos(DataGridView dataGrid, IEnumerable<Articulos> articulos)
         {
-            dataGrdi.Rows.Clear();
+            dataGrid.Rows.Clear();
+
             foreach (var art in articulos)
             {
+                if (art.GrupoRegistroId.HasValue && art.GrupoRegistroId.Value > 0)
+                    continue;
+
                 string json = art.Caracteristicas;
                 string textoBoton = (!string.IsNullOrEmpty(json) && json != "{}") ? "Ver Detalles" : "N/A";
 
-                int rowIndex = dataGrdi.Rows.Add(
+                int rowIndex = dataGrid.Rows.Add(
                     art.Id,
                     art.Codigo ?? "",
                     art.Modelo ?? "",
@@ -103,22 +113,78 @@ namespace ControlInventario.Servicios
                     art.Marca ?? "",
                     ClassHelper.FormatearFecha(art.FechaAdquisicion),
                     ClassHelper.FormatearFecha(art.FechaFinGarantia),
-
                     art.Estado ?? "",
                     art.Ubicacion ?? "",
                     art.Condicion ?? "",
-
                     art.RucProveedor ?? "",
                     art.Proveedor ?? "",
                     ClassHelper.FormatearMoneda(art.PrecioAdquisicion, art.MonedaAdquisicion),
                     art.Observacion ?? "",
                     art.FotoPrincipal ?? "",
                     art.ComprobantePrincipal ?? "",
-
                     textoBoton
                 );
 
-                dataGrdi.Rows[rowIndex].Tag = art;
+                dataGrid.Rows[rowIndex].Tag = art;
+            }
+        }
+
+        public static void RefrescarDvgIngresosMasivos(DataGridView dataGrid, IEnumerable<Articulos> articulos)
+        {
+            dataGrid.Rows.Clear();
+
+            var grupos = new Dictionary<int, ArticuloGrupo>();
+
+            foreach (var art in articulos)
+            {
+                if (art.GrupoRegistroId.HasValue && art.GrupoRegistroId.Value > 0)
+                {
+                    int grupoId = art.GrupoRegistroId.Value;
+                    if (!grupos.ContainsKey(grupoId))
+                    {
+                        grupos[grupoId] = new ArticuloGrupo
+                        {
+                            GrupoRegistroId = grupoId,
+                            GrupoNombre = art.GrupoRegistroNombre ?? "Grupo",
+                            Modelo = art.Modelo,
+                            Marca = art.Marca,
+                            Estado = art.Estado,
+                            Ubicacion = art.Ubicacion,
+                            Condicion = art.Condicion,
+                            UnidadMedida = art.UnidadMedida,
+                            Cantidad = 0,
+                            FotoPrincipal = art.FotoPrincipal,
+                            Articulos = new List<Articulos>()
+                        };
+                    }
+                    grupos[grupoId].Cantidad++;
+                    grupos[grupoId].Articulos.Add(art);
+                }
+            }
+
+            foreach (var grupo in grupos.Values)
+            {
+                int rowIndex = dataGrid.Rows.Add(
+                    grupo.GrupoRegistroId,
+                    grupo.GrupoNombre,
+                    grupo.Modelo ?? "(varios)",
+                    $"{grupo.Cantidad} {grupo.UnidadMedida ?? "und."}",
+                    grupo.Marca ?? "",
+                    "",
+                    "",
+                    grupo.Estado ?? "(varios)",
+                    grupo.Ubicacion ?? "(varios)",
+                    grupo.Condicion ?? "(varios)",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    $"Ver ({grupo.Cantidad})"
+                );
+
+                dataGrid.Rows[rowIndex].Tag = grupo;
             }
         }
 

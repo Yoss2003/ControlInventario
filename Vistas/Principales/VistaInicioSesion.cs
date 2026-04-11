@@ -3,6 +3,7 @@ using ControlInventario.Modelos;
 using ControlInventario.Repositorio;
 using ControlInventario.Servicios;
 using ControlInventario.Vistas;
+using ControlInventario.Vistas.Seguridad;
 using System;
 using System.Data.SQLite;
 using System.Drawing;
@@ -220,49 +221,67 @@ namespace ControlInventario
 
         private async void lnkContraseña_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            // Obtener el usuario ingresado
             string usuarioIngresado = txtUsuario.Text.Trim();
-            string correoUsuario = "";
 
-            // Mostrar overlay de carga
-            overlay.Mostrar();
-
-            // Ejecutar proceso de recuperación en un hilo separado para no bloquear la UI
-            await Task.Run(() =>
+            // Validar que el usuario no esté vacío
+            if (string.IsNullOrEmpty(usuarioIngresado))
             {
-                // Validar que el usuario no esté vacío
-                if (string.IsNullOrEmpty(usuarioIngresado))
+                MessageBox.Show(Idiomas.MensajeAdvertenciaRecuperarUsuario);
+                return;
+            }
+
+            // PASO 1: Verificar si el usuario está bloqueado
+            if (RecuperacionRepository.UsuarioBloqueado(usuarioIngresado, out DateTime bloqueadoHasta))
+            {
+                TimeSpan tiempoRestante = bloqueadoHasta - DateTime.Now;
+                string mensaje = $"⛔ Recuperación bloqueada por seguridad.\n\n" +
+                    $"Demasiados intentos fallidos.\n\n" +
+                    $"Podrá intentar nuevamente en: {tiempoRestante.Hours}h {tiempoRestante.Minutes}m";
+
+                MessageBox.Show(mensaje, "Acceso Bloqueado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // PASO 2: Validar que el usuario exista y obtener su correo
+            string correoUsuario = "";
+            using (var con = ConexionGlobal.ObtenerConexion())
+            {
+                con.Open();
+                string query = "SELECT Correo FROM Usuario WHERE Usuario = @Usuario";
+                using (var cmd = new SQLiteCommand(query, con))
                 {
-                    MessageBox.Show(Idiomas.MensajeAdvertenciaRecuperarUsuario);
+                    cmd.Parameters.AddWithValue("@Usuario", usuarioIngresado);
+                    var result = cmd.ExecuteScalar();
+
+                    if (result == null)
+                    {
+                        MessageBox.Show(Idiomas.MensajeErrorUsuario);
+                        return;
+                    }
+                    correoUsuario = result.ToString();
+                }
+            }
+
+            // PASO 3: Mostrar preguntas de seguridad para validar identidad
+            using (var vistaPreguntas = new VistaValidarPreguntasSeguridad(usuarioIngresado))
+            {
+                if (vistaPreguntas.ShowDialog() != DialogResult.OK || !vistaPreguntas.RespuestasCorrectas)
+                {
+                    // Usuario canceló o falló las preguntas → no enviar correo
                     return;
                 }
+            }
 
-                // 1. Buscar el correo en la BD (solo lectura)
-                using (var con = ConexionGlobal.ObtenerConexion())
-                {
-                    con.Open();
-                    string query = "SELECT Correo FROM Usuario WHERE Usuario = @Usuario";
-                    using (var cmd = new SQLiteCommand(query, con))
-                    {
-                        // Agregar parámetro para evitar inyección SQL
-                        cmd.Parameters.AddWithValue("@Usuario", usuarioIngresado);
-                        var result = cmd.ExecuteScalar();
+            // PASO 4: Generar código y enviar correo (solo si pasó las preguntas)
+            overlay.Mostrar();
 
-                        // Validar si se encontró el usuario y su correo
-                        if (result == null)
-                        {
-                            MessageBox.Show(Idiomas.MensajeErrorUsuario);
-                            return;
-                        }
-                        correoUsuario = result.ToString();
-                    }
-                }
-
-                // 2. Generar código y guardar en memoria
+            await Task.Run(() =>
+            {
+                // Generar código y guardar en memoria
                 Recuperacion.CodigoGenerado = new Random().Next(10000000, 99999999).ToString();
                 Recuperacion.FechaGeneracion = DateTime.Now;
 
-                // 3. Enviar correo con HTML
+                // Enviar correo con HTML
                 try
                 {
                     MailMessage message = new MailMessage();
@@ -288,16 +307,20 @@ namespace ControlInventario
                             MessageBoxIcon.Information
                         );
                     }));
-
                 }
                 catch (Exception ex)
                 {
-                    string mensajeError = string.Format(Idiomas.MensajeErrorEnviarCorreo, ex.Message);
-                    MessageBox.Show(mensajeError);
+                    this.Invoke(new MethodInvoker(() =>
+                    {
+                        overlay.Ocultar();
+                        string mensajeError = string.Format(Idiomas.MensajeErrorEnviarCorreo, ex.Message);
+                        MessageBox.Show(mensajeError, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }));
+                    return;
                 }
             });
 
-            // Abrir la vista de recuperación
+            // PASO 5: Abrir la vista de ingreso del código
             var recuperar = new VistaRecuperacion(usuarioIngresado);
             this.Hide();
             recuperar.ShowDialog();

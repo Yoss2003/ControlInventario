@@ -16,6 +16,7 @@ namespace ControlInventario.Servicios
             UsuarioRepository.CrearTablaUsuario(con);
             ProveedorRepository.CrearTablaProveedor(con);
             ClienteRepository.CrearTablaClientes(con);
+            GrupoRegistroRepository.CrearTablaGruposRegistro(con);
 
             // 2. INTERMEDIAS: Dependen de los padres
             MarcasRepository.CrearTablaMarcas(con);

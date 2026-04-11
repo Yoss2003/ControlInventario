@@ -1,4 +1,4 @@
-﻿using ControlInventario.Modelos;
+using ControlInventario.Modelos;
 using System;
 using System.Data.SQLite;
 using System.Drawing;
@@ -38,6 +38,10 @@ namespace ControlInventario.Database
             {
                 cmd.ExecuteNonQuery();
             }
+
+            // Migración: agregar columnas para BD existentes que no las tengan
+            AgregarColumnaSiNoExiste(con, "Perfil", "CorreoSMTP", "TEXT");
+            AgregarColumnaSiNoExiste(con, "Perfil", "ClaveSMTP", "TEXT");
         }
 
         public static void AgregarPerfilUsuario(Perfiles perf, SQLiteConnection con)
@@ -54,8 +58,6 @@ namespace ControlInventario.Database
                 FormatoFecha,
                 IdMoneda,
                 Moneda,
-                IdUnidadMedida,
-                UnidadMedida,
                 IdZonaHoraria,
                 ZonaHoraria,
                 Autenticacion,
@@ -64,10 +66,12 @@ namespace ControlInventario.Database
                 CalcularDevaluacion,
                 GeneracionCodigos,
                 IdModoVentas,
-                ModoVentas ,            
+                ModoVentas,
                 AplicarMora,
                 PorcentajeMora,
-                DiasGracia
+                DiasGracia,
+                CorreoSMTP,
+                ClaveSMTP
             )VALUES(
                 @NombreUsuario,
                 @IdIdioma,
@@ -80,8 +84,6 @@ namespace ControlInventario.Database
                 @FormatoFecha,
                 @IdMoneda,
                 @Moneda,
-                @IdUnidadMedida,
-                @UnidadMedida,
                 @IdZonaHoraria,
                 @ZonaHoraria,
                 @Autenticacion,
@@ -110,8 +112,6 @@ namespace ControlInventario.Database
                 cmd.Parameters.AddWithValue("@FormatoFecha", perf.FormatoFecha);
                 cmd.Parameters.AddWithValue("@IdMoneda", perf.IdMoneda);
                 cmd.Parameters.AddWithValue("@Moneda", perf.Moneda);
-                cmd.Parameters.AddWithValue("@IdUnidadMedida", perf.IdUnidadMedida);
-                cmd.Parameters.AddWithValue("@UnidadMedida", perf.UnidadMedida);
                 cmd.Parameters.AddWithValue("@IdZonaHoraria", perf.IdZonaHoraria);
                 cmd.Parameters.AddWithValue("@ZonaHoraria", perf.ZonaHoraria);
                 cmd.Parameters.AddWithValue("@Autenticacion", perf.Autenticacion);
@@ -124,6 +124,8 @@ namespace ControlInventario.Database
                 cmd.Parameters.AddWithValue("@AplicarMora", perf.AplicarMora);
                 cmd.Parameters.AddWithValue("@PorcentajeMora", perf.PorcentajeMora);
                 cmd.Parameters.AddWithValue("@DiasGracia", perf.DiasGracia);
+                cmd.Parameters.AddWithValue("@CorreoSMTP", (object)perf.CorreoSMTP ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@ClaveSMTP", (object)perf.ClaveSMTP ?? DBNull.Value);
 
                 cmd.ExecuteNonQuery();
             }
@@ -143,8 +145,6 @@ namespace ControlInventario.Database
                 FormatoFecha = @FormatoFecha,
                 IdMoneda = @IdMoneda,
                 Moneda = @Moneda,
-                IdUnidadMedida = @IdUnidadMedida,
-                UnidadMedida = @UnidadMedida,
                 IdZonaHoraria = @IdZonaHoraria,
                 ZonaHoraria = @ZonaHoraria,
                 Autenticacion = @Autenticacion,
@@ -173,8 +173,6 @@ namespace ControlInventario.Database
                 cmd.Parameters.AddWithValue("@FormatoFecha", perf.FormatoFecha);
                 cmd.Parameters.AddWithValue("@IdMoneda", perf.IdMoneda);
                 cmd.Parameters.AddWithValue("@Moneda", perf.Moneda);
-                cmd.Parameters.AddWithValue("@IdUnidadMedida", perf.IdUnidadMedida);
-                cmd.Parameters.AddWithValue("@UnidadMedida", perf.UnidadMedida);
                 cmd.Parameters.AddWithValue("@IdZonaHoraria", perf.IdZonaHoraria);
                 cmd.Parameters.AddWithValue("@ZonaHoraria", perf.ZonaHoraria);
                 cmd.Parameters.AddWithValue("@Autenticacion", perf.Autenticacion);
@@ -187,6 +185,8 @@ namespace ControlInventario.Database
                 cmd.Parameters.AddWithValue("@AplicarMora", perf.AplicarMora);
                 cmd.Parameters.AddWithValue("@PorcentajeMora", perf.PorcentajeMora);
                 cmd.Parameters.AddWithValue("@DiasGracia", perf.DiasGracia);
+                cmd.Parameters.AddWithValue("@CorreoSMTP", (object)perf.CorreoSMTP ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@ClaveSMTP", (object)perf.ClaveSMTP ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@IdPerfil", perf.IdPerfil);
                 cmd.ExecuteNonQuery();
             }
@@ -216,8 +216,6 @@ namespace ControlInventario.Database
                             FormatoFecha = reader["FormatoFecha"].ToString(),
                             IdMoneda = Convert.ToInt32(reader["IdMoneda"]),
                             Moneda = reader["Moneda"].ToString(),
-                            IdUnidadMedida = Convert.ToInt32(reader["IdUnidadMedida"]),
-                            UnidadMedida = reader["UnidadMedida"].ToString(),
                             IdZonaHoraria = Convert.ToInt32(reader["IdZonaHoraria"]),
                             ZonaHoraria = reader["ZonaHoraria"].ToString(),
                             Autenticacion = Convert.ToBoolean(reader["Autenticacion"]),
@@ -229,7 +227,9 @@ namespace ControlInventario.Database
                             ModoVentas = reader["ModoVentas"] != DBNull.Value ? reader["ModoVentas"].ToString() : "No mostrar",
                             AplicarMora = reader["AplicarMora"] != DBNull.Value && Convert.ToBoolean(reader["AplicarMora"]),
                             PorcentajeMora = reader["PorcentajeMora"] != DBNull.Value ? Convert.ToDecimal(reader["PorcentajeMora"]) : 0m,
-                            DiasGracia = reader["DiasGracia"] != DBNull.Value ? Convert.ToInt32(reader["DiasGracia"]) : 3
+                            DiasGracia = reader["DiasGracia"] != DBNull.Value ? Convert.ToInt32(reader["DiasGracia"]) : 3,
+                            CorreoSMTP = reader["CorreoSMTP"].ToString(),
+                            ClaveSMTP = reader["ClaveSMTP"].ToString()
                         };
                     }
                 }
@@ -348,13 +348,10 @@ namespace ControlInventario.Database
                 Tema = "Claro",
                 IdNotificaciones = 1,
                 Notificaciones = "Activadas",
-                IdUnidadMedida = 1,
-                UnidadMedida = "Unidades",
 
                 Autenticacion = false,
                 ActividadCompartida = false,
                 CodigoBarras = false,
-                CategoriaPersonalizada = false,
                 CalcularDevaluacion = false,
                 GeneracionCodigos = false,
                 IdModoVentas = 1,
@@ -363,6 +360,26 @@ namespace ControlInventario.Database
                 PorcentajeMora = 5m,
                 DiasGracia = 3
             };
+        }
+
+        private static void AgregarColumnaSiNoExiste(SQLiteConnection con, string tabla, string columna, string tipo)
+        {
+            try
+            {
+                string query = $"SELECT {columna} FROM {tabla} LIMIT 1;";
+                using (var cmd = new SQLiteCommand(query, con))
+                {
+                    cmd.ExecuteScalar();
+                }
+            }
+            catch
+            {
+                string alter = $"ALTER TABLE {tabla} ADD COLUMN {columna} {tipo};";
+                using (var cmd = new SQLiteCommand(alter, con))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+            }
         }
     }
 }

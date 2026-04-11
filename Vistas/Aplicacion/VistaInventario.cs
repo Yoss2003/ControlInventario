@@ -30,6 +30,7 @@ namespace ControlInventario.Vistas
         readonly int usuarioId = UsuarioSesion.UsuarioId;
         readonly string nombreUusario = UsuarioSesion.NombreUsuario;
         readonly int inventarioId = UsuarioSesion.InventarioId;
+        private bool modoMasivo = false;
 
         private ToolStripDropDown burbujaActual = null;
         private int filaBurbujaAbierta = -1;
@@ -99,17 +100,31 @@ namespace ControlInventario.Vistas
             if (categoriaSeleccionadaId > 0)
             {
                 var articulosCategoria = ArticuloRepository.ListarArticulos(categoriaSeleccionadaId);
-                ClassHelper.RefrescarDvgIngresos(DgvArticulos, articulosCategoria);
+
+                if (modoMasivo)
+                    ClassHelper.RefrescarDvgIngresosMasivos(DgvArticulos, articulosCategoria);
+                else
+                    ClassHelper.RefrescarDvgIngresos(DgvArticulos, articulosCategoria);
+
                 DgvArticulos.ClearSelection();
                 DgvArticulos.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.ColumnHeader);
+
+                // Verificar si hay grupos masivos para mostrar/ocultar botón
+                bool tieneGrupos = false;
+                foreach (var art in articulosCategoria)
+                {
+                    if (art.GrupoRegistroId.HasValue && art.GrupoRegistroId.Value > 0)
+                    {
+                        tieneGrupos = true;
+                        break;
+                    }
+                }
+                BtnCambiarVistaMasiva.Visible = tieneGrupos || modoMasivo;
 
                 using (var con = ConexionGlobal.ObtenerConexion())
                 {
                     con.Open();
-                    // Obtenemos los datos puros del repositorio
                     DataTable dtMarcas = MarcasRepository.BuscarMarcasPorArticulosPorCategoria(con, categoriaSeleccionadaId, UsuarioSesion.InventarioId, true);
-
-                    // Tu método se encarga de todo lo visual
                     RefreshService.RefrescarComboDT(CbBuscarMarcaArticuloIngreso, dtMarcas, "Nombre", "Id", "SELECCIONE");
                 }
             }
@@ -120,6 +135,7 @@ namespace ControlInventario.Vistas
             DgvArticulos.Visible = true;
             ChkUsarFechasIngreso.Enabled = true;
             TxtBuscarCodArticuloIngreso.Enabled = true;
+            BtnCambiarVistaMasiva.Enabled = true;
 
             this.categoriaSeleccionadaId = idCat;
             this.categoriaSeleccionadaNombre = nombreCat;
@@ -254,6 +270,13 @@ namespace ControlInventario.Vistas
                 return;
             }
 
+            if (DgvArticulos.SelectedRows.Count > 0 && DgvArticulos.SelectedRows[0].Tag is ArticuloGrupo)
+            {
+                MessageBox.Show("Para editar artículos de un grupo, use el botón 'Ver Grupo' para acceder al detalle.",
+                    "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
             if (DgvArticulos == null || DgvArticulos.SelectedRows.Count == 0)
             {
                 MessageBox.Show("Seleccione un artículo para editar.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -359,6 +382,13 @@ namespace ControlInventario.Vistas
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information
                 );
+                return;
+            }
+
+            if (DgvArticulos.SelectedRows.Count > 0 && DgvArticulos.SelectedRows[0].Tag is ArticuloGrupo)
+            {
+                MessageBox.Show("Para editar artículos de un grupo, use el botón 'Ver Grupo' para acceder al detalle.",
+                    "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
@@ -630,9 +660,19 @@ namespace ControlInventario.Vistas
 
             if (esTabIngresos)
             {
-                BtnAgregarArticulo.Visible = true;
-                BtnEditarArticulo.Visible = true;
-                BtnEliminarArticulo.Visible = true;
+                if (modoMasivo)
+                {
+                    BtnAgregarArticulo.Visible = false;
+                    BtnEditarArticulo.Visible = false;
+                    BtnEliminarArticulo.Visible = false;
+                }
+                else
+                {
+                    BtnAgregarArticulo.Visible = true;
+                    BtnEditarArticulo.Visible = true;
+                    BtnEliminarArticulo.Visible = true;
+                }
+
                 BtnNuevaCategoria.Visible = true;
 
                 BtnVenta.Visible = false;
@@ -651,7 +691,7 @@ namespace ControlInventario.Vistas
                 BtnCuotasPendientes.Visible = false;
                 BtnNuevaAsignacion.Visible = false;
                 BtnDevolucion.Visible = false;
-            }               
+            }
         }
 
         private void BtnNuevaAsignacion_Click(object sender, EventArgs e)
@@ -670,6 +710,22 @@ namespace ControlInventario.Vistas
             {
                 string valorBoton = DgvArticulos.Rows[e.RowIndex].Cells[e.ColumnIndex].Value?.ToString();
 
+                // Modo masivo: abrir VistaDetalleGrupo
+                if (valorBoton != null && valorBoton.Contains("Ver"))
+                {
+                    var tag = DgvArticulos.Rows[e.RowIndex].Tag;
+                    if (tag is ArticuloGrupo grupo)
+                    {
+                        using (var vistaDetalle = new VistaDetalleGrupo(grupo, categoriaSeleccionadaId, categoriaSeleccionadaNombre))
+                        {
+                            vistaDetalle.ShowDialog();
+                            RefrescarArticulos();
+                        }
+                        return;
+                    }
+                }
+
+                // Modo unitario: mostrar burbuja de características
                 if (valorBoton != null && valorBoton.Contains("Ver Detalles"))
                 {
                     if (burbujaActual != null && burbujaActual.Visible && filaBurbujaAbierta == e.RowIndex)
@@ -1335,6 +1391,76 @@ namespace ControlInventario.Vistas
             }
 
             RefrescarTodo();
+        }
+
+        private void BtnCambiarVistaMasiva_Click(object sender, EventArgs e)
+        {
+            modoMasivo = !modoMasivo;
+
+            if (modoMasivo)
+            {
+                BtnCambiarVistaMasiva.Text = "Carga Unitaria";
+                ConfigurarColumnasMasivas();
+            }
+            else
+            {
+                BtnCambiarVistaMasiva.Text = "Carga Masiva";
+                RestaurarColumnasUnitarias();
+            }
+
+            ActualizarVistaBotones();
+
+            // Recargar datos con la categoría actual
+            if (categoriaSeleccionadaId > 0)
+                RefrescarArticulos();
+        }
+
+        private void ConfigurarColumnasMasivas()
+        {
+            foreach (DataGridViewColumn col in DgvArticulos.Columns)
+                col.Visible = false;
+
+            // Mostrar solo columnas relevantes para vista masiva
+            DgvArticulos.Columns["IdArticulo"].Visible = true;
+            DgvArticulos.Columns["IdArticulo"].HeaderText = "Grupo";
+            DgvArticulos.Columns["CodigoArticulo"].Visible = true;
+            DgvArticulos.Columns["CodigoArticulo"].HeaderText = "Nombre";
+            DgvArticulos.Columns["ModeloArticulo"].Visible = true;
+            DgvArticulos.Columns["SerieArticulo"].Visible = true;
+            DgvArticulos.Columns["SerieArticulo"].HeaderText = "Cantidad";
+            DgvArticulos.Columns["MarcaArticulo"].Visible = true;
+            DgvArticulos.Columns["EstadoArticulo"].Visible = true;
+            DgvArticulos.Columns["UbicacionArticulo"].Visible = true;
+            DgvArticulos.Columns["CondicionArticulo"].Visible = true;
+            DgvArticulos.Columns["CaracteristicasArticulo"].Visible = true;
+            DgvArticulos.Columns["CaracteristicasArticulo"].HeaderText = "Detalle";
+        }
+
+        private void RestaurarColumnasUnitarias()
+        {
+            // Restaurar visibilidad y nombres originales
+            DgvArticulos.Columns["IdArticulo"].Visible = true;
+            DgvArticulos.Columns["IdArticulo"].HeaderText = "Id";
+            DgvArticulos.Columns["CodigoArticulo"].Visible = true;
+            DgvArticulos.Columns["CodigoArticulo"].HeaderText = "Código";
+            DgvArticulos.Columns["ModeloArticulo"].Visible = true;
+            DgvArticulos.Columns["ModeloArticulo"].HeaderText = "Modelo";
+            DgvArticulos.Columns["SerieArticulo"].Visible = true;
+            DgvArticulos.Columns["SerieArticulo"].HeaderText = "Serie";
+            DgvArticulos.Columns["MarcaArticulo"].Visible = true;
+            DgvArticulos.Columns["FechaAdquisicionArticulo"].Visible = true;
+            DgvArticulos.Columns["FechaFinGarantiaArticulo"].Visible = true;
+            DgvArticulos.Columns["EstadoArticulo"].Visible = true;
+            DgvArticulos.Columns["UbicacionArticulo"].Visible = true;
+            DgvArticulos.Columns["CondicionArticulo"].Visible = true;
+            DgvArticulos.Columns["RucArticulo"].Visible = true;
+            DgvArticulos.Columns["ProveedorArticulo"].Visible = true;
+            DgvArticulos.Columns["PrecioArticulo"].Visible = true;
+            DgvArticulos.Columns["ObservacionArticulo"].Visible = true;
+            DgvArticulos.Columns["ImagenArticulo"].Visible = true;
+            DgvArticulos.Columns["ComprobanteArticulo"].Visible = true;
+            DgvArticulos.Columns["CaracteristicasArticulo"].Visible = true;
+            DgvArticulos.Columns["CaracteristicasArticulo"].HeaderText = "Extras";
         }
     }
 }

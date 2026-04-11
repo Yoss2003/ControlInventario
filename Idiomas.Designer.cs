@@ -736,7 +736,7 @@ namespace ControlInventario {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Hemos enviado un código de seguridad a tu correo electrónico..
+        ///   Busca una cadena traducida similar a Hemos enviado un código de seguridad al administrador, por favor contactate con él..
         /// </summary>
         internal static string MensajeExitoEnvioCorreo {
             get {
@@ -905,7 +905,7 @@ namespace ControlInventario {
         ///&lt;div style=&apos;font-size:24px; font-weight:bold; color:#2980b9; margin:20px 0;&apos;&gt;{1}&lt;/div&gt;
         ///&lt;p&gt;Este código es válido por 10 minutos. Si no solicitaste este correo, puedes ignorarlo.&lt;/p&gt;
         ///&lt;hr /&gt;
-        ///&lt;p style=&apos;font-size:12px; color:#888;&apos;&gt;© 2026 ControlInven [resto de la cadena truncado]&quot;;.
+        ///&lt;p style=&apos;font-size:12px; color:#888;&apos;&gt;© 2026 Contr [resto de la cadena truncado]&quot;;.
         /// </summary>
         internal static string PlantillaCorreoRecuperacion {
             get {

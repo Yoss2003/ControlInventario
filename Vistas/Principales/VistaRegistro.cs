@@ -304,31 +304,36 @@ namespace ControlInventario.Vistas
                     UsuarioSesion.Rol = rolCalculado;
 
                     // Crear perfil con configuración de correo SMTP
+                    // Crear perfil por defecto
                     Perfiles nuevoPerfil = PerfilRepository.GenerarPerfilPorDefecto(emp.NombreUsuario, con);
 
-                    // Preguntar si desea configurar el envío automático de correos
-                    if (MostrarInstruccionesCorreoSMTP())
+                    // Preguntar si desea configurar correo SMTP (ANTES de las preguntas de seguridad)
+                    var configSMTP = ConfigurarCorreoSMTPOpcional(emp.Correo);
+                    if (configSMTP.correoSMTP != null && configSMTP.claveSMTP != null)
                     {
-                        string claveApp = SolicitarClaveAplicacionGmail();
-                        if (!string.IsNullOrEmpty(claveApp))
+                        nuevoPerfil.CorreoSMTP = configSMTP.correoSMTP;
+                        nuevoPerfil.ClaveSMTP = configSMTP.claveSMTP;
+
+                        // Si el correo fue editado, actualizar también en la tabla Usuario
+                        if (configSMTP.correoSMTP != emp.Correo)
                         {
-                            nuevoPerfil.CorreoSMTP = emp.Correo; // Usar el correo que ya ingresó
-                            nuevoPerfil.ClaveSMTP = claveApp;
-                            MessageBox.Show("✓ Correo SMTP configurado correctamente.\n\nYa puedes enviar correos automáticos a tus clientes.",
-                                "Configuración Exitosa", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            emp.Correo = configSMTP.correoSMTP;
+                            UsuarioRepository.ActualizarCorreoUsuario((int)nuevoId, configSMTP.correoSMTP);
                         }
+
+                        MessageBox.Show("✓ Correo SMTP configurado correctamente.\n\nYa puede enviar correos automáticos desde su cuenta.",
+                            "Configuración Exitosa", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
 
                     PerfilRepository.GuardarPerfilUsuario(nuevoPerfil, con);
                     UsuarioSesion.Configuracion = nuevoPerfil;
 
-                    //Abrir vista de preguntas de seguridad
+                    // Ahora sí, mostrar preguntas de seguridad
                     MessageBox.Show(Idiomas.MensajeExitoRegistrarGuardar,
                                     Idiomas.TituloExito,
                                     MessageBoxButtons.OK,
                                     MessageBoxIcon.Information);
 
-                    // Pasar el nuevo ID y el usuario a la vista de preguntas de seguridad
                     VistaPreguntasSeguridad seguridad = new VistaPreguntasSeguridad(nuevoId, emp.NombreUsuario);
                     seguridad.ShowDialog();
 
@@ -403,55 +408,104 @@ namespace ControlInventario.Vistas
 
         // Agregar este método al final de la clase VistaRegistro, antes del cierre:
 
-        private bool MostrarInstruccionesCorreoSMTP()
+        private (string correoSMTP, string claveSMTP) ConfigurarCorreoSMTPOpcional(string correoRegistrado)
         {
-            string mensaje = "CONFIGURACIÓN DE CORREO PARA ENVÍO AUTOMÁTICO\n\n" +
-                "El correo que ingresaste se usará para:\n" +
-                "• Recibir notificaciones del sistema\n" +
-                "• ENVIAR correos automáticos a tus clientes (ventas a crédito, recordatorios)\n\n" +
-                "Para enviar correos automáticamente desde tu Gmail, necesitas:\n" +
-                "1. Activar la verificación en 2 pasos en Google\n" +
-                "2. Generar una 'Contraseña de aplicación'\n\n" +
-                "¿Deseas configurar el envío automático ahora?\n" +
-                "(Puedes hacerlo después en Configuración > Seguridad)";
+            // Preguntar si desea configurar
+            string mensajePregunta = "CONFIGURACIÓN OPCIONAL DE CORREO\n\n" +
+                "¿Desea configurar el envío automático de correos desde su propia cuenta de Gmail?\n\n" +
+                "Esto le permitirá:\n" +
+                "✓ Enviar correos a clientes desde SU cuenta personal\n" +
+                "✓ Recibir el código de recuperación en su correo si olvida su contraseña\n\n" +
+                "Si omite este paso:\n" +
+                "• Los correos se enviarán desde la cuenta del sistema\n" +
+                "• Los códigos de recuperación llegarán al correo del administrador\n\n" +
+                "¿Configurar ahora?";
 
-            DialogResult result = MessageBox.Show(mensaje, "Configuración de Correo",
-                MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+            DialogResult respuesta = MessageBox.Show(mensajePregunta, "Configuración de Correo",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-            return result == DialogResult.Yes;
-        }
-
-        private string SolicitarClaveAplicacionGmail()
-        {
-            using (Form frmClave = new Form
+            if (respuesta == DialogResult.No)
             {
-                Text = "Contraseña de Aplicación de Gmail",
-                ClientSize = new System.Drawing.Size(450, 300),
+                return (null, null);
+            }
+
+            // Variables para almacenar el resultado
+            string correoFinalResultado = null;
+            string claveFinalResultado = null;
+
+            // Crear formulario de configuración
+            using (Form frmSMTP = new Form
+            {
+                Text = "Configurar Correo SMTP",
+                ClientSize = new Size(500, 380),
                 StartPosition = FormStartPosition.CenterParent,
                 FormBorderStyle = FormBorderStyle.FixedDialog,
                 MaximizeBox = false,
                 MinimizeBox = false
             })
             {
-                Label lblInstrucciones = new Label
+                Label lblInfo = new Label
                 {
-                    Text = "Pasos para obtener tu contraseña de aplicación:\n\n" +
-                           "1. Ve a: myaccount.google.com/apppasswords\n" +
-                           "2. Selecciona 'Correo' y 'Otro dispositivo'\n" +
-                           "3. Escribe: Control Inventario\n" +
-                           "4. Copia la contraseña de 16 dígitos\n" +
-                           "5. Pégala aquí abajo:",
-                    Location = new System.Drawing.Point(15, 10),
-                    Size = new System.Drawing.Size(420, 120)
+                    Text = "Configure su cuenta de Gmail para envío automático de correos:",
+                    Location = new Point(20, 15),
+                    Size = new Size(460, 25),
+                    Font = new Font("Segoe UI", 10f, FontStyle.Bold)
                 };
 
-                LinkLabel lnkAyuda = new LinkLabel
+                Label lblCorreo = new Label
+                {
+                    Text = "Correo de Gmail:",
+                    Location = new Point(20, 55),
+                    Size = new Size(460, 20)
+                };
+
+                TextBox txtCorreo = new TextBox
+                {
+                    Text = correoRegistrado,
+                    Location = new Point(20, 80),
+                    Size = new Size(380, 25),
+                    Font = new Font("Segoe UI", 9f),
+                    ReadOnly = true,
+                    BackColor = Color.WhiteSmoke
+                };
+
+                Button btnEditarCorreo = new Button
+                {
+                    Text = "Editar",
+                    Location = new Point(410, 78),
+                    Size = new Size(70, 28),
+                    Font = new Font("Segoe UI", 8f)
+                };
+
+                btnEditarCorreo.Click += (s, ev) =>
+                {
+                    txtCorreo.ReadOnly = false;
+                    txtCorreo.BackColor = Color.White;
+                    txtCorreo.Focus();
+                    txtCorreo.SelectAll();
+                    btnEditarCorreo.Text = "✓";
+                    btnEditarCorreo.BackColor = Color.LightGreen;
+                };
+
+                Label lblInstrucciones = new Label
+                {
+                    Text = "Para obtener la contraseña de aplicación:\n" +
+                           "1. Active la verificación en 2 pasos en su cuenta de Google\n" +
+                           "2. Vaya al enlace de abajo y genere una contraseña de aplicación\n" +
+                           "3. Copie la contraseña de 16 caracteres que le proporciona Google",
+                    Location = new Point(20, 120),
+                    Size = new Size(460, 70),
+                    Font = new Font("Segoe UI", 8.5f)
+                };
+
+                LinkLabel lnkGoogle = new LinkLabel
                 {
                     Text = "🔗 Abrir Google App Passwords",
-                    Location = new System.Drawing.Point(15, 135),
-                    Size = new System.Drawing.Size(220, 20)
+                    Location = new Point(20, 195),
+                    Size = new Size(250, 20),
+                    Font = new Font("Segoe UI", 9f)
                 };
-                lnkAyuda.LinkClicked += (s, e) =>
+                lnkGoogle.LinkClicked += (s, ev) =>
                 {
                     System.Diagnostics.Process.Start("https://myaccount.google.com/apppasswords");
                 };
@@ -459,42 +513,20 @@ namespace ControlInventario.Vistas
                 Label lblClave = new Label
                 {
                     Text = "Contraseña de aplicación (16 caracteres):",
-                    Location = new System.Drawing.Point(15, 165),
-                    Size = new System.Drawing.Size(420, 20)
+                    Location = new Point(20, 230),
+                    Size = new Size(460, 20)
                 };
 
                 TextBox txtClave = new TextBox
                 {
-                    Location = new System.Drawing.Point(15, 190),
-                    Size = new System.Drawing.Size(420, 25),
-                    Font = new System.Drawing.Font("Consolas", 10f),
+                    Location = new Point(20, 255),
+                    Size = new Size(460, 25),
+                    Font = new Font("Consolas", 10f),
                     MaxLength = 19,
-                    TextAlign = HorizontalAlignment.Center,
-                    Text = "xxxx xxxx xxxx xxxx",
-                    ForeColor = Color.Gray
+                    TextAlign = HorizontalAlignment.Center
                 };
 
-                // Simular placeholder con eventos
-                txtClave.Enter += (s, ev) =>
-                {
-                    if (txtClave.Text == "xxxx xxxx xxxx xxxx")
-                    {
-                        txtClave.Text = "";
-                        txtClave.ForeColor = Color.Black;
-                    }
-                };
-
-                txtClave.Leave += (s, ev) =>
-                {
-                    if (string.IsNullOrWhiteSpace(txtClave.Text))
-                    {
-                        txtClave.Text = "xxxx xxxx xxxx xxxx";
-                        txtClave.ForeColor = Color.Gray;
-                    }
-                };
-
-                // Formatear automáticamente con espacios
-                txtClave.TextChanged += (s, e) =>
+                txtClave.TextChanged += (s, ev) =>
                 {
                     string texto = txtClave.Text.Replace(" ", "");
                     if (texto.Length > 16) texto = texto.Substring(0, 16);
@@ -514,30 +546,74 @@ namespace ControlInventario.Vistas
                     }
                 };
 
-                Button btnAceptar = new Button
+                Button btnGuardar = new Button
                 {
-                    Text = "Guardar",
-                    Location = new System.Drawing.Point(150, 240),
-                    Size = new System.Drawing.Size(80, 35),
-                    DialogResult = DialogResult.OK
+                    Text = "Guardar Configuración",
+                    Location = new Point(150, 300),
+                    Size = new Size(150, 40),
+                    Font = new Font("Segoe UI", 9f),
+                    BackColor = Color.LightGreen
                 };
 
                 Button btnOmitir = new Button
                 {
                     Text = "Omitir",
-                    Location = new System.Drawing.Point(240, 240),
-                    Size = new System.Drawing.Size(80, 35),
+                    Location = new Point(310, 300),
+                    Size = new Size(100, 40),
+                    Font = new Font("Segoe UI", 9f),
                     DialogResult = DialogResult.Cancel
                 };
 
-                frmClave.Controls.AddRange(new Control[] { lblInstrucciones, lnkAyuda, lblClave, txtClave, btnAceptar, btnOmitir });
-                frmClave.AcceptButton = btnAceptar;
-
-                if (frmClave.ShowDialog() == DialogResult.OK)
+                btnGuardar.Click += (s, ev) =>
                 {
-                    return txtClave.Text.Replace(" ", "");
+                    string correoFinal = txtCorreo.Text.Trim();
+                    string claveFinal = txtClave.Text.Replace(" ", "").Trim();
+
+                    if (string.IsNullOrWhiteSpace(correoFinal) || !correoFinal.Contains("@gmail.com"))
+                    {
+                        MessageBox.Show("Ingrese un correo de Gmail válido.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        txtCorreo.Focus();
+                        return;
+                    }
+
+                    if (claveFinal.Length != 16)
+                    {
+                        MessageBox.Show("La contraseña de aplicación debe tener 16 caracteres.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        txtClave.Focus();
+                        return;
+                    }
+
+                    // Guardar en variables de nivel superior
+                    correoFinalResultado = correoFinal;
+                    claveFinalResultado = claveFinal;
+
+                    // Si editó el correo, actualizar emp.Correo también
+                    if (correoFinal != correoRegistrado)
+                    {
+                        if (MessageBox.Show(
+                            $"Ha modificado el correo de:\n{correoRegistrado}\n\na:\n{correoFinal}\n\n" +
+                            "Este correo se actualizará en su perfil de usuario.\n¿Continuar?",
+                            "Correo Modificado", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+                        {
+                            return;
+                        }
+                    }
+
+                    frmSMTP.DialogResult = DialogResult.OK;
+                };
+
+                frmSMTP.Controls.AddRange(new Control[] {
+            lblInfo, lblCorreo, txtCorreo, btnEditarCorreo,
+            lblInstrucciones, lnkGoogle, lblClave, txtClave,
+            btnGuardar, btnOmitir
+        });
+
+                if (frmSMTP.ShowDialog() == DialogResult.OK)
+                {
+                    return (correoFinalResultado, claveFinalResultado);
                 }
-                return null;
+
+                return (null, null);
             }
         }
     }

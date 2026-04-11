@@ -223,30 +223,33 @@ namespace ControlInventario
         {
             string usuarioIngresado = txtUsuario.Text.Trim();
 
-            // Validar que el usuario no esté vacío
             if (string.IsNullOrEmpty(usuarioIngresado))
             {
                 MessageBox.Show(Idiomas.MensajeAdvertenciaRecuperarUsuario);
                 return;
             }
 
-            // PASO 1: Verificar si el usuario está bloqueado
+            // PASO 1: Verificar bloqueo temporal
             if (RecuperacionRepository.UsuarioBloqueado(usuarioIngresado, out DateTime bloqueadoHasta))
             {
                 TimeSpan tiempoRestante = bloqueadoHasta - DateTime.Now;
-                string mensaje = $"⛔ Recuperación bloqueada por seguridad.\n\n" +
+                MessageBox.Show(
+                    $"⛔ Recuperación bloqueada por seguridad.\n\n" +
                     $"Demasiados intentos fallidos.\n\n" +
-                    $"Podrá intentar nuevamente en: {tiempoRestante.Hours}h {tiempoRestante.Minutes}m";
-
-                MessageBox.Show(mensaje, "Acceso Bloqueado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    $"Podrá intentar nuevamente en: {tiempoRestante.Hours}h {tiempoRestante.Minutes}m",
+                    "Acceso Bloqueado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // PASO 2: Validar que el usuario exista y obtener su correo
+            // PASO 2: Validar que el usuario exista y obtener correo + perfil
             string correoUsuario = "";
+            string correoSMTP = "";
+            string claveSMTP = "";
+
             using (var con = ConexionGlobal.ObtenerConexion())
             {
                 con.Open();
+
                 string query = "SELECT Correo FROM Usuario WHERE Usuario = @Usuario";
                 using (var cmd = new SQLiteCommand(query, con))
                 {
@@ -260,67 +263,107 @@ namespace ControlInventario
                     }
                     correoUsuario = result.ToString();
                 }
+
+                // Obtener credenciales SMTP del perfil (si las tiene)
+                var perfil = PerfilRepository.ObtenerPerfilUsuario(usuarioIngresado, con);
+                if (perfil != null &&
+                    !string.IsNullOrWhiteSpace(perfil.CorreoSMTP) &&
+                    !string.IsNullOrWhiteSpace(perfil.ClaveSMTP))
+                {
+                    correoSMTP = perfil.CorreoSMTP;
+                    claveSMTP = perfil.ClaveSMTP;
+                }
             }
 
-            // PASO 3: Mostrar preguntas de seguridad para validar identidad
+            // PASO 3: Validar preguntas de seguridad
             using (var vistaPreguntas = new VistaValidarPreguntasSeguridad(usuarioIngresado))
             {
                 if (vistaPreguntas.ShowDialog() != DialogResult.OK || !vistaPreguntas.RespuestasCorrectas)
                 {
-                    // Usuario canceló o falló las preguntas → no enviar correo
-                    return;
+                    return; // Falló las preguntas o canceló
                 }
             }
 
-            // PASO 4: Generar código y enviar correo (solo si pasó las preguntas)
+            // PASO 4: Generar código y enviar correo
             overlay.Mostrar();
 
             await Task.Run(() =>
             {
-                // Generar código y guardar en memoria
                 Recuperacion.CodigoGenerado = new Random().Next(10000000, 99999999).ToString();
                 Recuperacion.FechaGeneracion = DateTime.Now;
 
-                // Enviar correo con HTML
-                try
-                {
-                    MailMessage message = new MailMessage();
-                    message.To.Add(correoUsuario);
-                    message.Subject = Idiomas.AsuntoCorreoRecuperacion;
-                    message.From = new MailAddress("soporte@controlinventario.com", Idiomas.NombreRemitenteCorreo);
-                    message.IsBodyHtml = true;
-                    message.Body = string.Format(Idiomas.PlantillaCorreoRecuperacion, usuarioIngresado, Recuperacion.CodigoGenerado);
+                bool enviado = false;
+                string mensajeExito = "";
 
-                    SmtpClient smtp = new SmtpClient("smtp.gmail.com");
-                    smtp.Port = 587;
-                    smtp.Credentials = new NetworkCredential("mercadogarciayossimar3@gmail.com", "qbjt qkud xgfu fgpx");
-                    smtp.EnableSsl = true;
-                    smtp.Send(message);
-
-                    this.Invoke(new MethodInvoker(() =>
-                    {
-                        overlay.Ocultar();
-                        MessageBox.Show(
-                            Idiomas.MensajeExitoEnvioCorreo,
-                            Idiomas.TituloValidacion,
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Information
-                        );
-                    }));
-                }
-                catch (Exception ex)
+                // Intentar primero con el correo del usuario (si lo configuró)
+                if (!string.IsNullOrWhiteSpace(correoSMTP) && !string.IsNullOrWhiteSpace(claveSMTP))
                 {
-                    this.Invoke(new MethodInvoker(() =>
+                    try
                     {
-                        overlay.Ocultar();
-                        string mensajeError = string.Format(Idiomas.MensajeErrorEnviarCorreo, ex.Message);
-                        MessageBox.Show(mensajeError, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }));
-                    return;
+                        MailMessage message = new MailMessage();
+                        message.From = new MailAddress(correoSMTP, "Sistema de Recuperación");
+                        message.To.Add(correoUsuario);
+                        message.Subject = Idiomas.AsuntoCorreoRecuperacion;
+                        message.IsBodyHtml = true;
+                        message.Body = string.Format(Idiomas.PlantillaCorreoRecuperacion, usuarioIngresado, Recuperacion.CodigoGenerado);
+
+                        SmtpClient smtp = new SmtpClient("smtp.gmail.com");
+                        smtp.Port = 587;
+                        smtp.Credentials = new NetworkCredential(correoSMTP, claveSMTP);
+                        smtp.EnableSsl = true;
+                        smtp.Send(message);
+
+                        enviado = true;
+                        mensajeExito = $"✓ Código enviado a su correo:\n{correoUsuario}\n\nRevise su bandeja de entrada.";
+                    }
+                    catch
+                    {
+                        // Falló el envío desde su cuenta → intentar con hardcodeado
+                        enviado = false;
+                    }
                 }
+
+                // Fallback: Si no tiene SMTP configurado o falló, usar correo hardcodeado
+                if (!enviado)
+                {
+                    try
+                    {
+                        MailMessage message = new MailMessage();
+                        message.From = new MailAddress("soporte@controlinventario.com", Idiomas.NombreRemitenteCorreo);
+                        message.To.Add(correoUsuario);
+                        message.Subject = Idiomas.AsuntoCorreoRecuperacion;
+                        message.IsBodyHtml = true;
+                        message.Body = string.Format(Idiomas.PlantillaCorreoRecuperacion, usuarioIngresado, Recuperacion.CodigoGenerado);
+
+                        SmtpClient smtp = new SmtpClient("smtp.gmail.com");
+                        smtp.Port = 587;
+                        smtp.Credentials = new NetworkCredential("mercadogarciayossimar3@gmail.com", "qbjt qkud xgfu fgpx");
+                        smtp.EnableSsl = true;
+                        smtp.Send(message);
+
+                        mensajeExito = $"✓ Código enviado al correo del administrador.\n\nSolicite el código al administrador del sistema.";
+                    }
+                    catch (Exception ex)
+                    {
+                        this.Invoke(new MethodInvoker(() =>
+                        {
+                            overlay.Ocultar();
+                            string mensajeError = string.Format(Idiomas.MensajeErrorEnviarCorreo, ex.Message);
+                            MessageBox.Show(mensajeError, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }));
+                        return;
+                    }
+                }
+
+                // Mostrar mensaje de éxito personalizado
+                this.Invoke(new MethodInvoker(() =>
+                {
+                    overlay.Ocultar();
+                    MessageBox.Show(mensajeExito, Idiomas.TituloValidacion, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }));
             });
 
-            // PASO 5: Abrir la vista de ingreso del código
+            // PASO 5: Abrir vista de ingreso del código
             var recuperar = new VistaRecuperacion(usuarioIngresado);
             this.Hide();
             recuperar.ShowDialog();

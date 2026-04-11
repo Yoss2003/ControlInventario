@@ -85,9 +85,6 @@ namespace ControlInventario.Vistas
                         CbMoneda.SelectedValue = perfil.IdMoneda;
                         CbMoneda.SelectedItem = perfil.Moneda;
 
-                        CbUniMedida.SelectedValue = perfil.IdUnidadMedida;
-                        CbUniMedida.SelectedItem = perfil.UnidadMedida;
-
                         CbZonaHoraria.SelectedValue = perfil.IdZonaHoraria;
                         CbZonaHoraria.SelectedItem = perfil.ZonaHoraria;
 
@@ -99,6 +96,9 @@ namespace ControlInventario.Vistas
 
                         CbModoVentas.SelectedValue = perfil.IdModoVentas;
                         CbModoVentas.SelectedItem = perfil.ModoVentas;
+
+                        TxtCorreoSMTP.Text = perfil.CorreoSMTP ?? "";
+                        TxtClaveSMTP.Text = perfil.ClaveSMTP ?? "";
                     }
                     ;
                 }
@@ -164,9 +164,6 @@ namespace ControlInventario.Vistas
                         IdMoneda = Convert.ToInt32(CbMoneda.SelectedValue),
                         Moneda = CbMoneda.GetItemText(CbMoneda.SelectedItem),
 
-                        IdUnidadMedida = Convert.ToInt32(CbUniMedida.SelectedValue),
-                        UnidadMedida = CbUniMedida.GetItemText(CbUniMedida.SelectedItem),
-
                         IdZonaHoraria = Convert.ToInt32(CbZonaHoraria.SelectedValue),
                         ZonaHoraria = CbZonaHoraria.GetItemText(CbZonaHoraria.SelectedItem),
 
@@ -178,6 +175,9 @@ namespace ControlInventario.Vistas
 
                         IdModoVentas = Convert.ToInt32(CbModoVentas.SelectedValue),
                         ModoVentas = CbModoVentas.GetItemText(CbModoVentas.SelectedItem),
+
+                        CorreoSMTP = TxtCorreoSMTP.Text.Trim(),
+                        ClaveSMTP = TxtClaveSMTP.Text.Trim()
                     };
 
                     LogsRepository.InsertarLogs("Perfil", "Modificar", $"Se modificó el perfil del usuario: {nombreUsuario}");

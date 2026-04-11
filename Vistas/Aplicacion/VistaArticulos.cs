@@ -8,6 +8,7 @@ using ControlInventario.Vistas.Extras;
 using PdfiumViewer;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SQLite;
 using System.Drawing;
 using System.IO;
@@ -16,7 +17,7 @@ using System.Windows.Forms;
 
 namespace ControlInventario.Vistas
 {
-    public partial class VistaArticulos : Form, IMarcasRefrescable, IEstadoArticulosRefrescable, ICondicionRefrescable, IUbicacionRefrescable
+    public partial class VistaArticulos : Form, IMarcasRefrescable, IEstadoArticulosRefrescable, ICondicionRefrescable, IUbicacionRefrescable, IUnidadMedidaRefrescable, IGruposRegistrosRefrescable
     {
         private PdfViewer pdfViewer;
         private readonly int _categoriaId;
@@ -26,6 +27,8 @@ namespace ControlInventario.Vistas
         public ComboBox CbEstadoArticulosPublic => CbEstadoArticulo;
         public ComboBox CbCondicionPublic => CbCondicion;
         public ComboBox CbUbicacionPublic => CbUbicacion;
+        public ComboBox CbUnidadMedidaPublic => CbUnidadMedida;
+        public ComboBox CbGruposRegistrosPublic => CbGrupoRegistro;
         public PdfViewer PdfViewerControl => pdfViewer;
         public EdicionArticulo DatosEdicion { get; set; }
         private bool generarCodigoAutomatico = false;
@@ -35,6 +38,8 @@ namespace ControlInventario.Vistas
         private string ultimoModeloGuardado = "";
         private int ultimaCategoriaIdGuardada = 0;
         private bool rechazoSugerenciaModelo = false;
+        public int? GrupoRegistroIdPreseleccionado { get; set; }
+        public Articulos DatosPlantillaGrupo { get; set; }
 
         private Dictionary<string, string> caracteristicasTemporales = new Dictionary<string, string>();
 
@@ -203,6 +208,10 @@ namespace ControlInventario.Vistas
             TxtRutaComprobante.Text = "";
             TxtDireccionImagen.Text = "";
 
+            CbGrupoRegistro.SelectedIndex = -1;
+            CbUnidadMedida.SelectedIndex = -1;
+            NumCantidad.Value = 2;
+
             PbFotoArticulo.Image = null;
             PanelComprobante.Controls.Clear();
 
@@ -334,6 +343,12 @@ namespace ControlInventario.Vistas
                                 Categoria = _categoria
                             };
 
+                            if (GrupoRegistroIdPreseleccionado.HasValue)
+                            {
+                                art.GrupoRegistroId = GrupoRegistroIdPreseleccionado;
+                                art.UnidadMedida = DatosPlantillaGrupo?.UnidadMedida;
+                            }
+
                             // guardar Foto
                             if (!string.IsNullOrWhiteSpace(TxtDireccionImagen.Text) && File.Exists(TxtDireccionImagen.Text))
                             {
@@ -364,11 +379,69 @@ namespace ControlInventario.Vistas
                                     return;
                             }
 
-                            ArticuloRepository.InsertarArticulo(art, con);
-                            LogsRepository.InsertarLogs("Artículos", "Crear", $"Se registró un nuevo artículo con el código: {art.Codigo}");
+                            int cantidad = ChkActivarDatosMasivos.Checked ? (int)NumCantidad.Value : 1;
 
-                            MessageBox.Show(Idiomas.MensajeAgregarArticulo, Idiomas.TituloExito, 
-                                MessageBoxButtons.OK, 
+                            // Asignar unidad de medida y grupo si es masivo
+                            if (cantidad > 1)
+                            {
+                                art.UnidadMedida = CbUnidadMedida.SelectedIndex > 0 ? CbUnidadMedida.Text : null;
+                                art.GrupoRegistroId = CbGrupoRegistro.SelectedIndex > 0
+                                    ? Convert.ToInt32(CbGrupoRegistro.SelectedValue)
+                                    : (int?)null;
+                            }
+
+                            if (cantidad == 1)
+                            {
+                                // Flujo individual (sin cambios)
+                                ArticuloRepository.InsertarArticulo(art, con);
+                                LogsRepository.InsertarLogs("Artículos", "Crear", $"Se registró un nuevo artículo con el código: {art.Codigo}");
+                            }
+                            else
+                            {
+                                // Flujo masivo
+                                var confirmacion = MessageBox.Show(
+                                    "¿Desea usar los mismos datos registrados inicialmente?",
+                                    "Registro Masivo",
+                                    MessageBoxButtons.YesNoCancel,
+                                    MessageBoxIcon.Question);
+
+                                if (confirmacion == DialogResult.Cancel)
+                                    return;
+
+                                if (confirmacion == DialogResult.Yes)
+                                {
+                                    // Crear N artículos con datos idénticos
+                                    var listaArticulos = new List<Articulos>();
+                                    for (int i = 0; i < cantidad; i++)
+                                    {
+                                        var clon = ClonarArticulo(art);
+                                        clon.Serie = ArticuloRepository.GenerarSerieAutomatica(nombreCategoriaActual, UsuarioSesion.UsuarioId);
+                                        listaArticulos.Add(clon);
+                                    }
+                                    ArticuloRepository.InsertarArticulosMasivo(listaArticulos, con);
+                                    LogsRepository.InsertarLogs("Artículos", "Crear", $"Se registraron {cantidad} artículos masivamente en el grupo: {CbGrupoRegistro.Text}");
+                                }
+                                else
+                                {
+                                    // Abrir vista de personalización (Fase 3)
+                                    using (var vistaRegistroMasivo = new VistaRegistroMasivo(art, cantidad, nombreCategoriaActual))
+                                    {
+                                        if (vistaRegistroMasivo.ShowDialog() == DialogResult.OK)
+                                        {
+                                            var listaPersonalizada = vistaRegistroMasivo.ArticulosPersonalizados;
+                                            ArticuloRepository.InsertarArticulosMasivo(listaPersonalizada, con);
+                                            LogsRepository.InsertarLogs("Artículos", "Crear", $"Se registraron {cantidad} artículos personalizados en el grupo: {CbGrupoRegistro.Text}");
+                                        }
+                                        else
+                                        {
+                                            return;
+                                        }
+                                    }
+                                }
+                            }
+
+                            MessageBox.Show(Idiomas.MensajeAgregarArticulo, Idiomas.TituloExito,
+                                MessageBoxButtons.OK,
                                 MessageBoxIcon.Information);
 
                             this.DialogResult = DialogResult.OK;
@@ -566,6 +639,7 @@ namespace ControlInventario.Vistas
                                 RucProveedor = string.IsNullOrWhiteSpace(TxtRuc.Text) ? null : TxtRuc.Text,
                                 Proveedor = string.IsNullOrWhiteSpace(TxtRazonSocial.Text) ? null : TxtRazonSocial.Text,
                                 PrecioAdquisicion = precioFinal,
+                                MonedaAdquisicion = UsuarioSesion.Configuracion?.Moneda ?? "PEN",
 
                                 Caracteristicas = jsonCaracteristicas,
 
@@ -596,7 +670,7 @@ namespace ControlInventario.Vistas
                                 art.ComprobanteSecundaria = destinoComprobante;
                             }
 
-                            // verificar fecha garantía y fecha baja
+                            // verificar fecha garantía
                             if ((ChkFechaGarantia.Checked && DtpFechaFinGarantia.Value < DateTime.Now))
                             {
                                 var result = MessageBox.Show(Idiomas.MensajeAdvertenciaAgregarFechasArticulo, Idiomas.TituloAdvertencia, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
@@ -604,8 +678,62 @@ namespace ControlInventario.Vistas
                                     return;
                             }
 
-                            ArticuloRepository.InsertarArticulo(art, con);
-                            LogsRepository.InsertarLogs("Artículos", "Crear", $"Se registró un nuevo artículo con el código: {art.Codigo}");
+                            int cantidad = ChkActivarDatosMasivos.Checked ? (int)NumCantidad.Value : 1;
+
+                            // Asignar unidad de medida y grupo si es masivo
+                            if (cantidad > 1)
+                            {
+                                art.UnidadMedida = CbUnidadMedida.SelectedIndex > 0 ? CbUnidadMedida.Text : null;
+                                art.GrupoRegistroId = CbGrupoRegistro.SelectedIndex > 0
+                                    ? Convert.ToInt32(CbGrupoRegistro.SelectedValue)
+                                    : (int?)null;
+                            }
+
+                            if (cantidad == 1)
+                            {
+                                ArticuloRepository.InsertarArticulo(art, con);
+                                LogsRepository.InsertarLogs("Artículos", "Crear", $"Se registró un nuevo artículo con el código: {art.Codigo}");
+                            }
+                            else
+                            {
+                                var confirmacion = MessageBox.Show(
+                                    "¿Desea usar los mismos datos registrados inicialmente?",
+                                    "Registro Masivo",
+                                    MessageBoxButtons.YesNoCancel,
+                                    MessageBoxIcon.Question);
+
+                                if (confirmacion == DialogResult.Cancel)
+                                    return;
+
+                                if (confirmacion == DialogResult.Yes)
+                                {
+                                    var listaArticulos = new List<Articulos>();
+                                    for (int i = 0; i < cantidad; i++)
+                                    {
+                                        var clon = ClonarArticulo(art);
+                                        clon.Serie = ArticuloRepository.GenerarSerieAutomatica(nombreCategoriaActual, UsuarioSesion.UsuarioId);
+                                        listaArticulos.Add(clon);
+                                    }
+                                    ArticuloRepository.InsertarArticulosMasivo(listaArticulos, con);
+                                    LogsRepository.InsertarLogs("Artículos", "Crear", $"Se registraron {cantidad} artículos masivamente en el grupo: {CbGrupoRegistro.Text}");
+                                }
+                                else
+                                {
+                                    using (var vistaRegistroMasivo = new VistaRegistroMasivo(art, cantidad, nombreCategoriaActual))
+                                    {
+                                        if (vistaRegistroMasivo.ShowDialog() == DialogResult.OK)
+                                        {
+                                            var listaPersonalizada = vistaRegistroMasivo.ArticulosPersonalizados;
+                                            ArticuloRepository.InsertarArticulosMasivo(listaPersonalizada, con);
+                                            LogsRepository.InsertarLogs("Artículos", "Crear", $"Se registraron {cantidad} artículos personalizados en el grupo: {CbGrupoRegistro.Text}");
+                                        }
+                                        else
+                                        {
+                                            return;
+                                        }
+                                    }
+                                }
+                            }
 
                             MessageBox.Show(Idiomas.MensajeAgregarArticulo, Idiomas.TituloExito, MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -717,6 +845,18 @@ namespace ControlInventario.Vistas
                 var dtMarcas = MarcasRepository.ListarMarcas(con, _categoriaId);
                 RefreshService.RefrescarComboDT(CbMarcas, dtMarcas, "Nombre", "Id", Idiomas.OpcionSeleccione);
 
+                DataTable dtMedida = new DataTable();
+                string queryMedida = "SELECT Id, UnidadMedida AS Nombre FROM UnidadMedida;";
+                using (var cmdMedida = new SQLiteCommand(queryMedida, con))
+                using (var adapterMedida = new SQLiteDataAdapter(cmdMedida))
+                {
+                    adapterMedida.Fill(dtMedida);
+                }
+                RefreshService.RefrescarComboDT(CbUnidadMedida, dtMedida, "Nombre", "Id", Idiomas.OpcionSeleccione);
+
+                var dtGrupos = GrupoRegistroRepository.ListarGrupos(UsuarioSesion.InventarioId);
+                RefreshService.RefrescarComboDT(CbGrupoRegistro, dtGrupos, "Nombre", "Id", Idiomas.OpcionSeleccione);
+
                 if (VistaInventario.isEdit == true)
                 {
                     BtnGuardarPlus.Text = "Dar de Baja";
@@ -766,6 +906,27 @@ namespace ControlInventario.Vistas
                     ActualizarBotonCaracteristicas();
                 }
             }
+
+            if (DatosPlantillaGrupo != null && !VistaInventario.isEdit)
+            {
+                if (DatosPlantillaGrupo.IdMarca > 0)
+                    CbMarcas.SelectedValue = DatosPlantillaGrupo.IdMarca;
+                if (DatosPlantillaGrupo.IdEstado > 0)
+                    CbEstadoArticulo.SelectedValue = DatosPlantillaGrupo.IdEstado;
+                if (DatosPlantillaGrupo.IdUbicacion > 0)
+                    CbUbicacion.SelectedValue = DatosPlantillaGrupo.IdUbicacion;
+                if (DatosPlantillaGrupo.IdCondicion > 0)
+                    CbCondicion.SelectedValue = DatosPlantillaGrupo.IdCondicion;
+                TxtRuc.Text = DatosPlantillaGrupo.RucProveedor ?? "";
+                TxtRazonSocial.Text = DatosPlantillaGrupo.Proveedor ?? "";
+                if (DatosPlantillaGrupo.PrecioAdquisicion.HasValue)
+                    TxtPrecio.Text = ClassHelper.AgregarSimboloVisual(DatosPlantillaGrupo.PrecioAdquisicion);
+
+                // Ocultar sección de registro masivo cuando se agrega al grupo
+                if (GrupoRegistroIdPreseleccionado.HasValue)
+                    GrpRegistroMasivo.Visible = false;
+            }
+
             ClassHelper.AplicarTema(this);
             ClassHelper.AplicarFormatoFecha(DtpFechaFinGarantia);
             ClassHelper.AplicarFormatoFecha(DtpFechaAdquisicion);
@@ -1090,6 +1251,93 @@ namespace ControlInventario.Vistas
             MessageBox.Show("En desarrollo",
                 "Depreciación de precio",
                 MessageBoxButtons.OK);
+        }
+
+        private void ChkActivarDatosMasivos_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ChkActivarDatosMasivos.Checked)
+            {
+                CbGrupoRegistro.Enabled = true;
+                CbUnidadMedida.Enabled = true;
+                NumCantidad.Enabled = true;
+                BtnAgregarGrupo.Enabled = true;
+                NumCantidad.Minimum = 2;
+                NumCantidad.Value = 2;
+            }
+            else
+            {
+                CbGrupoRegistro.Enabled = false;
+                CbUnidadMedida.Enabled = false;
+                NumCantidad.Enabled = false;
+                BtnAgregarGrupo.Enabled = false;
+            }
+        }
+
+        private void NumCantidad_ValueChanged(object sender, EventArgs e)
+        {
+            bool esMasivo = NumCantidad.Value > 1;
+            CbUnidadMedida.Enabled = esMasivo;
+            CbGrupoRegistro.Enabled = esMasivo;
+            BtnAgregarGrupo.Enabled = esMasivo;
+
+            if (!esMasivo)
+            {
+                CbUnidadMedida.SelectedIndex = 0;
+                CbGrupoRegistro.SelectedIndex = 0;
+            }
+        }
+
+        private void BtnAgregarGrupo_Click(object sender, EventArgs e)
+        {
+            VistaAgregarComponentes vistaAgregar = new VistaAgregarComponentes("GrupoRegistro", this);
+            vistaAgregar.ShowDialog();
+            var dtGrupos = GrupoRegistroRepository.ListarGrupos(UsuarioSesion.InventarioId);
+            RefreshService.RefrescarComboDT(CbGrupoRegistro, dtGrupos, "Nombre", "Id", Idiomas.OpcionSeleccione);
+        }
+
+        private Articulos ClonarArticulo(Articulos original)
+        {
+            return new Articulos
+            {
+                InventarioId = original.InventarioId,
+                Modelo = original.Modelo,
+                Serie = original.Serie,
+                IdMarca = original.IdMarca,
+                Marca = original.Marca,
+                FechaAdquisicion = original.FechaAdquisicion,
+                FechaFinGarantia = original.FechaFinGarantia,
+                IdEstado = original.IdEstado,
+                Estado = original.Estado,
+                IdUbicacion = original.IdUbicacion,
+                Ubicacion = original.Ubicacion,
+                IdCondicion = original.IdCondicion,
+                Condicion = original.Condicion,
+                Observacion = original.Observacion,
+                RucProveedor = original.RucProveedor,
+                Proveedor = original.Proveedor,
+                PrecioAdquisicion = original.PrecioAdquisicion,
+                MonedaAdquisicion = original.MonedaAdquisicion,
+                Caracteristicas = original.Caracteristicas,
+                FechaRegistro = original.FechaRegistro,
+                CategoriaId = original.CategoriaId,
+                Categoria = original.Categoria,
+                FotoPrincipal = original.FotoPrincipal,
+                FotoSecundaria = original.FotoSecundaria,
+                ComprobantePrincipal = original.ComprobantePrincipal,
+                ComprobanteSecundaria = original.ComprobanteSecundaria,
+                UnidadMedida = original.UnidadMedida,
+                GrupoRegistroId = original.GrupoRegistroId
+            };
+        }
+
+        private void CbUnidadMedida_TextUpdate(object sender, EventArgs e)
+        {
+            ClassHelper.NormalizarTexto(CbUnidadMedida);
+        }
+
+        private void CbGrupoRegistro_TextUpdate(object sender, EventArgs e)
+        {
+            ClassHelper.NormalizarTexto(CbGrupoRegistro);
         }
     }
 }

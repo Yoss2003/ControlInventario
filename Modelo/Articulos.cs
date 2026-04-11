@@ -71,5 +71,10 @@ namespace ControlInventario.Modelos
         public DateTime FechaRegistro { get; set; } // Fecha de registro del artículo
         public DateTime FechaModificacion { get; set; } // Fecha de modificación del artículo
         public string Accion { get; set; } // Acción realizada (Ingreso o Salida)
+
+        // Registro masivo
+        public string UnidadMedida { get; set; }
+        public int? GrupoRegistroId { get; set; }
+        public string GrupoRegistroNombre { get; set; }
     }
 }

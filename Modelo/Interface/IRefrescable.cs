@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using ControlInventario.Modelo.Interface;
+using System.Windows.Forms;
 
 namespace ControlInventario.Modelo.Interface
 {
@@ -58,5 +59,15 @@ namespace ControlInventario.Modelo.Interface
     public interface IPregunta3Refrescable
     {
         ComboBox CbPregunta3Public { get; }
+    }
+
+    public interface IUnidadMedidaRefrescable
+    {
+        ComboBox CbUnidadMedidaPublic { get; }
+    }
+
+    public interface IGruposRegistrosRefrescable
+    {
+        ComboBox CbGruposRegistrosPublic { get; }
     }
 }

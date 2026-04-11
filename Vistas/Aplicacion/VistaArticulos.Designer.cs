@@ -89,6 +89,15 @@
             this.TxtRuc = new System.Windows.Forms.TextBox();
             this.LblRuc = new System.Windows.Forms.Label();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.GrpRegistroMasivo = new System.Windows.Forms.GroupBox();
+            this.ChkActivarDatosMasivos = new System.Windows.Forms.CheckBox();
+            this.CbGrupoRegistro = new System.Windows.Forms.ComboBox();
+            this.BtnAgregarGrupo = new System.Windows.Forms.Button();
+            this.CbUnidadMedida = new System.Windows.Forms.ComboBox();
+            this.NumCantidad = new System.Windows.Forms.NumericUpDown();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.GpUsos.SuspendLayout();
             this.GpInformación.SuspendLayout();
@@ -99,6 +108,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.ErrorArticulos)).BeginInit();
             this.GpAcciones.SuspendLayout();
             this.GpAdquisicion.SuspendLayout();
+            this.GrpRegistroMasivo.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NumCantidad)).BeginInit();
             this.SuspendLayout();
             // 
             // TxtCodigo
@@ -529,10 +540,79 @@
             resources.ApplyResources(this.LblRuc, "LblRuc");
             this.LblRuc.Name = "LblRuc";
             // 
+            // GrpRegistroMasivo
+            // 
+            this.GrpRegistroMasivo.Controls.Add(this.ChkActivarDatosMasivos);
+            this.GrpRegistroMasivo.Controls.Add(this.CbGrupoRegistro);
+            this.GrpRegistroMasivo.Controls.Add(this.BtnAgregarGrupo);
+            this.GrpRegistroMasivo.Controls.Add(this.CbUnidadMedida);
+            this.GrpRegistroMasivo.Controls.Add(this.NumCantidad);
+            this.GrpRegistroMasivo.Controls.Add(this.label3);
+            this.GrpRegistroMasivo.Controls.Add(this.label2);
+            this.GrpRegistroMasivo.Controls.Add(this.label1);
+            resources.ApplyResources(this.GrpRegistroMasivo, "GrpRegistroMasivo");
+            this.GrpRegistroMasivo.Name = "GrpRegistroMasivo";
+            this.GrpRegistroMasivo.TabStop = false;
+            // 
+            // ChkActivarDatosMasivos
+            // 
+            resources.ApplyResources(this.ChkActivarDatosMasivos, "ChkActivarDatosMasivos");
+            this.ChkActivarDatosMasivos.Name = "ChkActivarDatosMasivos";
+            this.ChkActivarDatosMasivos.UseVisualStyleBackColor = true;
+            this.ChkActivarDatosMasivos.CheckedChanged += new System.EventHandler(this.ChkActivarDatosMasivos_CheckedChanged);
+            // 
+            // CbGrupoRegistro
+            // 
+            resources.ApplyResources(this.CbGrupoRegistro, "CbGrupoRegistro");
+            this.CbGrupoRegistro.FormattingEnabled = true;
+            this.CbGrupoRegistro.Name = "CbGrupoRegistro";
+            this.CbGrupoRegistro.TextUpdate += new System.EventHandler(this.CbGrupoRegistro_TextUpdate);
+            // 
+            // BtnAgregarGrupo
+            // 
+            resources.ApplyResources(this.BtnAgregarGrupo, "BtnAgregarGrupo");
+            this.BtnAgregarGrupo.Name = "BtnAgregarGrupo";
+            this.BtnAgregarGrupo.UseVisualStyleBackColor = true;
+            this.BtnAgregarGrupo.Click += new System.EventHandler(this.BtnAgregarGrupo_Click);
+            // 
+            // CbUnidadMedida
+            // 
+            resources.ApplyResources(this.CbUnidadMedida, "CbUnidadMedida");
+            this.CbUnidadMedida.FormattingEnabled = true;
+            this.CbUnidadMedida.Name = "CbUnidadMedida";
+            this.CbUnidadMedida.TextUpdate += new System.EventHandler(this.CbUnidadMedida_TextUpdate);
+            // 
+            // NumCantidad
+            // 
+            resources.ApplyResources(this.NumCantidad, "NumCantidad");
+            this.NumCantidad.Maximum = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            this.NumCantidad.Name = "NumCantidad";
+            this.NumCantidad.ValueChanged += new System.EventHandler(this.NumCantidad_ValueChanged);
+            // 
+            // label3
+            // 
+            resources.ApplyResources(this.label3, "label3");
+            this.label3.Name = "label3";
+            // 
+            // label2
+            // 
+            resources.ApplyResources(this.label2, "label2");
+            this.label2.Name = "label2";
+            // 
+            // label1
+            // 
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.Name = "label1";
+            // 
             // VistaArticulos
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.GrpRegistroMasivo);
             this.Controls.Add(this.GpInformación);
             this.Controls.Add(this.GpAcciones);
             this.Controls.Add(this.GpAdquisicion);
@@ -558,6 +638,9 @@
             this.GpAcciones.ResumeLayout(false);
             this.GpAdquisicion.ResumeLayout(false);
             this.GpAdquisicion.PerformLayout();
+            this.GrpRegistroMasivo.ResumeLayout(false);
+            this.GrpRegistroMasivo.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NumCantidad)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -622,5 +705,14 @@
         public System.Windows.Forms.Label LblRuc;
         public System.Windows.Forms.TextBox TxtRazonSocial;
         public System.Windows.Forms.Label LblRazonSocial;
+        private System.Windows.Forms.GroupBox GrpRegistroMasivo;
+        private System.Windows.Forms.ComboBox CbGrupoRegistro;
+        private System.Windows.Forms.ComboBox CbUnidadMedida;
+        private System.Windows.Forms.NumericUpDown NumCantidad;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.CheckBox ChkActivarDatosMasivos;
+        private System.Windows.Forms.Button BtnAgregarGrupo;
     }
 }

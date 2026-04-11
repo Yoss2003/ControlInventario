@@ -4,10 +4,8 @@ using ControlInventario.Modelo.Interface;
 using ControlInventario.Modelos;
 using ControlInventario.Repositorio;
 using ControlInventario.Servicios;
-using SixLabors.Fonts;
 using System;
 using System.Data;
-using System.Drawing;
 using System.Windows.Forms;
 
 namespace ControlInventario.Vistas.Extras
@@ -52,6 +50,10 @@ namespace ControlInventario.Vistas.Extras
                     lista = CategoriaRepository.ListarCategorias(UsuarioSesion.InventarioId);
                 else if (tipoComponente == "Proveedor")
                     lista = ProveedorRepository.ListarProveedor(con);
+                else if (tipoComponente == "UnidadMedida")
+                    lista = GrupoRegistroRepository.ListarGrupos(UsuarioSesion.InventarioId);
+                else if (tipoComponente == "GrupoRegistro")
+                    lista = GrupoRegistroRepository.ListarGrupos(UsuarioSesion.InventarioId);
 
                 DgComponentes.DataSource = lista;
 
@@ -225,10 +227,13 @@ namespace ControlInventario.Vistas.Extras
             }
             else
             {
-                string nombreTablaBD = tipoComponente == "Categoria" ? "Categorias" : (tipoComponente == "Marca" ? "Marcas" : "Proveedores");
+                string nombreTablaBD = tipoComponente == "Categoria" ? "Categorias"
+                    : (tipoComponente == "Marca" ? "Marcas"
+                    : (tipoComponente == "GrupoRegistro" ? "GruposRegistro"
+                    : "Proveedores"));
                 string nombreColumnaBD = tipoComponente == "Proveedor" ? "RazonSocial" : "Nombre";
 
-                if (tipoComponente != "Proveedor" && ClassHelper.ExisteComponenteDuplicado(nombreTablaBD, nombreIngresado, idActual, nombreColumnaBD))
+                if (tipoComponente != "Proveedor" && tipoComponente != "Categoria" && ClassHelper.ExisteComponenteDuplicado(nombreTablaBD, nombreIngresado, idActual, nombreColumnaBD))
                 {
                     MessageBox.Show($"El {tipoComponente} '{nombreIngresado}' ya está registrado.", "Duplicado detectado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
@@ -345,6 +350,21 @@ namespace ControlInventario.Vistas.Extras
                         ProveedorRepository.ActualizarProveedor(prov);
                     }
                 }
+                else if (tipoComponente == "GrupoRegistro")
+                {
+                    var grupo = new GruposRegistros
+                    {
+                        Id = idActual,
+                        InventarioId = UsuarioSesion.InventarioId,
+                        Nombre = TxtNombreComponente.Text,
+                        Descripcion = TxtDescripcionComponente.Text,
+                        FechaCreacion = DateTime.Now.ToString("dd/MM/yyyy"),
+                        UsuarioCreacion = UsuarioSesion.NombreUsuario
+                    };
+
+                    if (isEdit) GrupoRegistroRepository.ActualizarGrupo(grupo);
+                    else GrupoRegistroRepository.AgregarGrupo(grupo);
+                }
             }
 
             isEdit = false;
@@ -428,12 +448,48 @@ namespace ControlInventario.Vistas.Extras
                 }
                 else if (tipoComponente == "Categoria")
                 {
-                    CategoriaRepository.EliminarCategoria(new Categoria { Id = idEliminar });
+                    if (CategoriaRepository.TieneMovimientosDeSalida(idEliminar))
+                    {
+                        MessageBox.Show(
+                            "No se puede eliminar la categoría porque tiene artículos con movimientos de salida registrados.",
+                            "Operación no permitida",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    bool eliminarArticulos = true;
+
+                    if (CategoriaRepository.TieneArticulosAsociados(idEliminar))
+                    {
+                        var confirmar = MessageBox.Show(
+                            "La categoría tiene artículos asociados, ¿eliminar de igual forma?",
+                            "Advertencia",
+                            MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Warning);
+
+                        if (confirmar == DialogResult.No)
+                            return;
+
+                        eliminarArticulos = true;
+                    }
+
+                    CategoriaRepository.EliminarCategoria(new Categoria { Id = idEliminar }, eliminarArticulos);
                     var helper = new ClassHelper((VistaInventario)_vistaPrincipal);
                     helper.EliminarBotonCategoria(idEliminar);
                 }
                 else if (tipoComponente == "Marca") MarcasRepository.EliminarMarca(new Marcas { Id = idEliminar });
                 else if (tipoComponente == "Proveedor") ProveedorRepository.EliminarProveedor(new Proveedor { Id = idEliminar });
+                else if (tipoComponente == "GrupoRegistro")
+                {
+                    if (GrupoRegistroRepository.TieneArticulosAsociados(idEliminar))
+                    {
+                        MessageBox.Show("No se puede eliminar el grupo porque tiene artículos asociados.",
+                            "Operación no permitida", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                    GrupoRegistroRepository.EliminarGrupo(idEliminar);
+                }
 
                 LogsRepository.InsertarLogs(tipoComponente, "Eliminar", $"Se eliminó: {nombreEliminar}");
                 CargarDatos();

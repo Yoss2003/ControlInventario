@@ -310,7 +310,7 @@
     <value>User not found.</value>
   </data>
   <data name="MensajeExitoEnvioCorreo" xml:space="preserve">
-    <value>We have sent a security code to your email address.</value>
+    <value>We have sent a security code to the administrator, please contact him.</value>
   </data>
   <data name="MensajeErrorEnviarCorreo" xml:space="preserve">
     <value>Error sending email: {0}</value>

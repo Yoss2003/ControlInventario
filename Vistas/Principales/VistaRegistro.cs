@@ -55,12 +55,12 @@ namespace ControlInventario.Vistas
 
             if (string.IsNullOrWhiteSpace(txtCorreo.Text))
             {
-                errorProvider1.SetError(txtCorreo, Idiomas.MensajeErrorRegistrarCorreo);
+                errorProvider1.SetError(txtCorreo, "El correo es obligatorio. Se usará para enviar correos automáticos a clientes.");
                 valido = false;
             }
             else if (!Regex.IsMatch(txtCorreo.Text, @"^[^@\s]{2,}@[^@\s]+\.(com|net|org|edu|pe)$"))
             {
-                errorProvider1.SetError(txtCorreo, Idiomas.MensajeErrorRegistrarCorreoExtra);
+                errorProvider1.SetError(txtCorreo, "Ingrese un correo válido. Recomendado: Gmail para envío automático.");
                 valido = false;
             }
 
@@ -298,10 +298,29 @@ namespace ControlInventario.Vistas
                     //Guardar en BD
                     long nuevoId = UsuarioRepository.InsertarUsuario(emp, con);
 
-                    UsuarioSesion.UsuarioId = (int)nuevoId; 
+                    UsuarioSesion.UsuarioId = (int)nuevoId;
                     UsuarioSesion.NombreUsuario = emp.NombreUsuario;
                     UsuarioSesion.NombrePersonal = emp.Nombres;
                     UsuarioSesion.Rol = rolCalculado;
+
+                    // Crear perfil con configuración de correo SMTP
+                    Perfiles nuevoPerfil = PerfilRepository.GenerarPerfilPorDefecto(emp.NombreUsuario, con);
+
+                    // Preguntar si desea configurar el envío automático de correos
+                    if (MostrarInstruccionesCorreoSMTP())
+                    {
+                        string claveApp = SolicitarClaveAplicacionGmail();
+                        if (!string.IsNullOrEmpty(claveApp))
+                        {
+                            nuevoPerfil.CorreoSMTP = emp.Correo; // Usar el correo que ya ingresó
+                            nuevoPerfil.ClaveSMTP = claveApp;
+                            MessageBox.Show("✓ Correo SMTP configurado correctamente.\n\nYa puedes enviar correos automáticos a tus clientes.",
+                                "Configuración Exitosa", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                    }
+
+                    PerfilRepository.GuardarPerfilUsuario(nuevoPerfil, con);
+                    UsuarioSesion.Configuracion = nuevoPerfil;
 
                     //Abrir vista de preguntas de seguridad
                     MessageBox.Show(Idiomas.MensajeExitoRegistrarGuardar,
@@ -380,6 +399,146 @@ namespace ControlInventario.Vistas
         {
             VistaAgregarComponentes vistaAgregar = new VistaAgregarComponentes("Area", this);
             vistaAgregar.ShowDialog();
+        }
+
+        // Agregar este método al final de la clase VistaRegistro, antes del cierre:
+
+        private bool MostrarInstruccionesCorreoSMTP()
+        {
+            string mensaje = "CONFIGURACIÓN DE CORREO PARA ENVÍO AUTOMÁTICO\n\n" +
+                "El correo que ingresaste se usará para:\n" +
+                "• Recibir notificaciones del sistema\n" +
+                "• ENVIAR correos automáticos a tus clientes (ventas a crédito, recordatorios)\n\n" +
+                "Para enviar correos automáticamente desde tu Gmail, necesitas:\n" +
+                "1. Activar la verificación en 2 pasos en Google\n" +
+                "2. Generar una 'Contraseña de aplicación'\n\n" +
+                "¿Deseas configurar el envío automático ahora?\n" +
+                "(Puedes hacerlo después en Configuración > Seguridad)";
+
+            DialogResult result = MessageBox.Show(mensaje, "Configuración de Correo",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+
+            return result == DialogResult.Yes;
+        }
+
+        private string SolicitarClaveAplicacionGmail()
+        {
+            using (Form frmClave = new Form
+            {
+                Text = "Contraseña de Aplicación de Gmail",
+                ClientSize = new System.Drawing.Size(450, 300),
+                StartPosition = FormStartPosition.CenterParent,
+                FormBorderStyle = FormBorderStyle.FixedDialog,
+                MaximizeBox = false,
+                MinimizeBox = false
+            })
+            {
+                Label lblInstrucciones = new Label
+                {
+                    Text = "Pasos para obtener tu contraseña de aplicación:\n\n" +
+                           "1. Ve a: myaccount.google.com/apppasswords\n" +
+                           "2. Selecciona 'Correo' y 'Otro dispositivo'\n" +
+                           "3. Escribe: Control Inventario\n" +
+                           "4. Copia la contraseña de 16 dígitos\n" +
+                           "5. Pégala aquí abajo:",
+                    Location = new System.Drawing.Point(15, 10),
+                    Size = new System.Drawing.Size(420, 120)
+                };
+
+                LinkLabel lnkAyuda = new LinkLabel
+                {
+                    Text = "🔗 Abrir Google App Passwords",
+                    Location = new System.Drawing.Point(15, 135),
+                    Size = new System.Drawing.Size(220, 20)
+                };
+                lnkAyuda.LinkClicked += (s, e) =>
+                {
+                    System.Diagnostics.Process.Start("https://myaccount.google.com/apppasswords");
+                };
+
+                Label lblClave = new Label
+                {
+                    Text = "Contraseña de aplicación (16 caracteres):",
+                    Location = new System.Drawing.Point(15, 165),
+                    Size = new System.Drawing.Size(420, 20)
+                };
+
+                TextBox txtClave = new TextBox
+                {
+                    Location = new System.Drawing.Point(15, 190),
+                    Size = new System.Drawing.Size(420, 25),
+                    Font = new System.Drawing.Font("Consolas", 10f),
+                    MaxLength = 19,
+                    TextAlign = HorizontalAlignment.Center,
+                    Text = "xxxx xxxx xxxx xxxx",
+                    ForeColor = Color.Gray
+                };
+
+                // Simular placeholder con eventos
+                txtClave.Enter += (s, ev) =>
+                {
+                    if (txtClave.Text == "xxxx xxxx xxxx xxxx")
+                    {
+                        txtClave.Text = "";
+                        txtClave.ForeColor = Color.Black;
+                    }
+                };
+
+                txtClave.Leave += (s, ev) =>
+                {
+                    if (string.IsNullOrWhiteSpace(txtClave.Text))
+                    {
+                        txtClave.Text = "xxxx xxxx xxxx xxxx";
+                        txtClave.ForeColor = Color.Gray;
+                    }
+                };
+
+                // Formatear automáticamente con espacios
+                txtClave.TextChanged += (s, e) =>
+                {
+                    string texto = txtClave.Text.Replace(" ", "");
+                    if (texto.Length > 16) texto = texto.Substring(0, 16);
+
+                    string formateado = "";
+                    for (int i = 0; i < texto.Length; i++)
+                    {
+                        if (i > 0 && i % 4 == 0) formateado += " ";
+                        formateado += texto[i];
+                    }
+
+                    if (txtClave.Text != formateado)
+                    {
+                        int cursorPos = txtClave.SelectionStart;
+                        txtClave.Text = formateado;
+                        txtClave.SelectionStart = Math.Min(cursorPos + 1, formateado.Length);
+                    }
+                };
+
+                Button btnAceptar = new Button
+                {
+                    Text = "Guardar",
+                    Location = new System.Drawing.Point(150, 240),
+                    Size = new System.Drawing.Size(80, 35),
+                    DialogResult = DialogResult.OK
+                };
+
+                Button btnOmitir = new Button
+                {
+                    Text = "Omitir",
+                    Location = new System.Drawing.Point(240, 240),
+                    Size = new System.Drawing.Size(80, 35),
+                    DialogResult = DialogResult.Cancel
+                };
+
+                frmClave.Controls.AddRange(new Control[] { lblInstrucciones, lnkAyuda, lblClave, txtClave, btnAceptar, btnOmitir });
+                frmClave.AcceptButton = btnAceptar;
+
+                if (frmClave.ShowDialog() == DialogResult.OK)
+                {
+                    return txtClave.Text.Replace(" ", "");
+                }
+                return null;
+            }
         }
     }
 }

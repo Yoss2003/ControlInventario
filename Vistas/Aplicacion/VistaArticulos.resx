@@ -133,7 +133,266 @@
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>1409, 655</value>
   </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="ChkActivarDatosMasivos.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="ChkActivarDatosMasivos.Location" type="System.Drawing.Point, System.Drawing">
+    <value>178, 12</value>
+  </data>
+  <data name="ChkActivarDatosMasivos.Size" type="System.Drawing.Size, System.Drawing">
+    <value>22, 21</value>
+  </data>
+  <data name="ChkActivarDatosMasivos.TabIndex" type="System.Int32, mscorlib">
+    <value>35</value>
+  </data>
+  <data name="&gt;&gt;ChkActivarDatosMasivos.Name" xml:space="preserve">
+    <value>ChkActivarDatosMasivos</value>
+  </data>
+  <data name="&gt;&gt;ChkActivarDatosMasivos.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ChkActivarDatosMasivos.Parent" xml:space="preserve">
+    <value>GrpRegistroMasivo</value>
+  </data>
+  <data name="&gt;&gt;ChkActivarDatosMasivos.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="CbGrupoRegistro.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="CbGrupoRegistro.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 260</value>
+  </data>
+  <data name="CbGrupoRegistro.Size" type="System.Drawing.Size, System.Drawing">
+    <value>136, 28</value>
+  </data>
+  <data name="CbGrupoRegistro.TabIndex" type="System.Int32, mscorlib">
+    <value>33</value>
+  </data>
+  <data name="CbGrupoRegistro.Text" xml:space="preserve">
+    <value>SELECCIONE</value>
+  </data>
+  <data name="&gt;&gt;CbGrupoRegistro.Name" xml:space="preserve">
+    <value>CbGrupoRegistro</value>
+  </data>
+  <data name="&gt;&gt;CbGrupoRegistro.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CbGrupoRegistro.Parent" xml:space="preserve">
+    <value>GrpRegistroMasivo</value>
+  </data>
+  <data name="&gt;&gt;CbGrupoRegistro.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="BtnAgregarGrupo.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="BtnAgregarGrupo.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BtnAgregarGrupo.Location" type="System.Drawing.Point, System.Drawing">
+    <value>167, 256</value>
+  </data>
+  <data name="BtnAgregarGrupo.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
+  </data>
+  <data name="BtnAgregarGrupo.Size" type="System.Drawing.Size, System.Drawing">
+    <value>24, 32</value>
+  </data>
+  <data name="BtnAgregarGrupo.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="BtnAgregarGrupo.Text" xml:space="preserve">
+    <value>+</value>
+  </data>
+  <data name="&gt;&gt;BtnAgregarGrupo.Name" xml:space="preserve">
+    <value>BtnAgregarGrupo</value>
+  </data>
+  <data name="&gt;&gt;BtnAgregarGrupo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;BtnAgregarGrupo.Parent" xml:space="preserve">
+    <value>GrpRegistroMasivo</value>
+  </data>
+  <data name="&gt;&gt;BtnAgregarGrupo.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="CbUnidadMedida.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="CbUnidadMedida.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 57</value>
+  </data>
+  <data name="CbUnidadMedida.Size" type="System.Drawing.Size, System.Drawing">
+    <value>136, 28</value>
+  </data>
+  <data name="CbUnidadMedida.TabIndex" type="System.Int32, mscorlib">
+    <value>34</value>
+  </data>
+  <data name="CbUnidadMedida.Text" xml:space="preserve">
+    <value>SELECCIONE</value>
+  </data>
+  <data name="&gt;&gt;CbUnidadMedida.Name" xml:space="preserve">
+    <value>CbUnidadMedida</value>
+  </data>
+  <data name="&gt;&gt;CbUnidadMedida.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CbUnidadMedida.Parent" xml:space="preserve">
+    <value>GrpRegistroMasivo</value>
+  </data>
+  <data name="&gt;&gt;CbUnidadMedida.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="NumCantidad.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="NumCantidad.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 163</value>
+  </data>
+  <data name="NumCantidad.Size" type="System.Drawing.Size, System.Drawing">
+    <value>136, 26</value>
+  </data>
+  <data name="NumCantidad.TabIndex" type="System.Int32, mscorlib">
+    <value>32</value>
+  </data>
+  <data name="&gt;&gt;NumCantidad.Name" xml:space="preserve">
+    <value>NumCantidad</value>
+  </data>
+  <data name="&gt;&gt;NumCantidad.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NumCantidad.Parent" xml:space="preserve">
+    <value>GrpRegistroMasivo</value>
+  </data>
+  <data name="&gt;&gt;NumCantidad.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="label3.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>11, 132</value>
+  </data>
+  <data name="label3.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
+  </data>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>73, 20</value>
+  </data>
+  <data name="label3.TabIndex" type="System.Int32, mscorlib">
+    <value>29</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Cantidad</value>
+  </data>
+  <data name="&gt;&gt;label3.Name" xml:space="preserve">
+    <value>label3</value>
+  </data>
+  <data name="&gt;&gt;label3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
+    <value>GrpRegistroMasivo</value>
+  </data>
+  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="label2.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>11, 238</value>
+  </data>
+  <data name="label2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>118, 20</value>
+  </data>
+  <data name="label2.TabIndex" type="System.Int32, mscorlib">
+    <value>30</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Grupo Registro</value>
+  </data>
+  <data name="&gt;&gt;label2.Name" xml:space="preserve">
+    <value>label2</value>
+  </data>
+  <data name="&gt;&gt;label2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
+    <value>GrpRegistroMasivo</value>
+  </data>
+  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="label1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>11, 32</value>
+  </data>
+  <data name="label1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>116, 20</value>
+  </data>
+  <data name="label1.TabIndex" type="System.Int32, mscorlib">
+    <value>31</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Unidad Medida</value>
+  </data>
+  <data name="&gt;&gt;label1.Name" xml:space="preserve">
+    <value>label1</value>
+  </data>
+  <data name="&gt;&gt;label1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
+    <value>GrpRegistroMasivo</value>
+  </data>
+  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="GrpRegistroMasivo.Location" type="System.Drawing.Point, System.Drawing">
+    <value>701, 218</value>
+  </data>
+  <data name="GrpRegistroMasivo.Size" type="System.Drawing.Size, System.Drawing">
+    <value>206, 320</value>
+  </data>
+  <data name="GrpRegistroMasivo.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="GrpRegistroMasivo.Text" xml:space="preserve">
+    <value>Registro masivos</value>
+  </data>
+  <data name="&gt;&gt;GrpRegistroMasivo.Name" xml:space="preserve">
+    <value>GrpRegistroMasivo</value>
+  </data>
+  <data name="&gt;&gt;GrpRegistroMasivo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GrpRegistroMasivo.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;GrpRegistroMasivo.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="PbFotoArticulo.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
@@ -149,7 +408,6 @@
   <data name="PbFotoArticulo.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>Zoom</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="PbFotoArticulo.TabIndex" type="System.Int32, mscorlib">
     <value>31</value>
   </data>
@@ -484,7 +742,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;GpInformación.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="btnAgregar.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -667,7 +925,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;GpAcciones.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="TxtRazonSocial.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -919,7 +1177,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;GpAdquisicion.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="CbUbicacion.IconPadding" type="System.Int32, mscorlib">
     <value>3</value>
@@ -961,7 +1219,7 @@
     <value>True</value>
   </data>
   <data name="TxtObservaciones.Size" type="System.Drawing.Size, System.Drawing">
-    <value>438, 244</value>
+    <value>232, 244</value>
   </data>
   <data name="TxtObservaciones.TabIndex" type="System.Int32, mscorlib">
     <value>20</value>
@@ -1252,7 +1510,7 @@
     <value>4, 5, 4, 5</value>
   </data>
   <data name="GpUsos.Size" type="System.Drawing.Size, System.Drawing">
-    <value>671, 320</value>
+    <value>458, 320</value>
   </data>
   <data name="GpUsos.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -1270,7 +1528,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;GpUsos.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="ChkAutoModelo.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1756,7 +2014,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 5, 4, 5</value>

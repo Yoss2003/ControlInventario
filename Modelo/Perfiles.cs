@@ -14,24 +14,19 @@
         public string FormatoFecha { get; set; }
         public int IdMoneda { get; set; }
         public string Moneda { get; set; }
-        public int IdUnidadMedida { get; set; }
-        public string UnidadMedida { get; set; }
         public int IdZonaHoraria { get; set; }
         public string ZonaHoraria { get; set; }
-
         public bool Autenticacion { get; set; }
         public bool ActividadCompartida { get; set; }
         public bool CodigoBarras { get; set; }
-        public bool CategoriaPersonalizada { get; set; }
         public bool CalcularDevaluacion { get; set; }
         public bool GeneracionCodigos { get; set; }
-
         public int IdModoVentas { get; set; }
         public string ModoVentas { get; set; }
-
-        // Configuración de mora
         public bool AplicarMora { get; set; }
         public decimal PorcentajeMora { get; set; }
         public int DiasGracia { get; set; }
+        public string CorreoSMTP { get; set; }
+        public string ClaveSMTP { get; set; }
     }
 }

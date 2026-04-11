@@ -36,12 +36,16 @@ namespace ControlInventario.Database
                 c.Nombre AS Cargo,
                 a.Nombre AS Area,
                 t.Nombre AS TipoContrato,
-                r.Nombre AS Rol
+                CASE u.IdRol
+                    WHEN 1 THEN 'Administrador'
+                    WHEN 2 THEN 'Supervisor'
+                    WHEN 3 THEN 'Usuario'
+                    ELSE 'Desconocido'
+                END AS Rol
             FROM Usuario u
-            LEFT JOIN Parametros c ON u.IdCargo = c.Id
-            LEFT JOIN Parametros a ON u.IdArea = a.Id
-            LEFT JOIN Parametros t ON u.IdTipoContrato = t.Id
-            LEFT JOIN Parametros r ON u.IdRol = r.Id;";
+            LEFT JOIN Parametros c ON u.IdCargo = c.Id AND c.TipoParametro = 'Cargo'
+            LEFT JOIN Parametros a ON u.IdArea = a.Id AND a.TipoParametro = 'Area'
+            LEFT JOIN Parametros t ON u.IdTipoContrato = t.Id AND t.TipoParametro = 'Contrato';";
             using (var cmd = new SQLiteCommand(queryVista, con)) { cmd.ExecuteNonQuery(); }
         }
 
@@ -238,6 +242,21 @@ namespace ControlInventario.Database
                     cmd.Parameters.AddWithValue("@User", nombreUsuario);
                     var result = cmd.ExecuteScalar();
                     return result != null && result != DBNull.Value ? result.ToString() : "";
+                }
+            }
+        }
+
+        public static void ActualizarCorreoUsuario(int idUsuario, string nuevoCorreo)
+        {
+            using (var con = ConexionGlobal.ObtenerConexion())
+            {
+                con.Open();
+                string query = "UPDATE Usuario SET Correo = @Correo WHERE Id = @Id;";
+                using (var cmd = new SQLiteCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@Correo", nuevoCorreo);
+                    cmd.Parameters.AddWithValue("@Id", idUsuario);
+                    cmd.ExecuteNonQuery();
                 }
             }
         }

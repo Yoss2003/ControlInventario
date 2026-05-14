@@ -13,152 +13,17 @@ namespace ControlInventario.Vistas.Aplicacion
     public partial class VistaCuentasPorCobrar : Form
     {
         private DataTable dtCuentas;
-        private TextBox TxtFiltroCliente;
-        private ComboBox CbFiltroEstado;
-        private DataGridView DgvCuentas;
-        private Label LblResumen;
-        private Button BtnRegistrarAbono;
-        private Button BtnRenegociar;
-        private Button BtnRecuperarArticulo;
-        private Button BtnMarcarPerdida;
-        private Button BtnBuscar;
-        private Button BtnLimpiar;
 
         public VistaCuentasPorCobrar()
         {
             InitializeComponent();
-            CrearInterfaz();
-        }
-
-        private void CrearInterfaz()
-        {
-            this.Text = "Cuentas por Cobrar";
-            this.ClientSize = new Size(1100, 650);
-            this.StartPosition = FormStartPosition.CenterScreen;
-            this.FormBorderStyle = FormBorderStyle.FixedSingle;
-            this.MaximizeBox = false;
-            this.ShowIcon = false;
-
-            // === PANEL FILTROS ===
-            GroupBox grpFiltros = new GroupBox
-            {
-                Text = "Filtros de Búsqueda",
-                Location = new Point(12, 8),
-                Size = new Size(1070, 70)
-            };
-
-            Label lblCliente = new Label { Text = "Cliente / Documento:", Location = new Point(10, 28), AutoSize = true };
-            TxtFiltroCliente = new TextBox
-            {
-                Location = new Point(170, 25),
-                Size = new Size(250, 26),
-                BorderStyle = BorderStyle.FixedSingle
-            };
-
-            Label lblEstado = new Label { Text = "Estado:", Location = new Point(440, 28), AutoSize = true };
-            CbFiltroEstado = new ComboBox
-            {
-                Location = new Point(500, 25),
-                Size = new Size(150, 28),
-                DropDownStyle = ComboBoxStyle.DropDownList
-            };
-            CbFiltroEstado.Items.AddRange(new string[] { "Todos", "Pendiente", "Vencida", "Pagada", "Renegociada", "Cancelada" });
-            CbFiltroEstado.SelectedIndex = 0;
-
-            BtnBuscar = new Button { Text = "Buscar", Location = new Point(680, 22), Size = new Size(100, 35), Cursor = Cursors.Hand };
-            BtnBuscar.Click += (s, e) => CargarCuentas();
-
-            BtnLimpiar = new Button { Text = "Limpiar", Location = new Point(790, 22), Size = new Size(100, 35), Cursor = Cursors.Hand };
-            BtnLimpiar.Click += (s, e) => { TxtFiltroCliente.Clear(); CbFiltroEstado.SelectedIndex = 0; CargarCuentas(); };
-
-            grpFiltros.Controls.AddRange(new Control[] { lblCliente, TxtFiltroCliente, lblEstado, CbFiltroEstado, BtnBuscar, BtnLimpiar });
-            this.Controls.Add(grpFiltros);
-
-            // === GRILLA ===
-            DgvCuentas = new DataGridView
-            {
-                Location = new Point(12, 85),
-                Size = new Size(1070, 420),
-                AllowUserToAddRows = false,
-                ReadOnly = true,
-                RowHeadersVisible = false,
-                SelectionMode = DataGridViewSelectionMode.FullRowSelect,
-                MultiSelect = false,
-                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
-                BackgroundColor = Color.White
-            };
-            DgvCuentas.SelectionChanged += DgvCuentas_SelectionChanged;
-            ClassHelper.AplicarEstilosGrillas(DgvCuentas);
-            this.Controls.Add(DgvCuentas);
-
-            // === RESUMEN ===
-            LblResumen = new Label
-            {
-                Location = new Point(12, 515),
-                Size = new Size(700, 25),
-                Font = new Font("Segoe UI", 10f, FontStyle.Bold),
-                ForeColor = Color.DarkRed
-            };
-            this.Controls.Add(LblResumen);
-
-            // === PANEL ACCIONES ===
-            GroupBox grpAcciones = new GroupBox
-            {
-                Text = "Acciones",
-                Location = new Point(12, 545),
-                Size = new Size(1070, 90)
-            };
-
-            BtnRegistrarAbono = new Button
-            {
-                Text = "💰 Registrar Abono",
-                Location = new Point(15, 30),
-                Size = new Size(200, 45),
-                Cursor = Cursors.Hand,
-                Enabled = false
-            };
-            BtnRegistrarAbono.Click += BtnRegistrarAbono_Click;
-
-            BtnRenegociar = new Button
-            {
-                Text = "📋 Renegociar Cuotas",
-                Location = new Point(230, 30),
-                Size = new Size(200, 45),
-                Cursor = Cursors.Hand,
-                Enabled = false
-            };
-            BtnRenegociar.Click += BtnRenegociar_Click;
-
-            BtnRecuperarArticulo = new Button
-            {
-                Text = "🔄 Recuperar Artículo",
-                Location = new Point(445, 30),
-                Size = new Size(200, 45),
-                Cursor = Cursors.Hand,
-                Enabled = false
-            };
-            BtnRecuperarArticulo.Click += BtnRecuperarArticulo_Click;
-
-            BtnMarcarPerdida = new Button
-            {
-                Text = "❌ Marcar como Pérdida",
-                Location = new Point(660, 30),
-                Size = new Size(200, 45),
-                Cursor = Cursors.Hand,
-                Enabled = false,
-                ForeColor = Color.DarkRed
-            };
-            BtnMarcarPerdida.Click += BtnMarcarPerdida_Click;
-
-            grpAcciones.Controls.AddRange(new Control[] { BtnRegistrarAbono, BtnRenegociar, BtnRecuperarArticulo, BtnMarcarPerdida });
-            this.Controls.Add(grpAcciones);
-
-            this.Load += VistaCuentasPorCobrar_Load;
         }
 
         private void VistaCuentasPorCobrar_Load(object sender, EventArgs e)
         {
-            // Aplicar moras si está configurado
+            CbFiltroEstado.Items.AddRange(new string[] { "Todos", "Pendiente", "Vencida", "Pagada", "Renegociada", "Cancelada" });
+            CbFiltroEstado.SelectedIndex = 0;
+
             var config = UsuarioSesion.Configuracion;
             if (config != null && config.AplicarMora)
             {
@@ -166,7 +31,9 @@ namespace ControlInventario.Vistas.Aplicacion
             }
 
             CargarCuentas();
+            ClassHelper.AplicarEstilosGrillas(DgvCuentas);
             ClassHelper.AplicarTema(this);
+            this.Controls.Add(DgvCuentas);
         }
 
         private void CargarCuentas()
@@ -176,29 +43,10 @@ namespace ControlInventario.Vistas.Aplicacion
 
             dtCuentas = CuentasPorCobrarRepository.ListarResumenCuentas(UsuarioSesion.InventarioId, estado, cliente);
 
-            DgvCuentas.DataSource = null;
-            DgvCuentas.Columns.Clear();
+            // Resumen
             DgvCuentas.AutoGenerateColumns = false;
-
-            // Crear columnas manualmente para control total
-            DgvCuentas.Columns.Add(new DataGridViewTextBoxColumn { Name = "ColCliente", HeaderText = "Cliente", DataPropertyName = "Destinatario" });
-            DgvCuentas.Columns.Add(new DataGridViewTextBoxColumn { Name = "ColDocumento", HeaderText = "Documento", DataPropertyName = "Documento" });
-            DgvCuentas.Columns.Add(new DataGridViewTextBoxColumn { Name = "ColArticulo", HeaderText = "Artículo", DataPropertyName = "ArticuloCodigo" });
-            DgvCuentas.Columns.Add(new DataGridViewTextBoxColumn { Name = "ColModelo", HeaderText = "Modelo", DataPropertyName = "ArticuloModelo" });
-            DgvCuentas.Columns.Add(new DataGridViewTextBoxColumn { Name = "ColCuota", HeaderText = "N°", DataPropertyName = "NumeroCuota", Width = 40 });
-            DgvCuentas.Columns.Add(new DataGridViewTextBoxColumn { Name = "ColMonto", HeaderText = "Monto", DataPropertyName = "MontoCuota" });
-            DgvCuentas.Columns.Add(new DataGridViewTextBoxColumn { Name = "ColPagado", HeaderText = "Pagado", DataPropertyName = "MontoPagado" });
-            DgvCuentas.Columns.Add(new DataGridViewTextBoxColumn { Name = "ColMora", HeaderText = "Mora", DataPropertyName = "MontoMora" });
-            DgvCuentas.Columns.Add(new DataGridViewTextBoxColumn { Name = "ColSaldo", HeaderText = "Saldo", DataPropertyName = "Saldo" });
-            DgvCuentas.Columns.Add(new DataGridViewTextBoxColumn { Name = "ColVencimiento", HeaderText = "Vencimiento", DataPropertyName = "FechaVencimiento" });
-            DgvCuentas.Columns.Add(new DataGridViewTextBoxColumn { Name = "ColEstado", HeaderText = "Estado", DataPropertyName = "Estado" });
-
             DgvCuentas.DataSource = dtCuentas;
 
-            // Formato visual
-            DgvCuentas.CellFormatting += DgvCuentas_CellFormatting;
-
-            // Resumen
             decimal totalPendiente = 0;
             int cuotasVencidas = 0;
             foreach (DataRow row in dtCuentas.Rows)
@@ -512,6 +360,18 @@ namespace ControlInventario.Vistas.Aplicacion
             {
                 MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void BtnBuscar_Click(object sender, EventArgs e)
+        {
+            CargarCuentas();
+        }
+
+        private void BtnLimpiar_Click(object sender, EventArgs e)
+        {
+            TxtFiltroCliente.Clear();
+            CbFiltroEstado.SelectedIndex = 0; 
+            CargarCuentas();
         }
     }
 }

@@ -69,12 +69,20 @@ namespace ControlInventario.Vistas.Extras
                     DgComponentes.Columns["IdComponente"].DataPropertyName = "Id";
                     DgComponentes.Columns["NombreComponente"].DataPropertyName = "Nombre";
                     DgComponentes.Columns["DescripcionComponente"].DataPropertyName = "Descripcion";
+
+                    if (tipoComponente == "Categoria")
+                    {
+                        DgComponentes.Columns["EsDevolvible"].DataPropertyName = "EsDevolvible";
+                    }
                 }
 
                 DgComponentes.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                 DgComponentes.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                 DgComponentes.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
-                DgComponentes.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+                DgComponentes.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells; 
+                DgComponentes.ClearSelection();
+                ClassHelper.AplicarEstilosGrillas(DgComponentes);
+                DgComponentes.Columns["DescripcionComponente"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             }
             LimpiarCampos();
         }
@@ -89,117 +97,75 @@ namespace ControlInventario.Vistas.Extras
 
         private void VistaAgregarComponentes_Load(object sender, EventArgs e)
         {
+            // 1. Configuraciones visuales iniciales
             BtnConsultarRUC.Visible = tipoComponente == "Proveedor";
+            ChkPermitirDevolucion.Visible = tipoComponente == "Categoria";
             DgComponentes.AutoGenerateColumns = false;
-            LblFecha.Text = DateTime.Now.ToString("dd/MM/yyyy");
 
+            // 2. Textos por defecto (aplica para la mayoría)
             Text = $"Agregar {tipoComponente}";
             LblNuevoComponente.Text = $"Nombre del {tipoComponente} nuevo:";
             LblDescripcionComponente.Text = $"Descripción del {tipoComponente} nuevo:";
+            TxtDescripcionComponente.Size = new System.Drawing.Size(408, 89);
 
-            if (tipoComponente == "Cargo")
+            // 3. Sobrescribir textos específicos según el componente usando un switch
+            switch (tipoComponente)
             {
-                using (var con = ConexionGlobal.ObtenerConexion())
-                {
-                    con.Open();
-                    ParametrosRepository.ListarParametros(con, tipoComponente, UsuarioSesion.InventarioId);
-                    DataTable dt = new DataTable();
-                    DgComponentes.DataSource = dt;
-                }
+                case "EstadoEmpleados":
+                case "EstadoArticulos":
+                    Text = "Agregar nuevo estado";
+                    LblNuevoComponente.Text = "Nombre del estado nuevo:";
+                    LblDescripcionComponente.Text = "Descripción del estado nuevo:";
+                    break;
+
+                case "Condicion":
+                case "Ubicacion":
+                case "Marca":
+                    LblNuevoComponente.Text = $"Nombre de la {tipoComponente} nueva:";
+                    LblDescripcionComponente.Text = $"Descripción de la {tipoComponente} nueva:";
+                    break;
+
+                case "Categoria":
+                    LblNuevoComponente.Text = $"Nombre de la {tipoComponente} nueva:";
+                    LblDescripcionComponente.Text = $"Descripción de la {tipoComponente} nueva:";
+                    TxtDescripcionComponente.Size = new System.Drawing.Size(408, 59);
+                    break;
+
+                case "Proveedor":
+                    LblNuevoComponente.Text = $"Ruc del {tipoComponente} nuevo:";
+                    LblDescripcionComponente.Text = $"Razón social del {tipoComponente} nuevo:";
+                    break;
             }
-            else if (tipoComponente == "Area")
+
+            // 4. Asignación del origen de datos vacío (se repetía en todos los if)
+            DgComponentes.DataSource = new DataTable();
+
+            // 5. Única apertura de conexión a la Base de Datos
+            using (var con = ConexionGlobal.ObtenerConexion())
             {
-                using (var con = ConexionGlobal.ObtenerConexion())
+                con.Open();
+
+                // Llamada al repositorio correspondiente
+                if (tipoComponente == "Categoria")
                 {
-                    con.Open();
-                    ParametrosRepository.ListarParametros(con, tipoComponente, UsuarioSesion.InventarioId);
-                    DataTable dt = new DataTable();
-                    DgComponentes.DataSource = dt;
-                }
-            }
-            else if (tipoComponente == "EstadoEmpleados")
-            {
-                using (var con = ConexionGlobal.ObtenerConexion())
-                {
-                    con.Open();
-                    ParametrosRepository.ListarParametros(con, tipoComponente, UsuarioSesion.InventarioId);
-                    DataTable dt = new DataTable();
-                    DgComponentes.DataSource = dt;
-                }
-            }
-            else if (tipoComponente == "EstadoArticulos")
-            {
-                using (var con = ConexionGlobal.ObtenerConexion())
-                {
-                    con.Open();
-                    ParametrosRepository.ListarParametros(con, tipoComponente, UsuarioSesion.InventarioId);
-                    DataTable dt = new DataTable();
-                    DgComponentes.DataSource = dt;
-                }
-            }
-            else if (tipoComponente == "Condicion")
-            {
-                using (var con = ConexionGlobal.ObtenerConexion())
-                {
-                    con.Open();
-                    ParametrosRepository.ListarParametros(con, tipoComponente, UsuarioSesion.InventarioId);
-                    DataTable dt = new DataTable();
-                    DgComponentes.DataSource = dt;
-                }
-            }
-            else if (tipoComponente == "Ubicacion")
-            {
-                using (var con = ConexionGlobal.ObtenerConexion())
-                {
-                    con.Open();
-                    ParametrosRepository.ListarParametros(con, tipoComponente, UsuarioSesion.InventarioId);
-                    DataTable dt = new DataTable();
-                    DgComponentes.DataSource = dt;
-                }
-            }
-            else if (tipoComponente == "Categoria")
-            {
-                using (var con = ConexionGlobal.ObtenerConexion())
-                {
-                    con.Open();
                     CategoriaRepository.ListarCategorias(UsuarioSesion.InventarioId);
-                    DataTable dt = new DataTable();
-                    DgComponentes.DataSource = dt;
                 }
-            }
-            else if (tipoComponente == "Marca")
-            {
-                Text = $"Agregar {tipoComponente}";
-                LblNuevoComponente.Text = $"Nombre de la {tipoComponente} nueva:";
-                using (var con = ConexionGlobal.ObtenerConexion())
+                else if (tipoComponente == "Marca")
                 {
-                    con.Open();
                     MarcasRepository.ListarMarcas(con, CategoriaId);
-                    DataTable dt = new DataTable();
-                    DgComponentes.DataSource = dt;
                 }
-            }
-            else if (tipoComponente == "Proveedor")
-            {
-                using (var con = ConexionGlobal.ObtenerConexion())
+                else if (tipoComponente == "Proveedor")
                 {
-                    con.Open();
                     ProveedorRepository.ListarProveedor(con);
-                    DataTable dt = new DataTable();
-                    DgComponentes.DataSource = dt;
                 }
-            }
-            else if (tipoComponente == "Contrato")
-            {
-                using (var con = ConexionGlobal.ObtenerConexion())
+                else
                 {
-                    con.Open();
+                    // Cargo, Area, EstadoEmpleados, EstadoArticulos, Condicion, Ubicacion, Contrato
                     ParametrosRepository.ListarParametros(con, tipoComponente, UsuarioSesion.InventarioId);
-                    DataTable dt = new DataTable();
-                    DgComponentes.DataSource = dt;
                 }
             }
 
+            // 6. Carga final y UI
             CargarDatos();
             ClassHelper.AplicarTema(this);
             LblFecha.Text = ClassHelper.FormatearFecha(DateTime.Now);
@@ -290,7 +256,8 @@ namespace ControlInventario.Vistas.Extras
                         Nombre = TxtNombreComponente.Text,
                         Descripcion = TxtDescripcionComponente.Text,
                         FechaCreacion = DateTime.Now.ToString("dd/MM/yyyy"),
-                        UsuarioCreacion = UsuarioSesion.NombreUsuario
+                        UsuarioCreacion = UsuarioSesion.NombreUsuario,
+                        EsDevolvible = ChkPermitirDevolucion.Checked
                     };
 
                     if (isEdit) CategoriaRepository.ActualizarCategoria(cat);
@@ -378,6 +345,21 @@ namespace ControlInventario.Vistas.Extras
                 DataGridViewRow fila = DgComponentes.Rows[e.RowIndex];
                 TxtNombreComponente.Text = fila.Cells["NombreComponente"].Value?.ToString();
                 TxtDescripcionComponente.Text = fila.Cells["DescripcionComponente"].Value?.ToString();
+
+                if (tipoComponente == "Categoria")
+                {
+                    DataRowView rowView = (DataRowView)fila.DataBoundItem;
+
+                    if (rowView.Row.Table.Columns.Contains("EsDevolvible") && rowView["EsDevolvible"] != DBNull.Value)
+                    {
+                        int valorEntero = Convert.ToInt32(rowView["EsDevolvible"]);
+                        ChkPermitirDevolucion.Checked = (valorEntero == 1);
+                    }
+                    else
+                    {
+                        ChkPermitirDevolucion.Checked = true;
+                    }
+                }
 
                 isEdit = true;
                 BtnGuardar.Text = "Actualizar";
@@ -496,11 +478,6 @@ namespace ControlInventario.Vistas.Extras
             }
         }
 
-        private void DgComponentes_CellStateChanged(object sender, DataGridViewCellStateChangedEventArgs e)
-        {
-            BtnEliminar.Enabled = DgComponentes.Focus();
-        }
-
         private async void BtnConsultarRUC_Click(object sender, EventArgs e)
         {
             string ruc = TxtNombreComponente.Text.Trim();
@@ -513,6 +490,18 @@ namespace ControlInventario.Vistas.Extras
                 estadoTemporalTexto = empresa.estado;
                 estadoTemporalId = ApiHelper.MapearEstadoSunat(empresa.estado);
             }
+        }
+
+        private void VistaAgregarComponentes_Click(object sender, EventArgs e)
+        {
+            DgComponentes.ClearSelection();
+
+            this.ActiveControl = null;
+        }
+
+        private void DgComponentes_SelectionChanged(object sender, EventArgs e)
+        {
+            BtnEliminar.Enabled = (DgComponentes.SelectedRows.Count > 0 || DgComponentes.SelectedCells.Count > 0);
         }
     }
 }

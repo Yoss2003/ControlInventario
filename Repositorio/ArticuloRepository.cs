@@ -974,6 +974,5 @@ namespace ControlInventario.Database
             }
             return lista;
         }
-
     }
 }

@@ -275,6 +275,12 @@
     <Compile Include="Vistas\Extras\VistaDetalleGrupo.Designer.cs">
       <DependentUpon>VistaDetalleGrupo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Vistas\Extras\VistaSeleccionExportacion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Vistas\Extras\VistaSeleccionExportacion.Designer.cs">
+      <DependentUpon>VistaSeleccionExportacion.cs</DependentUpon>
+    </Compile>
     <Compile Include="Vistas\Extras\VistaRegistroMasivo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -292,15 +298,6 @@
     </Compile>
     <Compile Include="Vistas\Extras\VistaBusquedaAvanzada.Designer.cs">
       <DependentUpon>VistaBusquedaAvanzada.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Vistas\Extras\VistaSeleccionExportacion.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Vistas\Extras\VistaSelecciónExportación.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Vistas\Extras\VistaSelecciónExportación.Designer.cs">
-      <DependentUpon>VistaSelecciónExportación.cs</DependentUpon>
     </Compile>
     <Compile Include="Vistas\Form1.cs">
       <SubType>Form</SubType>
@@ -414,6 +411,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Vistas\Extras\VistaCaracteristicas.resx">
       <DependentUpon>VistaCaracteristicas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Vistas\Extras\VistaCuentasPorCobrar.resx">
+      <DependentUpon>VistaCuentasPorCobrar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Vistas\Extras\VistaSeleccionExportacion.resx">
+      <DependentUpon>VistaSeleccionExportacion.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Vistas\Extras\VistaRutaExportacion.resx">
       <DependentUpon>VistaRutaExportacion.cs</DependentUpon>

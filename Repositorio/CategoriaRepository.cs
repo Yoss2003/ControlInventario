@@ -29,7 +29,7 @@ namespace ControlInventario.Database
                 UsuarioModificacion TEXT,
                 FechaEliminacion TEXT,
                 UsuarioEliminacion TEXT,
-                EsDevolvible INTEGER NOT NULL DEFAULT 1,
+                EsDevolvible INTEGER,
             FOREIGN KEY (InventarioId) REFERENCES Inventarios(Id)
             );";
             using (var cmd = new SQLiteCommand(query, con))
@@ -59,13 +59,15 @@ namespace ControlInventario.Database
                     Nombre,
                     Descripcion,
                     FechaCreacion,
-                    UsuarioCreacion
+                    UsuarioCreacion,
+                    EsDevolvible
                 ) VALUES (
                     @InventarioId,
                     @Nombre,
                     @Descripcion,
                     @FechaCreacion,
-                    @UsuarioCreacion
+                    @UsuarioCreacion,
+                    @EsDevolvible
                 );
                 SELECT last_insert_rowid();";
 
@@ -76,6 +78,7 @@ namespace ControlInventario.Database
                     cmd.Parameters.AddWithValue("@Descripcion", cat.Descripcion);
                     cmd.Parameters.AddWithValue("@FechaCreacion", cat.FechaCreacion);
                     cmd.Parameters.AddWithValue("@UsuarioCreacion", cat.UsuarioCreacion);
+                    cmd.Parameters.AddWithValue("@EsDevolvible", cat.EsDevolvible ? 1 : 0);
 
                     long nuevoId = (long)cmd.ExecuteScalar();
 
@@ -94,7 +97,8 @@ namespace ControlInventario.Database
                     Nombre = @Nombre,
                     Descripcion = @Descripcion,
                     FechaModificacion = @FechaModificacion,
-                    UsuarioModificacion = @UsuarioModificacion
+                    UsuarioModificacion = @UsuarioModificacion,
+                    EsDevolvible = @EsDevolvible
                 WHERE Id = @Id;";
                 using (var cmd = new SQLiteCommand(query, con))
                 {
@@ -102,6 +106,7 @@ namespace ControlInventario.Database
                     cmd.Parameters.AddWithValue("@Descripcion", cat.Descripcion);
                     cmd.Parameters.AddWithValue("@FechaModificacion", cat.FechaModificacion);
                     cmd.Parameters.AddWithValue("@UsuarioModificacion", cat.UsuarioModificacion);
+                    cmd.Parameters.AddWithValue("@EsDevolvible", cat.EsDevolvible ? 1 : 0);
                     cmd.Parameters.AddWithValue("@Id", cat.Id);
                     cmd.ExecuteNonQuery();
                 }

@@ -618,11 +618,6 @@ namespace ControlInventario.Vistas
             ValidarBtnLimpiar();
         }
 
-        private void CbBuscarMarcaArticulo_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            ValidarBtnLimpiar();
-        }
-
         private void ChkUsarFechas_CheckedChanged(object sender, EventArgs e)
         {
             if (ChkUsarFechasIngreso.Checked)
@@ -638,12 +633,7 @@ namespace ControlInventario.Vistas
 
             ValidarBtnLimpiar();
         }
-
-        private void CbBuscarMarcaArticulo_TextUpdate(object sender, EventArgs e)
-        {
-            ClassHelper.NormalizarTexto(CbBuscarMarcaArticuloIngreso);
-        }
-
+               
         private void TbPrincipal_SelectedIndexChanged(object sender, EventArgs e)
         {
             ActualizarVistaBotones();
@@ -944,6 +934,7 @@ namespace ControlInventario.Vistas
             }
             ActualizarLabelVentas();
         }
+
         private void CargarMenuSalidas()
         {
             FlAcciones.Controls.Clear();
@@ -1220,6 +1211,7 @@ namespace ControlInventario.Vistas
             ValidarBtnLimpiarSalida();
         }
 
+        // Habilitar/deshabilitar controles de fecha según el checkbox y validar botón Limpiar
         private void ChkUsarFechasSalida_CheckedChanged(object sender, EventArgs e)
         {
             DtBuscarFechaInicioSalida.Enabled = ChkUsarFechasSalida.Checked;
@@ -1227,10 +1219,25 @@ namespace ControlInventario.Vistas
             ValidarBtnLimpiarSalida();
         }
 
+        // Validar botón Limpiar al cambiar la marca en búsqueda de salidas
+        private void CbBuscarMarcaArticulo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ValidarBtnLimpiar();
+        }
+
+        // Validar botón Limpiar al escribir en el textbox de búsqueda de salidas
+        private void CbBuscarMarcaArticulo_TextUpdate(object sender, EventArgs e)
+        {
+            ClassHelper.NormalizarTexto(CbBuscarMarcaArticuloIngreso);
+        }
+
+        // Validar botón Limpiar al cambiar la marca en búsqueda de salidas
         private void CbBuscarMarcaArticuloSalida_SelectedIndexChanged(object sender, EventArgs e)
         {
             ValidarBtnLimpiarSalida();
         }
+
+        // Validar botón Limpiar al escribir en el textbox de búsqueda de salidas
         private void ValidarBtnLimpiarSalida()
         {
             bool tieneTexto = !string.IsNullOrWhiteSpace(TxtBuscarCodArticuloSalida.Text);
@@ -1240,41 +1247,7 @@ namespace ControlInventario.Vistas
             BtnLimpiarSalida.Enabled = (tieneTexto || tieneMarca || tieneFecha);
         }
 
-        private void ActualizarLabelVentas()
-        {
-            string modoVentas = UsuarioSesion.Configuracion?.ModoVentas ?? "No mostrar";
-
-            if (modoVentas == "No mostrar")
-            {
-                LblTotalVentas.Visible = false;
-                DvgSalidas.Size = salidasSizeSinLabel;
-                DvgSalidas.Location = salidasLocationSinLabel;
-                LstDefault2.Size = salidasSizeSinLabel;
-                LstDefault2.Location = salidasLocationSinLabel;
-                return;
-            }
-
-            DvgSalidas.Size = salidasSizeConLabel;
-            DvgSalidas.Location = salidasLocationConLabel;
-            LstDefault2.Size = salidasSizeConLabel;
-            LstDefault2.Location = salidasLocationConLabel;
-            LblTotalVentas.Visible = true;
-
-            bool soloDia = modoVentas == "Ventas por día";
-            decimal total = MovimientoRepository.ObtenerTotalVentas(UsuarioSesion.InventarioId, soloDia);
-            string totalFormateado = ClassHelper.FormatearMoneda(total);
-
-            if (soloDia)
-            {
-                string fechaHoy = DateTime.Now.ToString(UsuarioSesion.Configuracion?.FormatoFecha ?? "dd/MM/yyyy");
-                LblTotalVentas.Text = $"Ventas del {fechaHoy}: {totalFormateado}";
-            }
-            else
-            {
-                LblTotalVentas.Text = $"Ventas totales: {totalFormateado}";
-            }
-        }
-
+        // Lógica de devolución: Verificar categoría, cuotas pendientes, mostrar confirmación con detalle y registrar devolución
         private void BtnDevolucion_Click(object sender, EventArgs e)
         {
             if (DvgSalidas.CurrentRow == null)
@@ -1383,6 +1356,7 @@ namespace ControlInventario.Vistas
             }
         }
 
+        // Botón para gestionar cuotas pendientes de un artículo vendido (solo si el artículo tiene crédito activo)
         private void BtnCuotasPendientes_Click(object sender, EventArgs e)
         {
             using (VistaCuentasPorCobrar vista = new VistaCuentasPorCobrar())
@@ -1393,6 +1367,43 @@ namespace ControlInventario.Vistas
             RefrescarTodo();
         }
 
+        //Label de ventas dinámico según configuración (No mostrar, Ventas por día, Ventas totales)
+        private void ActualizarLabelVentas()
+        {
+            string modoVentas = UsuarioSesion.Configuracion?.ModoVentas ?? "No mostrar";
+
+            if (modoVentas == "No mostrar")
+            {
+                LblTotalVentas.Visible = false;
+                DvgSalidas.Size = salidasSizeSinLabel;
+                DvgSalidas.Location = salidasLocationSinLabel;
+                LstDefault2.Size = salidasSizeSinLabel;
+                LstDefault2.Location = salidasLocationSinLabel;
+                return;
+            }
+
+            DvgSalidas.Size = salidasSizeConLabel;
+            DvgSalidas.Location = salidasLocationConLabel;
+            LstDefault2.Size = salidasSizeConLabel;
+            LstDefault2.Location = salidasLocationConLabel;
+            LblTotalVentas.Visible = true;
+
+            bool soloDia = modoVentas == "Ventas por día";
+            decimal total = MovimientoRepository.ObtenerTotalVentas(UsuarioSesion.InventarioId, soloDia);
+            string totalFormateado = ClassHelper.FormatearMoneda(total);
+
+            if (soloDia)
+            {
+                string fechaHoy = DateTime.Now.ToString(UsuarioSesion.Configuracion?.FormatoFecha ?? "dd/MM/yyyy");
+                LblTotalVentas.Text = $"Ventas del {fechaHoy}: {totalFormateado}";
+            }
+            else
+            {
+                LblTotalVentas.Text = $"Ventas totales: {totalFormateado}";
+            }
+        }
+
+        //Métodos para alternar entre vista masiva y unitaria
         private void BtnCambiarVistaMasiva_Click(object sender, EventArgs e)
         {
             modoMasivo = !modoMasivo;

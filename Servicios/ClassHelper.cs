@@ -571,6 +571,7 @@ namespace ControlInventario.Servicios
 
         public static void AplicarEstilosGrillas(DataGridView grid)
         {
+            // 1. Doble buffer para evitar parpadeos al hacer scroll
             typeof(DataGridView).InvokeMember(
                 "DoubleBuffered",
                 System.Reflection.BindingFlags.NonPublic |
@@ -580,33 +581,41 @@ namespace ControlInventario.Servicios
                 grid,
                 new object[] { true }
             );
-            grid.BackgroundColor = Color.FromArgb(240, 244, 248);
-            grid.BorderStyle = BorderStyle.None;
-            grid.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            grid.GridColor = Color.FromArgb(215, 215, 215);
+
+            // 2. Configuración General de la Grilla
+            grid.BackgroundColor = Color.White;
+            grid.BorderStyle = BorderStyle.Fixed3D;
+            grid.CellBorderStyle = DataGridViewCellBorderStyle.Single; // Líneas verticales y horizontales
+            grid.GridColor = Color.FromArgb(200, 200, 200); // Color gris de las líneas
             grid.EnableHeadersVisualStyles = false;
-            grid.RowHeadersVisible = false;
+
             grid.AllowUserToResizeRows = false;
-            grid.AllowUserToResizeColumns = false;
+            // grid.AllowUserToResizeColumns = false; // Te sugiero dejarlo en true para que el usuario pueda ajustar el ancho
             grid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             grid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
 
-            grid.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(245, 247, 250);
-            grid.ColumnHeadersDefaultCellStyle.ForeColor = Color.FromArgb(70, 70, 70);
-            grid.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 9f, FontStyle.Bold);
-            grid.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            grid.ColumnHeadersHeight = 40;
+            // 3. Estilo de las Cabeceras de Columna (El borde azul oscuro)
+            grid.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(17, 34, 85); // Azul oscuro
+            grid.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            grid.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 9f, FontStyle.Regular);
+            grid.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter; // Alineado a la izquierda
+            grid.ColumnHeadersHeight = 30; // Cabecera más delgada
+            grid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
 
+            // 4. Estilo de las Celdas por Defecto
             grid.DefaultCellStyle.BackColor = Color.White;
-            grid.DefaultCellStyle.ForeColor = Color.FromArgb(50, 50, 50);
-            grid.DefaultCellStyle.SelectionBackColor = Color.FromArgb(226, 238, 255);
-            grid.DefaultCellStyle.SelectionForeColor = Color.FromArgb(30, 30, 30);
+            grid.DefaultCellStyle.ForeColor = Color.Black;
+            grid.DefaultCellStyle.SelectionBackColor = Color.FromArgb(40, 167, 69); // El verde característico de la imagen
+            grid.DefaultCellStyle.SelectionForeColor = Color.White;
             grid.DefaultCellStyle.Font = new Font("Segoe UI", 9f);
-            grid.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            grid.DefaultCellStyle.Padding = new Padding(0, 2, 0, 2);
+            grid.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter; // Texto a la izquierda
+            grid.DefaultCellStyle.Padding = new Padding(3, 0, 0, 0); // Un pequeño margen para que el texto no pegue con la línea
 
-            grid.RowTemplate.Height = 50;
-            grid.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(250, 250, 250);
+            // 5. Filas Alternadas (Efecto "Pijama" para leer mejor)
+            grid.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(240, 240, 240); // Gris muy claro
+
+            // 6. Altura de las filas
+            grid.RowTemplate.Height = 25; // Reducimos de 50 a 25 para que se vea compacta como en la imagen
         }
 
         public static string ObtenerSimboloMoneda()
